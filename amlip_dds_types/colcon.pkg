@@ -1,0 +1,5 @@
+{
+    "name": "amlip_dds_types",
+    "type": "cmake",
+    "build-dependencies": ["fastcdr", "fastrtps"]
+}

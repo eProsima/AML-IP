@@ -1,0 +1,5 @@
+{
+    "name": "amlip_node_py",
+    "type": "cmake",
+    "build-dependencies": ["amlip_node"]
+}
