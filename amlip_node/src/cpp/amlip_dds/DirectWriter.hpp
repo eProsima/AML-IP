@@ -34,7 +34,7 @@ public:
     // TODO
     DirectWriter(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> reader);
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer);
 
     virtual ~DirectWriter();
 

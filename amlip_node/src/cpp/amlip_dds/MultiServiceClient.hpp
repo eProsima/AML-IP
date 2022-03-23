@@ -37,7 +37,7 @@ public:
         std::shared_ptr<Writer> request_availability_writer,
         std::shared_ptr<Reader> reply_available_reader,
         std::shared_ptr<Writer> task_target_writer,
-        std::shared_ptr<DirectWriter> task_reader,
+        std::shared_ptr<DirectWriter> task_writer,
         std::shared_ptr<Reader> solution_reader);
 
     TaskSolution publish_task(Task data);

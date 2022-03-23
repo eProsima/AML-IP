@@ -30,12 +30,23 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+class IBaseAmlipGenericTopicDataType
+{
+public:
+
+    //! This virtual destructor is required so objects could be destroyed from its common interface.
+    virtual ~IBaseAmlipGenericTopicDataType()
+    {
+    }
+
+};
+
 /*!
  * @brief This class represents the Generic TopicDataType of every AML-IP data type
  * @ingroup AMLIP
  */
 template <class T>
-class AmlipGenericTopicDataType : public eprosima::fastdds::dds::TopicDataType
+class AmlipGenericTopicDataType : public eprosima::fastdds::dds::TopicDataType, , public IBaseAmlipGenericTopicDataType
 {
 
     // Force T to be subclass of InterfaceDataType
