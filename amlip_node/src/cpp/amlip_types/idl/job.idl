@@ -1,0 +1,28 @@
+
+#include "multiservice.idl"
+
+// Data that represents a job.
+struct Job_Task_Data : Multiservice_Task_Data
+{
+    // This will be used as a void*
+    sequence<octet> job;
+};
+
+// Specialization of Multiservice_Task for Job
+struct Job_Task : Multiservice_Task
+{
+    Job_Task_Data data;
+};
+
+// Data that represents a job solution.
+struct Job_Solution_Data : Multiservice_TaskSolution_Data
+{
+    // This will be used as a void*
+    sequence<octet> solution;
+};
+
+// Specialization of Multiservice_TaskSolution for Job
+struct Job_Solution : Multiservice_TaskSolution
+{
+    Job_Solution_Data data;
+};

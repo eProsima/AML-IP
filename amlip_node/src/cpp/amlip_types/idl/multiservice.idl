@@ -1,0 +1,85 @@
+
+#include "amlip.idl"
+
+// Unique id for each task inside the same node (it does not need to be globally unique)
+struct TaskId
+{
+    // ULong for unique id
+    unsigned long id;
+};
+
+// Uniquely identifies a request from a client
+struct Multiservice_Request
+{
+    // MS Client Id
+    AmlipId requester_id;
+    // Unique id for this task
+    TaskId task_id;
+};
+
+// Uniquely identifies a task from a client already accepted from a server
+struct Multiservice_TaskReference
+{
+    // MS Client Id
+    AmlipId requester_id;
+    // Unique id for this task
+    TaskId task_id;
+    // MS Server Id in charge of respond the task
+    AmlipId server_id;
+};
+
+/*
+ * Specific data for the specific task requested.
+ * This should be implemented in the subclass for specific task by adding the fields required for such task.
+ *
+ * @warning __useless field is required to avoid fastddsgen error, it will not be added in final type.
+ */
+struct Multiservice_Task_Data
+{
+    // This field is needed for FastDDSGen, it does not allow empty classes
+    char __useless;
+};
+
+/*
+ * This type contains a task reference and the data of the task.
+ *
+ * The task reference must be unique for this task and client, and must have the id of the server that will answer.
+ * The data contains the specific data for the specific task.
+ *
+ * @warning data must be of the specific class in specialized types.
+ */
+struct Multiservice_Task
+{
+    Multiservice_TaskReference task_reference;
+
+    // This must be implemented in the subclass
+    Multiservice_Task_Data data;
+};
+
+/*
+ * Specific data for the specific task solution reply.
+ * This should be implemented in the subclass for specific task by adding the fields required for such task solution.
+ *
+ * @warning __useless field is required to avoid fastddsgen error, it will not be added in final type.
+ */
+struct Multiservice_TaskSolution_Data
+{
+    // This field is needed for FastDDSGen, it does not allow empty classes
+    char __useless;
+};
+
+/*
+ * This type contains a task reference and the data of the solution of the task.
+ *
+ * The task reference must be unique for this task and client, and must have the id of the server that will answer.
+ * The data contains the specific data solution for this task.
+ *
+ * @warning data must be of the specific class in specialized types.
+ */
+struct Multiservice_TaskSolution
+{
+    Multiservice_TaskReference task_reference;
+
+    // This must be implemented in the subclass
+    Multiservice_TaskSolution_Data data;
+};
