@@ -1,0 +1,10 @@
+
+/*
+ * Id for every Amlip Entity.
+ * It will be used by Amlip Nodes as well as Amlip DDS entities.
+ */
+struct AmlipId
+{
+    // 4 bytes string for unique id
+    char id[32];
+};
