@@ -26,7 +26,9 @@ namespace dds {
 template <typename T>
 Writer::<T>Writer(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> reader)
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer)
+    : topic_(topic)
+    , data_writer_(writer)
 {
 }
 
@@ -38,11 +40,13 @@ Writer::<T>~Writer()
 template <typename T>
 void Writer::<T>write(T data)
 {
+    data_writer_->write(&data);
 }
 
 template <typename T>
 eprosima::fastdds::dds::DataWriterQos Writer::<T>default_datawriter_qos_() const
 {
+    eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT;
 }
 
 } /* namespace dds */

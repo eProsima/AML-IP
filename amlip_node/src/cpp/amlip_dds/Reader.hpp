@@ -53,6 +53,20 @@ public:
             eprosima::fastdds::dds::DataReader* reader) override;
 
     static eprosima::fastdds::dds::DataWriterQos default_datareader_qos_() const;
+
+protected:
+
+    std::string topic_;
+
+    std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader_;
+
+    std::atomic<bool> stop_;
+
+    std::atomic<uint32_t> data_available_count_;
+
+    std::condition_variable data_available_condition_variable_;
+
+    std::mutex data_available_mutex_;
 };
 
 } /* namespace dds */
@@ -60,6 +74,6 @@ public:
 } /* namespace eprosima */
 
 // Include implementation template file
-#include <impl/Reader.ipp>
+#include <amlip_dds/impl/Reader.ipp>
 
 #endif /* AMLIP__SRC_CPP_AMLIPDDS_READER_HPP */

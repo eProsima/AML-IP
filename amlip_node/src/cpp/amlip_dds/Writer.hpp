@@ -38,13 +38,19 @@ public:
     // TODO
     Writer(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> reader);
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer);
 
     virtual ~Writer();
 
     void write(T data);
 
     static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos_() const;
+
+protected:
+
+    std::string topic_;
+
+    std::shared_ptr<eprosima::fastdds::dds::DataWriter> data_writer_;
 };
 
 } /* namespace dds */
