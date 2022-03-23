@@ -71,4 +71,7 @@ public:
 } /* namespace amlip */
 } /* namespace eprosima */
 
+// Include implementation template file
+#include <impl/Participant.ipp>
+
 #endif /* AMLIP__SRC_CPP_AMLIPDDS_PARTICIPANT_HPP */

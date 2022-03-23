@@ -19,16 +19,16 @@
 #ifndef AMLIP__SRC_CPP_AMLIPDDS_READER_HPP
 #define AMLIP__SRC_CPP_AMLIPDDS_READER_HPP
 
-namespace eprosima {
-namespace amlip {
-namespace dds {
-
 #include <fastrtps/rtps/reader/ReaderListener.h>
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
+
+namespace eprosima {
+namespace amlip {
+namespace dds {
 
 template <typename T>
 class Reader : public eprosima::fastdds::dds::DataReaderListener
@@ -58,5 +58,8 @@ public:
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include implementation template file
+#include <impl/Reader.ipp>
 
 #endif /* AMLIP__SRC_CPP_AMLIPDDS_READER_HPP */

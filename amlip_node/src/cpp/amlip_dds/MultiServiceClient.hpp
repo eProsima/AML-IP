@@ -19,13 +19,13 @@
 #ifndef AMLIP__SRC_CPP_AMLIPDDS_MULTISERVICECLIENT_HPP
 #define AMLIP__SRC_CPP_AMLIPDDS_MULTISERVICECLIENT_HPP
 
-namespace eprosima {
-namespace amlip {
-namespace dds {
-
 #include <amlip_dds/DirectWriter.hpp>
 #include <amlip_dds/Reader.hpp>
 #include <amlip_dds/Writer.hpp>
+
+namespace eprosima {
+namespace amlip {
+namespace dds {
 
 template <typename Task, typename TaskSolution>
 class MultiServiceClient

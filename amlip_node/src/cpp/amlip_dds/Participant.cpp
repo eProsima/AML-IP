@@ -13,38 +13,27 @@
 // limitations under the License.
 
 /**
- * @file DirectWriter.hpp
+ * @file Participant.cpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPDDS_DIRECTWRITER_HPP
-#define AMLIP__SRC_CPP_AMLIPDDS_DIRECTWRITER_HPP
-
-#include <amlip_dds/Writer.hpp>
-#include <amlip_types/AmlipId.hpp>
+#include <Participant.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
 
-template <typename T>
-class DirectWriter : public eprosima::fastdds::dds::DataWriterListener
+using namespace eprosima::fastdds::dds;
+
+Participant::Participant(
+        AmlipId id,
+        const eprosima::fastdds::dds::DomainParticipantQos& qos)
 {
-public:
+}
 
-    // TODO
-    DirectWriter(
-        const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> reader);
-
-    virtual ~DirectWriter();
-
-    void write(T data, AmlipId id);
-
-    static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos_() const;
-};
+Participant::~Participant()
+{
+}
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
-
-#endif /* AMLIP__SRC_CPP_AMLIPDDS_DIRECTWRITER_HPP */
