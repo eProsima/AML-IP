@@ -43,7 +43,7 @@ constexpr const size_t ID_SIZE = 32;
  * @brief This class represents the structure AmlipId defined by the user in the IDL file.
  * @ingroup AMLIP
  */
-class AmlipId : InterfaceDataType
+class AmlipId : public InterfaceDataType
 {
 public:
 
@@ -107,23 +107,10 @@ public:
             const std::array<char, ID_SIZE>& _id);
 
     /*!
-     * @brief This function moves the value in member id
-     * @param _id New value to be moved in member id
-     */
-    void id(
-            std::array<char, ID_SIZE>&& _id);
-
-    /*!
      * @brief This function returns a constant reference to member id
      * @return Constant reference to member id
      */
     const std::array<char, ID_SIZE>& id() const;
-
-    /*!
-     * @brief This function returns a reference to member id
-     * @return Reference to member id
-     */
-    std::array<char, ID_SIZE>& id();
 
     /*!
      * @brief This function returns the maximum serialized size of an object

@@ -196,14 +196,6 @@ const AmlipId& Status::id() const
 }
 
 /*!
- * @brief This function returns a reference to member id
- * @return Reference to member id
- */
-AmlipId& Status::id()
-{
-    return id_;
-}
-/*!
  * @brief This function sets a value in member node_kind
  * @param _node_kind New value for member node_kind
  */
@@ -218,15 +210,6 @@ void Status::node_kind(
  * @return Value of member node_kind
  */
 NodeKind Status::node_kind() const
-{
-    return node_kind_;
-}
-
-/*!
- * @brief This function returns a reference to member node_kind
- * @return Reference to member node_kind
- */
-NodeKind& Status::node_kind()
 {
     return node_kind_;
 }
@@ -249,16 +232,6 @@ StatusKind Status::status() const
 {
     return status_;
 }
-
-/*!
- * @brief This function returns a reference to member status
- * @return Reference to member status
- */
-StatusKind& Status::status()
-{
-    return status_;
-}
-
 
 size_t Status::getKeyMaxCdrSerializedSize(
         size_t current_alignment)

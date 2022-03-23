@@ -1,0 +1,5 @@
+{
+    "name": "amlip_swig",
+    "type": "cmake",
+    "build-dependencies": ["amlip_node", "fastrtps", "fastcdr"]
+}
