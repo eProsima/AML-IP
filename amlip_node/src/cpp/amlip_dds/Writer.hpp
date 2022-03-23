@@ -19,16 +19,16 @@
 #ifndef AMLIP__SRC_CPP_AMLIPDDS_WRITER_HPP
 #define AMLIP__SRC_CPP_AMLIPDDS_WRITER_HPP
 
-namespace eprosima {
-namespace amlip {
-namespace dds {
-
 #include <fastrtps/rtps/writer/WriterListener.h>
 #include <fastdds/dds/publisher/DataWriter.hpp>
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
+
+namespace eprosima {
+namespace amlip {
+namespace dds {
 
 template <typename T>
 class Writer : public eprosima::fastdds::dds::DataWriterListener
@@ -38,17 +38,26 @@ public:
     // TODO
     Writer(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> reader);
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer);
 
     virtual ~Writer();
 
     void write(T data);
 
     static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos_() const;
+
+protected:
+
+    std::string topic_;
+
+    std::shared_ptr<eprosima::fastdds::dds::DataWriter> data_writer_;
 };
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include implementation template file
+#include <impl/Writer.ipp>
 
 #endif /* AMLIP__SRC_CPP_AMLIPDDS_WRITER_HPP */

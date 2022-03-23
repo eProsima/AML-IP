@@ -33,13 +33,17 @@ namespace dds {
 #include <amlip_dds/MultiServiceClient.hpp>
 #include <amlip_dds/MultiServiceServer.hpp>
 
+// Use FastDDS Domain Id type
+using DomainIdType = eprosima::fastdds::dds::DomainId_t;
+
 class Participant
 {
 public:
 
     Participant(
         AmlipId id,
-        const eprosima::fastdds::dds::DomainParticipantQos& qos);
+        const eprosima::fastdds::dds::DomainParticipantQos& qos,
+        const DomainIdType& domain=DEFAULT_DOMAIN_ID_);
 
     virtual ~Participant();
 
@@ -65,10 +69,50 @@ public:
     template<typename Task, typename TaskSolution>
     std::shared_ptr<MultiServiceServer<Task, TaskSolution>> create_multiservice_server(
         const std::string& service_name);
+
+    AmlipId id();
+
+protected:
+
+    template<typename T>
+    std::shared_ptr<eprosima::fastdds::dds::Reader> create_reader_(
+        const std::string& topic_name,
+        const eprosima::fastdds::dds::DataReaderQos& qos = Reader::default_datareader_qos());
+
+    template<typename T>
+    std::shared_ptr<eprosima::fastdds::dds::Writer> create_writer_(
+        const std::string& topic_name,
+        const eprosima::fastdds::dds::DataWriterQos& qos = Writer::default_datawriter_qos());
+
+    types::AmlipId id_;
+
+    std::shared_ptr<eprosima::fastdds::dds::DomainParticipant> participant_;
+
+    // TODO: support multiple partitions
+    // std::map<std::string, std::shared_ptr<eprosima::fastdds::dds::Publisher>> publishers_;
+    std::shared_ptr<eprosima::fastdds::dds::Publisher> publisher_;
+
+    // TODO: support multiple partitions
+    // std::map<std::string, std::shared_ptr<eprosima::fastdds::dds::Subscriber>> subscribers_;
+    std::shared_ptr<eprosima::fastdds::dds::Subscriber> subscriber_;
+
+    std::vector<std::shared_ptr<eprosima::fastdds::dds::DataWriter>> writers_;
+
+    std::vector<std::shared_ptr<eprosima::fastdds::dds::DataReader>> readers_;
+
+    std::map<std::tuple<std::string, std::string>, eprosima::fastdds::dds::Topic> topics_;
+
+    std::map<std::string, std::shared_ptr<types::IBaseAmlipGenericTopicDataType>> types_;
+
+    static const DomainIdType DEFAULT_DOMAIN_ID_; // 100
+
 };
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include implementation template file
+#include <impl/Participant.ipp>
 
 #endif /* AMLIP__SRC_CPP_AMLIPDDS_PARTICIPANT_HPP */

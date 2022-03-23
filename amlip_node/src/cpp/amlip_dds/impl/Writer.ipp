@@ -13,38 +13,44 @@
 // limitations under the License.
 
 /**
- * @file DirectWriter.hpp
+ * @file Writer.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPDDS_DIRECTWRITER_HPP
-#define AMLIP__SRC_CPP_AMLIPDDS_DIRECTWRITER_HPP
-
-#include <amlip_dds/Writer.hpp>
-#include <amlip_types/AmlipId.hpp>
+#ifndef AMLIP__SRC_CPP_AMLIPDDS_IMPL_WRITER_IPP
+#define AMLIP__SRC_CPP_AMLIPDDS_IMPL_WRITER_IPP
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
 
 template <typename T>
-class DirectWriter : public eprosima::fastdds::dds::DataWriterListener
-{
-public:
-
-    // TODO
-    DirectWriter(
+Writer::<T>Writer(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer);
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer)
+    : topic_(topic)
+    , data_writer_(writer)
+{
+}
 
-    virtual ~DirectWriter();
+template <typename T>
+Writer::<T>~Writer()
+{
+}
 
-    void write(T data, AmlipId id);
+template <typename T>
+void Writer::<T>write(T data)
+{
+    data_writer_->write(&data);
+}
 
-    static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos_() const;
-};
+template <typename T>
+eprosima::fastdds::dds::DataWriterQos Writer::<T>default_datawriter_qos_() const
+{
+    eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT;
+}
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPDDS_DIRECTWRITER_HPP */
+#endif /* AMLIP__SRC_CPP_AMLIPDDS_IMPL_WRITER_IPP */

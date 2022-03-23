@@ -19,16 +19,16 @@
 #ifndef AMLIP__SRC_CPP_AMLIPDDS_READER_HPP
 #define AMLIP__SRC_CPP_AMLIPDDS_READER_HPP
 
-namespace eprosima {
-namespace amlip {
-namespace dds {
-
 #include <fastrtps/rtps/reader/ReaderListener.h>
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
+
+namespace eprosima {
+namespace amlip {
+namespace dds {
 
 template <typename T>
 class Reader : public eprosima::fastdds::dds::DataReaderListener
@@ -53,10 +53,27 @@ public:
             eprosima::fastdds::dds::DataReader* reader) override;
 
     static eprosima::fastdds::dds::DataWriterQos default_datareader_qos_() const;
+
+protected:
+
+    std::string topic_;
+
+    std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader_;
+
+    std::atomic<bool> stop_;
+
+    std::atomic<uint32_t> data_available_count_;
+
+    std::condition_variable data_available_condition_variable_;
+
+    std::mutex data_available_mutex_;
 };
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include implementation template file
+#include <amlip_dds/impl/Reader.ipp>
 
 #endif /* AMLIP__SRC_CPP_AMLIPDDS_READER_HPP */

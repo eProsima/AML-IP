@@ -19,13 +19,13 @@
 #ifndef AMLIP__SRC_CPP_AMLIPDDS_MULTISERVICECLIENT_HPP
 #define AMLIP__SRC_CPP_AMLIPDDS_MULTISERVICECLIENT_HPP
 
-namespace eprosima {
-namespace amlip {
-namespace dds {
-
 #include <amlip_dds/DirectWriter.hpp>
 #include <amlip_dds/Reader.hpp>
 #include <amlip_dds/Writer.hpp>
+
+namespace eprosima {
+namespace amlip {
+namespace dds {
 
 template <typename Task, typename TaskSolution>
 class MultiServiceClient
@@ -37,7 +37,7 @@ public:
         std::shared_ptr<Writer> request_availability_writer,
         std::shared_ptr<Reader> reply_available_reader,
         std::shared_ptr<Writer> task_target_writer,
-        std::shared_ptr<DirectWriter> task_reader,
+        std::shared_ptr<DirectWriter> task_writer,
         std::shared_ptr<Reader> solution_reader);
 
     TaskSolution publish_task(Task data);
