@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-%module amlip_node
+%module(threads="1") amlip_node
 
 // SWIG helper modules
 %include "stdint.i"

@@ -35,8 +35,9 @@ class StatusAmlipNode(cpp_StatusAmlipNode):
         Let this entity Reader read messages published in Status topic
         and show every of them in stdout till method stop is called.
         """
-        return cpp_StatusAmlipNode.spin()
+        print('DEBUG: spinning py')
+        return cpp_StatusAmlipNode.spin(self)
 
     def stop(self) -> None:
         """Stop this entity if it is spinning. Does nothing otherwise."""
-        return cpp_StatusAmlipNode.stop()
+        return cpp_StatusAmlipNode.stop(self)

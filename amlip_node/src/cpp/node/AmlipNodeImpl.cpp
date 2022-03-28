@@ -36,6 +36,9 @@ AmlipNodeImpl::AmlipNodeImpl()
     qos.durability().kind = eprosima::fastdds::dds::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.history().depth = 1;
     qos.reliability().kind = eprosima::fastdds::dds::RELIABLE_RELIABILITY_QOS;
+    qos.endpoint().history_memory_policy =
+                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+
     status_writer_ = participant_->create_writer<types::Status>(network::STATUS_TOPIC, qos);
 
     // publish_status_thread_ = std::thread(

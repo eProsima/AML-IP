@@ -38,6 +38,9 @@ StatusAmlipNodeImpl::StatusAmlipNodeImpl(
     qos.durability().kind = eprosima::fastdds::dds::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::KEEP_ALL_HISTORY_QOS;
+    qos.endpoint().history_memory_policy =
+                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+
     status_reader_ = participant_->create_reader<types::Status>(network::STATUS_TOPIC, qos);
 }
 
@@ -52,6 +55,8 @@ StatusAmlipNodeImpl::~StatusAmlipNodeImpl()
 
 void StatusAmlipNodeImpl::spin()
 {
+    std::cout << "DEBUG: spinning cpp" << std::endl;
+
     stop_.store(false);
     while (!stop_)
     {
