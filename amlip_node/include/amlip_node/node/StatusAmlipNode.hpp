@@ -39,6 +39,8 @@ public:
 
     void stop();
 
+    types::AmlipId id() const noexcept;
+
 protected:
 
     StatusAmlipNodeImpl* impl_;
