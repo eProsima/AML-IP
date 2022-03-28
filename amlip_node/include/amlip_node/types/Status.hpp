@@ -64,7 +64,7 @@ enum StatusKind : uint32_t
  * @brief This class represents the structure Status defined by the user in the IDL file.
  * @ingroup STATUS
  */
-class Status : InterfaceDataType
+class Status : public InterfaceDataType
 {
 public:
 
@@ -149,11 +149,6 @@ public:
     const AmlipId& id() const;
 
     /*!
-     * @brief This function returns a reference to member id
-     * @return Reference to member id
-     */
-    AmlipId& id();
-    /*!
      * @brief This function sets a value in member node_kind
      * @param _node_kind New value for member node_kind
      */
@@ -167,12 +162,6 @@ public:
     NodeKind node_kind() const;
 
     /*!
-     * @brief This function returns a reference to member node_kind
-     * @return Reference to member node_kind
-     */
-    NodeKind& node_kind();
-
-    /*!
      * @brief This function sets a value in member status
      * @param _status New value for member status
      */
@@ -184,13 +173,6 @@ public:
      * @return Value of member status
      */
     StatusKind status() const;
-
-    /*!
-     * @brief This function returns a reference to member status
-     * @return Reference to member status
-     */
-    StatusKind& status();
-
 
     /*!
      * @brief This function returns the maximum serialized size of an object

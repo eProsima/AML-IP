@@ -133,29 +133,10 @@ void AmlipId::id(
 }
 
 /*!
- * @brief This function moves the value in member id
- * @param _id New value to be moved in member id
- */
-void AmlipId::id(
-        std::array<char, ID_SIZE>&& _id)
-{
-    id_ = std::move(_id);
-}
-
-/*!
  * @brief This function returns a constant reference to member id
  * @return Constant reference to member id
  */
 const std::array<char, ID_SIZE>& AmlipId::id() const
-{
-    return id_;
-}
-
-/*!
- * @brief This function returns a reference to member id
- * @return Reference to member id
- */
-std::array<char, ID_SIZE>& AmlipId::id()
 {
     return id_;
 }
@@ -207,8 +188,7 @@ AmlipId AmlipId::new_unique_id()
     // initialize the random number generator
     srand (time(NULL));
 
-    AmlipId new_id;
-    std::array<char, ID_SIZE>& id_array = new_id.id();
+    std::array<char, ID_SIZE> id_array;
 
     for (int i=0; i<ID_SIZE; i++)
     {
@@ -216,6 +196,9 @@ AmlipId AmlipId::new_unique_id()
         char c = 'a' + static_cast<char>(rand() % 26);
         id_array[i] = c;
     }
+
+    AmlipId new_id;
+    new_id.id(id_array);
 
     return new_id;
 }
