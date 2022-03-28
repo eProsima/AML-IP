@@ -1,0 +1,5 @@
+{
+    "name": "amlip_aml_cpp",
+    "type": "cmake",
+    "build-dependencies": ["fastcdr", "fastrtps", "ddsrouter_utils", "ddsrouter_event", "amlip_node"]
+}

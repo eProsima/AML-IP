@@ -25,10 +25,13 @@ namespace node {
 
 StatusAmlipNode::StatusAmlipNode()
     : impl_(new StatusAmlipNodeImpl(
-        []
+        [&]
         (types::Status status)
         {
-            std::cout << "Status read: " << status << std::endl;
+            if (status.id() != id())
+            {
+                std::cout << "Status read: " << status << std::endl;
+            }
         }
     ))
 {
@@ -47,6 +50,11 @@ void StatusAmlipNode::spin()
 void StatusAmlipNode::stop()
 {
     impl_->stop();
+}
+
+types::AmlipId StatusAmlipNode::id() const noexcept
+{
+    return impl_->id();
 }
 
 } /* namespace node */

@@ -299,6 +299,56 @@ bool Status::construct_sample(
 
 std::ostream& operator <<(
         std::ostream& os,
+        const NodeKind& nk)
+{
+    switch (nk)
+    {
+        case types::NodeKind::UNDETERMINED:
+            os << "UNDETERMINED";
+            break;
+        case types::NodeKind::DISCOVERY:
+            os << "DISCOVERY";
+            break;
+        case types::NodeKind::AGENT:
+            os << "AGENT";
+            break;
+        case types::NodeKind::MAIN:
+            os << "MAIN";
+            break;
+        case types::NodeKind::COMPUTATIONAL:
+            os << "COMPUTATIONAL";
+            break;
+        case types::NodeKind::EDGE:
+            os << "EDGE";
+            break;
+        case types::NodeKind::STATUS:
+            os << "STATUS";
+            break;
+    }
+    return os;
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
+        const StatusKind& sk)
+{
+    switch (sk)
+    {
+        case types::StatusKind::UNKNOWN:
+            os << "UNKNOWN";
+            break;
+        case types::StatusKind::RUNNING:
+            os << "RUNNING";
+            break;
+        case types::StatusKind::DISABLED:
+            os << "DISABLED";
+            break;
+    }
+    return os;
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
         const Status& st)
 {
     os << "STATUS{id:" << st.id() << ", node_kind:" << st.node_kind() << ", status:" << st.status() << "}";

@@ -270,6 +270,16 @@ std::ostream& operator <<(
         std::ostream& os,
         const Status& st);
 
+//! \c NodeKind to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const NodeKind& nk);
+
+//! \c StatusKind to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const StatusKind& sk);
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */

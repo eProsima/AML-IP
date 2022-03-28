@@ -22,6 +22,7 @@
 #ifndef AMLIP__SRC_CPP_AMLIPTYPES_AMLIPID_HPP
 #define AMLIP__SRC_CPP_AMLIPTYPES_AMLIPID_HPP
 
+#include <array>
 #include <limits>
 
 #include <amlip_node/types/InterfaceDataType.hpp>
