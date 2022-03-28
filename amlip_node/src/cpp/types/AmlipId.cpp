@@ -216,11 +216,26 @@ AmlipId AmlipId::new_unique_id()
         char c = 'a' + static_cast<char>(rand() % 26);
         id_array[i] = c;
     }
+
+    return new_id;
 }
 
 AmlipId AmlipId::undefined_id()
 {
     return UNDEFINED_ID_;
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
+        const AmlipId& id)
+{
+    os << "ID{id:";
+    for (char v : id.id())
+    {
+        os << v;
+    }
+    os << "}";
+    return os;
 }
 
 } /* namespace types */

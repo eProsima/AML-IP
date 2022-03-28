@@ -204,6 +204,11 @@ protected:
     static const AmlipId UNDEFINED_ID_;
 };
 
+//! \c AmlipId to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const AmlipId& id);
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */

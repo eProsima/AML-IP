@@ -13,39 +13,42 @@
 // limitations under the License.
 
 /**
- * @file StatusAmlipNode.hpp
+ * @file StatusAmlipNode.cpp
  */
 
-#ifndef AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP
-#define AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP
-
-#include <amlip_node/types/Status.hpp>
+#include <node/StatusAmlipNodeImpl.hpp>
+#include <amlip_node/node/StatusAmlipNode.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
-class StatusAmlipNodeImpl;
-
-class StatusAmlipNode
+StatusAmlipNode::StatusAmlipNode()
+    : impl_(new StatusAmlipNodeImpl(
+        []
+        (types::Status status)
+        {
+            std::cout << "Status read: " << status << std::endl;
+        }
+    ))
 {
-public:
+}
 
-    StatusAmlipNode();
+StatusAmlipNode::~StatusAmlipNode()
+{
+    delete impl_;
+}
 
-    virtual ~StatusAmlipNode();
+void StatusAmlipNode::spin()
+{
+    impl_->spin();
+}
 
-    void spin();
-
-    void stop();
-
-protected:
-
-    StatusAmlipNodeImpl* impl_;
-};
+void StatusAmlipNode::stop()
+{
+    impl_->stop();
+}
 
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
-
-#endif /* AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP */
