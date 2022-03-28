@@ -265,6 +265,11 @@ protected:
     StatusKind status_;
 };
 
+//! \c Status to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const Status& st);
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */

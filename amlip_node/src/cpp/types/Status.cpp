@@ -297,6 +297,14 @@ bool Status::construct_sample(
     return new (memory) Status();
 }
 
+std::ostream& operator <<(
+        std::ostream& os,
+        const Status& st)
+{
+    os << "STATUS{id:" << st.id() << ", node_kind:" << st.node_kind() << ", status:" << st.status() << "}";
+    return os;
+}
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
