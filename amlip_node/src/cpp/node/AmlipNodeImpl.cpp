@@ -32,19 +32,45 @@ AmlipNodeImpl::AmlipNodeImpl()
     participant_ = std::make_shared<dds::Participant>(id_);
 
     // Create status writer from this participant
-    status_writer_ = participant_->create_writer<types::Status>(network::STATUS_TOPIC);
+    eprosima::fastdds::dds::DataWriterQos qos = eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT;
+    qos.durability().kind = eprosima::fastdds::dds::TRANSIENT_LOCAL_DURABILITY_QOS;
+    qos.history().depth = 1;
+    qos.reliability().kind = eprosima::fastdds::dds::RELIABLE_RELIABILITY_QOS;
+    status_writer_ = participant_->create_writer<types::Status>(network::STATUS_TOPIC, qos);
 
-    // Write actual status
-    write_status_(types::StatusKind::RUNNING);
+    // publish_status_thread_ = std::thread(
+    //     &AmlipNodeImpl::publish_status_thread_routine_, this);
 }
 
 AmlipNodeImpl::~AmlipNodeImpl()
 {
+    status_writer_->stop();
+
+    // publish_status_thread_.join();
+
     // TODO: destroy writer correctly
     status_writer_.reset();
 
     // Destroy Participant
     participant_.reset();
+}
+
+void AmlipNodeImpl::publish_status_thread_routine_()
+{
+    while (true)
+    {
+        status_writer_->wait_writer_matched();
+
+        if (status_writer_->stopped())
+        {
+            break;
+        }
+        else
+        {
+            // Write current status
+            write_status_(types::StatusKind::RUNNING);
+        }
+    }
 }
 
 void AmlipNodeImpl::write_status_(types::StatusKind status)

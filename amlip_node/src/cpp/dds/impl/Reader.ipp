@@ -28,10 +28,11 @@ namespace dds {
 template <typename T>
 Reader<T>::Reader(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataReader> reader)
+        eprosima::fastdds::dds::DataReader* data_reader)
     : topic_(topic)
-    , data_reader_(reader)
+    , data_reader_(data_reader)
     , stop_(false)
+    , data_available_count_(0)
 {
 }
 
@@ -58,14 +59,17 @@ void Reader<T>::wait_data_available(uint32_t timeout /* = 0 */)
 template <typename T>
 void Reader<T>::stop()
 {
-    std::unique_lock<std::mutex> lock(data_available_mutex_);
-    stop_.store(false);
+    {
+        std::lock_guard<std::mutex> lock(data_available_mutex_);
+        stop_.store(true);
+    }
+    data_available_condition_variable_.notify_one();
 }
 
 template <typename T>
 T Reader<T>::read()
 {
-    std::unique_lock<std::mutex> lock(data_available_mutex_);
+    // std::lock_guard<std::mutex> lock(data_available_mutex_);
 
     eprosima::fastdds::dds::SampleInfo info;
     T data;
@@ -73,6 +77,7 @@ T Reader<T>::read()
     eprosima::fastrtps::types::ReturnCode_t return_code = data_reader_->take_next_sample(&data, &info);
     if (return_code == eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK)
     {
+        std::lock_guard<std::mutex> lock(data_available_mutex_);
         data_available_count_--;
         return data;
     }
@@ -87,16 +92,34 @@ T Reader<T>::read()
 template <typename T>
 bool Reader<T>::is_data_available()
 {
-    return stop_.load();
+    std::lock_guard<std::mutex> lock(data_available_mutex_);
+    return data_available_count_ > 0 && !stop_.load();
 }
 
 template <typename T>
 void Reader<T>::on_data_available(
         eprosima::fastdds::dds::DataReader* reader)
 {
-    std::unique_lock<std::mutex> lock(data_available_mutex_);
-    data_available_count_++;
+    {
+        std::lock_guard<std::mutex> lock(data_available_mutex_);
+        data_available_count_ = reader->get_unread_count();
+    }
     data_available_condition_variable_.notify_one();
+}
+
+template <typename T>
+void Reader<T>::on_subscription_matched(
+        eprosima::fastdds::dds::DataReader* reader,
+        const eprosima::fastdds::dds::SubscriptionMatchedStatus& info)
+{
+    if (info.current_count_change > 0)
+    {
+        std::cout << "Subscriber matched." << std::endl;
+    }
+    else if (info.current_count_change < 0)
+    {
+        std::cout << "Subscriber unmatched." << std::endl;
+    }
 }
 
 template <typename T>

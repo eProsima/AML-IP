@@ -19,6 +19,9 @@
 #ifndef AMLIP__SRC_CPP_AMLIPDDS_WRITER_HPP
 #define AMLIP__SRC_CPP_AMLIPDDS_WRITER_HPP
 
+#include <atomic>
+#include <condition_variable>
+
 #include <fastrtps/rtps/writer/WriterListener.h>
 #include <fastdds/dds/publisher/DataWriter.hpp>
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
@@ -38,11 +41,21 @@ public:
     // TODO
     Writer(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer);
+        eprosima::fastdds::dds::DataWriter* datawriter);
 
     virtual ~Writer();
 
+    void wait_writer_matched();
+
+    void stop();
+
+    bool stopped();
+
     void write(T data);
+
+    void on_publication_matched(
+            eprosima::fastdds::dds::DataWriter* writer,
+            const eprosima::fastdds::dds::PublicationMatchedStatus& info) override;
 
     static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos();
 
@@ -50,7 +63,15 @@ protected:
 
     std::string topic_;
 
-    std::shared_ptr<eprosima::fastdds::dds::DataWriter> data_writer_;
+    std::atomic<bool> stop_;
+
+    std::atomic<bool> writer_matched_;
+
+    std::condition_variable writer_matched_condition_variable_;
+
+    std::mutex writer_matched_mutex_;
+
+    eprosima::fastdds::dds::DataWriter* data_writer_;
 };
 
 } /* namespace dds */

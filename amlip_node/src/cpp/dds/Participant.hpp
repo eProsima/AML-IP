@@ -72,34 +72,34 @@ public:
 protected:
 
     template<typename T>
-    std::shared_ptr<eprosima::fastdds::dds::DataReader> create_datareader_(
+    eprosima::fastdds::dds::DataReader* create_datareader_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataReaderQos& qos = Reader<T>::default_datareader_qos());
 
     template<typename T>
-    std::shared_ptr<eprosima::fastdds::dds::DataWriter> create_datawriter_(
+    eprosima::fastdds::dds::DataWriter* create_datawriter_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataWriterQos& qos = Writer<T>::default_datawriter_qos());
 
     types::AmlipId id_;
 
-    std::shared_ptr<eprosima::fastdds::dds::DomainParticipant> participant_;
+    eprosima::fastdds::dds::DomainParticipant* participant_;
 
     // TODO: support multiple partitions
-    // std::map<std::string, std::shared_ptr<eprosima::fastdds::dds::Publisher>> publishers_;
-    std::shared_ptr<eprosima::fastdds::dds::Publisher> publisher_;
+    // std::map<std::string, eprosima::fastdds::dds::Publisher*> publishers_;
+    eprosima::fastdds::dds::Publisher* publisher_;
 
     // TODO: support multiple partitions
-    // std::map<std::string, std::shared_ptr<eprosima::fastdds::dds::Subscriber>> subscribers_;
-    std::shared_ptr<eprosima::fastdds::dds::Subscriber> subscriber_;
+    // std::map<std::string, eprosima::fastdds::dds::Subscriber*> subscribers_;
+    eprosima::fastdds::dds::Subscriber* subscriber_;
 
-    std::vector<std::shared_ptr<eprosima::fastdds::dds::DataWriter>> writers_;
+    std::vector<eprosima::fastdds::dds::DataWriter*> datawriters_;
 
-    std::vector<std::shared_ptr<eprosima::fastdds::dds::DataReader>> readers_;
+    std::vector<eprosima::fastdds::dds::DataReader*> datareaders_;
 
-    std::map<std::tuple<std::string, std::string>, std::shared_ptr<eprosima::fastdds::dds::Topic>> topics_;
+    std::map<std::pair<std::string, std::string>, eprosima::fastdds::dds::Topic*> topics_;
 
-    std::map<std::string, std::shared_ptr<types::IBaseAmlipGenericTopicDataType>> types_;
+    std::map<std::string, eprosima::fastdds::dds::TypeSupport> types_;
 
     static const DomainIdType DEFAULT_DOMAIN_ID_; // 100
 

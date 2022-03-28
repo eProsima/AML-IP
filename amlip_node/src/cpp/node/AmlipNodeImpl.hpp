@@ -20,6 +20,7 @@
 #define AMLIP__SRC_CPP_AMLIPNODE_AMLIPNODEIMPL_HPP
 
 #include <memory>
+#include <thread>
 
 #include <dds/Participant.hpp>
 #include <dds/Writer.hpp>
@@ -44,7 +45,11 @@ protected:
 
     void write_status_(types::StatusKind kind);
 
-    virtual types::NodeKind node_kind_() const noexcept;
+    virtual types::NodeKind node_kind_() const noexcept = 0;
+
+    void publish_status_thread_routine_();
+
+    std::thread publish_status_thread_;
 
     std::shared_ptr<dds::Participant> participant_;
 

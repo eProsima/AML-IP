@@ -46,6 +46,8 @@ public:
 
 protected:
 
+    types::NodeKind node_kind_() const noexcept override;
+
     std::shared_ptr<dds::Reader<types::Status>> status_reader_;
 
     std::function<void(types::Status)> callback_;

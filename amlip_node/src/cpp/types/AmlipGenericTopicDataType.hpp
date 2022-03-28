@@ -79,12 +79,12 @@ public:
     virtual void deleteData(
             void* data) override;
 
-    virtual bool is_bounded() const override;
+    // virtual bool is_bounded() const override;
 
-    virtual bool is_plain() const override;
+    // virtual bool is_plain() const override;
 
-    virtual bool construct_sample(
-            void* memory) const override;
+    // virtual bool construct_sample(
+    //         void* memory) const override;
 
     MD5 m_md5;
     unsigned char* m_keyBuffer;

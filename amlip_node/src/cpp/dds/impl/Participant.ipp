@@ -26,36 +26,32 @@ namespace amlip {
 namespace dds {
 
 template<typename T>
-std::shared_ptr<eprosima::fastdds::dds::DataReader> Participant::create_datareader_(
+eprosima::fastdds::dds::DataReader* Participant::create_datareader_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataReaderQos& qos /* = Reader::default_datareader_qos() */)
 {
     assert(nullptr != participant_ && nullptr != subscriber_);
 
-    // TOPIC DATA TYPE
-    std::shared_ptr<types::AmlipGenericTopicDataType<T>> type;
+    // TYPE SUPPORT
     auto it_types = types_.find(T::type_name());
     if (it_types == types_.end())
     {
-        // Create the topic data type if not existing
-        type = std::make_shared<types::AmlipGenericTopicDataType<T>>();
-        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == type.register_type(participant_));
-        types_.insert({T::type_name(), type});
-    }
-    else
-    {
-        type = std::static_pointer_cast<types::AmlipGenericTopicDataType<T>>(it_types->second);
+        // Create type support if not existing and register participant
+        eprosima::fastdds::dds::TypeSupport type_support;
+        type_support.reset(new types::AmlipGenericTopicDataType<T>());
+        eprosima::fastrtps::types::ReturnCode_t ret = type_support.register_type(participant_);
+        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == ret);
+        types_.insert({T::type_name(), type_support});
     }
 
     // DDS TOPIC
-    std::tuple<std::string, std::string> topic_idx = std::make_tuple(topic_name, T::type_name());
-    std::shared_ptr<eprosima::fastdds::dds::Topic> topic;
+    std::pair<std::string, std::string> topic_idx = std::make_pair(topic_name, T::type_name());
+    eprosima::fastdds::dds::Topic* topic;
     auto it_topics = topics_.find(topic_idx);
     if (it_topics == topics_.end())
     {
         // Create the topic if not existing
-        topic = std::shared_ptr<eprosima::fastdds::dds::Topic>(
-            participant_->create_topic(topic_name, T::type_name(), eprosima::fastdds::dds::TOPIC_QOS_DEFAULT));
+        topic = participant_->create_topic(topic_name, T::type_name(), eprosima::fastdds::dds::TOPIC_QOS_DEFAULT);
         assert(nullptr != topic);
         topics_.insert({topic_idx, topic});
     }
@@ -65,43 +61,40 @@ std::shared_ptr<eprosima::fastdds::dds::DataReader> Participant::create_dataread
     }
 
     // CREATE THE READER
-    std::shared_ptr<eprosima::fastdds::dds::DataReader> reader(subscriber_->create_datareader(topic.get(), qos));
-    readers_.push_back(reader);
+    eprosima::fastdds::dds::DataReader* datareader = subscriber_->create_datareader(topic, qos);
+    assert(nullptr != datareader);
+    datareaders_.push_back(datareader);
 
-    return reader;
+    return datareader;
 }
 
 template<typename T>
-std::shared_ptr<eprosima::fastdds::dds::DataWriter> Participant::create_datawriter_(
+eprosima::fastdds::dds::DataWriter* Participant::create_datawriter_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
 {
     assert(nullptr != participant_ && nullptr != publisher_);
 
-    // TOPIC DATA TYPE
-    std::shared_ptr<types::AmlipGenericTopicDataType<T>> type;
+    // TYPE SUPPORT
     auto it_types = types_.find(T::type_name());
     if (it_types == types_.end())
     {
-        // Create the topic data type if not existing
-        type = std::make_shared<types::AmlipGenericTopicDataType<T>>();
-        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == type.register_type(participant_));
-        types_.insert({T::type_name(), type});
-    }
-    else
-    {
-        type = std::static_pointer_cast<types::AmlipGenericTopicDataType<T>>(it_types->second);
+        // Create type support if not existing and register participant
+        eprosima::fastdds::dds::TypeSupport type_support;
+        type_support.reset(new types::AmlipGenericTopicDataType<T>());
+        eprosima::fastrtps::types::ReturnCode_t ret = type_support.register_type(participant_);
+        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == ret);
+        types_.insert({T::type_name(), type_support});
     }
 
     // DDS TOPIC
-    std::tuple<std::string, std::string> topic_idx = std::make_tuple(topic_name, T::type_name());
-    std::shared_ptr<eprosima::fastdds::dds::Topic> topic;
+    std::pair<std::string, std::string> topic_idx = std::make_pair(topic_name, T::type_name());
+    eprosima::fastdds::dds::Topic* topic;
     auto it_topics = topics_.find(topic_idx);
     if (it_topics == topics_.end())
     {
         // Create the topic if not existing
-        topic = std::shared_ptr<eprosima::fastdds::dds::Topic>(
-            participant_->create_topic(topic_name, T::type_name(), eprosima::fastdds::dds::TOPIC_QOS_DEFAULT));
+        topic = participant_->create_topic(topic_name, T::type_name(), eprosima::fastdds::dds::TOPIC_QOS_DEFAULT);
         assert(nullptr != topic);
         topics_.insert({topic_idx, topic});
     }
@@ -111,10 +104,11 @@ std::shared_ptr<eprosima::fastdds::dds::DataWriter> Participant::create_datawrit
     }
 
     // CREATE THE WRITER
-    std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer(publisher_->create_datawriter(topic.get(), qos));
-    writers_.push_back(writer);
+    eprosima::fastdds::dds::DataWriter* datawriter = publisher_->create_datawriter(topic, qos);
+    assert(nullptr != datawriter);
+    datawriters_.push_back(datawriter);
 
-    return writer;
+    return datawriter;
 }
 
 template<typename T>
@@ -122,8 +116,10 @@ std::shared_ptr<Reader<T>> Participant::create_reader(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataReaderQos& qos /* = Reader::default_datareader_qos() */)
 {
-    std::shared_ptr<eprosima::fastdds::dds::DataReader> reader = create_datareader_<T>(topic_name, qos);
-    return std::make_shared<Reader<T>>(topic_name, reader);
+    eprosima::fastdds::dds::DataReader* data_reader = create_datareader_<T>(topic_name, qos);
+    std::shared_ptr<Reader<T>> reader = std::make_shared<Reader<T>>(topic_name, data_reader);
+    data_reader->set_listener(reader.get());
+    return reader;
 }
 
 template<typename T>
@@ -131,8 +127,10 @@ std::shared_ptr<Writer<T>> Participant::create_writer(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
 {
-    std::shared_ptr<eprosima::fastdds::dds::DataWriter> writer = create_datawriter_<T>(topic_name, qos);
-    return std::make_shared<Writer<T>>(topic_name, writer);
+    eprosima::fastdds::dds::DataWriter* data_writer = create_datawriter_<T>(topic_name, qos);
+    std::shared_ptr<Writer<T>> writer = std::make_shared<Writer<T>>(topic_name, data_writer);
+    data_writer->set_listener(writer.get());
+    return writer;
 }
 
 // template<typename T>
@@ -140,8 +138,7 @@ std::shared_ptr<Writer<T>> Participant::create_writer(
 //         const std::string& topic_name,
 //         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
 // {
-//     std::shared_ptr<eprosima::fastdds::dds::Writer> writer = create_datawriter_<T>(topic, qos);
-//     return std::make_shared<DirectWriter<T>>(topic_name, writer);
+    // return std::make_shared<DirectWriter<T>>(topic_name, create_datawriter_<T>(topic, qos));
 // }
 
 // template<typename Task, typename TaskSolution>
