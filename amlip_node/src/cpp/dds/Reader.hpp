@@ -39,7 +39,7 @@ public:
 
     Reader(
         const std::string& topic,
-        std::shared_ptr<eprosima::fastdds::dds::DataReader> reader);
+        eprosima::fastdds::dds::DataReader* datareader);
 
     virtual ~Reader();
 
@@ -54,13 +54,17 @@ public:
     void on_data_available(
             eprosima::fastdds::dds::DataReader* reader) override;
 
+    void on_subscription_matched(
+            eprosima::fastdds::dds::DataReader* reader,
+            const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
+
     static eprosima::fastdds::dds::DataReaderQos default_datareader_qos();
 
 protected:
 
     std::string topic_;
 
-    std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader_;
+    eprosima::fastdds::dds::DataReader* data_reader_;
 
     std::atomic<bool> stop_;
 

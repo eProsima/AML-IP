@@ -40,12 +40,10 @@ Participant::Participant(
     assert (nullptr != participant_);
 
     // TODO: create subscriber_/publisher_ in create_reader/writer when supporting partitions
-    publisher_ = std::shared_ptr<eprosima::fastdds::dds::Publisher>(
-        participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr));
+    publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
     assert (nullptr != publisher_);
 
-    subscriber_ = std::shared_ptr<eprosima::fastdds::dds::Subscriber>(
-        participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr));
+    subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
     assert (nullptr != subscriber_);
 }
 
@@ -53,30 +51,8 @@ Participant::~Participant()
 {
     if (nullptr != participant_)
     {
-        for (auto topic : topics_)
-        {
-            participant_->delete_topic(topic.second.get());
-        }
-
-        if (publisher_ != nullptr)
-        {
-            for (auto writer : writers_)
-            {
-                publisher_->delete_datawriter(writer.get());
-            }
-            participant_->delete_publisher(publisher_.get());
-        }
-
-        if (subscriber_ != nullptr)
-        {
-            for (auto reader : readers_)
-            {
-                subscriber_->delete_datareader(reader.get());
-            }
-            participant_->delete_subscriber(subscriber_.get());
-        }
-
-        eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->delete_participant(participant_.get());
+        participant_->delete_contained_entities();
+        eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->delete_participant(participant_);
     }
 }
 

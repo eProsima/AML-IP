@@ -30,12 +30,22 @@ StatusAmlipNodeImpl::StatusAmlipNodeImpl(
     , callback_(callback)
     , stop_(true)
 {
-    // Create status writer from this participant
-    status_reader_ = participant_->create_reader<types::Status>(network::STATUS_TOPIC);
+    // Write current status
+    write_status_(types::StatusKind::RUNNING);
+
+    // Create status reader from this participant
+    eprosima::fastdds::dds::DataReaderQos qos = eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT;
+    qos.durability().kind = eprosima::fastdds::dds::TRANSIENT_LOCAL_DURABILITY_QOS;
+    qos.reliability().kind = eprosima::fastdds::dds::RELIABLE_RELIABILITY_QOS;
+    qos.history().kind = eprosima::fastdds::dds::KEEP_ALL_HISTORY_QOS;
+    status_reader_ = participant_->create_reader<types::Status>(network::STATUS_TOPIC, qos);
 }
 
 StatusAmlipNodeImpl::~StatusAmlipNodeImpl()
 {
+    // Notify end of execution
+    write_status_(types::StatusKind::DISABLED);
+
     // TODO: destroy reader correctly
     status_reader_.reset();
 }
@@ -67,6 +77,11 @@ void StatusAmlipNodeImpl::stop()
 
     // Stop Reader
     status_reader_->stop();
+}
+
+types::NodeKind StatusAmlipNodeImpl::node_kind_() const noexcept
+{
+    return types::NodeKind::STATUS;
 }
 
 } /* namespace node */
