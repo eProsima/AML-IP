@@ -52,9 +52,6 @@ public:
 protected:
 
     StatusAmlipNodeImpl* impl_;
-
-    // This variable is needed to be a value so when the object in Python is destroyed, at least it is copied here
-    StatusAmlipNodeFunctor* callback_;
 };
 
 } /* namespace node */

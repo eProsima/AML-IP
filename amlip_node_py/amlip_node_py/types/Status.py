@@ -63,3 +63,6 @@ class Status(cpp_Status):
 
     def get_status_kind(self) -> StatusKind:
         return cpp_Status.status_kind(self)
+
+    def __str__(self) -> str:
+        return super().__str__()

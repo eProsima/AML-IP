@@ -24,6 +24,7 @@
 
 #include <array>
 #include <limits>
+#include <ostream>
 
 #include <amlip_node/types/InterfaceDataType.hpp>
 

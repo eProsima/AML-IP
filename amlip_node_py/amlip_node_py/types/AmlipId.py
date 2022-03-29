@@ -46,5 +46,5 @@ class AmlipId(cpp_AmlipId):
     def undefined_id() -> 'AmlipId':
         return cpp_AmlipId.undefined_id()
 
-    def __str__(self) -> str:
-        return self.get_id()
+    # def __str__(self) -> str:
+    #     return self.get_id()

@@ -47,6 +47,7 @@ typedef unsigned long uint64_t;
 %include "AmlipId.i"
 
 %{
+#include <sstream>
 #include <amlip_node/types/Status.hpp>
 %}
 
@@ -79,3 +80,18 @@ typedef unsigned long uint64_t;
 
 // Include the class interfaces
 %include <amlip_node/types/Status.hpp>
+
+// Ignore the global comparison operators and make them class-internal
+%ignore eprosima::amlip::types::operator <<(std::ostream&, const Status&);
+
+// Declare the to string method
+%extend eprosima::amlip::types::Status {
+
+    std::string __str__() const
+    {
+        std::ostringstream out;
+        out << *$self;
+        return out.str();
+    }
+
+}

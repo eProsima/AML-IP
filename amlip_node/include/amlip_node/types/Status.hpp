@@ -22,6 +22,8 @@
 #ifndef AMLIP__SRC_CPP_AMLIPTYPES_STATUS_HPP
 #define AMLIP__SRC_CPP_AMLIPTYPES_STATUS_HPP
 
+#include <ostream>
+
 #include <amlip_node/types/AmlipId.hpp>
 #include <amlip_node/types/InterfaceDataType.hpp>
 

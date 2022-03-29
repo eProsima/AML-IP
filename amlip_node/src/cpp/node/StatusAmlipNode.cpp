@@ -41,13 +41,12 @@ StatusAmlipNode::StatusAmlipNode(std::function<void(types::Status)> callback)
 
 StatusAmlipNode::StatusAmlipNode(StatusAmlipNodeFunctor* callback)
     : impl_(new StatusAmlipNodeImpl(
-        [this]
+        [callback]
         (types::Status status)
         {
             std::cout << "CALLED callback in StatusAmlipNodeFunctor" << std::endl;
-            callback_->foo(status);
+            callback->foo(status);
         }))
-    , callback_(callback)
 {
     std::cout << "Created with StatusAmlipNodeFunctor" << std::endl;
 }
