@@ -28,7 +28,7 @@ namespace dds {
 template <typename T>
 Reader<T>::Reader(
         const std::string& topic,
-        eprosima::fastdds::dds::DataReader* data_reader)
+        std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader)
     : topic_(topic)
     , data_reader_(data_reader)
     , stop_(false)
@@ -112,14 +112,14 @@ void Reader<T>::on_subscription_matched(
         eprosima::fastdds::dds::DataReader* reader,
         const eprosima::fastdds::dds::SubscriptionMatchedStatus& info)
 {
-    if (info.current_count_change > 0)
-    {
-        std::cout << "Subscriber matched." << std::endl;
-    }
-    else if (info.current_count_change < 0)
-    {
-        std::cout << "Subscriber unmatched." << std::endl;
-    }
+    // if (info.current_count_change > 0)
+    // {
+    //     std::cout << "Subscriber matched." << std::endl;
+    // }
+    // else if (info.current_count_change < 0)
+    // {
+    //     std::cout << "Subscriber unmatched." << std::endl;
+    // }
 }
 
 template <typename T>

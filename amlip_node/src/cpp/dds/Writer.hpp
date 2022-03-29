@@ -41,7 +41,7 @@ public:
     // TODO
     Writer(
         const std::string& topic,
-        eprosima::fastdds::dds::DataWriter* datawriter);
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter);
 
     virtual ~Writer();
 
@@ -71,7 +71,7 @@ protected:
 
     std::mutex writer_matched_mutex_;
 
-    eprosima::fastdds::dds::DataWriter* data_writer_;
+    std::shared_ptr<eprosima::fastdds::dds::DataWriter> data_writer_;
 };
 
 } /* namespace dds */

@@ -26,7 +26,7 @@ namespace dds {
 template <typename T>
 Writer<T>::Writer(
         const std::string& topic,
-        eprosima::fastdds::dds::DataWriter* datawriter)
+        std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter)
     : topic_(topic)
     , data_writer_(datawriter)
     , stop_(false)
@@ -80,19 +80,19 @@ void Writer<T>::on_publication_matched(
         eprosima::fastdds::dds::DataWriter* writer,
         const eprosima::fastdds::dds::PublicationMatchedStatus& info)
 {
-    if (info.current_count_change > 0)
-    {
-        std::cout << "Publisher matched." << std::endl;
-        {
-            std::lock_guard<std::mutex> lock(writer_matched_mutex_);
-            writer_matched_.store(true);
-        }
-        writer_matched_condition_variable_.notify_one();
-    }
-    else if (info.current_count_change < 0)
-    {
-        std::cout << "Publisher unmatched." << std::endl;
-    }
+    // if (info.current_count_change > 0)
+    // {
+    //     std::cout << "Publisher matched." << std::endl;
+    //     {
+    //         std::lock_guard<std::mutex> lock(writer_matched_mutex_);
+    //         writer_matched_.store(true);
+    //     }
+    //     writer_matched_condition_variable_.notify_one();
+    // }
+    // else if (info.current_count_change < 0)
+    // {
+    //     std::cout << "Publisher unmatched." << std::endl;
+    // }
 }
 
 template <typename T>

@@ -26,87 +26,111 @@ namespace amlip {
 namespace dds {
 
 template<typename T>
-eprosima::fastdds::dds::DataReader* Participant::create_datareader_(
+eprosima::fastdds::dds::TypeSupport Participant::register_type() noexcept
+{
+    auto it_types = types_.find(T::type_name());
+    if (it_types == types_.end())
+    {
+        // Create type support if not existing and register participant
+        eprosima::fastdds::dds::TypeSupport type_support;
+        type_support.reset(new types::AmlipGenericTopicDataType<T>());
+        eprosima::fastrtps::types::ReturnCode_t ret = type_support.register_type(participant_.get());
+        // TODO convert this into an exception
+        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == ret);
+        types_.insert({T::type_name(), type_support});
+
+        return type_support;
+    }
+    else
+    {
+        // Type already registered
+        return it_types->second;
+    }
+}
+
+template<typename T>
+std::shared_ptr<eprosima::fastdds::dds::Topic> Participant::register_topic(const std::string& topic_name)
+{
+    // Check if it exists
+    std::pair<std::string, std::string> topic_idx = std::make_pair(topic_name, T::type_name());
+    auto it_topics = topics_.find(topic_idx);
+    if (it_topics != topics_.end())
+    {
+        return it_topics->second;
+    }
+
+    // TODO check if topic and type are coherent
+
+    // Register type (if already registered nothing happens)
+    register_type<T>();
+
+    // Create topic if not existing
+    std::shared_ptr<eprosima::fastdds::dds::Topic> topic(
+        participant_->create_topic(
+            topic_name,
+            T::type_name(),
+            eprosima::fastdds::dds::TOPIC_QOS_DEFAULT),
+        [this](eprosima::fastdds::dds::Topic* topic)
+        {
+            // deleter for shared ptr
+            this->participant_->delete_topic(topic);
+        }
+    );
+
+    // Add new topic to map
+    topics_[topic_idx] = topic;
+
+    return topic;
+}
+
+template<typename T>
+std::shared_ptr<eprosima::fastdds::dds::DataReader> Participant::create_datareader_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataReaderQos& qos /* = Reader::default_datareader_qos() */)
 {
     assert(nullptr != participant_ && nullptr != subscriber_);
 
-    // TYPE SUPPORT
-    auto it_types = types_.find(T::type_name());
-    if (it_types == types_.end())
-    {
-        // Create type support if not existing and register participant
-        eprosima::fastdds::dds::TypeSupport type_support;
-        type_support.reset(new types::AmlipGenericTopicDataType<T>());
-        eprosima::fastrtps::types::ReturnCode_t ret = type_support.register_type(participant_);
-        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == ret);
-        types_.insert({T::type_name(), type_support});
-    }
-
-    // DDS TOPIC
-    std::pair<std::string, std::string> topic_idx = std::make_pair(topic_name, T::type_name());
-    eprosima::fastdds::dds::Topic* topic;
-    auto it_topics = topics_.find(topic_idx);
-    if (it_topics == topics_.end())
-    {
-        // Create the topic if not existing
-        topic = participant_->create_topic(topic_name, T::type_name(), eprosima::fastdds::dds::TOPIC_QOS_DEFAULT);
-        assert(nullptr != topic);
-        topics_.insert({topic_idx, topic});
-    }
-    else
-    {
-        topic = it_topics->second;
-    }
+    // Get or create topic
+    std::shared_ptr<eprosima::fastdds::dds::Topic> topic = register_topic<T>(topic_name);
 
     // CREATE THE READER
-    eprosima::fastdds::dds::DataReader* datareader = subscriber_->create_datareader(topic, qos);
+    std::shared_ptr<eprosima::fastdds::dds::DataReader> datareader(
+            subscriber_->create_datareader(topic.get(), qos),
+            [this](eprosima::fastdds::dds::DataReader* datareader)
+            {
+                // deleter for shared ptr
+                this->subscriber_->delete_datareader(datareader);
+            }
+        );
+
+    // TODO throw exception if nullptr
     assert(nullptr != datareader);
-    datareaders_.push_back(datareader);
 
     return datareader;
 }
 
 template<typename T>
-eprosima::fastdds::dds::DataWriter* Participant::create_datawriter_(
+std::shared_ptr<eprosima::fastdds::dds::DataWriter> Participant::create_datawriter_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
 {
     assert(nullptr != participant_ && nullptr != publisher_);
 
-    // TYPE SUPPORT
-    auto it_types = types_.find(T::type_name());
-    if (it_types == types_.end())
-    {
-        // Create type support if not existing and register participant
-        eprosima::fastdds::dds::TypeSupport type_support;
-        type_support.reset(new types::AmlipGenericTopicDataType<T>());
-        eprosima::fastrtps::types::ReturnCode_t ret = type_support.register_type(participant_);
-        assert(eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK == ret);
-        types_.insert({T::type_name(), type_support});
-    }
+    // Get or create topic
+    std::shared_ptr<eprosima::fastdds::dds::Topic> topic = register_topic<T>(topic_name);
 
-    // DDS TOPIC
-    std::pair<std::string, std::string> topic_idx = std::make_pair(topic_name, T::type_name());
-    eprosima::fastdds::dds::Topic* topic;
-    auto it_topics = topics_.find(topic_idx);
-    if (it_topics == topics_.end())
-    {
-        // Create the topic if not existing
-        topic = participant_->create_topic(topic_name, T::type_name(), eprosima::fastdds::dds::TOPIC_QOS_DEFAULT);
-        assert(nullptr != topic);
-        topics_.insert({topic_idx, topic});
-    }
-    else
-    {
-        topic = it_topics->second;
-    }
+    // CREATE THE READER
+    std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter(
+            publisher_->create_datawriter(topic.get(), qos),
+            [this](eprosima::fastdds::dds::DataWriter* datawriter)
+            {
+                // deleter for shared ptr
+                this->publisher_->delete_datawriter(datawriter);
+            }
+        );
 
-    // CREATE THE WRITER
-    eprosima::fastdds::dds::DataWriter* datawriter = publisher_->create_datawriter(topic, qos);
+    // TODO throw exception if nullptr
     assert(nullptr != datawriter);
-    datawriters_.push_back(datawriter);
 
     return datawriter;
 }
@@ -116,7 +140,7 @@ std::shared_ptr<Reader<T>> Participant::create_reader(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataReaderQos& qos /* = Reader::default_datareader_qos() */)
 {
-    eprosima::fastdds::dds::DataReader* data_reader = create_datareader_<T>(topic_name, qos);
+    std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader = create_datareader_<T>(topic_name, qos);
     std::shared_ptr<Reader<T>> reader = std::make_shared<Reader<T>>(topic_name, data_reader);
     data_reader->set_listener(reader.get());
     return reader;
@@ -127,33 +151,11 @@ std::shared_ptr<Writer<T>> Participant::create_writer(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
 {
-    eprosima::fastdds::dds::DataWriter* data_writer = create_datawriter_<T>(topic_name, qos);
+    std::shared_ptr<eprosima::fastdds::dds::DataWriter> data_writer = create_datawriter_<T>(topic_name, qos);
     std::shared_ptr<Writer<T>> writer = std::make_shared<Writer<T>>(topic_name, data_writer);
     data_writer->set_listener(writer.get());
     return writer;
 }
-
-// template<typename T>
-// std::shared_ptr<DirectWriter<T>> Participant::create_direct_writer(
-//         const std::string& topic_name,
-//         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
-// {
-    // return std::make_shared<DirectWriter<T>>(topic_name, create_datawriter_<T>(topic, qos));
-// }
-
-// template<typename Task, typename TaskSolution>
-// std::shared_ptr<MultiServiceClient<Task, TaskSolution>> Participant::create_multiservice_client(
-//         const std::string& service_name)
-// {
-
-// }
-
-// template<typename Task, typename TaskSolution>
-// std::shared_ptr<MultiServiceServer<Task, TaskSolution>> Participant::create_multiservice_server(
-//         const std::string& service_name)
-// {
-
-// }
 
 } /* namespace dds */
 } /* namespace amlip */

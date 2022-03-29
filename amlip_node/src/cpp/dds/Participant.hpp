@@ -22,6 +22,8 @@
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
 
+#include <ddsrouter_utils/exception/InconsistencyException.hpp>
+
 #include <amlip_node/types/AmlipId.hpp>
 #include <types/AmlipGenericTopicDataType.hpp>
 #include <dds/Reader.hpp>
@@ -67,37 +69,43 @@ public:
     // std::shared_ptr<MultiServiceServer<Task, TaskSolution>> create_multiservice_server(
     //     const std::string& service_name);
 
-    types::AmlipId id();
+    types::AmlipId id() const noexcept;
 
 protected:
 
     template<typename T>
-    eprosima::fastdds::dds::DataReader* create_datareader_(
+    eprosima::fastdds::dds::TypeSupport register_type() noexcept;
+
+    template<typename T>
+    std::shared_ptr<eprosima::fastdds::dds::Topic> register_topic(const std::string& topic_name);
+
+    template<typename T>
+    std::shared_ptr<eprosima::fastdds::dds::DataReader> create_datareader_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataReaderQos& qos = Reader<T>::default_datareader_qos());
 
     template<typename T>
-    eprosima::fastdds::dds::DataWriter* create_datawriter_(
+    std::shared_ptr<eprosima::fastdds::dds::DataWriter> create_datawriter_(
         const std::string& topic_name,
         const eprosima::fastdds::dds::DataWriterQos& qos = Writer<T>::default_datawriter_qos());
 
     types::AmlipId id_;
 
-    eprosima::fastdds::dds::DomainParticipant* participant_;
+    std::shared_ptr<eprosima::fastdds::dds::DomainParticipant> participant_;
 
     // TODO: support multiple partitions
-    // std::map<std::string, eprosima::fastdds::dds::Publisher*> publishers_;
-    eprosima::fastdds::dds::Publisher* publisher_;
+    // std::map<std::string, eprosimastd::shared_ptr<::fastdds::dds::Publisher>> publishers_;
+    std::shared_ptr<eprosima::fastdds::dds::Publisher> publisher_;
 
     // TODO: support multiple partitions
-    // std::map<std::string, eprosima::fastdds::dds::Subscriber*> subscribers_;
-    eprosima::fastdds::dds::Subscriber* subscriber_;
+    // std::map<std::string, eprosimastd::shared_ptr<::fastdds::dds::Subscriber>> subscribers_;
+    std::shared_ptr<eprosima::fastdds::dds::Subscriber> subscriber_;
 
-    std::vector<eprosima::fastdds::dds::DataWriter*> datawriters_;
+    std::vector<std::shared_ptr<eprosima::fastdds::dds::DataWriter>> datawriters_;
 
-    std::vector<eprosima::fastdds::dds::DataReader*> datareaders_;
+    std::vector<std::shared_ptr<eprosima::fastdds::dds::DataReader>> datareaders_;
 
-    std::map<std::pair<std::string, std::string>, eprosima::fastdds::dds::Topic*> topics_;
+    std::map<std::pair<std::string, std::string>, std::shared_ptr<eprosima::fastdds::dds::Topic>> topics_;
 
     std::map<std::string, eprosima::fastdds::dds::TypeSupport> types_;
 

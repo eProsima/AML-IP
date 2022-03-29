@@ -39,7 +39,7 @@ public:
 
     Reader(
         const std::string& topic,
-        eprosima::fastdds::dds::DataReader* datareader);
+        std::shared_ptr<eprosima::fastdds::dds::DataReader> datareader);
 
     virtual ~Reader();
 
@@ -64,7 +64,7 @@ protected:
 
     std::string topic_;
 
-    eprosima::fastdds::dds::DataReader* data_reader_;
+    std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader_;
 
     std::atomic<bool> stop_;
 

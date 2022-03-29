@@ -20,6 +20,8 @@
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 
+#include <ddsrouter_utils/exception/InitializationException.hpp>
+
 #include <dds/Participant.hpp>
 
 namespace eprosima {
@@ -35,28 +37,57 @@ Participant::Participant(
         const eprosima::fastdds::dds::DomainParticipantQos& qos /* = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT */,
         const DomainIdType& domain /* = DEFAULT_DOMAIN_ID_ */)
     : id_(id)
-    , participant_(DomainParticipantFactory::get_instance()->create_participant(domain, qos))
+    , participant_(nullptr)
+    , publisher_(nullptr)
+    , subscriber_(nullptr)
 {
-    assert (nullptr != participant_);
+    participant_.reset(
+        DomainParticipantFactory::get_instance()->create_participant(domain, qos),
+        [](eprosima::fastdds::dds::DomainParticipant* participant)
+        {
+            // deleter for shared ptr
+            participant->delete_contained_entities();
+            DomainParticipantFactory::get_instance()->delete_participant(participant);
+        }
+    );
+    if (nullptr == participant_)
+    {
+        throw ddsrouter::utils::InitializationException("Failed to create participant.");
+    }
 
     // TODO: create subscriber_/publisher_ in create_reader/writer when supporting partitions
-    publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
-    assert (nullptr != publisher_);
+    publisher_.reset(
+        participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr),
+        [this](eprosima::fastdds::dds::Publisher* publisher)
+        {
+            // deleter for shared ptr
+            this->participant_->delete_publisher(publisher);
+        }
+    );
+    if (nullptr == participant_)
+    {
+        throw ddsrouter::utils::InitializationException("Failed to create publisher.");
+    }
 
-    subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
-    assert (nullptr != subscriber_);
+    subscriber_.reset(
+        participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr),
+        [this](eprosima::fastdds::dds::Subscriber* subscriber)
+        {
+            // deleter for shared ptr
+            this->participant_->delete_subscriber(subscriber);
+        }
+    );
+    if (nullptr == participant_)
+    {
+        throw ddsrouter::utils::InitializationException("Failed to create subscriber.");
+    }
 }
 
 Participant::~Participant()
 {
-    if (nullptr != participant_)
-    {
-        participant_->delete_contained_entities();
-        eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->delete_participant(participant_);
-    }
 }
 
-types::AmlipId Participant::id()
+types::AmlipId Participant::id() const noexcept
 {
     return id_;
 }
