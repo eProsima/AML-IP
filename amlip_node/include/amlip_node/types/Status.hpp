@@ -201,14 +201,14 @@ public:
      * @param cdr CDR serialization object.
      */
     void serialize(
-            eprosima::fastcdr::Cdr& cdr) const;
+            eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     void deserialize(
-            eprosima::fastcdr::Cdr& cdr);
+            eprosima::fastcdr::Cdr& cdr) override;
 
 
 
@@ -231,7 +231,7 @@ public:
      * @param cdr CDR serialization object.
      */
     void serializeKey(
-            eprosima::fastcdr::Cdr& cdr) const;
+            eprosima::fastcdr::Cdr& cdr) const override;
 
     static bool is_bounded();
 

@@ -28,6 +28,8 @@ constexpr const char* STATUS_TOPIC_DATATYPE = "status";
 
 constexpr const char* AMLIPID_TOPIC_DATATYPE = "amlip_id";
 
+constexpr const char* GENERIC_TOPIC_DATATYPE = "dummy";
+
 } /* namespace network */
 } /* namespace amlip */
 } /* namespace eprosima */
