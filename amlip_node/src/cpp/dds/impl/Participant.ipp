@@ -93,7 +93,7 @@ std::shared_ptr<eprosima::fastdds::dds::DataReader> Participant::create_dataread
     // Get or create topic
     std::shared_ptr<eprosima::fastdds::dds::Topic> topic = register_topic<T>(topic_name);
 
-    // CREATE THE READER
+    // Create the datareader
     std::shared_ptr<eprosima::fastdds::dds::DataReader> datareader(
             subscriber_->create_datareader(topic.get(), qos),
             [this](eprosima::fastdds::dds::DataReader* datareader)
@@ -119,7 +119,7 @@ std::shared_ptr<eprosima::fastdds::dds::DataWriter> Participant::create_datawrit
     // Get or create topic
     std::shared_ptr<eprosima::fastdds::dds::Topic> topic = register_topic<T>(topic_name);
 
-    // CREATE THE READER
+    // Create the datawriter
     std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter(
             publisher_->create_datawriter(topic.get(), qos),
             [this](eprosima::fastdds::dds::DataWriter* datawriter)

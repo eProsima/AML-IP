@@ -64,7 +64,7 @@ Participant::Participant(
             this->participant_->delete_publisher(publisher);
         }
     );
-    if (nullptr == participant_)
+    if (nullptr == publisher_)
     {
         throw ddsrouter::utils::InitializationException("Failed to create publisher.");
     }
@@ -77,7 +77,7 @@ Participant::Participant(
             this->participant_->delete_subscriber(subscriber);
         }
     );
-    if (nullptr == participant_)
+    if (nullptr == subscriber_)
     {
         throw ddsrouter::utils::InitializationException("Failed to create subscriber.");
     }
