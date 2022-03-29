@@ -31,7 +31,11 @@ int main(
     std::cout << "Starting amlip_aml_cpp execution." << std::endl;
 
     {
-        node::StatusAmlipNode status_node;
+        node::StatusAmlipNode status_node(
+            [](types::Status status)
+            {
+                std::cout << "Specific CPP Status read <" << status << "> ." << std::endl;
+            });
 
         ddsrouter::event::SignalEventHandler<ddsrouter::event::SIGNAL_SIGINT> signal_handler([&status_node](int /* signal_number */ )
             {

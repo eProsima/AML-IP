@@ -19,8 +19,9 @@ def main(args=None):
     print('Starting amlip_aml_py execution.')
 
     # Create thread
-    node = StatusAmlipNode()
-    print('Node Status created.')
+    node = StatusAmlipNode(
+        lambda status: print(f'Status read from PY: {status}'))
+    print(f'Node Status created with id: {node.get_id()}.')
 
     # Execute spin in another thread
     thread_ = threading.Thread(target=node.spin)

@@ -24,7 +24,7 @@ namespace amlip {
 namespace node {
 
 StatusAmlipNodeImpl::StatusAmlipNodeImpl(
-        const std::function<void(types::Status)> callback)
+        std::function<void(types::Status)> callback)
     : AmlipNodeImpl()
     , status_reader_(nullptr)
     , callback_(callback)
@@ -55,13 +55,17 @@ StatusAmlipNodeImpl::~StatusAmlipNodeImpl()
 
 void StatusAmlipNodeImpl::spin()
 {
-    std::cout << "DEBUG: spinning cpp" << std::endl;
-
     stop_.store(false);
     while (!stop_)
     {
         // Wait for new data
         status_reader_->wait_data_available();
+
+        // Must check that it is not stopped before reading
+        if (stop_)
+        {
+            break;
+        }
 
         // Check there is data available or it has been awake for stop (or any other future reason)
         if (!status_reader_->is_data_available())
@@ -71,7 +75,10 @@ void StatusAmlipNodeImpl::spin()
 
         // New data available, take it and call callback
         types::Status status = status_reader_->read();
-        callback_(status);
+        if(status.id() != id())
+        {
+            callback_(status);
+        }
     }
 }
 

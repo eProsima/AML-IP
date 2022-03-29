@@ -21,7 +21,7 @@ message(STATUS "Configuring AMLIP_SWIG wrapper for Python...")
 set(LIB_INSTALL_DIR lib/ CACHE PATH "Installation directory for libraries")
 
 set(${PROJECT_NAME}_MODULE
-        amlip_node
+        amlip_swig
     )
 
 set(${PROJECT_NAME}_FILES

@@ -12,19 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-%module(threads="1") amlip_node
+%{
+#include <amlip_node/node/StatusAmlipNodeFunctor.hpp>
+%}
 
-// SWIG helper modules
-%include "stdint.i"
-%include "std_array.i"
-%include "std_list.i"
-%include "std_string.i"
-%include "std_shared_ptr.i"
-%include "std_vector.i"
+// generate directors for the virtual methods in the listener
+%feature("director") eprosima::amlip::node::StatusAmlipNodeFunctor;
 
-// amlip_types
-%include "amlip_node/types/InterfaceDataType.i"
-%include "amlip_node/types/AmlipId.i"
-%include "amlip_node/types/Status.i"
-// amlip_node
-%include "amlip_node/node/StatusAmlipNode.i"
+%include <amlip_node/node/StatusAmlipNodeFunctor.hpp>

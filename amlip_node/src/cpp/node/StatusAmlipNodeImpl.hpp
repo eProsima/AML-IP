@@ -36,7 +36,7 @@ class StatusAmlipNodeImpl : public AmlipNodeImpl
 public:
 
     StatusAmlipNodeImpl(
-        const std::function<void(types::Status)> callback);
+        std::function<void(types::Status)> callback);
 
     virtual ~StatusAmlipNodeImpl();
 

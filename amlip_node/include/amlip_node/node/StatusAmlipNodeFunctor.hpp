@@ -13,52 +13,31 @@
 // limitations under the License.
 
 /**
- * @file StatusAmlipNode.hpp
+ * @file StatusAmlipNodeFunctor.hpp
  */
 
-#ifndef AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP
-#define AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP
+#ifndef AMLIP_AMLIPNODE_STATUSAMLIPNODEFUNCTOR_HPP
+#define AMLIP_AMLIPNODE_STATUSAMLIPNODEFUNCTOR_HPP
 
-#include <functional>
+#include <iostream>
 
 #include <amlip_node/types/Status.hpp>
-#include <amlip_node/node/StatusAmlipNodeFunctor.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
-class StatusAmlipNodeImpl;
-
-class StatusAmlipNode
+class StatusAmlipNodeFunctor
 {
 public:
-
-    StatusAmlipNode();
-
-    StatusAmlipNode(std::function<void(types::Status)> callback);
-
-    StatusAmlipNode(
-        StatusAmlipNodeFunctor* callback);
-
-    virtual ~StatusAmlipNode();
-
-    void spin();
-
-    void stop();
-
-    types::AmlipId id() const noexcept;
-
-protected:
-
-    StatusAmlipNodeImpl* impl_;
-
-    // This variable is needed to be a value so when the object in Python is destroyed, at least it is copied here
-    StatusAmlipNodeFunctor* callback_;
+    StatusAmlipNodeFunctor() {};
+    virtual ~StatusAmlipNodeFunctor() {};
+    // virtual void operator() (types::Status status) const {std::cout << "NO CALLBACK SET" << std::endl;};
+    virtual void foo(types::Status status) const {std::cout << "NO CALLBACK SET" << std::endl;};
 };
 
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP */
+#endif /* AMLIP_AMLIPNODE_STATUSAMLIPNODEFUNCTOR_HPP */

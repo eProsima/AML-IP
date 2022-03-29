@@ -24,17 +24,32 @@ namespace amlip {
 namespace node {
 
 StatusAmlipNode::StatusAmlipNode()
-    : impl_(new StatusAmlipNodeImpl(
+    : StatusAmlipNode(
         [&]
         (types::Status status)
         {
-            if (status.id() != id())
-            {
-                std::cout << "Status read: " << status << std::endl;
-            }
+            std::cout << "Status read: " << status << std::endl;
         }
-    ))
+    )
 {
+}
+
+StatusAmlipNode::StatusAmlipNode(std::function<void(types::Status)> callback)
+    : impl_(new StatusAmlipNodeImpl(callback))
+{
+}
+
+StatusAmlipNode::StatusAmlipNode(StatusAmlipNodeFunctor* callback)
+    : impl_(new StatusAmlipNodeImpl(
+        [this]
+        (types::Status status)
+        {
+            std::cout << "CALLED callback in StatusAmlipNodeFunctor" << std::endl;
+            callback_->foo(status);
+        }))
+    , callback_(callback)
+{
+    std::cout << "Created with StatusAmlipNodeFunctor" << std::endl;
 }
 
 StatusAmlipNode::~StatusAmlipNode()

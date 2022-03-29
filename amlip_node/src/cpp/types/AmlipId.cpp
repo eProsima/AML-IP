@@ -212,7 +212,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const AmlipId& id)
 {
-    os << "ID{id:";
+    os << "ID{";
     for (char v : id.id())
     {
         os << v;

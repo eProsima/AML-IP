@@ -15,9 +15,9 @@
 
 from enum import Enum
 
-from amlip_node import Status as cpp_Status
-from amlip_node import UNDETERMINED, DISCOVERY, AGENT, MAIN, COMPUTATIONAL, EDGE, STATUS
-from amlip_node import UNKNOWN, RUNNING, DISABLED
+from amlip_swig import Status as cpp_Status
+from amlip_swig import UNDETERMINED, DISCOVERY, AGENT, MAIN, COMPUTATIONAL, EDGE, STATUS
+from amlip_swig import UNKNOWN, RUNNING, DISABLED
 
 from amlip_node_py.types.AmlipId import AmlipId
 

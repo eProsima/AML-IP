@@ -13,8 +13,8 @@
 # limitations under the License.
 """AML-IP AmlipId data type API specification."""
 
-from amlip_node import AmlipId as cpp_AmlipId
-from amlip_node import ID_SIZE
+from amlip_swig import AmlipId as cpp_AmlipId
+from amlip_swig import ID_SIZE
 
 
 class AmlipId(cpp_AmlipId):
@@ -33,7 +33,7 @@ class AmlipId(cpp_AmlipId):
             return cpp_AmlipId.id(self, new_id)
 
     def get_id(self) -> str:
-        return str(cpp_AmlipId.id(self))
+        return ''.join(cpp_AmlipId.id(self))
 
     def is_defined(self) -> bool:
         return cpp_AmlipId.is_defined(self)
@@ -45,3 +45,6 @@ class AmlipId(cpp_AmlipId):
     @staticmethod
     def undefined_id() -> 'AmlipId':
         return cpp_AmlipId.undefined_id()
+
+    def __str__(self) -> str:
+        return self.get_id()
