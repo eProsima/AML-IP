@@ -13,26 +13,50 @@
 // limitations under the License.
 
 /**
- * @file topics.hpp
+ * @file GenericAmlipNode.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
-#define AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
+#ifndef AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP
+#define AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP
+
+#include <memory>
+
+#include <amlip_node/types/AmlipId.hpp>
+#include <amlip_node/types/GenericType.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace network {
+namespace node {
 
-constexpr const char* STATUS_TOPIC = "status";
-constexpr const char* STATUS_TOPIC_DATATYPE = "status";
+class GenericAmlipNodeImpl;
 
-constexpr const char* AMLIPID_TOPIC_DATATYPE = "amlip_id";
+class GenericAmlipNode
+{
+public:
 
-constexpr const char* GENERIC_TOPIC = "generic";
-constexpr const char* GENERIC_TOPIC_DATATYPE = "generic";
+    GenericAmlipNode();
 
-} /* namespace network */
+    virtual ~GenericAmlipNode();
+
+    void publish(types::GenericType& data);
+
+    bool wait_writer_matched();
+
+    std::shared_ptr<types::GenericType> receive();
+
+    void spin();
+
+    void stop();
+
+    types::AmlipId id() const noexcept;
+
+protected:
+
+    GenericAmlipNodeImpl* impl_;
+};
+
+} /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP */
+#endif /* AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP */

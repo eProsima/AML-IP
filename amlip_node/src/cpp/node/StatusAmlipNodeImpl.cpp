@@ -74,10 +74,10 @@ void StatusAmlipNodeImpl::spin()
         }
 
         // New data available, take it and call callback
-        types::Status status = status_reader_->read();
-        if(status.id() != id())
+        std::shared_ptr<types::Status> status = status_reader_->read();
+        if(status->id() != id())
         {
-            callback_(status);
+            callback_(*status);
         }
     }
 }

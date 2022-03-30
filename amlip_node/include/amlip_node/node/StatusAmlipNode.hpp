@@ -21,6 +21,7 @@
 
 #include <functional>
 
+#include <amlip_node/types/AmlipId.hpp>
 #include <amlip_node/types/Status.hpp>
 
 namespace eprosima {

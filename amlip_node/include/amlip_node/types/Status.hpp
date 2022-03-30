@@ -50,7 +50,8 @@ enum NodeKind : uint32_t
     MAIN,
     COMPUTATIONAL,
     EDGE,
-    STATUS
+    STATUS,
+    GENERIC
 };
 /*!
  * @brief This class represents the enumeration StatusKind defined by the user in the IDL file.

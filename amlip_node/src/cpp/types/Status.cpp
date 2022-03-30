@@ -297,6 +297,9 @@ std::ostream& operator <<(
         case types::NodeKind::STATUS:
             os << "STATUS";
             break;
+        case types::NodeKind::GENERIC:
+            os << "GENERIC";
+            break;
     }
     return os;
 }
