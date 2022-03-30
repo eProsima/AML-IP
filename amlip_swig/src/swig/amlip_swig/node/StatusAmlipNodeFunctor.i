@@ -20,3 +20,14 @@
 %feature("director") eprosima::amlip::node::StatusAmlipNodeFunctor;
 
 %include <amlip_node/node/StatusAmlipNodeFunctor.hpp>
+
+// Ignore the global comparison operators and make them class-internal
+%ignore eprosima::amlip::node::StatusAmlipNodeFunctor::operator ()(eprosima::amlip::types::Status) const;
+
+// Declare the to string method
+%extend eprosima::amlip::node::StatusAmlipNodeFunctor {
+    bool eprosima::amlip::node::StatusAmlipNodeFunctor::__call__(eprosima::amlip::types::Status status) const
+    {
+        return (*$self).operator()(status);
+    }
+}

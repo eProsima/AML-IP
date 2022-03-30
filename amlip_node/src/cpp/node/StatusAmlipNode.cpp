@@ -45,7 +45,7 @@ StatusAmlipNode::StatusAmlipNode(StatusAmlipNodeFunctor* callback)
         (types::Status status)
         {
             std::cout << "CALLED callback in StatusAmlipNodeFunctor" << std::endl;
-            callback->foo(status);
+            (*callback)(status);
         }))
 {
     std::cout << "Created with StatusAmlipNodeFunctor" << std::endl;

@@ -27,10 +27,10 @@ class CustomStatusAmlipNodeFunctor(StatusAmlipNodeFunctor):
         self.callback_ = callback
         super().__init__()
 
-    def foo(self, status):
+    def __call__(self, status):
         """Call lambda."""
-        print('Calling CustomStatusAmlipNodeFunctor')
         self.callback_(status)
+        return True
 
 
 class StatusAmlipNode(cpp_StatusAmlipNode):

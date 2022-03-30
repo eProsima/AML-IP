@@ -32,8 +32,7 @@ class StatusAmlipNodeFunctor
 public:
     StatusAmlipNodeFunctor() {};
     virtual ~StatusAmlipNodeFunctor() {};
-    // virtual void operator() (types::Status status) const {std::cout << "NO CALLBACK SET" << std::endl;};
-    virtual void foo(types::Status status) const {std::cout << "NO CALLBACK SET" << std::endl;};
+    virtual bool operator() (types::Status status) const {std::cout << "NO CALLBACK SET OPERATOR()" << std::endl; return true;};
 };
 
 } /* namespace node */
