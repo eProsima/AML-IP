@@ -39,7 +39,7 @@ public:
     StatusAmlipNode(std::function<void(types::Status)> callback);
 
     StatusAmlipNode(
-        StatusAmlipNodeFunctor* callback);
+        const StatusAmlipNodeFunctor& callback);
 
     virtual ~StatusAmlipNode();
 
