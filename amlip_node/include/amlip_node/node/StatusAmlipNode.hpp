@@ -22,13 +22,18 @@
 #include <functional>
 
 #include <amlip_node/types/Status.hpp>
-#include <amlip_node/node/StatusAmlipNodeFunctor.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
 class StatusAmlipNodeImpl;
+
+class StatusAmlipNodeFunctor
+{
+public:
+    virtual bool operator() (types::Status status) const = 0;
+};
 
 class StatusAmlipNode
 {
