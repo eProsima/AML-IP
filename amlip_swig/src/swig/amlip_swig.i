@@ -61,5 +61,5 @@
 %include "amlip_swig/types/AmlipId.i"
 %include "amlip_swig/types/Status.i"
 // amlip_swig
-%include "amlip_swig/node/StatusAmlipNodeFunctor.i"
+// %include "amlip_swig/node/StatusAmlipNodeFunctor.i"
 %include "amlip_swig/node/StatusAmlipNode.i"
