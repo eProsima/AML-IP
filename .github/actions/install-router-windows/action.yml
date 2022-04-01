@@ -1,0 +1,15 @@
+name: Install DDS Router
+description: Install and setup DDS Router for linking and building application in Windows
+inputs:
+  cmake_build_type:
+    description: 'Specifies the build type on single-configuration generators'
+    required: true
+    default: 'Release'
+runs:
+  using: composite
+  steps:
+  - run: >
+      git clone https://github.com/eProsima/DDS-Router.git;
+      cmake -Ax64 -T host=x64 -B build\ddsrouter DDS-Router;
+      cmake --build build\ddsrouter --config ${{ inputs.cmake_build_type }} --target install
+    shell: pwsh

@@ -1,0 +1,25 @@
+name: Install eProsima Package
+description: Install and setup a specific eProsima package for linking and building application in Windows
+inputs:
+  git_location:
+    description: 'Git Location of the package to clone project'
+    required: true
+  package_name:
+    description: 'Name of the package to be built in dir build/<name>'
+    required: true
+  cmake_build_type:
+    description: 'Specifies the build type on single-configuration generators'
+    required: true
+    default: 'Release'
+  cmake_options:
+    description: 'Specifies CMake options for package'
+    required: true
+    default: '-Ax64 -T host=x64'
+runs:
+  using: composite
+  steps:
+  - run: >
+      git clone ${{ inputs.git_location }} ${{ inputs.package_name }};
+      cmake ${{ inputs.cmake_options }} build\${{ inputs.package_name }} ${{ inputs.package_name }};
+      cmake --build build\${{ inputs.package_name }} --config ${{ inputs.cmake_build_type }} --target install
+    shell: pwsh
