@@ -23,8 +23,9 @@ runs:
   steps:
   - run: >
       git clone ${{ inputs.git_location }} ${{ inputs.superpackage_name }};
-      ${{ inputs.superpackage_name }}.Split(" ") | ForEach {
-        cmake ${{ inputs.cmake_options }} -B build\$_ ${{ inputs.superpackage_name }}/$_;
+      "${{ inputs.package_names }}".Split(" ") | ForEach {
+        echo "building package: $_";
+        cmake ${{ inputs.cmake_options }} -B build\$_ ${{ inputs.superpackage_name }}\$_;
         cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
       }
     shell: pwsh
