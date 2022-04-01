@@ -20,6 +20,6 @@ runs:
   steps:
   - run: >
       git clone ${{ inputs.git_location }} ${{ inputs.package_name }};
-      cmake ${{ inputs.cmake_options }} build\${{ inputs.package_name }} ${{ inputs.package_name }};
+      cmake ${{ inputs.cmake_options }} -B build\${{ inputs.package_name }} ${{ inputs.package_name }};
       cmake --build build\${{ inputs.package_name }} --config ${{ inputs.cmake_build_type }} --target install
     shell: pwsh

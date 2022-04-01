@@ -146,7 +146,7 @@ jobs:
       - name: Fetch workspace repositories
         run: |
           cat src/AML-IP/.github/workflows/ci.repos
-          vcs import src <  ci.repossrc/AML-IP/.github/workflows/ci.repos
+          vcs import src <  src/AML-IP/.github/workflows/ci.repos
 
       - name: Update colcon mixin
         run: |
@@ -243,8 +243,10 @@ jobs:
       - name: Install Python packages
         uses: ./src/AML-IP/.github/actions/install-python-packages
 
-      - name: Fetch Fast DDS repositories
-        uses: ./src/AML-IP/.github/actions/fetch-fastdds-repos
+      - name: Fetch workspace repositories
+        run: |
+          cat src/AML-IP/.github/workflows/ci.repos
+          vcs import src <  src/AML-IP/.github/workflows/ci.repos
 
       - name: Update colcon mixin
         run: |
@@ -289,8 +291,10 @@ jobs:
       - name: Install Python packages
         uses: ./src/AML-IP/.github/actions/install-python-packages
 
-      - name: Fetch Fast DDS repositories
-        uses: ./src/AML-IP/.github/actions/fetch-fastdds-repos
+      - name: Fetch workspace repositories
+        run: |
+          cat src/AML-IP/.github/workflows/ci.repos
+          vcs import src <  src/AML-IP/.github/workflows/ci.repos
 
       - name: Build workspace
         run: |

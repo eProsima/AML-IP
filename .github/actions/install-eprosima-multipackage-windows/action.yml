@@ -23,8 +23,8 @@ runs:
   steps:
   - run: >
       git clone ${{ inputs.git_location }} ${{ inputs.superpackage_name }};
-      for package_name in ${{ inputs.superpackage_name }} do
-        cmake ${{ inputs.cmake_options }} build\${{ inputs.package_name }} ${{ inputs.superpackage_name }}/${{ inputs.package_name }};
-        cmake --build build\${{ inputs.package_name }} --config ${{ inputs.cmake_build_type }} --target install;
-      done;
+      ${{ inputs.superpackage_name }}.Split(" ") | ForEach {
+        cmake ${{ inputs.cmake_options }} -B build\$_ ${{ inputs.superpackage_name }}/$_;
+        cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
+      }
     shell: pwsh
