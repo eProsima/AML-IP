@@ -16,19 +16,17 @@
 # Set settings for project amlip_docs
 ###############################################################################
 
-set(SUBMODULE_PROJECT_NAME
+set(MODULE_NAME
     amlip_docs)
 
-set(SUBMODULE_PROJECT_SUMMARY
+set(MODULE_SUMMARY
     "Sphinx documentation for AML-IP project.")
 
-set(SUBMODULE_PROJECT_FIND_PACKAGES
-    Sphinx)
+set(MODULE_FIND_PACKAGES
+    ddsrouter_cmake
+    Sphinx
+)
 
-set(SUBMODULE_PROJECT_DEPENDENCIES
-    ${SUBMODULE_PROJECT_FIND_PACKAGES})
-
-set(SUBMODULE_PROJECT_MACROS
-    AMLIP_DOCS)
-
-# set(SUBMODULE_THIRDPARTY_HEADERONLY_PACKAGES )
+set(MODULE_DEPENDENCIES
+    ${SUBMODULE_PROJECT_FIND_PACKAGES}
+)

@@ -17,6 +17,8 @@
 
   <buildtool_depend>cmake</buildtool_depend>
 
+  <depend>ddsrouter_cmake</depend>
+
   <doc_depend>doxygen</doc_depend>
 
   <export>
