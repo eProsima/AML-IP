@@ -13,7 +13,7 @@
 # limitations under the License.
 
 ###############################################################################
-# CMake build rules for AML-IP Submodule
+# CMake build rules for DDS Router Submodule
 ###############################################################################
 cmake_minimum_required(VERSION 3.5)
 
@@ -65,7 +65,7 @@ compile_library(
 # Test
 ###############################################################################
 # Compile tests if CMake options requires it
-compile_test(
+compile_test_library(
     "${PROJECT_SOURCE_DIR}/test" # Test directory
 )
 
