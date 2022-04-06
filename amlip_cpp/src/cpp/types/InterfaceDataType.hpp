@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,10 +36,10 @@ namespace types {
  * Every DataType that will work beneath the AMLIP library must implement this interface.
  * This is because the "PubSub" type (actually TopicDataType) is a template class, and it needs
  * to know the type of the data that will be published.
- * This specialization could only be done from a class inherinting from this interface.
+ * This specialization could only be done from a class inheriting from this interface.
  *
  * @warning This interface requires to override some methods, including static ones.
- * Every class inheriting from it must override every method intialized in this file.
+ * Every class inheriting from it must override every method initialized in this file.
  */
 class InterfaceDataType
 {
