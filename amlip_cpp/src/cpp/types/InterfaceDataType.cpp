@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ size_t InterfaceDataType::get_max_cdr_serialize_size(
         size_t current_alignment)
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement get_max_cdr_serialize_size.");
+              "Subclasses of InterfaceDataType must implement get_max_cdr_serialize_size.");
 }
 
 size_t InterfaceDataType::get_cdr_serialize_size(
@@ -36,45 +36,45 @@ size_t InterfaceDataType::get_cdr_serialize_size(
         size_t current_alignment)
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement get_cdr_serialize_size.");
+              "Subclasses of InterfaceDataType must implement get_cdr_serialize_size.");
 }
 
 size_t InterfaceDataType::get_key_max_cdr_serialized_size(
         size_t current_alignment)
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement get_key_max_cdr_serialized_size.");
+              "Subclasses of InterfaceDataType must implement get_key_max_cdr_serialized_size.");
 }
 
 bool InterfaceDataType::is_key_defined()
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement is_key_defined.");
+              "Subclasses of InterfaceDataType must implement is_key_defined.");
 }
 
 bool InterfaceDataType::is_bounded()
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement is_bounded.");
+              "Subclasses of InterfaceDataType must implement is_bounded.");
 }
 
 bool InterfaceDataType::is_plain()
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement is_plain.");
+              "Subclasses of InterfaceDataType must implement is_plain.");
 }
 
 bool InterfaceDataType::construct_sample(
         void*)
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement construct_sample.");
+              "Subclasses of InterfaceDataType must implement construct_sample.");
 }
 
 const char* InterfaceDataType::type_name()
 {
     throw ddsrouter::utils::InconsistencyException(
-        "Subclasses of InterfaceDataType must implement type_name.");
+              "Subclasses of InterfaceDataType must implement type_name.");
 }
 
 } /* namespace types */
