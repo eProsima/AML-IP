@@ -209,7 +209,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'{PROJECT_NAME}'
+project = f'{PROJECT_NAME}'
 copyright = u'2021, eProsima'
 author = u'eProsima'
 
@@ -440,7 +440,7 @@ latex_elements = {
 latex_documents = [
     (master_doc,
      f'{COMPRESS_PROJECT_NAME}.tex',
-     u'{PROJECT_NAME} Documentation',
+     f'{PROJECT_NAME} Documentation',
      u'eProsima',
      'manual'),
 ]
@@ -485,7 +485,7 @@ latex_documents = [
 man_pages = [
     (master_doc,
      f'{PROJECT_NAME}',
-     u'{PROJECT_NAME} Documentation',
+     f'{PROJECT_NAME} Documentation',
      [author],
      1)
 ]
@@ -503,7 +503,7 @@ man_pages = [
 texinfo_documents = [
     (master_doc,
      f'{PROJECT_NAME}',
-     u'{PROJECT_NAME} Documentation',
+     f'{PROJECT_NAME} Documentation',
      author,
      f'{PROJECT_NAME}',
      f'Documentation of eProsima {PROJECT_NAME}',
