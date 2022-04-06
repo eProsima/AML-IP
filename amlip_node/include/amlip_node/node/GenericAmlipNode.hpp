@@ -20,8 +20,10 @@
 #define AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP
 
 #include <memory>
+#include <vector>
 
 #include <amlip_node/types/AmlipId.hpp>
+#include <amlip_node/types/Dump.hpp>
 #include <amlip_node/types/GenericType.hpp>
 
 namespace eprosima {
@@ -40,9 +42,15 @@ public:
 
     void publish(types::GenericType& data);
 
+    void publish_vec(std::vector<uint8_t> vec);
+
     bool wait_writer_matched();
 
     std::shared_ptr<types::GenericType> receive();
+
+    std::vector<uint8_t> receive_vec();
+
+    types::Dump receive_dump();
 
     void spin();
 

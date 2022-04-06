@@ -16,8 +16,9 @@
  * @file GenericAmlipNode.cpp
  */
 
-#include <node/GenericAmlipNodeImpl.hpp>
 #include <amlip_node/node/GenericAmlipNode.hpp>
+#include <amlip_node/types/Dump.hpp>
+#include <node/GenericAmlipNodeImpl.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -39,9 +40,16 @@ GenericAmlipNode::~GenericAmlipNode()
     delete impl_;
 }
 
-void GenericAmlipNode::publish(types::GenericType &data)
+void GenericAmlipNode::publish(types::GenericType& data)
 {
     impl_->publish(data);
+}
+
+
+void GenericAmlipNode::publish_vec(std::vector<uint8_t> vec)
+{
+    types::GenericType data_generic(static_cast<void*>(vec.data()), sizeof(uint8_t)*vec.size());
+    impl_->publish(data_generic);
 }
 
 bool GenericAmlipNode::wait_writer_matched()
@@ -52,6 +60,36 @@ bool GenericAmlipNode::wait_writer_matched()
 std::shared_ptr<types::GenericType> GenericAmlipNode::receive()
 {
     return impl_->receive();
+}
+
+std::vector<uint8_t> GenericAmlipNode::receive_vec()
+{
+    std::shared_ptr<types::GenericType> received_data = impl_->receive();
+    if (received_data->data() != nullptr)
+    {
+        const uint8_t* buffer = (uint8_t*)received_data->data();
+        std::vector<uint8_t> vec(buffer, buffer + (received_data->data_size()/ sizeof(uint8_t)));
+        return vec;
+    }
+    else
+    {
+        return std::vector<uint8_t>();
+    }
+}
+
+types::Dump GenericAmlipNode::receive_dump()
+{
+    std::shared_ptr<types::GenericType> received_data = impl_->receive();
+    if (received_data->data() != nullptr)
+    {
+        const uint8_t* buffer = (uint8_t*)received_data->data();
+        std::vector<uint8_t> vec(buffer, buffer + (received_data->data_size()/ sizeof(uint8_t)));
+        return types::Dump(vec);
+    }
+    else
+    {
+        return types::Dump();
+    }
 }
 
 void GenericAmlipNode::spin()
