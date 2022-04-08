@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include <array>
 #include <limits>
 #include <ostream>
+#include <string>
 
 #include <types/InterfaceDataType.hpp>
 
@@ -39,7 +40,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-constexpr const uint32_t NAME_SIZE = 16;
+constexpr const uint32_t NAME_SIZE = 12; // assert(!(8*NAME_SIZE % 6))
 constexpr const uint32_t RAND_SIZE = 1;
 
 /*!
@@ -64,6 +65,10 @@ public:
      * @brief Constructor with name given in char*.
      */
     AmlipIdDataType(const char* name);
+
+    AmlipIdDataType(
+        std::array<uint8_t, NAME_SIZE>& name,
+        std::array<uint8_t, RAND_SIZE>& rand_id);
 
     /*!
      * @brief Constructor given fields.
@@ -127,17 +132,21 @@ public:
      */
     std::string name() const;
 
+    void name(const std::array<uint8_t, NAME_SIZE>& name);
+
     /*!
      * @brief This function copies the value in member id
      * @param _id New value to be copied in member id
      */
-    const std::array<uint8_t, RAND_SIZE>& base64_name() const;
+    const std::array<uint8_t, NAME_SIZE>& base64_name() const;
 
     /*!
      * @brief This function copies the value in member id
      * @param _id New value to be copied in member id
      */
     const std::array<uint8_t, RAND_SIZE>& id() const;
+
+    void id(const std::array<uint8_t, RAND_SIZE>& id);
 
     static const char* type_name();
 
@@ -150,6 +159,8 @@ public:
     static AmlipIdDataType new_unique_id(const char* name);
 
     static AmlipIdDataType undefined_id();
+
+    static std::array<uint8_t, NAME_SIZE> str_name_to_array(const std::string& name);
 
     /////
     // InterfaceDataType methods
@@ -219,7 +230,7 @@ protected:
 
     std::array<uint8_t, NAME_SIZE> name_;
 
-    std::array<uint8_t, RAND_SIZE> random_id_;
+    std::array<uint8_t, RAND_SIZE> rand_id_;
 
     static const AmlipIdDataType UNDEFINED_ID_;
 };

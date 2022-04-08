@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,12 +16,16 @@
  * @file AmlipId.hpp
  */
 
-#ifndef AMLIP_AMLIPCPP_AMLIPID_HPP
-#define AMLIP_AMLIPCPP_AMLIPID_HPP
+#ifndef AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
+#define AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
 
 #include <array>
 #include <limits>
+#include <memory>
 #include <ostream>
+#include <string>
+
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -45,7 +49,7 @@ public:
      *
      * Create a new random unique Id.
      */
-    AmlipId(const std::string& name = "aNodeHasNoName");
+    AmlipId(const std::string& name = "Undefined");
 
     /*!
      * @brief Copy constructor.
@@ -106,7 +110,9 @@ public:
      */
     std::string name() const;
 
-    static AmlipIdDataType new_unique_id();
+    std::shared_ptr<AmlipIdDataType> data() const;
+
+    static AmlipId new_unique_id(const std::string& name);
 
 protected:
 
@@ -122,4 +128,4 @@ std::ostream& operator <<(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIP_AMLIPCPP_AMLIPID_HPP
+#endif // AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
