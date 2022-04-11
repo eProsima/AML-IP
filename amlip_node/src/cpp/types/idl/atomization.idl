@@ -1,0 +1,27 @@
+
+struct GenericType
+{
+    void* data;
+};
+
+struct Atomization
+{
+    GenericType data;
+};
+
+struct TaskReference
+{
+    ...
+};
+
+struct Task
+{
+    TaskReference reference;
+    Atomization atomization;
+};
+
+struct StatusWithDescription
+{
+    Status status;
+    GenericType description;
+};

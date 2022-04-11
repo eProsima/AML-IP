@@ -13,9 +13,9 @@
 # limitations under the License.
 
 ###############################################################################
-# COMPILE AND INSTALL TOOL EXECUTABLE
+# COMPILE AND INSTALL STATUS NODE EXECUTABLE DEMO
 ###############################################################################
-set(EXECUTABLE_TARGET ${PROJECT_NAME})
+set(EXECUTABLE_TARGET "amlip_aml_cpp_status")
 set(EXECUTABLE_NAME ${EXECUTABLE_TARGET})
 
 ###############################################################################
@@ -25,7 +25,35 @@ message(STATUS "Compiling ${EXECUTABLE_NAME}...")
 
 # Get src files
 set(EXECUTABLE_SOURCES
-        "main.cpp"
+        "main_status.cpp"
+    )
+
+add_executable(${EXECUTABLE_TARGET} ${EXECUTABLE_SOURCES})
+
+target_link_libraries(${EXECUTABLE_TARGET}
+        ${SUBMODULE_PROJECT_DEPENDENCIES}
+    )
+
+install(TARGETS ${EXECUTABLE_TARGET}
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR})
+
+set_target_properties(${EXECUTABLE_TARGET} PROPERTIES OUTPUT_NAME "${EXECUTABLE_NAME}")
+
+
+###############################################################################
+# COMPILE AND INSTALL GENERIC NODE EXECUTABLE DEMO
+###############################################################################
+set(EXECUTABLE_TARGET "amlip_aml_cpp_generic")
+set(EXECUTABLE_NAME ${EXECUTABLE_TARGET})
+
+###############################################################################
+# Compile
+###############################################################################
+message(STATUS "Compiling ${EXECUTABLE_NAME}...")
+
+# Get src files
+set(EXECUTABLE_SOURCES
+        "main_generic.cpp"
     )
 
 add_executable(${EXECUTABLE_TARGET} ${EXECUTABLE_SOURCES})

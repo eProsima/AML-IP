@@ -13,41 +13,44 @@
 // limitations under the License.
 
 /**
- * @file StatusAmlipNode.hpp
+ * @file GenericAmlipNode.hpp
  */
 
-#ifndef AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP
-#define AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP
+#ifndef AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP
+#define AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP
 
-#include <functional>
+#include <memory>
+#include <vector>
 
 #include <amlip_node/types/AmlipId.hpp>
-#include <amlip_node/types/Status.hpp>
+#include <amlip_node/types/Dump.hpp>
+#include <amlip_node/types/GenericType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
-class StatusAmlipNodeImpl;
+class GenericAmlipNodeImpl;
 
-class StatusAmlipNodeFunctor
-{
-public:
-    virtual bool operator() (types::Status status) const = 0;
-};
-
-class StatusAmlipNode
+class GenericAmlipNode
 {
 public:
 
-    StatusAmlipNode();
+    GenericAmlipNode();
 
-    StatusAmlipNode(std::function<void(types::Status)> callback);
+    virtual ~GenericAmlipNode();
 
-    StatusAmlipNode(
-        const StatusAmlipNodeFunctor& callback);
+    void publish(types::GenericType& data);
 
-    virtual ~StatusAmlipNode();
+    void publish_vec(std::vector<uint8_t> vec);
+
+    bool wait_writer_matched();
+
+    std::shared_ptr<types::GenericType> receive();
+
+    std::vector<uint8_t> receive_vec();
+
+    types::Dump receive_dump();
 
     void spin();
 
@@ -57,11 +60,11 @@ public:
 
 protected:
 
-    StatusAmlipNodeImpl* impl_;
+    GenericAmlipNodeImpl* impl_;
 };
 
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP_AMLIPNODE_STATUSAMLIPNODE_HPP */
+#endif /* AMLIP_AMLIPNODE_GENERICAMLIPNODE_HPP */

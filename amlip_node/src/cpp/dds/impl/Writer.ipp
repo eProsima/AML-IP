@@ -70,7 +70,7 @@ bool Writer<T>::stopped()
 }
 
 template <typename T>
-void Writer<T>::write(T data)
+void Writer<T>::write(T& data)
 {
     data_writer_->write(&data);
 }

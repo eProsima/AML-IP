@@ -12,27 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file topics.hpp
+/*!
+ * @file Dump.cpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
-#define AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
+#include <iterator>
+#include <vector>
+
+#include <amlip_node/types/Dump.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace network {
+namespace types {
 
-constexpr const char* STATUS_TOPIC = "status";
-constexpr const char* STATUS_TOPIC_DATATYPE = "status";
+Dump::Dump()
+{
+    vec_ = std::vector<uint8_t>();
+}
 
-constexpr const char* AMLIPID_TOPIC_DATATYPE = "amlip_id";
+Dump::Dump(std::vector<uint8_t> vec)
+{
+    vec_ = vec;
+}
 
-constexpr const char* GENERIC_TOPIC = "generic";
-constexpr const char* GENERIC_TOPIC_DATATYPE = "generic";
+const char* Dump::get_bytes()
+{
+    return reinterpret_cast<char*>(vec_.data());
+}
 
-} /* namespace network */
+size_t Dump::get_size()
+{
+    return vec_.size();
+}
+
+} /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
-
-#endif /* AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP */

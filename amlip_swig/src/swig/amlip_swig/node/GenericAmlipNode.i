@@ -13,26 +13,11 @@
 // limitations under the License.
 
 /**
- * @file topics.hpp
+ * @file GenericAmlipNode.i
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
-#define AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
+%{
+#include <amlip_node/node/GenericAmlipNode.hpp>
+%}
 
-namespace eprosima {
-namespace amlip {
-namespace network {
-
-constexpr const char* STATUS_TOPIC = "status";
-constexpr const char* STATUS_TOPIC_DATATYPE = "status";
-
-constexpr const char* AMLIPID_TOPIC_DATATYPE = "amlip_id";
-
-constexpr const char* GENERIC_TOPIC = "generic";
-constexpr const char* GENERIC_TOPIC_DATATYPE = "generic";
-
-} /* namespace network */
-} /* namespace amlip */
-} /* namespace eprosima */
-
-#endif /* AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP */
+%include <amlip_node/node/GenericAmlipNode.hpp>

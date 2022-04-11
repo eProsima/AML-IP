@@ -67,14 +67,14 @@ void Reader<T>::stop()
 }
 
 template <typename T>
-T Reader<T>::read()
+std::shared_ptr<T> Reader<T>::read()
 {
     // std::lock_guard<std::mutex> lock(data_available_mutex_);
 
     eprosima::fastdds::dds::SampleInfo info;
-    T data;
+    std::shared_ptr<T> data = std::make_shared<T>();
 
-    eprosima::fastrtps::types::ReturnCode_t return_code = data_reader_->take_next_sample(&data, &info);
+    eprosima::fastrtps::types::ReturnCode_t return_code = data_reader_->take_next_sample(data.get(), &info);
     if (return_code == eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK)
     {
         std::lock_guard<std::mutex> lock(data_available_mutex_);

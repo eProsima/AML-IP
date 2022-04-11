@@ -51,7 +51,7 @@ public:
 
     bool stopped();
 
-    void write(T data);
+    void write(T& data);
 
     void on_publication_matched(
             eprosima::fastdds::dds::DataWriter* writer,

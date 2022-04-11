@@ -47,7 +47,7 @@ public:
 
     void stop();
 
-    T read();
+    std::shared_ptr<T> read();
 
     bool is_data_available();
 

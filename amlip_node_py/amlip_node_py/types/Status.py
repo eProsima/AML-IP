@@ -16,7 +16,7 @@
 from enum import Enum
 
 from amlip_swig import Status as cpp_Status
-from amlip_swig import UNDETERMINED, DISCOVERY, AGENT, MAIN, COMPUTATIONAL, EDGE, STATUS
+from amlip_swig import UNDETERMINED, DISCOVERY, AGENT, MAIN, COMPUTATIONAL, EDGE, STATUS, GENERIC
 from amlip_swig import UNKNOWN, RUNNING, DISABLED
 
 from amlip_node_py.types.AmlipId import AmlipId
@@ -30,6 +30,7 @@ class NodeKind(Enum):
     COMPUTATIONAL = COMPUTATIONAL
     EDGE = EDGE
     STATUS = STATUS
+    GENERIC = GENERIC
 
 
 class StatusKind(Enum):
@@ -50,19 +51,19 @@ class Status(cpp_Status):
         return cpp_Status.id(self, new_id)
 
     def get_id(self) -> AmlipId:
-        return cpp_Status.id(self)
+        return AmlipId(cpp_Status.id(self))
 
     def set_node_kind(self, new_kind: NodeKind) -> None:
-        return cpp_Status.node_kind(self, new_kind)
+        return cpp_Status.node_kind(self, new_kind.value)
 
     def get_node_kind(self) -> NodeKind:
-        return cpp_Status.node_kind(self)
+        return NodeKind(cpp_Status.node_kind(self))
 
     def set_status_kind(self, new_kind: StatusKind) -> None:
-        return cpp_Status.status_kind(self, new_kind)
+        return cpp_Status.status_kind(self, new_kind.value)
 
     def get_status_kind(self) -> StatusKind:
-        return cpp_Status.status_kind(self)
+        return StatusKind(cpp_Status.status_kind(self))
 
     def __str__(self) -> str:
         return super().__str__()

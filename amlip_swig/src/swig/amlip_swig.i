@@ -55,11 +55,34 @@
 %include "std_string.i"
 %include "std_shared_ptr.i"
 %include "std_vector.i"
+%include "typemaps.i"
+
+namespace std {
+    %template(BytesVector) vector<uint8_t>;
+};
+
+// %define %standard_byref_params(TYPE)
+// %apply TYPE& INOUT { TYPE& };
+// %apply TYPE& OUTPUT { TYPE& result };
+// %enddef
+
+// %standard_byref_params(int)
+// %standard_byref_params(std::vector<uint8_t>)
+
+// %typemap(in) eprosima::amlip::types::Dump {
+//     $1 = eprosima::amlip::types::Dump(PyBytes_AsString($input));
+// }
+
+%typemap(out) eprosima::amlip::types::Dump {
+    $result = PyBytes_FromStringAndSize($1.get_bytes(), $1.get_size());
+}
 
 // amlip_types
 %include "amlip_swig/types/InterfaceDataType.i"
 %include "amlip_swig/types/AmlipId.i"
 %include "amlip_swig/types/Status.i"
+%include "amlip_swig/types/Dump.i"
 // amlip_swig
 // %include "amlip_swig/node/StatusAmlipNodeFunctor.i"
 %include "amlip_swig/node/StatusAmlipNode.i"
+%include "amlip_swig/node/GenericAmlipNode.i"

@@ -12,27 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file topics.hpp
+/*!
+ * @file Dump.hpp
+ * This header file contains the declaration of a generic type that contains void* data.
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
-#define AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP
+#ifndef AMLIP__SRC_CPP_AMLIPTYPES_DUMP_HPP
+#define AMLIP__SRC_CPP_AMLIPTYPES_DUMP_HPP
+
+#include <vector>
 
 namespace eprosima {
 namespace amlip {
-namespace network {
+namespace types {
 
-constexpr const char* STATUS_TOPIC = "status";
-constexpr const char* STATUS_TOPIC_DATATYPE = "status";
+class Dump
+{
+public:
 
-constexpr const char* AMLIPID_TOPIC_DATATYPE = "amlip_id";
+    Dump();
 
-constexpr const char* GENERIC_TOPIC = "generic";
-constexpr const char* GENERIC_TOPIC_DATATYPE = "generic";
+    Dump(std::vector<uint8_t> vec);
 
-} /* namespace network */
+    const char* get_bytes();
+
+    size_t get_size();
+
+protected:
+
+    std::vector<uint8_t> vec_;
+};
+
+} /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPNETWORK_TOPICS_HPP */
+#endif // AMLIP__SRC_CPP_AMLIPTYPES_DUMP_HPP
