@@ -93,7 +93,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const AmlipId& id)
 {
-    return os << id.data();
+    return os << *id.data();
 }
 
 } /* namespace types */

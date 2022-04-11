@@ -162,6 +162,10 @@ public:
 
     static std::array<uint8_t, NAME_SIZE> str_name_to_array(const std::string& name);
 
+    static std::array<uint8_t, NAME_SIZE> random_name();
+
+    static std::array<uint8_t, RAND_SIZE> random_id();
+
     /////
     // InterfaceDataType methods
 

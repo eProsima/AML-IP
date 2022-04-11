@@ -50,13 +50,12 @@ AmlipIdDataType::AmlipIdDataType()
 AmlipIdDataType::AmlipIdDataType(const std::string& name)
 {
     name_ = str_name_to_array(name);
-    memset(&rand_id_, 0, (RAND_SIZE) * 1);
+    rand_id_ = random_id();
 }
 
 AmlipIdDataType::AmlipIdDataType(const char* name)
+    : AmlipIdDataType(std::string(name))
 {
-    name_ = str_name_to_array(std::string(name));
-    memset(&rand_id_, 0, (RAND_SIZE) * 1);
 }
 
 AmlipIdDataType::AmlipIdDataType(
@@ -125,7 +124,16 @@ bool AmlipIdDataType::operator !=(
 
 std::string AmlipIdDataType::name() const
 {
-    return std::string(std::begin(name_), std::end(name_));
+    std::string name = std::string(std::begin(name_), std::end(name_));
+    uint8_t null_idx = name.find_first_of('\0');
+    if (null_idx < name.size())
+    {
+        return name.erase(null_idx);
+    }
+    else
+    {
+        return name;
+    }
 }
 
 void AmlipIdDataType::name(const std::array<uint8_t, NAME_SIZE>& name)
@@ -160,26 +168,7 @@ bool AmlipIdDataType::is_defined() const noexcept
 
 AmlipIdDataType AmlipIdDataType::new_unique_id()
 {
-    // initialize the random number generator
-    srand (time(NULL));
-
-    std::array<uint8_t, NAME_SIZE> name;
-    for (int i=0; i<NAME_SIZE; i++)
-    {
-        // generate a random char between 'a' and 'z'
-        char c = 'a' + static_cast<char>(rand() % 26);
-        name[i] = static_cast<uint8_t>(c);
-    }
-
-    std::array<uint8_t, RAND_SIZE> rand_id;
-    for (int i=0; i<RAND_SIZE; i++)
-    {
-        // generate a random number between 0 and 255
-        uint8_t num = static_cast<uint8_t>(rand() % 256);
-        rand_id[i] = num;
-    }
-
-    return AmlipIdDataType(name, rand_id);
+    return AmlipIdDataType(random_name(), random_id());
 }
 
 AmlipIdDataType AmlipIdDataType::new_unique_id(const std::string& name)
@@ -203,10 +192,41 @@ AmlipIdDataType AmlipIdDataType::undefined_id()
 std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array(const std::string& name)
 {
     std::array<uint8_t, NAME_SIZE> _name;
+    memset(&_name, 0, (NAME_SIZE) * 1);
     std::string name_substr = name.substr(0, NAME_SIZE);
     std::copy(name_substr.begin(), name_substr.end(), _name.data());
 
     return _name;
+}
+
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name()
+{
+    // make sure a random seed is properly set in the main scope
+
+    std::array<uint8_t, NAME_SIZE> name;
+    for (int i=0; i<NAME_SIZE; i++)
+    {
+        // generate a random char between 'a' and 'z'
+        char c = 'a' + static_cast<char>(rand() % 26);
+        name[i] = static_cast<uint8_t>(c);
+    }
+
+    return name;
+}
+
+std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id()
+{
+    // make sure a random seed is properly set in the main scope
+
+    std::array<uint8_t, RAND_SIZE> rand_id;
+    for (int i=0; i<RAND_SIZE; i++)
+    {
+        // generate a random number between 0 and 255
+        uint8_t num = static_cast<uint8_t>(rand() % 256);
+        rand_id[i] = num;
+    }
+
+    return rand_id;
 }
 
 void AmlipIdDataType::serialize(
@@ -292,9 +312,9 @@ std::ostream& operator <<(
     const AmlipIdDataType& id)
 {
     os << "ID{" << id.name() << "-";
-    for (char v : id.id())
+    for (uint8_t v : id.id())
     {
-        os << v;
+        os << static_cast<unsigned>(v);
     }
     os << "}";
     return os;
