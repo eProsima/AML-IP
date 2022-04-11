@@ -70,12 +70,13 @@ public:
     //! Name associated with this Participant Id
     std::string name() const noexcept;
 
-    // TODO: add create writer and reader methods
+    // TODO: add reader methods
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip
      *
-     * This QoS set Memory policy to preallocated with realloc.
+     * Default Participant QoS is:
+     * - Entity Factory: disabled
      *
      * @return Default \c DomainParticipantQos
      */

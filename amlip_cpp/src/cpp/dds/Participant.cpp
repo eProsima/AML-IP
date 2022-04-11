@@ -58,7 +58,12 @@ std::string Participant::name() const noexcept
 
 eprosima::fastdds::dds::DomainParticipantQos Participant::default_participant_qos() noexcept
 {
-    return eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
+    eprosima::fastdds::dds::DomainParticipantQos qos = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
+
+    // Entities will be created disabled
+    qos.entity_factory().autoenable_created_entities = false;
+
+    return qos;
 }
 
 DomainIdType Participant::default_domain_id() noexcept
