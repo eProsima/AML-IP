@@ -21,4 +21,6 @@
 #ifndef _AMLIPCPP__TMP_HPP
 #define _AMLIPCPP__TMP_HPP
 
+void __foo();
+
 #endif /* _AMLIPCPP__TMP_HPP */

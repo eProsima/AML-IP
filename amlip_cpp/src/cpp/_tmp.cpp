@@ -20,6 +20,6 @@
 
 # include <amlip_cpp/_tmp.hpp>
 
-void foo()
+void __foo()
 {
 }
