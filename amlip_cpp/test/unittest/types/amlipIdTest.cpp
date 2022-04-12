@@ -34,7 +34,7 @@ TEST(amlipIdTest, create_id)
     AmlipId id = AmlipId::new_unique_id(name);
 
     ASSERT_TRUE(id.data()->is_defined());
-    ASSERT_EQ(id.name(), name);
+    ASSERT_EQ(id.name(), name.substr(0, eprosima::amlip::types::NAME_SIZE));
 }
 
 /**

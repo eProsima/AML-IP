@@ -25,8 +25,6 @@
 #include <ostream>
 #include <string>
 
-#include <types/AmlipIdDataType.hpp>
-
 namespace eprosima {
 namespace amlip {
 namespace types {
@@ -55,6 +53,7 @@ public:
     /*!
      * @brief Copy constructor.
      * @param x Reference to the object AmlipId that will be copied.
+     * @note A pointer is created pointing to a newly created \c AmlipIdDataType object
      */
     AmlipId(
             const AmlipId& x);
@@ -106,13 +105,20 @@ public:
     // PUBLIC METHODS
 
     /*!
-     * @brief This function copies the value in member id
-     * @param _id New value to be copied in member id
+     * @brief This function gets the value of member \c name_ from object pointed to by \c data_
      */
     std::string name() const;
 
+    /*!
+     * @brief This function gets the value of attribute \c data_
+     * @return Value of attribute \c data_ (a pointer, no the value pointed to)
+     */
     std::shared_ptr<AmlipIdDataType> data() const;
 
+    /*!
+     * @brief This function returns an \c AmlipId object constructed with the given name
+     * @param name Value given as string to use as alphanumerical identifier
+     */
     static AmlipId new_unique_id(const std::string& name);
 
 protected:

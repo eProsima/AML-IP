@@ -41,7 +41,7 @@ namespace amlip {
 namespace types {
 
 //! Number of octets conforming the alphanumerical identifier \c name_
-constexpr const uint32_t NAME_SIZE = 12; // if base64 -> assert(!(8*NAME_SIZE % 6))
+constexpr const uint32_t NAME_SIZE = 12;
 //! Number of octets conforming the random numerical identifier \c rand_id_
 constexpr const uint32_t RAND_SIZE = 1;
 
@@ -173,24 +173,24 @@ public:
     bool is_defined() const noexcept;
 
     /*!
-     * @brief This function returns an \ AmlipIdDataType object with random name and numerical id
+     * @brief This function returns an \c AmlipIdDataType object with random name and numerical id
      */
     static AmlipIdDataType new_unique_id();
 
     /*!
-     * @brief This function returns an \ AmlipIdDataType object the given name and a random numerical id
+     * @brief This function returns an \c AmlipIdDataType object with the given name and a random numerical id
      * @param name Value given as string to set in attribute \c name_
      */
     static AmlipIdDataType new_unique_id(const std::string& name);
 
     /*!
-     * @brief This function returns an \ AmlipIdDataType object the given name and a random numerical id
+     * @brief This function returns an \c AmlipIdDataType object with the given name and a random numerical id
      * @param name Value given as char* to set in attribute \c name_
      */
     static AmlipIdDataType new_unique_id(const char* name);
 
     /*!
-     * @brief This function returns an \ AmlipIdDataType object corresponding to an undefined \c AmlipDataType
+     * @brief This function returns an \c AmlipIdDataType object corresponding to an undefined \c AmlipDataType
      */
     static AmlipIdDataType undefined_id();
 
@@ -280,6 +280,14 @@ protected:
     std::array<uint8_t, RAND_SIZE> rand_id_;
 
     static const AmlipIdDataType UNDEFINED_ID_;
+
+    /*!
+     * @brief This function converts a char* to a vector of octets of fixed size, trimming its end if too long and
+     * padding with null characters when too short.
+     * @param name Value to be converted given as char*
+     * @return Converted value to a fixed-length array of octets
+     */
+    static std::array<uint8_t, NAME_SIZE> char_name_to_array_(const char* name);
 
     /*!
      * @brief This function converts a string to a vector of octets of fixed size, trimming its end if too long and

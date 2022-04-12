@@ -20,6 +20,7 @@
 #include <string>
 
 #include <types/AmlipId.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -51,7 +52,7 @@ AmlipId::~AmlipId()
 AmlipId& AmlipId::operator =(
     const AmlipId& x)
 {
-    data_ = x.data_;
+    data_ = std::make_shared<AmlipIdDataType>(*x.data_);
 
     return *this;
 }

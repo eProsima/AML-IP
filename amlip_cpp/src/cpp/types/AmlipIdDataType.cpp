@@ -19,7 +19,7 @@
 #ifdef _WINID_SIZE
 // Remove linker warning LNK4221 on Visual Studio
 namespace {
-char dummy;
+char dummy;     // TODO: Check whether this is actually useful and remove if not
 }  // namespace
 #endif  // _WINID_SIZE
 
@@ -28,10 +28,11 @@ char dummy;
 #include <fastcdr/exceptions/BadParamException.h>
 using namespace eprosima::fastcdr::exception;
 
+#include <algorithm>
 #include <array>
-#include <utility>
 #include <random>
 #include <string>
+#include <utility>
 
 #include <types/AmlipIdDataType.hpp>
 
@@ -42,19 +43,19 @@ namespace types {
 const AmlipIdDataType AmlipIdDataType::UNDEFINED_ID_= AmlipIdDataType();
 
 AmlipIdDataType::AmlipIdDataType()
+    : name_({0})
+    , rand_id_({0})
 {
-    memset(&name_, 0, (NAME_SIZE) * 1);
-    memset(&rand_id_, 0, (RAND_SIZE) * 1);
 }
 
 AmlipIdDataType::AmlipIdDataType(const std::string& name)
+    : AmlipIdDataType(name.c_str())
 {
-    name_ = str_name_to_array_(name);
-    rand_id_ = random_id_();
 }
 
 AmlipIdDataType::AmlipIdDataType(const char* name)
-    : AmlipIdDataType(std::string(name))
+    : name_(char_name_to_array_(name))
+    , rand_id_(random_id_())
 {
 }
 
@@ -124,15 +125,14 @@ bool AmlipIdDataType::operator !=(
 
 std::string AmlipIdDataType::name() const
 {
-    std::string name = std::string(std::begin(name_), std::end(name_));
-    uint8_t null_idx = name.find_first_of('\0');
-    if (null_idx < name.size())
+    auto it = std::find(name_.begin(), name_.end(), '\0');
+    if (it != name_.end())
     {
-        return name.erase(null_idx);
+        return std::string(std::begin(name_), it);
     }
     else
     {
-        return name;
+        return std::string(std::begin(name_), std::end(name_));
     }
 }
 
@@ -173,15 +173,12 @@ AmlipIdDataType AmlipIdDataType::new_unique_id()
 
 AmlipIdDataType AmlipIdDataType::new_unique_id(const std::string& name)
 {
-    AmlipIdDataType new_id = new_unique_id();
-    new_id.name(str_name_to_array_(name));
-
-    return new_id;
+    return new_unique_id(name.c_str());
 }
 
 AmlipIdDataType AmlipIdDataType::new_unique_id(const char* name)
 {
-    return new_unique_id(std::string(name));
+    return AmlipIdDataType(char_name_to_array_(name), random_id_());
 }
 
 AmlipIdDataType AmlipIdDataType::undefined_id()
@@ -189,14 +186,22 @@ AmlipIdDataType AmlipIdDataType::undefined_id()
     return UNDEFINED_ID_;
 }
 
-std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array_(const std::string& name)
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::char_name_to_array_(const char* name)
 {
-    std::array<uint8_t, NAME_SIZE> _name;
-    memset(&_name, 0, (NAME_SIZE) * 1);
-    std::string name_substr = name.substr(0, NAME_SIZE);
-    std::copy(name_substr.begin(), name_substr.end(), _name.data());
+    std::array<uint8_t, NAME_SIZE> _name = {0};
+    size_t idx = 0;
+    while (name[idx] != '\0' && idx < NAME_SIZE)
+    {
+        _name[idx] = name[idx];
+        idx++;
+    }
 
     return _name;
+}
+
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array_(const std::string& name)
+{
+    return char_name_to_array_(name.c_str());
 }
 
 std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name_()
@@ -244,7 +249,7 @@ void AmlipIdDataType::deserialize(
 }
 
 void AmlipIdDataType::serialize_key(
-    eprosima::fastcdr::Cdr& scdr) const
+    eprosima::fastcdr::Cdr&) const
 {
 }
 
