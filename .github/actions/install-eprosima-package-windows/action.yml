@@ -12,14 +12,18 @@ inputs:
     required: true
     default: 'Release'
   cmake_options:
-    description: 'Specifies CMake options for package'
+    description: 'Specifies CMake general options for package'
     required: true
-    default: '-Ax64 -T host=x64'
+    default: '-DCMAKE_PREFIX_PATH='C:\Program Files' -DCMAKE_CXX_FLAGS="/WX /EHsc" -Ax64 -T host=x64'
+  cmake_extra_options:
+    description: 'Specifies CMake extra options for package'
+    required: false
+    default: ''
 runs:
   using: composite
   steps:
   - run: >
       git clone ${{ inputs.git_location }} ${{ inputs.package_name }};
-      cmake ${{ inputs.cmake_options }} -B build\${{ inputs.package_name }} ${{ inputs.package_name }};
-      cmake --build build\${{ inputs.package_name }} --config ${{ inputs.cmake_build_type }} --target install
+      cmake ${{ inputs.cmake_options }} ${{ inputs.cmake_extra_options }} -B build\${{ inputs.package_name }} ${{ inputs.package_name }};
+      cmake --build build\${{ inputs.package_name }} --config ${{ inputs.cmake_build_type }} --target install;
     shell: pwsh

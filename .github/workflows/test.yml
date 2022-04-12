@@ -60,7 +60,21 @@ jobs:
           git_location: "https://github.com/eProsima/DDS-Router.git"
           superpackage_name: "ddsrouter"
           package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
-          cmake_options: "-Ax64 -T host=x64"
+
+      - name: Install AML-IP
+        uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
+        with:
+          git_location: "https://github.com/eProsima/AML-IP.git"
+          superpackage_name: "amlip"
+          package_names: "amlip_cpp"
+          cmake_build_type: "Debug"
+
+      - name: Run tests amlip_cpp
+        uses: ./AML-IP/.github/actions/run-test-windows
+        with:
+          package_name: amlip_cpp
+          cmake_build_type: "Release"
+        if: always()
 
 
   windows-build-test-debug:
@@ -120,7 +134,21 @@ jobs:
           superpackage_name: "ddsrouter"
           package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
           cmake_build_type: "Debug"
-          cmake_options: "-Ax64 -T host=x64"
+
+      - name: Install AML-IP
+        uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
+        with:
+          git_location: "https://github.com/eProsima/AML-IP.git"
+          superpackage_name: "amlip"
+          package_names: "amlip_cpp"
+          cmake_build_type: "Debug"
+
+      - name: Run tests amlip_cpp
+        uses: ./AML-IP/.github/actions/run-test-windows
+        with:
+          package_name: amlip_cpp
+          cmake_build_type: "Release"
+        if: always()
 
 
   ubuntu-build-test:

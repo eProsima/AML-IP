@@ -17,7 +17,11 @@ inputs:
   cmake_options:
     description: 'Specifies CMake options for package'
     required: true
-    default: '-Ax64 -T host=x64'
+    default: '-DCMAKE_PREFIX_PATH='C:\Program Files' -DCMAKE_CXX_FLAGS="/WX /EHsc" -Ax64 -T host=x64'
+  cmake_extra_options:
+    description: 'Specifies CMake extra options for package'
+    required: false
+    default: ''
 runs:
   using: composite
   steps:
@@ -25,7 +29,7 @@ runs:
       git clone ${{ inputs.git_location }} ${{ inputs.superpackage_name }};
       "${{ inputs.package_names }}".Split(" ") | ForEach {
         echo "building package: $_";
-        cmake ${{ inputs.cmake_options }} -B build\$_ ${{ inputs.superpackage_name }}\$_;
+        cmake ${{ inputs.cmake_options }} ${{ inputs.cmake_extra_options }} -B build\$_ ${{ inputs.superpackage_name }}\$_;
         cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
       }
     shell: pwsh
