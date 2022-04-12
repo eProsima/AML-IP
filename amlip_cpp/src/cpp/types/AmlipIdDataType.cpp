@@ -40,7 +40,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-const AmlipIdDataType AmlipIdDataType::UNDEFINED_ID_= AmlipIdDataType();
+const AmlipIdDataType AmlipIdDataType::UNDEFINED_ID_ = AmlipIdDataType();
 
 AmlipIdDataType::AmlipIdDataType()
     : name_({0})
@@ -48,28 +48,30 @@ AmlipIdDataType::AmlipIdDataType()
 {
 }
 
-AmlipIdDataType::AmlipIdDataType(const std::string& name)
+AmlipIdDataType::AmlipIdDataType(
+        const std::string& name)
     : AmlipIdDataType(name.c_str())
 {
 }
 
-AmlipIdDataType::AmlipIdDataType(const char* name)
+AmlipIdDataType::AmlipIdDataType(
+        const char* name)
     : name_(char_name_to_array_(name))
     , rand_id_(random_id_())
 {
 }
 
 AmlipIdDataType::AmlipIdDataType(
-    std::array<uint8_t, NAME_SIZE>& name,
-    std::array<uint8_t, RAND_SIZE>& rand_id)
+        std::array<uint8_t, NAME_SIZE>& name,
+        std::array<uint8_t, RAND_SIZE>& rand_id)
 {
     name_ = name;
     rand_id_ = rand_id;
 }
 
 AmlipIdDataType::AmlipIdDataType(
-    std::array<uint8_t, NAME_SIZE>&& name,
-    std::array<uint8_t, RAND_SIZE>&& rand_id)
+        std::array<uint8_t, NAME_SIZE>&& name,
+        std::array<uint8_t, RAND_SIZE>&& rand_id)
 {
     name_ = std::move(name);
     rand_id_ = std::move(rand_id);
@@ -80,21 +82,21 @@ AmlipIdDataType::~AmlipIdDataType()
 }
 
 AmlipIdDataType::AmlipIdDataType(
-    const AmlipIdDataType& x)
+        const AmlipIdDataType& x)
 {
     name_ = x.name_;
     rand_id_ = x.rand_id_;
 }
 
 AmlipIdDataType::AmlipIdDataType(
-    AmlipIdDataType&& x)
+        AmlipIdDataType&& x)
 {
     name_ = std::move(x.name_);
     rand_id_ = std::move(x.rand_id_);
 }
 
 AmlipIdDataType& AmlipIdDataType::operator =(
-    const AmlipIdDataType& x)
+        const AmlipIdDataType& x)
 {
     name_ = x.name_;
     rand_id_ = x.rand_id_;
@@ -103,7 +105,7 @@ AmlipIdDataType& AmlipIdDataType::operator =(
 }
 
 AmlipIdDataType& AmlipIdDataType::operator =(
-    AmlipIdDataType&& x)
+        AmlipIdDataType&& x)
 {
     name_ = std::move(x.name_);
     rand_id_ = std::move(x.rand_id_);
@@ -112,13 +114,13 @@ AmlipIdDataType& AmlipIdDataType::operator =(
 }
 
 bool AmlipIdDataType::operator ==(
-    const AmlipIdDataType& x) const
+        const AmlipIdDataType& x) const
 {
     return (name_ == x.name_ && rand_id_ == x.rand_id_);
 }
 
 bool AmlipIdDataType::operator !=(
-    const AmlipIdDataType& x) const
+        const AmlipIdDataType& x) const
 {
     return !(*this == x);
 }
@@ -136,7 +138,8 @@ std::string AmlipIdDataType::name() const
     }
 }
 
-void AmlipIdDataType::name(const std::array<uint8_t, NAME_SIZE>& name)
+void AmlipIdDataType::name(
+        const std::array<uint8_t, NAME_SIZE>& name)
 {
     name_ = name;
 }
@@ -151,7 +154,8 @@ const std::array<uint8_t, RAND_SIZE>& AmlipIdDataType::id() const
     return rand_id_;
 }
 
-void AmlipIdDataType::id(const std::array<uint8_t, RAND_SIZE>& id)
+void AmlipIdDataType::id(
+        const std::array<uint8_t, RAND_SIZE>& id)
 {
     rand_id_ = id;
 }
@@ -171,12 +175,14 @@ AmlipIdDataType AmlipIdDataType::new_unique_id()
     return AmlipIdDataType(random_name_(), random_id_());
 }
 
-AmlipIdDataType AmlipIdDataType::new_unique_id(const std::string& name)
+AmlipIdDataType AmlipIdDataType::new_unique_id(
+        const std::string& name)
 {
     return new_unique_id(name.c_str());
 }
 
-AmlipIdDataType AmlipIdDataType::new_unique_id(const char* name)
+AmlipIdDataType AmlipIdDataType::new_unique_id(
+        const char* name)
 {
     return AmlipIdDataType(char_name_to_array_(name), random_id_());
 }
@@ -186,7 +192,8 @@ AmlipIdDataType AmlipIdDataType::undefined_id()
     return UNDEFINED_ID_;
 }
 
-std::array<uint8_t, NAME_SIZE> AmlipIdDataType::char_name_to_array_(const char* name)
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::char_name_to_array_(
+        const char* name)
 {
     std::array<uint8_t, NAME_SIZE> _name = {0};
     size_t idx = 0;
@@ -199,7 +206,8 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::char_name_to_array_(const char* 
     return _name;
 }
 
-std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array_(const std::string& name)
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array_(
+        const std::string& name)
 {
     return char_name_to_array_(name.c_str());
 }
@@ -209,7 +217,7 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name_()
     // make sure a random seed is properly set in the main scope
 
     std::array<uint8_t, NAME_SIZE> name;
-    for (int i=0; i<NAME_SIZE; i++)
+    for (int i = 0; i < NAME_SIZE; i++)
     {
         // generate a random char between 'a' and 'z'
         char c = 'a' + static_cast<char>(rand() % 26);
@@ -224,7 +232,7 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
     // make sure a random seed is properly set in the main scope
 
     std::array<uint8_t, RAND_SIZE> rand_id;
-    for (int i=0; i<RAND_SIZE; i++)
+    for (int i = 0; i < RAND_SIZE; i++)
     {
         // generate a random number between 0 and 255
         uint8_t num = static_cast<uint8_t>(rand() % 256);
@@ -235,26 +243,26 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
 }
 
 void AmlipIdDataType::serialize(
-    eprosima::fastcdr::Cdr& scdr) const
+        eprosima::fastcdr::Cdr& scdr) const
 {
     scdr << name_;
     scdr << rand_id_;
 }
 
 void AmlipIdDataType::deserialize(
-    eprosima::fastcdr::Cdr& dcdr)
+        eprosima::fastcdr::Cdr& dcdr)
 {
     dcdr >> name_;
     dcdr >> rand_id_;
 }
 
 void AmlipIdDataType::serialize_key(
-    eprosima::fastcdr::Cdr&) const
+        eprosima::fastcdr::Cdr&) const
 {
 }
 
 size_t AmlipIdDataType::get_max_cdr_serialize_size(
-    size_t current_alignment)
+        size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
     current_alignment += ((NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
@@ -263,14 +271,14 @@ size_t AmlipIdDataType::get_max_cdr_serialize_size(
 }
 
 size_t AmlipIdDataType::get_cdr_serialize_size(
-    const AmlipIdDataType&,
-    size_t current_alignment)
+        const AmlipIdDataType&,
+        size_t current_alignment)
 {
     return get_max_cdr_serialize_size(current_alignment);
 }
 
 size_t AmlipIdDataType::get_key_max_cdr_serialized_size(
-    size_t current_alignment)
+        size_t current_alignment)
 {
     return current_alignment;
 }
@@ -291,15 +299,15 @@ bool AmlipIdDataType::is_plain()
 }
 
 bool AmlipIdDataType::construct_sample(
-    void* memory)
+        void* memory)
 {
     new (memory) AmlipIdDataType();
     return true;
 }
 
 std::ostream& operator <<(
-    std::ostream& os,
-    const AmlipIdDataType& id)
+        std::ostream& os,
+        const AmlipIdDataType& id)
 {
     os << "ID{" << id.name() << "|";
     for (uint8_t v : id.id())

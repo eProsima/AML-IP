@@ -62,19 +62,21 @@ public:
     /*!
      * @brief Constructor with name.
      */
-    AmlipIdDataType(const std::string& name);
+    AmlipIdDataType(
+            const std::string& name);
 
     /*!
      * @brief Constructor with name given in char*.
      */
-    AmlipIdDataType(const char* name);
+    AmlipIdDataType(
+            const char* name);
 
     /*!
      * @brief Constructor with name and random id given as arrays of octets.
      */
     AmlipIdDataType(
-        std::array<uint8_t, NAME_SIZE>& name,
-        std::array<uint8_t, RAND_SIZE>& rand_id);
+            std::array<uint8_t, NAME_SIZE>& name,
+            std::array<uint8_t, RAND_SIZE>& rand_id);
 
     /*!
      * @brief Constructor given fields.
@@ -82,8 +84,8 @@ public:
      * The parameters must be moved, as they will taken as part of the new object.
      */
     AmlipIdDataType(
-        std::array<uint8_t, NAME_SIZE>&& name,
-        std::array<uint8_t, RAND_SIZE>&& rand_id);
+            std::array<uint8_t, NAME_SIZE>&& name,
+            std::array<uint8_t, RAND_SIZE>&& rand_id);
 
     /*!
      * @brief Default destructor.
@@ -142,7 +144,8 @@ public:
      * @brief This function copies the value in member \c name_
      * @param name New value to be copied in member id \c name_
      */
-    void name(const std::array<uint8_t, NAME_SIZE>& name);
+    void name(
+            const std::array<uint8_t, NAME_SIZE>& name);
 
     /*!
      * @brief This function gets the value in member \c name as array of octets
@@ -160,7 +163,8 @@ public:
      * @brief This function copies the value in member \c rand_id_
      * @param id New value to be copied in member id \c rand_id_
      */
-    void id(const std::array<uint8_t, RAND_SIZE>& id);
+    void id(
+            const std::array<uint8_t, RAND_SIZE>& id);
 
     /*!
      * @brief This function returns the name of this specific data type
@@ -181,13 +185,15 @@ public:
      * @brief This function returns an \c AmlipIdDataType object with the given name and a random numerical id
      * @param name Value given as string to set in attribute \c name_
      */
-    static AmlipIdDataType new_unique_id(const std::string& name);
+    static AmlipIdDataType new_unique_id(
+            const std::string& name);
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object with the given name and a random numerical id
      * @param name Value given as char* to set in attribute \c name_
      */
-    static AmlipIdDataType new_unique_id(const char* name);
+    static AmlipIdDataType new_unique_id(
+            const char* name);
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object corresponding to an undefined \c AmlipDataType
@@ -287,7 +293,8 @@ protected:
      * @param name Value to be converted given as char*
      * @return Converted value to a fixed-length array of octets
      */
-    static std::array<uint8_t, NAME_SIZE> char_name_to_array_(const char* name);
+    static std::array<uint8_t, NAME_SIZE> char_name_to_array_(
+            const char* name);
 
     /*!
      * @brief This function converts a string to a vector of octets of fixed size, trimming its end if too long and
@@ -295,7 +302,8 @@ protected:
      * @param name Value to be converted given as string
      * @return Converted value to a fixed-length array of octets
      */
-    static std::array<uint8_t, NAME_SIZE> str_name_to_array_(const std::string& name);
+    static std::array<uint8_t, NAME_SIZE> str_name_to_array_(
+            const std::string& name);
 
     /*!
      * @brief This function generates a random name as a fixed-length array of octets

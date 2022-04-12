@@ -48,7 +48,8 @@ public:
      *
      * Create a new random unique Id.
      */
-    AmlipId(const std::string& name = UNDEFINED_NAME_);
+    AmlipId(
+            const std::string& name = UNDEFINED_NAME_);
 
     /*!
      * @brief Copy constructor.
@@ -119,7 +120,8 @@ public:
      * @brief This function returns an \c AmlipId object constructed with the given name
      * @param name Value given as string to use as alphanumerical identifier
      */
-    static AmlipId new_unique_id(const std::string& name);
+    static AmlipId new_unique_id(
+            const std::string& name);
 
 protected:
 

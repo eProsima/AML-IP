@@ -26,9 +26,10 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-const std::string AmlipId::UNDEFINED_NAME_= "Undefined";
+const std::string AmlipId::UNDEFINED_NAME_ = "Undefined";
 
-AmlipId::AmlipId(const std::string& name)
+AmlipId::AmlipId(
+        const std::string& name)
 {
     data_ = std::make_shared<AmlipIdDataType>(name);
 }
@@ -50,7 +51,7 @@ AmlipId::~AmlipId()
 }
 
 AmlipId& AmlipId::operator =(
-    const AmlipId& x)
+        const AmlipId& x)
 {
     data_ = std::make_shared<AmlipIdDataType>(*x.data_);
 
@@ -58,7 +59,7 @@ AmlipId& AmlipId::operator =(
 }
 
 AmlipId& AmlipId::operator =(
-    AmlipId&& x)
+        AmlipId&& x)
 {
     data_ = std::move(x.data_);
 
@@ -66,7 +67,7 @@ AmlipId& AmlipId::operator =(
 }
 
 bool AmlipId::operator ==(
-    const AmlipId& x) const
+        const AmlipId& x) const
 {
     return *data_ == *x.data_;
 }
@@ -87,7 +88,8 @@ std::shared_ptr<AmlipIdDataType> AmlipId::data() const
     return data_;
 }
 
-AmlipId AmlipId::new_unique_id(const std::string& name)
+AmlipId AmlipId::new_unique_id(
+        const std::string& name)
 {
     return AmlipId(name);
 }
