@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#############
+## AmlipId ##
+#############
+
 set(TEST_NAME amlipIdTest)
 
 set(TEST_SOURCES
@@ -25,6 +29,38 @@ set(TEST_LIST
         create_id
         ids_not_equal
         serialization_deserialization
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        fastcdr
+        fastrtps
+        ddsrouter_utils
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+    )
+
+#################
+## GenericType ##
+#################
+
+set(TEST_NAME genericTypeTest)
+
+set(TEST_SOURCES
+        genericTypeTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/GenericType.cpp
+    )
+
+set(TEST_LIST
+        generic_serialization_deserialization_int
+        generic_serialization_deserialization_str
+        generic_serialization_deserialization_amlipIdDataType
     )
 
 set(TEST_EXTRA_LIBRARIES

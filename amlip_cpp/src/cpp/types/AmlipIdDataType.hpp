@@ -230,7 +230,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_max_cdr_serialize_size(
+    static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -239,7 +239,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    static size_t get_cdr_serialize_size(
+    static size_t get_cdr_serialized_size(
             const AmlipIdDataType& data,
             size_t current_alignment = 0);
 
