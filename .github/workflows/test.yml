@@ -197,6 +197,12 @@ jobs:
           package_name: amlip_docs
         if: always()
 
+      - name: Run tests amlip_cpp
+        uses: ./src/AML-IP/.github/actions/run-test-ubuntu
+        with:
+          package_name: amlip_cpp
+        if: always()
+
       - name: Generate coverage report
         run: |
           cp src/AML-IP/codecov.yml .
