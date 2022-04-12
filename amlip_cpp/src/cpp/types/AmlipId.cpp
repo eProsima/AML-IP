@@ -25,6 +25,8 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+const std::string AmlipId::UNDEFINED_NAME_= "Undefined";
+
 AmlipId::AmlipId(const std::string& name)
 {
     data_ = std::make_shared<AmlipIdDataType>(name);
@@ -33,7 +35,7 @@ AmlipId::AmlipId(const std::string& name)
 AmlipId::AmlipId(
         const AmlipId& x)
 {
-    data_ = x.data_;
+    data_ = std::make_shared<AmlipIdDataType>(*x.data_);
 }
 
 AmlipId::AmlipId(

@@ -49,8 +49,8 @@ AmlipIdDataType::AmlipIdDataType()
 
 AmlipIdDataType::AmlipIdDataType(const std::string& name)
 {
-    name_ = str_name_to_array(name);
-    rand_id_ = random_id();
+    name_ = str_name_to_array_(name);
+    rand_id_ = random_id_();
 }
 
 AmlipIdDataType::AmlipIdDataType(const char* name)
@@ -168,13 +168,13 @@ bool AmlipIdDataType::is_defined() const noexcept
 
 AmlipIdDataType AmlipIdDataType::new_unique_id()
 {
-    return AmlipIdDataType(random_name(), random_id());
+    return AmlipIdDataType(random_name_(), random_id_());
 }
 
 AmlipIdDataType AmlipIdDataType::new_unique_id(const std::string& name)
 {
     AmlipIdDataType new_id = new_unique_id();
-    new_id.name(str_name_to_array(name));
+    new_id.name(str_name_to_array_(name));
 
     return new_id;
 }
@@ -189,7 +189,7 @@ AmlipIdDataType AmlipIdDataType::undefined_id()
     return UNDEFINED_ID_;
 }
 
-std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array(const std::string& name)
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array_(const std::string& name)
 {
     std::array<uint8_t, NAME_SIZE> _name;
     memset(&_name, 0, (NAME_SIZE) * 1);
@@ -199,7 +199,7 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array(const std::str
     return _name;
 }
 
-std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name()
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name_()
 {
     // make sure a random seed is properly set in the main scope
 
@@ -214,7 +214,7 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name()
     return name;
 }
 
-std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id()
+std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
 {
     // make sure a random seed is properly set in the main scope
 
@@ -246,7 +246,6 @@ void AmlipIdDataType::deserialize(
 void AmlipIdDataType::serialize_key(
     eprosima::fastcdr::Cdr& scdr) const
 {
-    (void) scdr;
 }
 
 size_t AmlipIdDataType::get_max_cdr_serialize_size(
@@ -255,28 +254,14 @@ size_t AmlipIdDataType::get_max_cdr_serialize_size(
     size_t initial_alignment = current_alignment;
     current_alignment += ((NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
     current_alignment += ((RAND_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-
     return current_alignment - initial_alignment;
 }
 
 size_t AmlipIdDataType::get_cdr_serialize_size(
-    const AmlipIdDataType& data,
+    const AmlipIdDataType&,
     size_t current_alignment)
 {
-    (void)data;
-    size_t initial_alignment = current_alignment;
-
-    if ((NAME_SIZE) > 0)
-    {
-        current_alignment += ((NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-    }
-
-    if ((RAND_SIZE) > 0)
-    {
-        current_alignment += ((RAND_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-    }
-
-    return current_alignment - initial_alignment;
+    return get_max_cdr_serialize_size(current_alignment);
 }
 
 size_t AmlipIdDataType::get_key_max_cdr_serialized_size(
@@ -311,7 +296,7 @@ std::ostream& operator <<(
     std::ostream& os,
     const AmlipIdDataType& id)
 {
-    os << "ID{" << id.name() << "-";
+    os << "ID{" << id.name() << "|";
     for (uint8_t v : id.id())
     {
         os << static_cast<unsigned>(v);

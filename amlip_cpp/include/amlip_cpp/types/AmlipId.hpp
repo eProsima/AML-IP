@@ -34,7 +34,8 @@ namespace types {
 class AmlipIdDataType;
 
 /*!
- * @brief This class represents the structure AmlipId defined by the user in the IDL file.
+ * @brief This class represents the unique identifier of AML-IP nodes and entities.
+ * It is composed of an alphanumerical name and a random numerical id.
  * @ingroup AMLIP
  */
 class AmlipId
@@ -49,7 +50,7 @@ public:
      *
      * Create a new random unique Id.
      */
-    AmlipId(const std::string& name = "Undefined");
+    AmlipId(const std::string& name = UNDEFINED_NAME_);
 
     /*!
      * @brief Copy constructor.
@@ -117,6 +118,8 @@ public:
 protected:
 
     std::shared_ptr<AmlipIdDataType> data_;
+
+    const static std::string UNDEFINED_NAME_;
 };
 
 //! \c AmlipId to stream serializator
