@@ -3,7 +3,8 @@ description: Install and setup a specific eProsima package for linking and build
 inputs:
   git_location:
     description: 'Git Location of the package to clone project'
-    required: true
+    required: false
+    default: ''
   package_name:
     description: 'Name of the package to be built in dir build/<name>'
     required: true
@@ -14,7 +15,7 @@ inputs:
   cmake_options:
     description: 'Specifies CMake general options for package'
     required: true
-    default: '-DCMAKE_PREFIX_PATH='C:\Program Files' -DCMAKE_CXX_FLAGS="/WX /EHsc" -Ax64 -T host=x64'
+    default: '-DCMAKE_PREFIX_PATH="C:\Program Files" -DCMAKE_CXX_FLAGS="/WX /EHsc" -Ax64 -T host=x64'
   cmake_extra_options:
     description: 'Specifies CMake extra options for package'
     required: false

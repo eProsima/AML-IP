@@ -61,19 +61,17 @@ jobs:
           superpackage_name: "ddsrouter"
           package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
 
-      - name: Install AML-IP
-        uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
+      - name: Install amlip_cpp
+        uses: ./AML-IP/.github/actions/install-subpackage-windows
         with:
-          git_location: "https://github.com/eProsima/AML-IP.git"
-          superpackage_name: "amlip"
-          package_names: "amlip_cpp"
-          cmake_build_type: "Debug"
+          package_path: AML-IP
+          subpackage: amlip_cpp
+          subpackage_dir: amlip_cpp
 
       - name: Run tests amlip_cpp
         uses: ./AML-IP/.github/actions/run-test-windows
         with:
           package_name: amlip_cpp
-          cmake_build_type: "Release"
         if: always()
 
 
@@ -135,19 +133,19 @@ jobs:
           package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
           cmake_build_type: "Debug"
 
-      - name: Install AML-IP
-        uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
+      - name: Install amlip_cpp
+        uses: ./AML-IP/.github/actions/install-subpackage-windows
         with:
-          git_location: "https://github.com/eProsima/AML-IP.git"
-          superpackage_name: "amlip"
-          package_names: "amlip_cpp"
+          package_path: AML-IP
           cmake_build_type: "Debug"
+          subpackage: amlip_cpp
+          subpackage_dir: amlip_cpp
 
       - name: Run tests amlip_cpp
         uses: ./AML-IP/.github/actions/run-test-windows
         with:
           package_name: amlip_cpp
-          cmake_build_type: "Release"
+          cmake_build_type: "Debug"
         if: always()
 
 
