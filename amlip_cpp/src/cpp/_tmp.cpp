@@ -19,3 +19,7 @@
  */
 
 # include <amlip_cpp/_tmp.hpp>
+
+void foo()
+{
+}

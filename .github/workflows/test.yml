@@ -59,7 +59,7 @@ jobs:
         with:
           git_location: "https://github.com/eProsima/DDS-Router.git"
           superpackage_name: "ddsrouter"
-          package_names: "ddsrouter_utils ddsrouter_event ddsrouter_core"
+          package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
           cmake_options: "-Ax64 -T host=x64"
 
 
@@ -118,7 +118,7 @@ jobs:
         with:
           git_location: "https://github.com/eProsima/DDS-Router.git"
           superpackage_name: "ddsrouter"
-          package_names: "ddsrouter_utils ddsrouter_event ddsrouter_core"
+          package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
           cmake_build_type: "Debug"
           cmake_options: "-Ax64 -T host=x64"
 
