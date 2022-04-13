@@ -185,6 +185,7 @@ jobs:
         run: |
           cat src/AML-IP/.github/workflows/test_colcon.meta
           colcon build \
+            --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/test_colcon.meta \
             --mixin coverage-gcc asan-gcc
@@ -291,6 +292,7 @@ jobs:
         run: |
           cat src/AML-IP/.github/workflows/test_colcon.meta
           colcon build \
+            --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/test_colcon.meta \
             --mixin coverage-gcc asan-gcc
