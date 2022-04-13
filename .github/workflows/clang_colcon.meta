@@ -1,0 +1,14 @@
+{
+    "names":
+    {
+        "amlip_cpp":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+                "-DCMAKE_CXX_FLAGS='-Werror'"
+            ]
+        }
+    }
+}
