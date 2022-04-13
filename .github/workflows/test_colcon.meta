@@ -1,6 +1,15 @@
 {
     "names":
     {
-
+        "amlip_cpp":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DBUILD_TESTS=ON",
+                "-DCODE_COVERAGE=ON",
+                "-DCMAKE_CXX_FLAGS='-Werror'"
+            ]
+        }
     }
 }
