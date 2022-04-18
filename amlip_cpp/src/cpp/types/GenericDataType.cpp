@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*!
- * @file GenericType.cpp
+ * @file GenericDataType.cpp
  * This source file contains the definition of a generic type that contains void* data.
  */
 
@@ -32,16 +32,16 @@ using namespace eprosima::fastcdr::exception;
 #include <array>
 #include <stdlib.h>
 
-#include <types/GenericType.hpp>
+#include <types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-const char* GenericType::TYPE_NAME_ = "GENERIC";
-const size_t GenericType::DEFAULT_PREALLOCATED_SIZE_ = 10;
+const char* GenericDataType::TYPE_NAME_ = "GENERIC";
+const size_t GenericDataType::DEFAULT_PREALLOCATED_SIZE_ = 10;
 
-GenericType::GenericType(
+GenericDataType::GenericDataType(
         void* data,
         const uint32_t size)
     : data_(data)
@@ -50,12 +50,12 @@ GenericType::GenericType(
 {
 }
 
-GenericType::GenericType()
-    : GenericType(nullptr, 0)
+GenericDataType::GenericDataType()
+    : GenericDataType(nullptr, 0)
 {
 }
 
-GenericType::~GenericType()
+GenericDataType::~GenericDataType()
 {
     // In case the data has been allocated from this class, we free it.
     if (has_been_allocated_)
@@ -64,22 +64,22 @@ GenericType::~GenericType()
     }
 }
 
-GenericType::GenericType(
-        const GenericType& x)
+GenericDataType::GenericDataType(
+        const GenericDataType& x)
 {
     data_ = x.data_;
     data_size_ = x.data_size_;
 }
 
-GenericType::GenericType(
-        GenericType&& x)
+GenericDataType::GenericDataType(
+        GenericDataType&& x)
 {
     data_ = std::move(x.data_);
     data_size_ = std::move(x.data_size_);
 }
 
-GenericType& GenericType::operator =(
-        const GenericType& x)
+GenericDataType& GenericDataType::operator =(
+        const GenericDataType& x)
 {
     data_ = x.data_;
     data_size_ = x.data_size_;
@@ -87,8 +87,8 @@ GenericType& GenericType::operator =(
     return *this;
 }
 
-GenericType& GenericType::operator =(
-        GenericType&& x)
+GenericDataType& GenericDataType::operator =(
+        GenericDataType&& x)
 {
     data_ = std::move(x.data_);
     data_size_ = x.data_size_;
@@ -96,41 +96,41 @@ GenericType& GenericType::operator =(
     return *this;
 }
 
-bool GenericType::operator ==(
-        const GenericType& x) const
+bool GenericDataType::operator ==(
+        const GenericDataType& x) const
 {
     return (data_ == x.data_ && data_size_ == x.data_size_);
 }
 
-bool GenericType::operator !=(
-        const GenericType& x) const
+bool GenericDataType::operator !=(
+        const GenericDataType& x) const
 {
     return !(*this == x);
 }
 
-void* GenericType::data() const
+void* GenericDataType::data() const
 {
     return data_;
 }
 
-uint32_t GenericType::data_size() const
+uint32_t GenericDataType::data_size() const
 {
     return data_size_;
 }
 
-const char* GenericType::type_name()
+const char* GenericDataType::type_name()
 {
     return TYPE_NAME_;
 }
 
-void GenericType::serialize(
+void GenericDataType::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
     scdr << data_size_;
     scdr.serializeArray(static_cast<uint8_t*>(data_), data_size_);
 }
 
-void GenericType::deserialize(
+void GenericDataType::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
     // If data has been already allocated (it has been already deserialized), we free it
@@ -150,12 +150,12 @@ void GenericType::deserialize(
     has_been_allocated_.store(true);
 }
 
-void GenericType::serialize_key(
+void GenericDataType::serialize_key(
         eprosima::fastcdr::Cdr&) const
 {
 }
 
-size_t GenericType::get_max_cdr_serialized_size(
+size_t GenericDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
@@ -168,8 +168,8 @@ size_t GenericType::get_max_cdr_serialized_size(
     return current_alignment - initial_alignment;
 }
 
-size_t GenericType::get_cdr_serialized_size(
-        const GenericType& data,
+size_t GenericDataType::get_cdr_serialized_size(
+        const GenericDataType& data,
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
@@ -185,28 +185,28 @@ size_t GenericType::get_cdr_serialized_size(
     return current_alignment - initial_alignment;
 }
 
-size_t GenericType::get_key_max_cdr_serialized_size(
+size_t GenericDataType::get_key_max_cdr_serialized_size(
         size_t current_alignment)
 {
     return current_alignment;
 }
 
-bool GenericType::is_key_defined()
+bool GenericDataType::is_key_defined()
 {
     return false;
 }
 
-bool GenericType::is_bounded()
+bool GenericDataType::is_bounded()
 {
     return false;
 }
 
-bool GenericType::is_plain()
+bool GenericDataType::is_plain()
 {
     return false;
 }
 
-bool GenericType::construct_sample(
+bool GenericDataType::construct_sample(
         void* memory)
 {
     return false;

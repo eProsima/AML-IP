@@ -44,17 +44,17 @@ add_unittest_executable(
         "${TEST_EXTRA_LIBRARIES}"
     )
 
-#################
-## GenericType ##
-#################
+#####################
+## GenericDataType ##
+#####################
 
-set(TEST_NAME genericTypeTest)
+set(TEST_NAME genericDataTypeTest)
 
 set(TEST_SOURCES
-        genericTypeTest.cpp
+        genericDataTypeTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/GenericType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/GenericDataType.cpp
     )
 
 set(TEST_LIST

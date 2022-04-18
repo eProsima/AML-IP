@@ -13,12 +13,12 @@
 // limitations under the License.
 
 /*!
- * @file GenericType.hpp
+ * @file GenericDataType.hpp
  * This header file contains the declaration of a generic type that contains void* data.
  */
 
-#ifndef AMLIP__SRC_CPP_TYPES_GENERICTYPE_HPP
-#define AMLIP__SRC_CPP_TYPES_GENERICTYPE_HPP
+#ifndef AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
+#define AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
 
 #include <atomic>
 
@@ -36,78 +36,78 @@ namespace amlip {
 namespace types {
 
 /*!
- * @brief This class represents the structure GenericType, which allows to send any type of data as a void*.
+ * @brief This class represents the structure GenericDataType, which allows to send any type of data as a void*.
  * This is, data is streamed as an array of octets given its size in memory regardless of its original type/structure.
  * @ingroup AMLIP
  */
-class GenericType : public InterfaceDataType
+class GenericDataType : public InterfaceDataType
 {
 public:
 
     /*!
      * @brief Default constructor with values.
      */
-    GenericType(
+    GenericDataType(
         void* data,
         const uint32_t size);
 
     /*!
      * @brief Default constructor.
      */
-    GenericType();
+    GenericDataType();
 
     /*!
      * @brief Default destructor.
      */
-    ~GenericType();
+    ~GenericDataType();
 
     /*!
      * @brief Copy constructor.
-     * @param x Reference to the object GenericType that will be copied.
+     * @param x Reference to the object GenericDataType that will be copied.
      */
-    GenericType(
-            const GenericType& x);
+    GenericDataType(
+            const GenericDataType& x);
 
     /*!
      * @brief Move constructor.
-     * @param x Reference to the object GenericType that will be copied.
+     * @param x Reference to the object GenericDataType that will be copied.
      */
-    GenericType(
-            GenericType&& x);
+    GenericDataType(
+            GenericDataType&& x);
 
     /*!
      * @brief Copy assignment.
-     * @param x Reference to the object GenericType that will be copied.
+     * @param x Reference to the object GenericDataType that will be copied.
      *
      * @note The pointer attribute \c data_ is copied, not its content.
      */
-    GenericType& operator =(
-            const GenericType& x);
+    GenericDataType& operator =(
+            const GenericDataType& x);
 
     /*!
      * @brief Move assignment.
-     * @param x Reference to the object GenericType that will be copied.
+     * @param x Reference to the object GenericDataType that will be copied.
      */
-    GenericType& operator =(
-            GenericType&& x);
+    GenericDataType& operator =(
+            GenericDataType&& x);
 
     /*!
      * @brief Comparison operator.
-     * @param x GenericType object to compare.
+     * @param x GenericDataType object to compare.
      *
      * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
      */
     bool operator ==(
-            const GenericType& x) const;
+            const GenericDataType& x) const;
 
     /*!
      * @brief Comparison operator.
-     * @param x GenericType object to compare.
+     * @param x GenericDataType object to compare.
      *
      * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
      */
     bool operator !=(
-            const GenericType& x) const;
+            const GenericDataType& x) const;
 
     /*!
      * @brief Return value of attribute \c data_
@@ -164,7 +164,7 @@ public:
      * @return Serialized size.
      */
     static size_t get_cdr_serialized_size(
-            const GenericType& data,
+            const GenericDataType& data,
             size_t current_alignment = 0);
 
     /*!
@@ -220,4 +220,4 @@ protected:
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIP__SRC_CPP_TYPES_GENERICTYPE_HPP
+#endif // AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
