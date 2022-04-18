@@ -26,25 +26,33 @@ namespace dds {
 template <typename T>
 Writer<T>::Writer(
         const std::string& topic,
-        std::unique_ptr<WriterListener> listener,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter)
+        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::fastdds::dds::DataWriterQos qos /* = Writer::default_datawriter_qos() */)
     : topic_(topic)
-    , data_writer_(datawriter)
-    , listener_(listener)
 {
+    auto dds_handler_locked = dds_handler.lock();
+    if (dds_handler_locked)
+    {
+        throw ddsrouter::utils::InitializationException(
+            STR_ENTRY << "Failed to create Writer " << topic << " after Participant destruction.");
+    }
+
+    datawriter_ = dds_handler_locked->create_datawriter(
+            topic_,
+            qos,
+            this);
 }
 
 template <typename T>
 Writer<T>::~Writer()
 {
-    // Reset listener in case it was waiting for matching
-    listener_.reset();
 }
 
 template <typename T>
 eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(const T& data)
 {
-    return data_writer_->write(&data);
+    auto datawriter_locked = datawriter_.lock();
+    return datawriter_locked->write(&data);
 }
 
 template <typename T>

@@ -28,7 +28,10 @@
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
 
-#include <ddsrouter_event/waiter/BooleanWaiter.hpp>
+#include <ddsrouter_event/wait/BooleanWaitHandler.hpp>
+#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+
+#include <dds/DdsHandler.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -80,7 +83,7 @@ protected:
     std::atomic<uint32_t> matched_readers_;
 
     //! Waiter variable to wait for a reader to be matched
-    ddsrouter::event::BooleanWaiter writer_match_waiter_;
+    ddsrouter::event::BooleanWaitHandler writer_match_waiter_;
 };
 
 /**
@@ -89,28 +92,11 @@ protected:
  * @tparam T
  */
 template <typename T>
-class Writer : public eprosima::fastdds::dds::DataWriterListener
+class Writer : public WriterListener
 {
 public:
 
-    /**
-     * @brief Construct a new Writer object using a DDS DataWriter already created.
-     *
-     * The DataWriter
-     *
-     * @pre \c datawriter must be a valid pointer to a DataWriter, must be disabled and without listener.
-     *
-     * @param topic DDS topic name in which the data this Writer publish will be published
-     * @param datawriter disabled datawriter reference without listener set
-     *
-     * @remarks This constructor is protected because this object should be created from Participant (factory).
-     */
-    Writer(
-        const std::string& topic,
-        std::unique_ptr<WriterListener> listener,
-        std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter);
-
-    //! Default destructor, call stop() before destruction.
+    //! Default destructor, stop listener before destruction
     virtual ~Writer();
 
     /**
@@ -135,14 +121,30 @@ public:
 
 protected:
 
+    /**
+     * @brief Construct a new Writer object using a DDS DataWriter already created.
+     *
+     * The DataWriter
+     *
+     * @pre \c datawriter must be a valid pointer to a DataWriter, must be disabled and without listener.
+     *
+     * @param topic DDS topic name in which the data this Writer publish will be published
+     * @param datawriter disabled datawriter reference without listener set
+     *
+     * @remarks This constructor is protected because this object should be created from Participant (factory).
+     */
+    Writer(
+        const std::string& topic,
+        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::fastdds::dds::DataWriterQos qos = Writer::default_datawriter_qos());
+
+    friend class Participant;
+
     //! Name of the topic this Writer publishes
     std::string topic_;
 
     //! DDS DataWriter reference
-    std::shared_ptr<eprosima::fastdds::dds::DataWriter> data_writer_;
-
-    //! Writer Listener
-    std::unique_ptr<WriterListener> listener_;
+    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter_;
 };
 
 } /* namespace dds */

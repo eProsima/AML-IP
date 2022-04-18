@@ -30,6 +30,7 @@
 
 #include <amlip_cpp/types/AmlipId.hpp>
 #include <dds/DdsHandler.hpp>
+#include <dds/Writer.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -69,6 +70,11 @@ public:
 
     //! Name associated with this Participant Id
     std::string name() const noexcept;
+
+    template <typename T>
+    std::shared_ptr<Writer<T>> create_writer(
+        const std::string& topic_name,
+        eprosima::fastdds::dds::DataWriterQos qos = Writer<T>::default_datawriter_qos());
 
     // TODO: add reader methods
 
