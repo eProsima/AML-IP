@@ -24,7 +24,9 @@
 using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 
-GenericDataType generic_void_serialization_deserialization(void* bytes_to_serialize, size_t data_size)
+GenericDataType generic_void_serialization_deserialization(
+        void* bytes_to_serialize,
+        size_t data_size)
 {
     GenericDataType generic_type(bytes_to_serialize, data_size);
     AmlipGenericTopicDataType<GenericDataType> topic_data_type;
@@ -50,7 +52,8 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_int)
 {
     uint32_t num = 8;
 
-    GenericDataType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>(&num), sizeof(uint32_t));
+    GenericDataType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>(&num),
+                    sizeof(uint32_t));
 
     ASSERT_EQ(num, *(uint32_t*)deserialization_generic_type.data());
 }
@@ -63,7 +66,8 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_str)
 {
     std::string str("Testing generic type");
 
-    GenericDataType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>((char*)str.c_str()), str.size());
+    GenericDataType deserialization_generic_type =
+            generic_void_serialization_deserialization(static_cast<void*>((char*)str.c_str()), str.size());
 
     ASSERT_EQ(str, (char*)deserialization_generic_type.data());
 }
@@ -82,7 +86,8 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_amlipIdDataType)
     topic_data_type.serialize(&id, &payload);
 
     // Serialize and deserialize array of bytes treated as generic data type
-    GenericDataType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>(payload.data), payload.length);
+    GenericDataType deserialization_generic_type =
+            generic_void_serialization_deserialization(static_cast<void*>(payload.data), payload.length);
 
     // Fill content of new id with stream of bytes obtained from deserialization
     AmlipIdDataType new_id;

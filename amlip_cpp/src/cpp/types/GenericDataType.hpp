@@ -48,8 +48,8 @@ public:
      * @brief Default constructor with values.
      */
     GenericDataType(
-        void* data,
-        const uint32_t size);
+            void* data,
+            const uint32_t size);
 
     /*!
      * @brief Default constructor.
