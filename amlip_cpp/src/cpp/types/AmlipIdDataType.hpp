@@ -287,6 +287,8 @@ protected:
 
     static const AmlipIdDataType UNDEFINED_ID_;
 
+    static const char* TYPE_NAME_;
+
     /*!
      * @brief This function converts a char* to a vector of octets of fixed size, trimming its end if too long and
      * padding with null characters when too short.

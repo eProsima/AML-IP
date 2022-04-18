@@ -41,6 +41,7 @@ namespace amlip {
 namespace types {
 
 const AmlipIdDataType AmlipIdDataType::UNDEFINED_ID_ = AmlipIdDataType();
+const char* AmlipIdDataType::TYPE_NAME_ = "AMLIP-ID";
 
 AmlipIdDataType::AmlipIdDataType()
     : name_({0})
@@ -162,7 +163,7 @@ void AmlipIdDataType::id(
 
 const char* AmlipIdDataType::type_name()
 {
-    return "AMLIP-ID";
+    return TYPE_NAME_;
 }
 
 bool AmlipIdDataType::is_defined() const noexcept

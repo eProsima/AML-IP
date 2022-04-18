@@ -38,6 +38,9 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+const char* GenericType::TYPE_NAME_ = "GENERIC";
+const size_t GenericType::DEFAULT_PREALLOCATED_SIZE_ = 10;
+
 GenericType::GenericType(
         void* data,
         const uint32_t size)
@@ -117,7 +120,7 @@ uint32_t GenericType::data_size() const
 
 const char* GenericType::type_name()
 {
-    return "GENERIC";
+    return TYPE_NAME_;
 }
 
 void GenericType::serialize(
@@ -139,7 +142,7 @@ void GenericType::deserialize(
     dcdr >> data_size_;
 
     // Store enough space to deserialize the data
-    data_ = malloc(data_size_);
+    data_ = malloc(data_size_ * sizeof(uint8_t));
     // Deserialize array
     dcdr.deserializeArray(static_cast<uint8_t*>(data_), data_size_);
 
@@ -160,7 +163,7 @@ size_t GenericType::get_max_cdr_serialized_size(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
     // It needs an upper bound, but it will not be used
-    current_alignment += (100 * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+    current_alignment += DEFAULT_PREALLOCATED_SIZE_ + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
 
     return current_alignment - initial_alignment;
 }
@@ -176,7 +179,7 @@ size_t GenericType::get_cdr_serialized_size(
 
     if (data.data_size() > 0)
     {
-        current_alignment += (data.data_size() * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+        current_alignment += data.data_size() + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
     }
 
     return current_alignment - initial_alignment;
@@ -206,7 +209,7 @@ bool GenericType::is_plain()
 bool GenericType::construct_sample(
         void* memory)
 {
-    return new (memory) GenericType();
+    return false;
 }
 
 } /* namespace types */

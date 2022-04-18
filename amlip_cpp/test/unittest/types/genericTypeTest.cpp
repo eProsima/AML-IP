@@ -24,21 +24,22 @@
 using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 
-template <class T>
-void test_generic_serialization_deserialization(T data_to_send, size_t serialized_payload_size=64)
+GenericType generic_void_serialization_deserialization(void* bytes_to_serialize, size_t data_size)
 {
-    GenericType generic_type(static_cast<void*>(&data_to_send), sizeof(data_to_send));
-    AmlipGenericTopicDataType<GenericType> data_type;
+    GenericType generic_type(bytes_to_serialize, data_size);
+    AmlipGenericTopicDataType<GenericType> topic_data_type;
 
-    SerializedPayload_t payload = SerializedPayload_t(serialized_payload_size);
+    // Payload to store serialized data
+    SerializedPayload_t payload = SerializedPayload_t(topic_data_type.getSerializedSizeProvider(&generic_type)());
 
-    data_type.serialize(static_cast<GenericType*>(&generic_type), &payload);
+    // Serialize
+    topic_data_type.serialize(&generic_type, &payload);
 
-    GenericType new_generic_type;
-    data_type.deserialize(&payload, static_cast<GenericType*>(&new_generic_type));
-    T data_received = *(T*)new_generic_type.data();
+    // Deserialize
+    GenericType deserialization_generic_type;
+    topic_data_type.deserialize(&payload, &deserialization_generic_type);
 
-    ASSERT_EQ(data_to_send, data_received);
+    return deserialization_generic_type;
 }
 
 /**
@@ -47,7 +48,11 @@ void test_generic_serialization_deserialization(T data_to_send, size_t serialize
  */
 TEST(genericTypeTest, generic_serialization_deserialization_int)
 {
-    test_generic_serialization_deserialization(8);
+    uint32_t num = 8;
+
+    GenericType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>(&num), sizeof(uint32_t));
+
+    ASSERT_EQ(num, *(uint32_t*)deserialization_generic_type.data());
 }
 
 /**
@@ -56,7 +61,11 @@ TEST(genericTypeTest, generic_serialization_deserialization_int)
  */
 TEST(genericTypeTest, generic_serialization_deserialization_str)
 {
-    test_generic_serialization_deserialization("Testing generic type");
+    std::string str("Testing generic type");
+
+    GenericType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>((char*)str.c_str()), str.size());
+
+    ASSERT_EQ(str, (char*)deserialization_generic_type.data());
 }
 
 /**
@@ -65,7 +74,25 @@ TEST(genericTypeTest, generic_serialization_deserialization_str)
  */
 TEST(genericTypeTest, generic_serialization_deserialization_amlipIdDataType)
 {
-    test_generic_serialization_deserialization(AmlipIdDataType("TestNode"));
+    AmlipIdDataType id("TestNode");
+
+    // Convert id's content to array of bytes via serialization
+    AmlipGenericTopicDataType<AmlipIdDataType> topic_data_type;
+    SerializedPayload_t payload = SerializedPayload_t(topic_data_type.getSerializedSizeProvider(&id)());
+    topic_data_type.serialize(&id, &payload);
+
+    // Serialize and deserialize array of bytes treated as generic data type
+    GenericType deserialization_generic_type = generic_void_serialization_deserialization(static_cast<void*>(payload.data), payload.length);
+
+    // Fill content of new id with stream of bytes obtained from deserialization
+    AmlipIdDataType new_id;
+    size_t data_size = deserialization_generic_type.data_size();
+    SerializedPayload_t new_payload(data_size);
+    new_payload.length = data_size;
+    memcpy(new_payload.data, deserialization_generic_type.data(), data_size);
+    topic_data_type.deserialize(&new_payload, &new_id);
+
+    ASSERT_EQ(id, new_id);
 }
 
 
@@ -73,6 +100,9 @@ int main(
         int argc,
         char** argv)
 {
+    // initialize the random number generator
+    srand (time(NULL));
+
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

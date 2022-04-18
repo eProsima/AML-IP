@@ -78,6 +78,8 @@ public:
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object GenericType that will be copied.
+     *
+     * @note The pointer attribute \c data_ is copied, not its content.
      */
     GenericType& operator =(
             const GenericType& x);
@@ -92,6 +94,8 @@ public:
     /*!
      * @brief Comparison operator.
      * @param x GenericType object to compare.
+     *
+     * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
      */
     bool operator ==(
             const GenericType& x) const;
@@ -99,6 +103,8 @@ public:
     /*!
      * @brief Comparison operator.
      * @param x GenericType object to compare.
+     *
+     * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
      */
     bool operator !=(
             const GenericType& x) const;
@@ -204,6 +210,10 @@ protected:
     uint32_t data_size_;
 
     std::atomic<bool> has_been_allocated_;
+
+    static const char* TYPE_NAME_;
+
+    static const size_t DEFAULT_PREALLOCATED_SIZE_;
 };
 
 } /* namespace types */
