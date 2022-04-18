@@ -13,13 +13,11 @@
 // limitations under the License.
 
 /**
- * @file Participant.ipp
+ * @file DdsHandler.ipp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP
-#define AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP
-
-#include <assert.h>
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_DDSHANDLER_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_DDSHANDLER_IPP
 
 #include <ddsrouter_utils/exception/InitializationException.hpp>
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
@@ -31,7 +29,7 @@ namespace amlip {
 namespace dds {
 
 template<typename T>
-eprosima::fastrtps::types::ReturnCode_t Participant::register_type_() noexcept
+eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
 {
     // Force T to be subclass of InterfaceDataType
     FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
@@ -39,10 +37,10 @@ eprosima::fastrtps::types::ReturnCode_t Participant::register_type_() noexcept
     auto it_types = types_.find(T::type_name());
     if (it_types == types_.end())
     {
-        // Create type support if not existing and register participant
+        // Create type support if not existing and register DdsHandler
         eprosima::fastdds::dds::TypeSupport type_support(new types::AmlipGenericTopicDataType<T>());
 
-        eprosima::fastrtps::types::ReturnCode_t ret = type_support.register_type(participant_.get());
+        eprosima::fastrtps::types::ReturnCode_t ret = participant_->register_type(type_support);
 
         if (ret)
         {
@@ -61,7 +59,7 @@ eprosima::fastrtps::types::ReturnCode_t Participant::register_type_() noexcept
 }
 
 template<typename T>
-std::shared_ptr<eprosima::fastdds::dds::Topic> Participant::get_topic_(const std::string& topic_name)
+ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_(const std::string& topic_name)
 {
     // Force T to be subclass of InterfaceDataType
     FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
@@ -71,7 +69,7 @@ std::shared_ptr<eprosima::fastdds::dds::Topic> Participant::get_topic_(const std
     auto it_topics = topics_.find(topic_idx);
     if (it_topics != topics_.end())
     {
-        return it_topics->second;
+        return it_topics->second.lease();
     }
 
     // Check if topic and type are coherent
@@ -90,7 +88,7 @@ std::shared_ptr<eprosima::fastdds::dds::Topic> Participant::get_topic_(const std
     register_type_<T>();
 
     // Create topic
-    std::shared_ptr<eprosima::fastdds::dds::Topic> topic(
+    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::Topic> topic(
         participant_->create_topic(
             topic_name,
             T::type_name(),
@@ -110,63 +108,11 @@ std::shared_ptr<eprosima::fastdds::dds::Topic> Participant::get_topic_(const std
     // Add new topic to map
     topics_[topic_idx] = topic;
 
-    return topic;
+    return topic.lease();
 }
-
-// template<typename T>
-// std::shared_ptr<eprosima::fastdds::dds::DataReader> Participant::create_datareader_(
-//         const std::string& topic_name,
-//         const eprosima::fastdds::dds::DataReaderQos& qos /* = Reader::default_datareader_qos() */)
-// {
-//     assert(nullptr != participant_ && nullptr != subscriber_);
-
-//     // Get or create topic
-//     std::shared_ptr<eprosima::fastdds::dds::Topic> topic = register_topic<T>(topic_name);
-
-//     // Create the datareader
-//     std::shared_ptr<eprosima::fastdds::dds::DataReader> datareader(
-//             subscriber_->create_datareader(topic.get(), qos),
-//             [this](eprosima::fastdds::dds::DataReader* datareader)
-//             {
-//                 // deleter for shared ptr
-//                 this->subscriber_->delete_datareader(datareader);
-//             }
-//         );
-
-//     // TODO throw ddsrouter::utils::exception if nullptr
-//     assert(nullptr != datareader);
-
-//     return datareader;
-// }
-
-// template<typename T>
-// std::shared_ptr<eprosima::fastdds::dds::DataWriter> Participant::create_datawriter_(
-//         const std::string& topic_name,
-//         const eprosima::fastdds::dds::DataWriterQos& qos /* = Writer::default_datawriter_qos() */)
-// {
-//     assert(nullptr != participant_ && nullptr != publisher_);
-
-//     // Get or create topic
-//     std::shared_ptr<eprosima::fastdds::dds::Topic> topic = register_topic<T>(topic_name);
-
-//     // Create the datawriter
-//     std::shared_ptr<eprosima::fastdds::dds::DataWriter> datawriter(
-//             publisher_->create_datawriter(topic.get(), qos),
-//             [this](eprosima::fastdds::dds::DataWriter* datawriter)
-//             {
-//                 // deleter for shared ptr
-//                 this->publisher_->delete_datawriter(datawriter);
-//             }
-//         );
-
-//     // TODO throw ddsrouter::utils::exception if nullptr
-//     assert(nullptr != datawriter);
-
-//     return datawriter;
-// }
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_DDSHANDLER_IPP */
