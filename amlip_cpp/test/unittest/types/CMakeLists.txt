@@ -12,5 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add test subdirectories
-add_subdirectory(types)
+set(TEST_NAME amlipIdTest)
+
+set(TEST_SOURCES
+        amlipIdTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
+    )
+
+set(TEST_LIST
+        create_id
+        ids_not_equal
+        serialization_deserialization
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        fastcdr
+        fastrtps
+        ddsrouter_utils
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+    )
