@@ -21,6 +21,7 @@
 
 #include <ddsrouter_utils/exception/InitializationException.hpp>
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <ddsrouter_utils/macros.hpp>
 
 #include <types/InterfaceDataType.hpp>
 
@@ -42,13 +43,14 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
 
         eprosima::fastrtps::types::ReturnCode_t ret = participant_->register_type(type_support);
 
-        if (ret)
+        if (!ret)
         {
-            // Add Type to map
-            types_.insert({T::type_name(), type_support});
+            return ret;
         }
         else
         {
+            // Add Type to map
+            types_.insert({T::type_name(), type_support});
             return ret;
         }
     }
@@ -109,6 +111,98 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     topics_[topic_idx] = topic;
 
     return topic.lease();
+}
+
+template <typename T>
+ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::create_datawriter(
+        const std::string topic_name,
+        eprosima::fastdds::dds::DataWriterQos qos,
+        eprosima::fastdds::dds::DataWriterListener* listener /* = nullptr */)
+{
+    // Force T to be subclass of InterfaceDataType
+    FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
+
+    // Get Topic (in case it does already exist return reference)
+    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
+        get_topic_<T>(topic_name);
+
+    // Lock the Topic so its pointer is used to create datawriter.
+    // This variable will be destroyed at the end of the function and will release mutex
+    auto topic_locked_ptr = topic_.lock();
+    if (!topic_locked_ptr)
+    {
+        throw ddsrouter::utils::InitializationException(
+            STR_ENTRY << "Failed to create DataWriter " << topic_name << " after Participant destruction.");
+    }
+
+    // Create DataWriter
+    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DataWriter> datawriter(
+        publisher_->create_datawriter(
+            topic_locked_ptr.get(),
+            qos,
+            listener),
+        [this](eprosima::fastdds::dds::DataWriter* datawriter)
+        {
+            // deleter for shared ptr
+            this->publisher_->delete_datawriter(datawriter);
+        }
+    );
+    if (nullptr == datawriter)
+    {
+        throw ddsrouter::utils::InitializationException(
+            STR_ENTRY << "Failed to create DataWriter " << topic_name << ".");
+    }
+
+    // Stor datawriter
+    datawriters_.push_back(datawriter);
+
+    return datawriter.lease();
+}
+
+template <typename T>
+ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::create_datareader(
+        const std::string topic_name,
+        eprosima::fastdds::dds::DataReaderQos qos,
+        eprosima::fastdds::dds::DataReaderListener* listener /* = nullptr */)
+{
+    // Force T to be subclass of InterfaceDataType
+    FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
+
+    // Get Topic (in case it does already exist return reference)
+    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
+        get_topic_<T>(topic_name);
+
+    // Lock the Topic so its pointer is used to create datareader.
+    // This variable will be destroyed at the end of the function and will release mutex
+    auto topic_locked_ptr = topic_.lock();
+    if (!topic_locked_ptr)
+    {
+        throw ddsrouter::utils::InitializationException(
+            STR_ENTRY << "Failed to create DataReader " << topic_name << " after Participant destruction.");
+    }
+
+    // Create DataReader
+    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DataReader> datareader(
+        subscriber_->create_datareader(
+            topic_locked_ptr.get(),
+            qos,
+            listener),
+        [this](eprosima::fastdds::dds::DataReader* datareader)
+        {
+            // deleter for shared ptr
+            this->subscriber_->delete_datareader(datareader);
+        }
+    );
+    if (nullptr == datareader)
+    {
+        throw ddsrouter::utils::InitializationException(
+            STR_ENTRY << "Failed to create DataReader " << topic_name << ".");
+    }
+
+    // Stor datareader
+    datareaders_.push_back(datareader);
+
+    return datareader.lease();
 }
 
 } /* namespace dds */

@@ -21,10 +21,16 @@
 
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
+#include <fastdds/dds/publisher/DataWriter.hpp>
+#include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/publisher/qos/PublisherQos.hpp>
-#include <fastdds/dds/subscriber/Subscriber.hpp>
+#include <fastdds/dds/subscriber/DataReader.hpp>
+#include <fastdds/dds/subscriber/DataReaderListener.hpp>
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 #include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
+#include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 
@@ -71,12 +77,14 @@ public:
     template <typename T>
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> create_datawriter(
         const std::string topic_name,
-        const eprosima::fastdds::dds::DataWriter& qos);
+        eprosima::fastdds::dds::DataWriterQos qos,
+        eprosima::fastdds::dds::DataWriterListener* listener = nullptr);
 
     template <typename T>
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> create_datareader(
         const std::string topic_name,
-        const eprosima::fastdds::dds::DataReader& qos);
+        eprosima::fastdds::dds::DataReaderQos qos,
+        eprosima::fastdds::dds::DataReaderListener* listener = nullptr);
 
 protected:
 

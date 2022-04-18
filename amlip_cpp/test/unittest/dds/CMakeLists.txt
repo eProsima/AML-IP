@@ -12,11 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#####################################
+# PARTICIPANT TESTS
+#####################################
+
 set(TEST_NAME participantTest)
 
 set(TEST_SOURCES
         participantTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/Participant.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
     )
 
@@ -25,6 +32,41 @@ set(TEST_LIST
         create_dummy_participant
         id
         get_name
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        fastcdr
+        fastrtps
+        ddsrouter_utils
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+    )
+
+#####################################
+# DDS HANDLER TESTS
+#####################################
+
+set(TEST_NAME DdsHandlerTest)
+
+set(TEST_SOURCES
+        ddsHandlerTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
+    )
+
+set(TEST_LIST
+    # Public API
+        create_participant
+        create_datawriter
+        create_datareader
+        fail_create_participant
     )
 
 set(TEST_EXTRA_LIBRARIES

@@ -80,7 +80,24 @@ DdsHandler::DdsHandler(
 
 DdsHandler::~DdsHandler()
 {
-    // Destroy object will destroy the DdsHandler and every subentity
+    // Destroy object in correct order
+    // Each OwnerPtr has already the deleter for each internal value
+    datawriters_.clear();
+    datareaders_.clear();
+    topics_.clear();
+    publisher_.reset();
+    subscriber_.reset();
+    participant_.reset();
+}
+
+eprosima::fastdds::dds::PublisherQos DdsHandler::default_publisher_qos_() noexcept
+{
+    return eprosima::fastdds::dds::PUBLISHER_QOS_DEFAULT;
+}
+
+eprosima::fastdds::dds::SubscriberQos DdsHandler::default_subscriber_qos_() noexcept
+{
+    return eprosima::fastdds::dds::SUBSCRIBER_QOS_DEFAULT;
 }
 
 } /* namespace dds */
