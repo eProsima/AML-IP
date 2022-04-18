@@ -24,7 +24,7 @@ constexpr const uint32_t TEST_ITERATIONS = 5;
  *
  * @note this test will fail if it breaks
  */
-TEST(utilsTest, create_dummy_participant)
+TEST(participantTest, create_dummy_participant)
 {
     {
         eprosima::amlip::types::AmlipId id;
@@ -35,7 +35,7 @@ TEST(utilsTest, create_dummy_participant)
 /**
  * Create a Participant with specific ids and check id is the correct one
  */
-TEST(utilsTest, id)
+TEST(participantTest, id)
 {
     for (uint32_t i = 0; i < TEST_ITERATIONS; ++i)
     {
@@ -48,7 +48,7 @@ TEST(utilsTest, id)
 /**
  * Create a Participant with specific ids and check name is the correct one given in id
  */
-TEST(utilsTest, get_name)
+TEST(participantTest, get_name)
 {
     for (uint32_t i = 0; i < TEST_ITERATIONS; ++i)
     {
