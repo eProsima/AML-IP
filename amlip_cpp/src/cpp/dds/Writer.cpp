@@ -59,7 +59,7 @@ void WriterListener::increase_match_() noexcept
 
     if (matched_readers_ > 0)
     {
-        writer_match_waiter_.activate();
+        writer_match_waiter_.open();
     }
 }
 
@@ -69,7 +69,7 @@ void WriterListener::decrease_match_() noexcept
 
     if (matched_readers_ == 0)
     {
-        writer_match_waiter_.deactivate();
+        writer_match_waiter_.close();
     }
 }
 
