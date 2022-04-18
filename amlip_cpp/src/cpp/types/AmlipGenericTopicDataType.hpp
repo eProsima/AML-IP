@@ -24,7 +24,7 @@
 
 #include <ddsrouter_utils/macros.hpp>
 
-#include <amlip_cpp/types/InterfaceDataType.hpp>
+#include <types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

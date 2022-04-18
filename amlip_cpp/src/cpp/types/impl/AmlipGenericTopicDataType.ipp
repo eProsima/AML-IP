@@ -41,12 +41,12 @@ template <class T>
 AmlipGenericTopicDataType<T>::AmlipGenericTopicDataType()
 {
     setName(T::type_name());
-    auto type_size = T::getMaxCdrSerializedSize();
+    auto type_size = T::get_max_cdr_serialize_size();
     type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
     m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
-    m_isGetKeyDefined = T::isKeyDefined();
-    size_t keyLength = T::getKeyMaxCdrSerializedSize() > 16 ?
-            T::getKeyMaxCdrSerializedSize() : 16;
+    m_isGetKeyDefined = T::is_key_defined();
+    size_t keyLength = T::get_key_max_cdr_serialized_size() > 16 ?
+            T::get_key_max_cdr_serialized_size() : 16;
     key_buffer_ = reinterpret_cast<unsigned char*>(malloc(keyLength));
     memset(key_buffer_, 0, keyLength);
 }
@@ -127,7 +127,7 @@ std::function<uint32_t()> AmlipGenericTopicDataType<T>::getSerializedSizeProvide
 {
     return [data]() -> uint32_t
            {
-               return static_cast<uint32_t>(T::getCdrSerializedSize(*static_cast<T*>(data))) +
+               return static_cast<uint32_t>(T::get_cdr_serialize_size(*static_cast<T*>(data))) +
                       4u /*encapsulation*/;
            };
 }
@@ -147,12 +147,12 @@ bool AmlipGenericTopicDataType<T>::getKey(
 
     // Object that manages the raw buffer.
     eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(key_buffer_),
-            T::getKeyMaxCdrSerializedSize());
+            T::get_key_max_cdr_serialized_size());
 
     // Object that serializes the data.
     eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::BIG_ENDIANNESS);
-    p_type->serializeKey(ser);
-    if (force_md5 || T::getKeyMaxCdrSerializedSize() > 16)
+    p_type->serialize_key(ser);
+    if (force_md5 || T::get_key_max_cdr_serialized_size() > 16)
     {
         md5_.init();
         md5_.update(key_buffer_, static_cast<unsigned int>(ser.getSerializedDataLength()));
