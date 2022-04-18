@@ -26,15 +26,14 @@
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
 
+#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+
 #include <amlip_cpp/types/AmlipId.hpp>
-#include <types/AmlipGenericTopicDataType.hpp>
+#include <dds/DdsHandler.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
-
-// Use FastDDS Domain Id type
-using DomainIdType = eprosima::fastdds::dds::DomainId_t;
 
 /**
  * @brief TODO
@@ -58,9 +57,9 @@ public:
      * @throw \c InitializationException if the DDS DomainParticipant could not be created
      */
     Participant(
-        const types::AmlipId& id,
-        const eprosima::fastdds::dds::DomainParticipantQos& qos = Participant::default_participant_qos_(),
-        const DomainIdType& domain = Participant::default_domain_id_());
+        types::AmlipId id,
+        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+        DomainIdType domain = Participant::default_domain_id());
 
     //! Participant destructor
     virtual ~Participant();
@@ -71,7 +70,7 @@ public:
     //! Name associated with this Participant Id
     std::string name() const noexcept;
 
-protected:
+    // TODO: add create writer and reader methods
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip
@@ -80,99 +79,27 @@ protected:
      *
      * @return Default \c DomainParticipantQos
      */
-    static eprosima::fastdds::dds::DomainParticipantQos default_participant_qos_() noexcept;
-
-    //! Default Publisher QoS for every DDS Publisher in amlip
-    static eprosima::fastdds::dds::PublisherQos default_publisher_qos_() noexcept;
-
-    //! Default Subscriber QoS for every DDS Subscriber in amlip
-    static eprosima::fastdds::dds::SubscriberQos default_subscriber_qos_() noexcept;
+    static eprosima::fastdds::dds::DomainParticipantQos default_participant_qos() noexcept;
 
     //! Default Domain Id for every amlip participant
-    static DomainIdType default_domain_id_() noexcept;
+    static DomainIdType default_domain_id() noexcept;
 
-    /**
-     * @brief Register TypeSupport related with \c TopicDataType of \c T if it is not already registered.
-     *
-     * This TypeSupport is a shared ptr and will be automatically deleted when the shared ptr is not referenced.
-     *
-     * @tparam T \c TopicDataType associated with the TypeSupport required
-     * @return RETCODE_OK if registration was successful
-     * @return RETCODE_ERROR if registration failed
-     * @return RETCODE_PRECONDITION_NOT_MET if type was already registered
-     *
-     * @throw \c InitializationException if the topic could not be created
-     *
-     * @warning Do not use this type support once the Participant is deleted
-     */
-    template<typename T>
-    eprosima::fastrtps::types::ReturnCode_t register_type_() noexcept;
-
-    /**
-     * @brief Get the topic object related with type \c T and topic name.
-     *
-     * If the topic has been already created, take the Topic, if not create a new one.
-     * This Topic is a shared ptr and will be automatically deleted when the shared ptr is not referenced.
-     *
-     * @tparam T type related with the topic
-     * @param topic_name name of the topic
-     * @return reference to the Topic
-     *
-     * @throw \c InitializationException if the topic could not be created
-     *
-     * @warning Do not use this type support once the Participant is deleted
-     */
-    template<typename T>
-    std::shared_ptr<eprosima::fastdds::dds::Topic> get_topic_(const std::string& topic_name);
-
-    /////
-    // INTERNAL VARIABLES
+protected:
 
     //! Id identifying this Participant
-    types::AmlipId id_;
+    const types::AmlipId id_;
 
-    //! Shared ptr referencing the DDS DomainParticipant
-    std::shared_ptr<eprosima::fastdds::dds::DomainParticipant> participant_;
-
-    //! Shared ptr referencing the DDS Publisher
-    std::shared_ptr<eprosima::fastdds::dds::Publisher> publisher_;
-
-    //! Shared ptr referencing the DDS Subscriber
-    std::shared_ptr<eprosima::fastdds::dds::Subscriber> subscriber_;
-
-    /**
-     * @brief Map with references to the Topics already created from this Participant
-     *
-     * Every Time a Topic is get from this Participant, it stores a share reference of it.
-     * If the Topic is get again, it will return a reference to this same Topic.
-     *
-     * Topic is indexed by a duple of topic name and topic type
-     */
-    std::map<std::pair<std::string, std::string>, std::shared_ptr<eprosima::fastdds::dds::Topic>> topics_;
-
-    /**
-     * @brief Map with references to the TypeSupports already created from this Participant
-     *
-     * Every registered type is stored in this map.
-     * TypeSupport index is the name of the DataType of the internal \c AmlipGenericTopicDataType
-     *
-     * @note this may not me needed, as TypeSupport is not required after being created.
-     */
-    std::map<std::string, eprosima::fastdds::dds::TypeSupport> types_;
+    ddsrouter::utils::OwnerPtr<DdsHandler> dds_handler_;
 
     /////
     // STATIC CONST VARIABLES
 
     //! Default DomainId for every DomainParticipant in amlip
     static const DomainIdType DEFAULT_DOMAIN_ID_; // 166
-
 };
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
-
-// Include implementation template file
-#include <dds/impl/Participant.ipp>
 
 #endif /* AMLIPCPP__SRC_CPP_DDS_PARTICIPANT_HPP */
