@@ -30,6 +30,10 @@ set(TEST_SOURCES
 set(TEST_LIST
     # Public API
         communicate_reader_writer
+        communicate_reader_writer_multiple_messages
+        communicate_reader_multiple_writers
+        communicate_multiple_readers_writer
+        communicate_multiple_readers_multiple_writers
     )
 
 set(TEST_NEEDED_SOURCES
