@@ -102,6 +102,13 @@ public:
     bool operator !=(
             const AmlipId& x) const;
 
+    /*!
+     * @brief Comparison operator.
+     * @param x AmlipId object to compare.
+     */
+    bool operator <(
+            const AmlipId& x) const;
+
     /////
     // PUBLIC METHODS
 

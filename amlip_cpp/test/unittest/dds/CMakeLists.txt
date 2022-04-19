@@ -101,6 +101,7 @@ set(TEST_LIST
         create_writer
         create_reader
         create_directwriter
+        create_targetedreader
     )
 
 set(TEST_EXTRA_LIBRARIES

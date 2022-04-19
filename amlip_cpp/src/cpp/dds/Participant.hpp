@@ -90,13 +90,11 @@ public:
 
     template <typename T>
     std::shared_ptr<DirectWriter<T>> create_direct_writer(
-        const std::string& topic_name,
-        eprosima::fastdds::dds::DataWriterQos qos = DirectWriter<T>::default_directwriter_qos());
+        const std::string& topic_name);
 
     template <typename T>
     std::shared_ptr<TargetedReader<T>> create_targeted_reader(
-        const std::string& topic_name,
-        eprosima::fastdds::dds::DataReaderQos qos = TargetedReader<T>::default_targetedreader_qos());
+        const std::string& topic_name);
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip

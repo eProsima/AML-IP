@@ -126,6 +126,23 @@ bool AmlipIdDataType::operator !=(
     return !(*this == x);
 }
 
+bool AmlipIdDataType::operator <(
+        const AmlipIdDataType& x) const
+{
+    if (name_ < x.name_)
+    {
+        return true;
+    }
+    else if (name_ > x.name_)
+    {
+        return false;
+    }
+    else
+    {
+        return (rand_id_ < x.rand_id_);
+    }
+}
+
 std::string AmlipIdDataType::name() const
 {
     auto it = std::find(name_.begin(), name_.end(), '\0');

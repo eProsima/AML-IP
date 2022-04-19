@@ -48,8 +48,6 @@ class DirectWriter
 {
 public:
 
-    // TODO: Try to do constructor protected by being friend of Participant (it fails so far)
-
     /**
      * @brief Construct a new DirectWriter object using a DDS DataWriter already created.
      *
