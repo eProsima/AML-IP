@@ -36,10 +36,7 @@ set(TEST_LIST
     )
 
 set(TEST_EXTRA_LIBRARIES
-        fastcdr
-        fastrtps
-        ddsrouter_utils
-        ddsrouter_event
+        "${MODULE_FIND_PACKAGES}"
     )
 
 add_unittest_executable(
@@ -72,9 +69,42 @@ set(TEST_LIST
     )
 
 set(TEST_EXTRA_LIBRARIES
-        fastcdr
-        fastrtps
-        ddsrouter_utils
+        "${MODULE_FIND_PACKAGES}"
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+    )
+
+#####################################
+# ENTITIES CREATION TESTS
+#####################################
+
+set(TEST_NAME EntitiesCreationTest)
+
+set(TEST_SOURCES
+        entitiesCreationTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/Participant.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/Writer.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/network_utils/direct_write.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
+    )
+
+set(TEST_LIST
+        create_participant
+        create_writer
+        create_reader
+        create_directwriter
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        "${MODULE_FIND_PACKAGES}"
     )
 
 add_unittest_executable(
