@@ -62,27 +62,11 @@ public:
     ~GenericDataType();
 
     /*!
-     * @brief Copy constructor.
-     * @param x Reference to the object GenericDataType that will be copied.
-     */
-    GenericDataType(
-            const GenericDataType& x);
-
-    /*!
      * @brief Move constructor.
      * @param x Reference to the object GenericDataType that will be copied.
      */
     GenericDataType(
             GenericDataType&& x);
-
-    /*!
-     * @brief Copy assignment.
-     * @param x Reference to the object GenericDataType that will be copied.
-     *
-     * @note The pointer attribute \c data_ is copied, not its content.
-     */
-    GenericDataType& operator =(
-            const GenericDataType& x);
 
     /*!
      * @brief Move assignment.

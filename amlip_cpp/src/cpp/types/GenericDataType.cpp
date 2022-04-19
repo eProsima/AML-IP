@@ -39,7 +39,7 @@ namespace amlip {
 namespace types {
 
 const char* GenericDataType::TYPE_NAME_ = "GENERIC";
-const size_t GenericDataType::DEFAULT_PREALLOCATED_SIZE_ = 10;
+const size_t GenericDataType::DEFAULT_PREALLOCATED_SIZE_ = 16;
 
 GenericDataType::GenericDataType(
         void* data,
@@ -65,33 +65,19 @@ GenericDataType::~GenericDataType()
 }
 
 GenericDataType::GenericDataType(
-        const GenericDataType& x)
-{
-    data_ = x.data_;
-    data_size_ = x.data_size_;
-}
-
-GenericDataType::GenericDataType(
         GenericDataType&& x)
 {
     data_ = std::move(x.data_);
     data_size_ = std::move(x.data_size_);
-}
-
-GenericDataType& GenericDataType::operator =(
-        const GenericDataType& x)
-{
-    data_ = x.data_;
-    data_size_ = x.data_size_;
-
-    return *this;
+    this->has_been_allocated_.store(x.has_been_allocated_.load());
+    x.has_been_allocated_.store(false);
 }
 
 GenericDataType& GenericDataType::operator =(
         GenericDataType&& x)
 {
     data_ = std::move(x.data_);
-    data_size_ = x.data_size_;
+    data_size_ = std::move(x.data_size_);
 
     return *this;
 }

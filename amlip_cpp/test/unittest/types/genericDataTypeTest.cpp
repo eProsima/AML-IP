@@ -69,7 +69,7 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_str)
     GenericDataType deserialization_generic_type =
             generic_void_serialization_deserialization(static_cast<void*>((char*)str.c_str()), str.size());
 
-    ASSERT_EQ(str, (char*)deserialization_generic_type.data());
+    ASSERT_EQ(str, std::string((char*)deserialization_generic_type.data(), str.size()));
 }
 
 /**
