@@ -161,6 +161,11 @@ void AmlipIdDataType::id(
     rand_id_ = id;
 }
 
+std::string AmlipIdDataType::to_dds_string() const
+{
+    return name() + "_" + std::to_string(rand_id_[0]);
+}
+
 const char* AmlipIdDataType::type_name()
 {
     return TYPE_NAME_;

@@ -111,6 +111,13 @@ public:
     std::string name() const;
 
     /*!
+     * @brief This function creates a string that uniquely describe this object.
+     *
+     * @note This string is forced to be valid as a DDS name for entity or topic.
+     */
+    std::string to_dds_string() const;
+
+    /*!
      * @brief This function gets the value of attribute \c data_
      * @return Value of attribute \c data_ (a pointer, no the value pointed to)
      */

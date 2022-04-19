@@ -45,6 +45,29 @@ std::shared_ptr<Reader<T>> Participant::create_reader(
         qos);
 }
 
+template <typename T>
+std::shared_ptr<DirectWriter<T>> Participant::create_direct_writer(
+        const std::string& topic_name,
+        eprosima::fastdds::dds::DataWriterQos qos /* = DirectWriter<T>::default_directwriter_qos() */)
+{
+    return std::make_shared<DirectWriter<T>>(
+        topic_name,
+        dds_handler_.lease(),
+        qos);
+}
+
+template <typename T>
+std::shared_ptr<TargetedReader<T>> Participant::create_targeted_reader(
+        const std::string& topic_name,
+        eprosima::fastdds::dds::DataReaderQos qos /* = TargetedReader<T>::default_targetedreader_qos() */)
+{
+    return std::make_shared<TargetedReader<T>>(
+        id_,
+        topic_name,
+        dds_handler_.lease(),
+        qos);
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

@@ -167,6 +167,13 @@ public:
             const std::array<uint8_t, RAND_SIZE>& id);
 
     /*!
+     * @brief This function creates a string that uniquely describe this object.
+     *
+     * @note This string is forced to be valid as a DDS name for entity or topic.
+     */
+    std::string to_dds_string() const;
+
+    /*!
      * @brief This function returns the name of this specific data type
      */
     static const char* type_name();
