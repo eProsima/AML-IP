@@ -30,14 +30,9 @@ Writer<T>::Writer(
         eprosima::fastdds::dds::DataWriterQos qos /* = Writer::default_datawriter_qos() */)
     : topic_(topic)
 {
-    auto dds_handler_locked = dds_handler.lock();
-    if (dds_handler_locked)
-    {
-        throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create Writer " << topic << " after Participant destruction.");
-    }
+    auto dds_handler_locked = dds_handler.lock_with_exception();
 
-    datawriter_ = dds_handler_locked->create_datawriter(
+    datawriter_ = dds_handler_locked->create_datawriter<T>(
             topic_,
             qos,
             this);
@@ -49,9 +44,9 @@ Writer<T>::~Writer()
 }
 
 template <typename T>
-eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(const T& data)
+eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(T& data)
 {
-    auto datawriter_locked = datawriter_.lock();
+    auto datawriter_locked = datawriter_.lock_with_exception();
     return datawriter_locked->write(&data);
 }
 

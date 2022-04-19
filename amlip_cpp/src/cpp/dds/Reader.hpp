@@ -26,35 +26,13 @@
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
 #include <ddsrouter_event/wait/BooleanWaitHandler.hpp>
+#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+
+#include <dds/DdsHandler.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
-
-/**
- * @brief Reader Listener with callback to notify when readers match.
- */
-class ReaderListener : public eprosima::fastdds::dds::DataReaderListener
-{
-public:
-
-    // Default constructor and destructor
-
-    void on_data_available(
-            eprosima::fastdds::dds::DataReader* reader) override;
-
-    void on_subscription_matched(
-            eprosima::fastdds::dds::DataReader* reader,
-            const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
-
-    void set_callback(std::function<void()> on_data_available_callback) noexcept;
-
-protected:
-
-    std::atomic<bool> callback_set_;
-
-    std::function<void()> on_data_available_callback_;
-};
 
 /**
  * @brief Class that allows to subscribe to DDS topic and listen messages
@@ -62,14 +40,16 @@ protected:
  * @tparam T
  */
 template <typename T>
-class Reader
+class Reader : public eprosima::fastdds::dds::DataReaderListener
 {
 public:
 
+    // TODO: Try to do constructor protected by being friend of Participant (it fails so far)
+
     Reader(
         const std::string& topic,
-        std::unique_ptr<ReaderListener> listener,
-        std::shared_ptr<eprosima::fastdds::dds::DataReader> datareader);
+        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::fastdds::dds::DataReaderQos qos = Reader::default_datareader_qos());
 
     virtual ~Reader();
 
@@ -81,18 +61,16 @@ public:
 
     static eprosima::fastdds::dds::DataReaderQos default_datareader_qos();
 
-protected:
+    void on_data_available(
+            eprosima::fastdds::dds::DataReader* reader) override;
 
-    void new_data_available_();
+protected:
 
     //! Name of the topic this Reader subscribes to
     std::string topic_;
 
     //! DDS DataReader reference
-    std::shared_ptr<eprosima::fastdds::dds::DataReader> data_reader_;
-
-    //! Reader Listener
-    std::unique_ptr<ReaderListener> listener_;
+    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> datareader_;
 
     //! Waiter variable to wait for a data to be available
     ddsrouter::event::BooleanWaitHandler reader_data_waiter_;

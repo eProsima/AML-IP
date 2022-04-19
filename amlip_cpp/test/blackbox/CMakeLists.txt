@@ -12,6 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add subdirectory with tests
-add_subdirectory(blackbox)
-add_subdirectory(unittest)
+# Add test subdirectories
+add_subdirectory(communication)

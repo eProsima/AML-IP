@@ -96,30 +96,7 @@ class Writer : public WriterListener
 {
 public:
 
-    //! Default destructor, stop listener before destruction
-    virtual ~Writer();
-
-    /**
-     * @brief Publish new data in this Writer Topic
-     *
-     * This write will be done asynchronously and the data will be copied, so \c data could be destroyed afterwards.
-     *
-     * @param data new data to write
-     */
-    eprosima::fastrtps::types::ReturnCode_t publish(const T& data);
-
-    /**
-     * @brief Return default QoS for a DataWriter
-     *
-     * Default Writer QoS is:
-     * - Allocation: PREALLOCATED_WITH_REALLOC
-     * The rest of values are left as Fast-DDS default
-     *
-     * @return eprosima::fastdds::dds::DataWriterQos
-     */
-    static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos();
-
-protected:
+    // TODO: Try to do constructor protected by being friend of Participant (it fails so far)
 
     /**
      * @brief Construct a new Writer object using a DDS DataWriter already created.
@@ -138,7 +115,30 @@ protected:
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataWriterQos qos = Writer::default_datawriter_qos());
 
-    friend class Participant;
+    //! Default destructor, stop listener before destruction
+    virtual ~Writer();
+
+    /**
+     * @brief Publish new data in this Writer Topic
+     *
+     * This write will be done asynchronously and the data will be copied, so \c data could be destroyed afterwards.
+     *
+     * @param data new data to write
+     */
+    eprosima::fastrtps::types::ReturnCode_t publish(T& data);
+
+    /**
+     * @brief Return default QoS for a DataWriter
+     *
+     * Default Writer QoS is:
+     * - Allocation: PREALLOCATED_WITH_REALLOC
+     * The rest of values are left as Fast-DDS default
+     *
+     * @return eprosima::fastdds::dds::DataWriterQos
+     */
+    static eprosima::fastdds::dds::DataWriterQos default_datawriter_qos();
+
+protected:
 
     //! Name of the topic this Writer publishes
     std::string topic_;

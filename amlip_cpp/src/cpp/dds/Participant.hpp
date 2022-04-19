@@ -30,6 +30,7 @@
 
 #include <amlip_cpp/types/AmlipId.hpp>
 #include <dds/DdsHandler.hpp>
+#include <dds/Reader.hpp>
 #include <dds/Writer.hpp>
 
 namespace eprosima {
@@ -62,6 +63,11 @@ public:
         eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
         DomainIdType domain = Participant::default_domain_id());
 
+    Participant(
+        const std::string& name,
+        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+        DomainIdType domain = Participant::default_domain_id());
+
     //! Participant destructor
     virtual ~Participant();
 
@@ -76,7 +82,10 @@ public:
         const std::string& topic_name,
         eprosima::fastdds::dds::DataWriterQos qos = Writer<T>::default_datawriter_qos());
 
-    // TODO: add reader methods
+    template <typename T>
+    std::shared_ptr<Reader<T>> create_reader(
+        const std::string& topic_name,
+        eprosima::fastdds::dds::DataReaderQos qos = Reader<T>::default_datareader_qos());
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip
@@ -108,5 +117,8 @@ protected:
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include implementation template file
+#include <dds/impl/Participant.ipp>
 
 #endif /* AMLIPCPP__SRC_CPP_DDS_PARTICIPANT_HPP */

@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,6 +55,19 @@ TEST(participantTest, get_name)
         eprosima::amlip::types::AmlipId id(std::to_string(i));
         eprosima::amlip::dds::Participant participant(id);
         EXPECT_EQ(id.name(), participant.name());
+    }
+}
+
+/**
+ * Create a Participant with specific ids and check name is the correct one given in id
+ */
+TEST(participantTest, create_with_name)
+{
+    for (uint32_t i = 0; i < TEST_ITERATIONS; ++i)
+    {
+        std::string name("PartName" + std::to_string(i));
+        eprosima::amlip::dds::Participant participant(name);
+        EXPECT_EQ(name, participant.name());
     }
 }
 
