@@ -40,6 +40,14 @@ Participant::Participant(
         new DdsHandler(qos, domain));
 }
 
+Participant::Participant(
+        const std::string& name,
+        eprosima::fastdds::dds::DomainParticipantQos qos /* = Participant::default_participant_qos() */,
+        DomainIdType domain /* = Participant::default_domain_id() */)
+    : Participant(types::AmlipId(name), qos, domain)
+{
+}
+
 Participant::~Participant()
 {
     // Destroy DdsHandler that will destroy every DDS subentity
@@ -59,10 +67,6 @@ std::string Participant::name() const noexcept
 eprosima::fastdds::dds::DomainParticipantQos Participant::default_participant_qos() noexcept
 {
     eprosima::fastdds::dds::DomainParticipantQos qos = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
-
-    // Entities will be created disabled
-    qos.entity_factory().autoenable_created_entities = false;
-
     return qos;
 }
 

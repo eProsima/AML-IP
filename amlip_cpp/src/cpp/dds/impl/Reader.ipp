@@ -28,22 +28,21 @@ namespace dds {
 template <typename T>
 Reader<T>::Reader(
         const std::string& topic,
-        std::unique_ptr<ReaderListener> listener,
-        std::shared_ptr<eprosima::fastdds::dds::DataReader> datareader)
+        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::fastdds::dds::DataReaderQos qos /* = Reader::default_datareader_qos() */)
     : topic_(topic)
-    , data_reader_(datareader)
-    , listener_(listener)
 {
-    // Set callback to listener
-    listener_->set_callback(std::bind(&Reader<T>::new_data_available_, this));
+    auto dds_handler_locked = dds_handler.lock_with_exception();
+
+    datareader_ = dds_handler_locked->create_datareader<T>(
+            topic_,
+            qos,
+            this);
 }
 
 template <typename T>
 Reader<T>::~Reader()
 {
-    // Stop listener so it cannot notify more data
-    data_reader_->set_listener(nullptr);
-
     // Stop every waiting thread
     reader_data_waiter_.disable();
 }
@@ -63,14 +62,21 @@ bool Reader<T>::is_data_available()
 template <typename T>
 T Reader<T>::read()
 {
+    auto datareader_locked_ = datareader_.lock_with_exception();
+
     eprosima::fastdds::dds::SampleInfo info;
     T data;
 
-    eprosima::fastrtps::types::ReturnCode_t return_code = data_reader_->take_next_sample(&data, &info);
+    // TODO: This creates a new data, ergo it is copying the data arrived. Check and refactor this
+
+    eprosima::fastrtps::types::ReturnCode_t return_code = datareader_locked_->take_next_sample(&data, &info);
     if (return_code == eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK)
     {
         // Set number of data still available
-        reader_data_waiter_.set_value(data_reader_->get_unread_count());
+        if (datareader_locked_->get_unread_count() <= 0)
+        {
+            reader_data_waiter_.close();
+        }
 
         // Return data (this does a move)
         return data;
@@ -96,7 +102,8 @@ eprosima::fastdds::dds::DataReaderQos Reader<T>::default_datareader_qos()
 }
 
 template <typename T>
-void Reader<T>::new_data_available_()
+void Reader<T>::on_data_available(
+        eprosima::fastdds::dds::DataReader*)
 {
     reader_data_waiter_.open();
 }
