@@ -47,25 +47,21 @@ std::shared_ptr<Reader<T>> Participant::create_reader(
 
 template <typename T>
 std::shared_ptr<DirectWriter<T>> Participant::create_direct_writer(
-        const std::string& topic_name,
-        eprosima::fastdds::dds::DataWriterQos qos /* = DirectWriter<T>::default_directwriter_qos() */)
+        const std::string& topic_name)
 {
     return std::make_shared<DirectWriter<T>>(
         topic_name,
-        dds_handler_.lease(),
-        qos);
+        dds_handler_.lease());
 }
 
 template <typename T>
 std::shared_ptr<TargetedReader<T>> Participant::create_targeted_reader(
-        const std::string& topic_name,
-        eprosima::fastdds::dds::DataReaderQos qos /* = TargetedReader<T>::default_targetedreader_qos() */)
+        const std::string& topic_name)
 {
     return std::make_shared<TargetedReader<T>>(
         id_,
         topic_name,
-        dds_handler_.lease(),
-        qos);
+        dds_handler_.lease());
 }
 
 } /* namespace dds */

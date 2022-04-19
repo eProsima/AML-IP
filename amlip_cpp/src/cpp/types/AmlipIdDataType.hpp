@@ -135,6 +135,13 @@ public:
             const AmlipIdDataType& x) const;
 
     /*!
+     * @brief Comparison operator.
+     * @param x AmlipIdDataType object to compare.
+     */
+    bool operator <(
+            const AmlipIdDataType& x) const;
+
+    /*!
      * @brief This function gets the value of member \c name_ as string
      * @return Value of member \c name_ as string
      */

@@ -78,6 +78,12 @@ bool AmlipId::operator !=(
     return !(*this == x);
 }
 
+bool AmlipId::operator <(
+        const AmlipId& x) const
+{
+    return (*this->data()) < (*x.data());
+}
+
 std::string AmlipId::name() const
 {
     return data_->name();

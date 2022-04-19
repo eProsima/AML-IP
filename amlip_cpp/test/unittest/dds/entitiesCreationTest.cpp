@@ -69,10 +69,7 @@ TEST(EntitiesCreationTest, create_targetedreader)
 {
     Participant participant("TestTargetedReaderParticipant");
 
-    // std::shared_ptr<TargetedReader<types::AmlipIdDataType>> entity_ =
-    //     participant.create_targeted_reader<types::AmlipIdDataType>("test_topic");
-
-    auto entity_ =
+    std::shared_ptr<TargetedReader<types::AmlipIdDataType>> entity_ =
         participant.create_targeted_reader<types::AmlipIdDataType>("test_topic");
 }
 

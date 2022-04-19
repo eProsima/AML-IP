@@ -38,8 +38,6 @@ class TargetedReader : public Reader<T>
 {
 public:
 
-    // TODO: Try to do constructor protected by being friend of Participant (it fails so far)
-
     TargetedReader(
         const types::AmlipId own_id,
         const std::string& topic,
