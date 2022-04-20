@@ -41,7 +41,7 @@ template <class T>
 AmlipGenericTopicDataType<T>::AmlipGenericTopicDataType()
 {
     setName(T::type_name());
-    auto type_size = T::get_max_cdr_serialize_size();
+    auto type_size = T::get_max_cdr_serialized_size();
     type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
     m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = T::is_key_defined();
@@ -127,7 +127,7 @@ std::function<uint32_t()> AmlipGenericTopicDataType<T>::getSerializedSizeProvide
 {
     return [data]() -> uint32_t
            {
-               return static_cast<uint32_t>(T::get_cdr_serialize_size(*static_cast<T*>(data))) +
+               return static_cast<uint32_t>(T::get_cdr_serialized_size(*static_cast<T*>(data))) +
                       4u /*encapsulation*/;
            };
 }

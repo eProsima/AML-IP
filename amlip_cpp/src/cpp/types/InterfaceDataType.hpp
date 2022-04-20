@@ -86,7 +86,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static size_t get_max_cdr_serialize_size(
+    static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -99,7 +99,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static size_t get_cdr_serialize_size(
+    static size_t get_cdr_serialized_size(
             const InterfaceDataType& data,
             size_t current_alignment = 0);
 
