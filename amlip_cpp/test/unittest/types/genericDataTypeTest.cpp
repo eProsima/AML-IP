@@ -25,11 +25,11 @@ using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 
 /*!
-* @brief This function receives a pointer to a stream of bytes and the size it occupies in memory, "casts" the input
-* to \c GenericDataType, and performs serialization + deserialization of serialization result.
-* @param bytes_to_serialize pointer to the stream of bytes to serialize and deserialize.
-* @param data_size size occupied by \c bytes_to_serialize in memory.
-*/
+ * @brief This function receives a pointer to a stream of bytes and the size it occupies in memory, "casts" the input
+ * to \c GenericDataType, and performs serialization + deserialization of serialization result.
+ * @param bytes_to_serialize pointer to the stream of bytes to serialize and deserialize.
+ * @param data_size size occupied by \c bytes_to_serialize in memory.
+ */
 GenericDataType generic_void_serialization_deserialization(
         void* bytes_to_serialize,
         size_t data_size)
