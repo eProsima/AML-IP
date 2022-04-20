@@ -24,19 +24,19 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-size_t InterfaceDataType::get_max_cdr_serialize_size(
+size_t InterfaceDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     throw ddsrouter::utils::InconsistencyException(
-              "Subclasses of InterfaceDataType must implement get_max_cdr_serialize_size.");
+              "Subclasses of InterfaceDataType must implement get_max_cdr_serialized_size.");
 }
 
-size_t InterfaceDataType::get_cdr_serialize_size(
+size_t InterfaceDataType::get_cdr_serialized_size(
         const InterfaceDataType&,
         size_t current_alignment)
 {
     throw ddsrouter::utils::InconsistencyException(
-              "Subclasses of InterfaceDataType must implement get_cdr_serialize_size.");
+              "Subclasses of InterfaceDataType must implement get_cdr_serialized_size.");
 }
 
 size_t InterfaceDataType::get_key_max_cdr_serialized_size(
