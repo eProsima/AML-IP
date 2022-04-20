@@ -7,76 +7,18 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 1 * * *'
 
 jobs:
 
-  windows-build-test-release:
+  windows-build-test:
     runs-on: windows-latest
-    env:
-      CXXFLAGS: /MP
-      OPENSSL64_ROOT: "C:/Program Files/OpenSSL-Win64"
-
-    steps:
-      - name: Sync eProsima/AML-IP repository
-        uses: actions/checkout@v2
-        with:
-          path: AML-IP
-
-      - name: Install OpenSSL
-        uses: ./AML-IP/.github/actions/install-openssl-windows
-
-      - name: Install GTest
-        uses: ./AML-IP/.github/actions/install-gtest-windows
-
-      - name: Install yaml-cpp
-        uses: ./AML-IP/.github/actions/install-yamlcpp-windows
-
-      - name: Install foonatham memory
-        uses: ./AML-IP/.github/actions/install-eprosima-package-windows
-        with:
-          git_location: "--recurse-submodules --branch v0.6-2 https://github.com/foonathan/memory.git"
-          package_name: "memory"
-          cmake_options: "-DBUILD_SHARED_LIBS=OFF -DFOONATHAN_MEMORY_BUILD_TOOLS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON `
-                          -DFOONATHAN_MEMORY_BUILD_TESTS=OFF -Ax64 -T host=x64"
-
-      - name: Install Fast CDR
-        uses: ./AML-IP/.github/actions/install-eprosima-package-windows
-        with:
-          git_location: "https://github.com/eProsima/Fast-CDR.git"
-          package_name: "fastcdr"
-
-      - name: Install Fast DDS
-        uses: ./AML-IP/.github/actions/install-eprosima-package-windows
-        with:
-          git_location: "https://github.com/eProsima/Fast-DDS.git"
-          package_name: "fastdds"
-          cmake_options: "-DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
-                          -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 "
-
-      - name: Install DDS Router
-        uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
-        with:
-          git_location: "https://github.com/eProsima/DDS-Router.git"
-          superpackage_name: "ddsrouter"
-          package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
-
-      - name: Install amlip_cpp
-        uses: ./AML-IP/.github/actions/install-subpackage-windows
-        with:
-          package_path: AML-IP
-          subpackage: amlip_cpp
-          subpackage_dir: amlip_cpp
-
-      - name: Run tests amlip_cpp
-        uses: ./AML-IP/.github/actions/run-test-windows
-        with:
-          package_name: amlip_cpp
-        if: always()
-
-
-  windows-build-test-debug:
-    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cmake-config:
+          - 'Release'
+          - 'Debug'
     env:
       CXXFLAGS: /MP
       OPENSSL64_ROOT: "C:/Program Files/OpenSSL-Win64"
@@ -93,53 +35,31 @@ jobs:
       - name: Install GTest
         uses: ./AML-IP/.github/actions/install-gtest-windows
         with:
-          cmake_build_type: "Debug"
+          cmake_build_type: ${{ matrix.cmake-config }}
 
-      - name: Install yaml-cpp
-        uses: ./AML-IP/.github/actions/install-yamlcpp-windows
-        with:
-          cmake_build_type: "Debug"
+      - name: Get build eProsima dependencies Job Id
+        shell: pwsh
+        run: |
+          $RUNS_URI = '${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/build_eprosima_dependencies.yml/runs';
+          Invoke-RestMethod -Uri $RUNS_URI -OutFile content.json;
+          $job_id = jq -c '.workflow_runs[]  | select(.status == \"completed\") | .id' .\content.json | select -first 1;
+          echo "eprosima_dependencies_job_id=$job_id" >> $env:GITHUB_ENV;
 
-      - name: Install foonatham memory
-        uses: ./AML-IP/.github/actions/install-eprosima-package-windows
+      - name: Download eProsima dependencies
+        uses: dawidd6/action-download-artifact@v2
         with:
-          git_location: "--recurse-submodules --branch v0.6-2 https://github.com/foonathan/memory.git"
-          package_name: "memory"
-          cmake_build_type: "Debug"
-          cmake_options: "-DBUILD_SHARED_LIBS=OFF -DFOONATHAN_MEMORY_BUILD_TOOLS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON `
-                          -DFOONATHAN_MEMORY_BUILD_TESTS=OFF -Ax64 -T host=x64"
-
-      - name: Install Fast CDR
-        uses: ./AML-IP/.github/actions/install-eprosima-package-windows
-        with:
-          git_location: "https://github.com/eProsima/Fast-CDR.git"
-          package_name: "fastcdr"
-          cmake_build_type: "Debug"
-
-      - name: Install Fast DDS
-        uses: ./AML-IP/.github/actions/install-eprosima-package-windows
-        with:
-          git_location: "https://github.com/eProsima/Fast-DDS.git"
-          package_name: "fastdds"
-          cmake_build_type: "Debug"
-          cmake_options: "-DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
-                          -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 "
-
-      - name: Install DDS Router
-        uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
-        with:
-          git_location: "https://github.com/eProsima/DDS-Router.git"
-          superpackage_name: "ddsrouter"
-          package_names: "ddsrouter_cmake ddsrouter_utils ddsrouter_event ddsrouter_core"
-          cmake_build_type: "Debug"
+          workflow: build_eprosima_dependencies.yml
+          path: ${{ github.workspace }}\..\eprosima\install
+          name: windows_${{ matrix.cmake-config }}_eprosima_dependencies_install
+          run_id: ${{ env.eprosima_dependencies_job_id }}
 
       - name: Install amlip_cpp
         uses: ./AML-IP/.github/actions/install-subpackage-windows
         with:
           package_path: AML-IP
-          cmake_build_type: "Debug"
           subpackage: amlip_cpp
           subpackage_dir: amlip_cpp
+          cmake_build_type: "Debug"
 
       - name: Run tests amlip_cpp
         uses: ./AML-IP/.github/actions/run-test-windows
@@ -169,10 +89,20 @@ jobs:
       - name: Install Python packages
         uses: ./src/AML-IP/.github/actions/install-python-packages
 
-      - name: Fetch workspace repositories
+      - name: Get build eProsima dependencies Job Id
         run: |
-          cat src/AML-IP/.github/workflows/ci.repos
-          vcs import src <  src/AML-IP/.github/workflows/ci.repos
+          export JOB_ID=$(curl -sL $GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/build_eprosima_dependencies.yml/runs | \
+            jq '.workflow_runs[] | select(.status == "completed") | .id' | \
+            head -n 1)
+          echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
+
+      - name: Download eProsima dependencies
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build_eprosima_dependencies.yml
+          path: /home/runner/work/eprosima/install
+          name: ubuntu_eprosima_dependencies_install
+          run_id: ${{ env.eprosima_dependencies_job_id }}
 
       - name: Update colcon mixin
         run: |
@@ -184,6 +114,7 @@ jobs:
       - name: Build workspace
         run: |
           cat src/AML-IP/.github/workflows/test_colcon.meta
+          source /home/runner/work/eprosima/install/setup.bash
           colcon build \
             --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
@@ -209,18 +140,18 @@ jobs:
           mkdir build/amlip
           cp --recursive build/amlip_* build/amlip
           gcovr \
-          --root src/AML-IP/ \
-          --object-directory build/amlip \
-          --output coverage-report/coverage.xml \
-          --xml-pretty \
-          --exclude='.*docs/.*' \
-          --exclude='.*test/.*' \
-          --exclude='.*github/.*' \
-          --exclude='.*common/.*' \
-          --exclude='.*dev/.*' \
-          --exclude='.*thirdparty/.*' \
-          --exclude='.*resources/.*' \
-          --exclude-unreachable-branches
+            --root src/AML-IP/ \
+            --output coverage-report/coverage.xml \
+            --xml-pretty \
+            --exclude='.*docs/.*' \
+            --exclude='.*test/.*' \
+            --exclude='.*github/.*' \
+            --exclude='.*common/.*' \
+            --exclude='.*dev/.*' \
+            --exclude='.*thirdparty/.*' \
+            --exclude='.*resources/.*' \
+            --exclude-unreachable-branches \
+            build/amlip_*
 
       - name: Upload coverage
         uses: actions/upload-artifact@v1
@@ -276,10 +207,20 @@ jobs:
       - name: Install Python packages
         uses: ./src/AML-IP/.github/actions/install-python-packages
 
-      - name: Fetch workspace repositories
+      - name: Get build eProsima dependencies Job Id
         run: |
-          cat src/AML-IP/.github/workflows/ci.repos
-          vcs import src <  src/AML-IP/.github/workflows/ci.repos
+          export JOB_ID=$(curl -sL $GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/build_eprosima_dependencies.yml/runs | \
+            jq '.workflow_runs[] | select(.status == "completed") | .id' | \
+            head -n 1)
+          echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
+
+      - name: Download eProsima dependencies
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build_eprosima_dependencies.yml
+          path: /home/runner/work/eprosima/install
+          name: ubuntu_eprosima_dependencies_install
+          run_id: ${{ env.eprosima_dependencies_job_id }}
 
       - name: Update colcon mixin
         run: |
@@ -291,6 +232,7 @@ jobs:
       - name: Build workspace
         run: |
           cat src/AML-IP/.github/workflows/test_colcon.meta
+          source /home/runner/work/eprosima/install/setup.bash
           colcon build \
             --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
@@ -325,14 +267,25 @@ jobs:
       - name: Install Python packages
         uses: ./src/AML-IP/.github/actions/install-python-packages
 
-      - name: Fetch workspace repositories
+      - name: Get build eProsima dependencies Job Id
         run: |
-          cat src/AML-IP/.github/workflows/ci.repos
-          vcs import src <  src/AML-IP/.github/workflows/ci.repos
+          export JOB_ID=$(curl -sL $GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/build_eprosima_dependencies.yml/runs | \
+            jq '.workflow_runs[] | select(.status == "completed") | .id' | \
+            head -n 1)
+          echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
+
+      - name: Download eProsima dependencies
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build_eprosima_dependencies.yml
+          path: /home/runner/work/eprosima/install
+          name: ubuntu_eprosima_dependencies_install
+          run_id: ${{ env.eprosima_dependencies_job_id }}
 
       - name: Build workspace
         run: |
           cat src/AML-IP/.github/workflows/clang_colcon.meta
+          source /home/runner/work/eprosima/install/setup.bash
           colcon build \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/clang_colcon.meta
