@@ -62,11 +62,25 @@ public:
     ~GenericDataType();
 
     /*!
+     * @brief Copy constructor not allowed.
+     * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
+     */
+    GenericDataType(
+            GenericDataType&) = delete;
+
+    /*!
      * @brief Move constructor.
      * @param x Reference to the object GenericDataType that will be copied.
      */
     GenericDataType(
             GenericDataType&& x);
+
+    /*!
+     * @brief Copy assignment not allowed.
+     * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
+     */
+    GenericDataType& operator =(
+            const GenericDataType&) = delete;
 
     /*!
      * @brief Move assignment.

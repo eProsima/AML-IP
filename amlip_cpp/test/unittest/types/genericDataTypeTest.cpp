@@ -24,6 +24,12 @@
 using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 
+/*!
+* @brief This function receives a pointer to a stream of bytes and the size it occupies in memory, "casts" the input
+* to \c GenericDataType, and performs serialization + deserialization of serialization result.
+* @param bytes_to_serialize pointer to the stream of bytes to serialize and deserialize.
+* @param data_size size occupied by \c bytes_to_serialize in memory.
+*/
 GenericDataType generic_void_serialization_deserialization(
         void* bytes_to_serialize,
         size_t data_size)
@@ -45,7 +51,7 @@ GenericDataType generic_void_serialization_deserialization(
 }
 
 /**
- * Test serialization and deserialization of an integer
+ * Test serialization and deserialization of an integer.
  *
  */
 TEST(genericDataTypeTest, generic_serialization_deserialization_int)
@@ -59,7 +65,7 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_int)
 }
 
 /**
- * Test serialization and deserialization of a string
+ * Test serialization and deserialization of a string.
  *
  */
 TEST(genericDataTypeTest, generic_serialization_deserialization_str)
@@ -73,8 +79,15 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_str)
 }
 
 /**
- * Test serialization and deserialization of a AmlipDataType object
+ * Test serialization and deserialization of an \c AmlipIdDataType object.
  *
+ * First, an \c AmlipIdDataType object is converted to a stream of bytes via serialization.
+
+ * Next, the obtained serialized payload is "converted" to \c GenericDataType, being then serialized and deserialized
+ * through \c generic_void_serialization_deserialization just like in previous tests.
+ *
+ * Finally, the result of previous deserialization is treated as an \c AmlipIdDataType serialized payload, which is
+ * deserialized and compared with the original id object.
  */
 TEST(genericDataTypeTest, generic_serialization_deserialization_amlipIdDataType)
 {
