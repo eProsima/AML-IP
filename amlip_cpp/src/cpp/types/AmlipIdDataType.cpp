@@ -41,6 +41,7 @@ namespace amlip {
 namespace types {
 
 const AmlipIdDataType AmlipIdDataType::UNDEFINED_ID_ = AmlipIdDataType();
+const char* AmlipIdDataType::TYPE_NAME_ = "AMLIP-ID";
 
 AmlipIdDataType::AmlipIdDataType()
     : name_({0})
@@ -162,7 +163,7 @@ void AmlipIdDataType::id(
 
 const char* AmlipIdDataType::type_name()
 {
-    return "AMLIP-ID";
+    return TYPE_NAME_;
 }
 
 bool AmlipIdDataType::is_defined() const noexcept
@@ -261,7 +262,7 @@ void AmlipIdDataType::serialize_key(
 {
 }
 
-size_t AmlipIdDataType::get_max_cdr_serialize_size(
+size_t AmlipIdDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
@@ -270,11 +271,11 @@ size_t AmlipIdDataType::get_max_cdr_serialize_size(
     return current_alignment - initial_alignment;
 }
 
-size_t AmlipIdDataType::get_cdr_serialize_size(
+size_t AmlipIdDataType::get_cdr_serialized_size(
         const AmlipIdDataType&,
         size_t current_alignment)
 {
-    return get_max_cdr_serialize_size(current_alignment);
+    return get_max_cdr_serialized_size(current_alignment);
 }
 
 size_t AmlipIdDataType::get_key_max_cdr_serialized_size(
@@ -301,8 +302,7 @@ bool AmlipIdDataType::is_plain()
 bool AmlipIdDataType::construct_sample(
         void* memory)
 {
-    new (memory) AmlipIdDataType();
-    return true;
+    return new (memory) AmlipIdDataType();
 }
 
 std::ostream& operator <<(
