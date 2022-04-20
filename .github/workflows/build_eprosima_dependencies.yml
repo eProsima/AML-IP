@@ -1,0 +1,6 @@
+name: build_eprosima_dependencies
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
