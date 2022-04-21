@@ -63,8 +63,8 @@ AmlipIdDataType::AmlipIdDataType(
 }
 
 AmlipIdDataType::AmlipIdDataType(
-        std::array<uint8_t, NAME_SIZE>& name,
-        std::array<uint8_t, RAND_SIZE>& rand_id)
+        const std::array<uint8_t, NAME_SIZE>& name,
+        const std::array<uint8_t, RAND_SIZE>& rand_id)
 {
     name_ = name;
     rand_id_ = rand_id;
@@ -162,12 +162,12 @@ void AmlipIdDataType::name(
     name_ = name;
 }
 
-const std::array<uint8_t, NAME_SIZE>& AmlipIdDataType::base64_name() const
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::base64_name() const
 {
     return name_;
 }
 
-const std::array<uint8_t, RAND_SIZE>& AmlipIdDataType::id() const
+std::array<uint8_t, RAND_SIZE> AmlipIdDataType::id() const
 {
     return rand_id_;
 }
@@ -183,7 +183,7 @@ std::string AmlipIdDataType::to_dds_string() const
     return name() + "_" + std::to_string(rand_id_[0]);
 }
 
-const char* AmlipIdDataType::type_name()
+std::string AmlipIdDataType::type_name()
 {
     return TYPE_NAME_;
 }

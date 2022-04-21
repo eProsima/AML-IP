@@ -42,13 +42,13 @@ using namespace eprosima::amlip::dds;
 TEST(DirectMessageTest, communicate_writer_reader)
 {
     // Ids used along the test
-    types::AmlipIdDataType source_id("SourceId1");
-    types::AmlipIdDataType target_id("TargetId1");
+    types::AmlipIdDataType client_id("SourceId1");
+    types::AmlipIdDataType server_id("TargetId1");
 
     // Create 2 participants so they have different ids
     // Create a participant
-    Participant source_participant(source_id);
-    Participant target_participant(target_id);
+    Participant source_participant(client_id);
+    Participant target_participant(server_id);
 
     // Create a writer
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer =
@@ -64,7 +64,7 @@ TEST(DirectMessageTest, communicate_writer_reader)
         {1});
 
     // Write data
-    writer->write(target_id, to_send_data);
+    writer->write(server_id, to_send_data);
 
     // Wait for data to arrive
     reader->wait_data_available();
@@ -81,13 +81,13 @@ TEST(DirectMessageTest, communicate_writer_reader)
 TEST(DirectMessageTest, communicate_writer_reader_multiple_messages)
 {
     // Ids used along the test
-    types::AmlipIdDataType source_id("SourceId2");
-    types::AmlipIdDataType target_id("TargetId2");
+    types::AmlipIdDataType client_id("SourceId2");
+    types::AmlipIdDataType server_id("TargetId2");
 
     // Create 2 participants so they have different ids
     // Create a participant
-    Participant source_participant(source_id);
-    Participant target_participant(target_id);
+    Participant source_participant(client_id);
+    Participant target_participant(server_id);
 
     // Create a writer
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer =
@@ -105,7 +105,7 @@ TEST(DirectMessageTest, communicate_writer_reader_multiple_messages)
             {static_cast<uint8_t>(i)});
 
         // Write data
-        writer->write(target_id, to_send_data);
+        writer->write(server_id, to_send_data);
     }
 
     // Store the sum of ids got
@@ -132,13 +132,13 @@ TEST(DirectMessageTest, communicate_multiple_writers_reader)
     // Ids used along the test
     types::AmlipIdDataType source_id_1("SourceId3");
     types::AmlipIdDataType source_id_2("SourceId3");
-    types::AmlipIdDataType target_id("TargetId3");
+    types::AmlipIdDataType server_id("TargetId3");
 
     // Create 2 participants so they have different ids
     // Create a participant
     Participant source_participant_1(source_id_1);
     Participant source_participant_2(source_id_2);
-    Participant target_participant(target_id);
+    Participant target_participant(server_id);
 
     // Create a writer 1
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer_1 =
@@ -161,8 +161,8 @@ TEST(DirectMessageTest, communicate_multiple_writers_reader)
         {2});
 
     // Send data from writer
-    writer_1->write(target_id, to_send_data_1);
-    writer_2->write(target_id, to_send_data_2);
+    writer_1->write(server_id, to_send_data_1);
+    writer_2->write(server_id, to_send_data_2);
 
     // Store the sum of ids got
     uint32_t ids_checksum = 0;
@@ -186,15 +186,15 @@ TEST(DirectMessageTest, communicate_multiple_writers_reader)
 TEST(DirectMessageTest, communicate_writer_multiple_readers)
 {
     // Ids used along the test
-    types::AmlipIdDataType source_id("SourceId4");
-    types::AmlipIdDataType target_id_1("TargetId4");
-    types::AmlipIdDataType target_id_2("TargetId4");
+    types::AmlipIdDataType client_id("SourceId4");
+    types::AmlipIdDataType server_id_1("TargetId4");
+    types::AmlipIdDataType server_id_2("TargetId4");
 
     // Create 2 participants so they have different ids
     // Create a participant
-    Participant source_participant(source_id);
-    Participant target_participant_1(target_id_1);
-    Participant target_participant_2(target_id_2);
+    Participant source_participant(client_id);
+    Participant target_participant_1(server_id_1);
+    Participant target_participant_2(server_id_2);
 
     // Create a writer
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer =
@@ -214,7 +214,7 @@ TEST(DirectMessageTest, communicate_writer_multiple_readers)
         {4});
 
     // Write to reader 1
-    writer->write(target_id_1, to_send_data);
+    writer->write(server_id_1, to_send_data);
 
     reader_1->wait_data_available();
     types::AmlipIdDataType received_data_1 = reader_1->read();
@@ -224,7 +224,7 @@ TEST(DirectMessageTest, communicate_writer_multiple_readers)
     ASSERT_FALSE(reader_2->is_data_available());
 
     // Write to reader 2
-    writer->write(target_id_2, to_send_data);
+    writer->write(server_id_2, to_send_data);
 
     reader_2->wait_data_available();
     types::AmlipIdDataType received_data_2 = reader_2->read();

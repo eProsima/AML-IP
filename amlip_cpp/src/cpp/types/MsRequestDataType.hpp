@@ -40,9 +40,7 @@ namespace types {
 using TaskId = uint32_t;
 
 /*!
- * @brief This class represents the structure MsRequestDataType, which implements \c InterfaceDataType and hence serves
- * as a communication interface to \c AmlipId class.
- * @ingroup AMLIP
+ * TODO
  */
 class MsRequestDataType : public InterfaceDataType
 {
@@ -57,7 +55,7 @@ public:
      * @brief Constructor with name.
      */
     MsRequestDataType(
-            const AmlipIdDataType source_id,
+            const AmlipIdDataType client_id,
             const TaskId& task_id);
 
     /*!
@@ -117,12 +115,12 @@ public:
     /*!
      * TODO
      */
-    AmlipIdDataType source_id() const;
+    AmlipIdDataType client_id() const;
 
     /*!
      * TODO
      */
-    void source_id(const AmlipIdDataType& new_value);
+    void client_id(const AmlipIdDataType& new_value);
 
     /*!
      * TODO
@@ -218,11 +216,11 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static const char* type_name();
+    static std::string type_name();
 
 protected:
 
-    AmlipIdDataType source_id_;
+    AmlipIdDataType client_id_;
 
     TaskId task_id_;
 

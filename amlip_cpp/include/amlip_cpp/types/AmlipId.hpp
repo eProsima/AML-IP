@@ -19,8 +19,6 @@
 #ifndef AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
 #define AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
 
-#include <array>
-#include <limits>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -129,6 +127,13 @@ public:
      * @return Value of attribute \c data_ (a pointer, no the value pointed to)
      */
     std::shared_ptr<AmlipIdDataType> data() const;
+
+    /**
+     * @brief Return a DDS Data object copy from the internal data.
+     *
+     * @return AmlipIdDataType copy of the internal data.
+     */
+    AmlipIdDataType dds_data() const;
 
     /*!
      * @brief This function returns an \c AmlipId object constructed with the given name

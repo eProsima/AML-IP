@@ -156,7 +156,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static const char* type_name();
+    static std::string type_name();
 };
 
 } /* namespace types */

@@ -40,11 +40,11 @@ MsReferenceDataType::MsReferenceDataType()
 }
 
 MsReferenceDataType::MsReferenceDataType(
-        const AmlipIdDataType source_id,
+        const AmlipIdDataType client_id,
         const TaskId& task_id,
-        const AmlipIdDataType& target_id)
-    : MsRequestDataType(source_id, task_id)
-    , target_id_(target_id)
+        const AmlipIdDataType& server_id)
+    : MsRequestDataType(client_id, task_id)
+    , server_id_(server_id)
 {
 }
 
@@ -55,25 +55,25 @@ MsReferenceDataType::~MsReferenceDataType()
 MsReferenceDataType::MsReferenceDataType(
         const MsReferenceDataType& x)
 {
-    source_id_ = x.source_id_;
+    client_id_ = x.client_id_;
     task_id_ = x.task_id_;
-    target_id_ = x.target_id_;
+    server_id_ = x.server_id_;
 }
 
 MsReferenceDataType::MsReferenceDataType(
         MsReferenceDataType&& x)
 {
-    source_id_ = std::move(x.source_id_);
+    client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
-    target_id_ = std::move(x.target_id_);
+    server_id_ = std::move(x.server_id_);
 }
 
 MsReferenceDataType& MsReferenceDataType::operator =(
         const MsReferenceDataType& x)
 {
-    source_id_ = x.source_id_;
+    client_id_ = x.client_id_;
     task_id_ = x.task_id_;
-    target_id_ = x.target_id_;
+    server_id_ = x.server_id_;
 
     return *this;
 }
@@ -81,9 +81,9 @@ MsReferenceDataType& MsReferenceDataType::operator =(
 MsReferenceDataType& MsReferenceDataType::operator =(
         MsReferenceDataType&& x)
 {
-    source_id_ = std::move(x.source_id_);
+    client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
-    target_id_ = std::move(x.target_id_);
+    server_id_ = std::move(x.server_id_);
 
     return *this;
 }
@@ -91,7 +91,7 @@ MsReferenceDataType& MsReferenceDataType::operator =(
 bool MsReferenceDataType::operator ==(
         const MsReferenceDataType& x) const
 {
-    return (source_id_ == x.source_id_ && task_id_ == x.task_id_ && target_id_ == x.target_id_);
+    return (client_id_ == x.client_id_ && task_id_ == x.task_id_ && server_id_ == x.server_id_);
 }
 
 bool MsReferenceDataType::operator !=(
@@ -103,11 +103,11 @@ bool MsReferenceDataType::operator !=(
 bool MsReferenceDataType::operator <(
         const MsReferenceDataType& x) const
 {
-    if (source_id_ < x.source_id_)
+    if (client_id_ < x.client_id_)
     {
         return true;
     }
-    else if (x.source_id_ < source_id_)
+    else if (x.client_id_ < client_id_)
     {
         return false;
     }
@@ -123,35 +123,35 @@ bool MsReferenceDataType::operator <(
         }
         else
         {
-            return (target_id_ < x.target_id_);
+            return (server_id_ < x.server_id_);
         }
     }
 }
 
-AmlipIdDataType MsReferenceDataType::target_id() const
+AmlipIdDataType MsReferenceDataType::server_id() const
 {
-    return target_id_;
+    return server_id_;
 }
 
-void MsReferenceDataType::target_id(const AmlipIdDataType& new_value)
+void MsReferenceDataType::server_id(const AmlipIdDataType& new_value)
 {
-    target_id_ = new_value;
+    server_id_ = new_value;
 }
 
 void MsReferenceDataType::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << source_id_;
+    scdr << client_id_;
     scdr << task_id_;
-    scdr << target_id_;
+    scdr << server_id_;
 }
 
 void MsReferenceDataType::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    dcdr >> source_id_;
+    dcdr >> client_id_;
     dcdr >> task_id_;
-    dcdr >> target_id_;
+    dcdr >> server_id_;
 }
 
 void MsReferenceDataType::serialize_key(
@@ -177,9 +177,9 @@ size_t MsReferenceDataType::get_cdr_serialized_size(
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.source_id(), current_alignment);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.client_id(), current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.target_id(), current_alignment);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.server_id(), current_alignment);
 
     return current_alignment - initial_alignment;
 }
@@ -212,18 +212,18 @@ bool MsReferenceDataType::construct_sample(
     return true;
 }
 
-const char* MsReferenceDataType::type_name()
+std::string MsReferenceDataType::type_name()
 {
     return DATA_TYPE_NAME_;
 }
 
 std::ostream& operator <<(
         std::ostream& os,
-        const MsReferenceDataType& request)
+        const MsReferenceDataType& reference)
 {
-    os << "MS-REFERENCE{" << request.source_id() <<
-        "|" << request.task_id() <<
-        "|" << request.target_id() << "}";
+    os << "MS-REFERENCE{" << reference.client_id() <<
+        "|" << reference.task_id() <<
+        "|" << reference.server_id() << "}";
     return os;
 }
 

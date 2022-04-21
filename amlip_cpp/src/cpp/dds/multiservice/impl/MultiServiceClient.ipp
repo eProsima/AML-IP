@@ -16,10 +16,8 @@
  * @file MultiServiceClient.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_READER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_READER_IPP
-
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
+#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
 
 #include <dds/network_utils/multiservice.hpp>
 
@@ -29,7 +27,7 @@ namespace dds {
 
 template <typename Data, typename Solution>
 MultiServiceClient<Data, Solution>::MultiServiceClient(
-        const types::AmlipId& own_id,
+        const types::AmlipIdDataType& own_id,
         const std::string& topic,
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler)
     : own_id_(own_id)
@@ -63,6 +61,72 @@ MultiServiceClient<Data, Solution>::~MultiServiceClient()
 }
 
 template <typename Data, typename Solution>
+Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
+{
+    // SEND REQUEST AVAILABILITY
+    // Get new task id
+    types::TaskId this_task_id = new_task_id_();
+
+    // Create Request data
+    types::MsRequestDataType request_data(own_id_, this_task_id);
+
+    // Send request
+    request_availability_writer_.publish(request_data);
+
+    // WAIT FOR REPLY AVAILABLE
+    // Wait for someone to reply
+    types::MsReferenceDataType reference;
+
+    while(true)
+    {
+        reply_available_reader_.wait_data_available();
+
+        // Get task reference
+        reference = reply_available_reader_.read();
+
+        if (reference.task_id() == this_task_id ||
+            reference.client_id() == own_id_)
+        {
+            break;
+        }
+    }
+
+    // From here, reference has the target of the server that is going to process the data
+    logDebug(AMLIP_MULTISERVICE_CLIENT,
+        "Client " << own_id_ << " sending task: " << reference.task_id() <<
+        " to server: " << reference.server_id() << ".");
+
+    // SEND TASK TARGET
+    // Send the reference sent by the server
+    task_target_writer_.publish(reference);
+
+    // SEND DATA
+    types::MsDataType<Data> data_(reference, data);
+    task_data_writer_.write(reference.server_id(), data_);
+
+    // WAIT FOR SOLUTION
+    Solution solution;
+
+    while(true)
+    {
+        task_solution_reader_.wait_data_available();
+
+        // Get task reference
+        types::MsDataType<Solution> ms_solution = task_solution_reader_.read();
+
+        // NOTE: it does not check the server, it can be assumed is the one we are waiting for
+        if (ms_solution.task_id() == this_task_id ||
+            ms_solution.client_id() == own_id_)
+        {
+            solution = ms_solution.data();
+            break;
+        }
+    }
+
+    return solution;
+}
+
+template <typename Data, typename Solution>
 eprosima::fastdds::dds::DataWriterQos MultiServiceClient<Data, Solution>::default_request_availability_writer_qos_()
 {
     eprosima::fastdds::dds::DataWriterQos qos;
@@ -84,65 +148,13 @@ eprosima::fastdds::dds::DataWriterQos MultiServiceClient<Data, Solution>::defaul
 }
 
 template <typename Data, typename Solution>
-Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
+types::TaskId MultiServiceClient<Data, Solution>::new_task_id_()
 {
-    // SEND REQUEST AVAILABILITY
-    // Get new task id
-    types::TaskId this_task_id = new_task_id();
-
-    // Create Request data
-    types::MsRequestDataType request_data(own_id_, this_task_id);
-
-    // Send request
-    request_availability_writer_.publish(request_data);
-
-    // WAIT FOR REPLY AVAILABLE
-    // Wait for someone to reply
-    types::MsReferenceDataType reference;
-
-    while(true)
-    {
-        reply_available_reader_.wait_data_available();
-
-        // Get task reference
-        reference = reply_available_reader_.read();
-
-        if (reference.task_id() == this_task_id ||
-            reference.source_id() == own_id_)
-        {
-            break;
-        }
-    }
-
-    // SEND TASK TARGET
-    // Send the reference sent by the server
-    task_target_writer_.publish(reference);
-
-    // SEND DATA
-    task_data_writer_.write(types::MsDataType<Data>(reference, data));
-
-    // WAIT FOR SOLUTION
-    Solution solution;
-
-    while(true)
-    {
-        task_solution_reader_.wait_data_available();
-
-        // Get task reference
-        solution = task_solution_reader_.read();
-
-        if (solution.task_id() == this_task_id ||
-            solution.source_id() == own_id_)
-        {
-            break;
-        }
-    }
-
-    return solution;
+    return last_task_id_used_++;
 }
 
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_READER_IPP */
+#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP */

@@ -40,9 +40,9 @@ MsRequestDataType::MsRequestDataType()
 }
 
 MsRequestDataType::MsRequestDataType(
-        const AmlipIdDataType source_id,
+        const AmlipIdDataType client_id,
         const TaskId& task_id)
-    : source_id_(source_id)
+    : client_id_(client_id)
     , task_id_(task_id)
 {
 }
@@ -54,21 +54,21 @@ MsRequestDataType::~MsRequestDataType()
 MsRequestDataType::MsRequestDataType(
         const MsRequestDataType& x)
 {
-    source_id_ = x.source_id_;
+    client_id_ = x.client_id_;
     task_id_ = x.task_id_;
 }
 
 MsRequestDataType::MsRequestDataType(
         MsRequestDataType&& x)
 {
-    source_id_ = std::move(x.source_id_);
+    client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
 }
 
 MsRequestDataType& MsRequestDataType::operator =(
         const MsRequestDataType& x)
 {
-    source_id_ = x.source_id_;
+    client_id_ = x.client_id_;
     task_id_ = x.task_id_;
 
     return *this;
@@ -77,7 +77,7 @@ MsRequestDataType& MsRequestDataType::operator =(
 MsRequestDataType& MsRequestDataType::operator =(
         MsRequestDataType&& x)
 {
-    source_id_ = std::move(x.source_id_);
+    client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
 
     return *this;
@@ -86,7 +86,7 @@ MsRequestDataType& MsRequestDataType::operator =(
 bool MsRequestDataType::operator ==(
         const MsRequestDataType& x) const
 {
-    return (source_id_ == x.source_id_ && task_id_ == x.task_id_);
+    return (client_id_ == x.client_id_ && task_id_ == x.task_id_);
 }
 
 bool MsRequestDataType::operator !=(
@@ -98,11 +98,11 @@ bool MsRequestDataType::operator !=(
 bool MsRequestDataType::operator <(
         const MsRequestDataType& x) const
 {
-    if (source_id_ < x.source_id_)
+    if (client_id_ < x.client_id_)
     {
         return true;
     }
-    else if (x.source_id_ < source_id_)
+    else if (x.client_id_ < client_id_)
     {
         return false;
     }
@@ -112,14 +112,14 @@ bool MsRequestDataType::operator <(
     }
 }
 
-AmlipIdDataType MsRequestDataType::source_id() const
+AmlipIdDataType MsRequestDataType::client_id() const
 {
-    return source_id_;
+    return client_id_;
 }
 
-void MsRequestDataType::source_id(const AmlipIdDataType& new_value)
+void MsRequestDataType::client_id(const AmlipIdDataType& new_value)
 {
-    source_id_ = new_value;
+    client_id_ = new_value;
 }
 
 TaskId MsRequestDataType::task_id() const
@@ -135,14 +135,14 @@ void MsRequestDataType::task_id(const TaskId& new_value)
 void MsRequestDataType::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << source_id_;
+    scdr << client_id_;
     scdr << task_id_;
 }
 
 void MsRequestDataType::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    dcdr >> source_id_;
+    dcdr >> client_id_;
     dcdr >> task_id_;
 }
 
@@ -168,7 +168,7 @@ size_t MsRequestDataType::get_cdr_serialized_size(
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.source_id(), current_alignment);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.client_id(), current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
     return current_alignment - initial_alignment;
@@ -202,7 +202,7 @@ bool MsRequestDataType::construct_sample(
     return true;
 }
 
-const char* MsRequestDataType::type_name()
+std::string MsRequestDataType::type_name()
 {
     return DATA_TYPE_NAME_;
 }
@@ -211,7 +211,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const MsRequestDataType& request)
 {
-    os << "MS-REQUEST{" << request.source_id() << "|" << request.task_id() << "}";
+    os << "MS-REQUEST{" << request.client_id() << "|" << request.task_id() << "}";
     return os;
 }
 
