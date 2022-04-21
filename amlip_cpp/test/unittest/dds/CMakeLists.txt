@@ -89,8 +89,11 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/Participant.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/Writer.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/network_utils/direct_write.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/network_utils/multiservice.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/MsRequestDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/MsReferenceDataType.cpp
     )
 
 set(TEST_LIST
@@ -99,6 +102,7 @@ set(TEST_LIST
         create_reader
         create_directwriter
         create_targetedreader
+        create_ms_client
     )
 
 set(TEST_EXTRA_LIBRARIES

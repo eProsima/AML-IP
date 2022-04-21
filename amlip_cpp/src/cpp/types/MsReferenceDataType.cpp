@@ -33,6 +33,12 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+const char* MsReferenceDataType::DATA_TYPE_NAME_ = "ms_reference";
+
+MsReferenceDataType::MsReferenceDataType()
+{
+}
+
 MsReferenceDataType::MsReferenceDataType(
         const AmlipIdDataType source_id,
         const TaskId& task_id,
@@ -153,27 +159,27 @@ void MsReferenceDataType::serialize_key(
 {
 }
 
-size_t MsReferenceDataType::get_max_cdr_serialize_size(
+size_t MsReferenceDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += AmlipIdDataType::get_max_cdr_serialize_size(current_alignment);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_max_cdr_serialize_size(current_alignment);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
 
     return current_alignment - initial_alignment;
 }
 
-size_t MsReferenceDataType::get_cdr_serialize_size(
+size_t MsReferenceDataType::get_cdr_serialized_size(
         const MsReferenceDataType& request,
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += AmlipIdDataType::get_cdr_serialize_size(request.source_id(), current_alignment);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.source_id(), current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_cdr_serialize_size(request.target_id(), current_alignment);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.target_id(), current_alignment);
 
     return current_alignment - initial_alignment;
 }
@@ -204,6 +210,11 @@ bool MsReferenceDataType::construct_sample(
 {
     new (memory) MsReferenceDataType();
     return true;
+}
+
+const char* MsReferenceDataType::type_name()
+{
+    return DATA_TYPE_NAME_;
 }
 
 std::ostream& operator <<(

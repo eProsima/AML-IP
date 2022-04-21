@@ -33,6 +33,12 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+const char* MsRequestDataType::DATA_TYPE_NAME_ = "ms_request";
+
+MsRequestDataType::MsRequestDataType()
+{
+}
+
 MsRequestDataType::MsRequestDataType(
         const AmlipIdDataType source_id,
         const TaskId& task_id)
@@ -145,24 +151,24 @@ void MsRequestDataType::serialize_key(
 {
 }
 
-size_t MsRequestDataType::get_max_cdr_serialize_size(
+size_t MsRequestDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += AmlipIdDataType::get_max_cdr_serialize_size(current_alignment);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
     return current_alignment - initial_alignment;
 }
 
-size_t MsRequestDataType::get_cdr_serialize_size(
+size_t MsRequestDataType::get_cdr_serialized_size(
         const MsRequestDataType& request,
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += AmlipIdDataType::get_cdr_serialize_size(request.source_id(), current_alignment);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.source_id(), current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
     return current_alignment - initial_alignment;
@@ -194,6 +200,11 @@ bool MsRequestDataType::construct_sample(
 {
     new (memory) MsRequestDataType();
     return true;
+}
+
+const char* MsRequestDataType::type_name()
+{
+    return DATA_TYPE_NAME_;
 }
 
 std::ostream& operator <<(

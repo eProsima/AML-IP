@@ -13,32 +13,36 @@
 // limitations under the License.
 
 /**
- * @file MultiServiceClient.ipp
+ * @file multiservice.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
+#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
 
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <string>
+
+#include <types/AmlipId.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
+namespace utils {
 
-template <typename T>
-MultiServiceClient<T>::MultiServiceClient(
-        const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler)
-    : topic_(topic)
-{
-    auto dds_handler_locked = dds_handler.lock_with_exception();
+enum MultiServiceTopicType {
+    REQUEST_AVAILABILITY,
+    REPLY_AVAILABLE,
+    TASK_TARGET,
+    TASK_DATA,
+    TASK_SOLUTION,
+};
 
-    // Initialize entities
-    // TODO
-}
+std::string multiservice_topic_mangling(
+        const std::string& actual_topic_name,
+        const MultiServiceTopicType& internal_topic_type);
 
+} /* namespace utils */
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP */
