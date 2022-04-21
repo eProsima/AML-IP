@@ -34,6 +34,7 @@
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
 #include <types/AmlipIdDataType.hpp>
+#include <dds/multiservice/MultiServiceClient.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -99,6 +100,10 @@ public:
 
     template <typename T>
     std::shared_ptr<TargetedReader<T>> create_targeted_reader(
+        const std::string& topic_name);
+
+    template <typename Data, typename Solution>
+    std::shared_ptr<MultiServiceClient<Data, Solution>> create_multiservice_client(
         const std::string& topic_name);
 
     /**

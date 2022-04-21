@@ -73,6 +73,20 @@ TEST(EntitiesCreationTest, create_targetedreader)
         participant.create_targeted_reader<types::AmlipIdDataType>("test_topic");
 }
 
+/**
+ * Create MS Client
+ */
+TEST(EntitiesCreationTest, create_ms_client)
+{
+    Participant participant("TestMsClientParticipant");
+
+    std::shared_ptr<MultiServiceClient<types::AmlipIdDataType, types::AmlipIdDataType>>  entity_ =
+        participant.create_multiservice_client<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+
+    // TODO remove
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+}
+
 int main(
         int argc,
         char** argv)

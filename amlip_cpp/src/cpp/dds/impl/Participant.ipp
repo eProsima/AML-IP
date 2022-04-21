@@ -64,6 +64,16 @@ std::shared_ptr<TargetedReader<T>> Participant::create_targeted_reader(
         dds_handler_.lease());
 }
 
+template <typename Data, typename Solution>
+std::shared_ptr<MultiServiceClient<Data, Solution>> Participant::create_multiservice_client(
+        const std::string& topic_name)
+{
+    return std::make_shared<MultiServiceClient<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

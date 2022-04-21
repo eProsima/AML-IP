@@ -16,14 +16,15 @@
  * @file MultiServiceClient.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICECLIENT_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICECLIENT_HPP
+#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
+#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
 
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
+#include <types/MsDataType.hpp>
 #include <types/MsRequestDataType.hpp>
 #include <types/MsReferenceDataType.hpp>
 
@@ -45,10 +46,18 @@ class MultiServiceClient
 public:
 
     MultiServiceClient(
+        const types::AmlipId& own_id,
         const std::string& topic,
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler);
 
+    ~MultiServiceClient();
+
+    Solution send_request_sync(const Data& data);
+
 protected:
+
+    static eprosima::fastdds::dds::DataWriterQos default_request_availability_writer_qos_();
+    static eprosima::fastdds::dds::DataWriterQos default_task_target_writer_qos_();
 
     Writer<types::MsRequestDataType> request_availability_writer_;
 
@@ -56,9 +65,11 @@ protected:
 
     Writer<types::MsReferenceDataType> task_target_writer_;
 
-    DirectWriter<Data> task_data_writer_;
+    DirectWriter<types::MsDataType<Data>> task_data_writer_;
 
-    TargetedReader<Solution> task_solution_reader_;
+    TargetedReader<types::MsDataType<Solution>> task_solution_reader_;
+
+    types::AmlipId own_id_;
 
     std::string topic_;
 
@@ -69,6 +80,6 @@ protected:
 } /* namespace eprosima */
 
 // Include implementation template file
-#include <dds/impl/MultiServiceClient.ipp>
+#include <dds/multiservice/impl/MultiServiceClient.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICECLIENT_HPP */
+#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP */

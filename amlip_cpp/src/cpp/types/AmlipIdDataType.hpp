@@ -222,21 +222,21 @@ public:
      * @param cdr CDR serialization object.
      */
     void serialize(
-            eprosima::fastcdr::Cdr& cdr) const;
+            eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     void deserialize(
-            eprosima::fastcdr::Cdr& cdr);
+            eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const;
+            eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function returns the maximum serialized size of an object

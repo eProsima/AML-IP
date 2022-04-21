@@ -13,22 +13,17 @@
 // limitations under the License.
 
 /*!
- * @file MsReferenceDataType.hpp
+ * @file MsDataType.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
-#define AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+#ifndef AMLIPCPP_TYPES_MSDATATYPE_HPP
+#define AMLIPCPP_TYPES_MSDATATYPE_HPP
 
-#include <array>
-#include <limits>
-#include <ostream>
-#include <string>
-
-#include <types/AmlipIdDataType.hpp>
-#include <types/MsRequestDataType.hpp>
+#include <types/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
+// Forward declaration of the CDR class
 class Cdr;
 } // namespace fastcdr
 } // namespace eprosima
@@ -37,156 +32,117 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-/*!
- * @brief This class represents the structure MsReferenceDataType, which implements \c InterfaceDataType and hence serves
- * as a communication interface to \c AmlipId class.
- * @ingroup AMLIP
+/**
+ * TODO
  */
-class MsReferenceDataType : public MsRequestDataType
+template <typename T>
+class MsDataType : public MsReferenceDataType
 {
+
+    FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
+
 public:
 
-    /**
-     * TODO
-     */
-    MsReferenceDataType();
+    MsDataType();
 
-    /*!
-     * @brief Constructor with name.
-     */
-    MsReferenceDataType(
-            const AmlipIdDataType source_id,
+    MsDataType(
+            const AmlipIdDataType& source_id,
             const TaskId& task_id,
-            const AmlipIdDataType& target_id);
+            const AmlipIdDataType& target_id,
+            const T& data);
 
-    /*!
-     * @brief Default destructor.
-     */
-    ~MsReferenceDataType();
-
-    /*!
-     * @brief Copy constructor.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
-     */
-    MsReferenceDataType(
-            const MsReferenceDataType& x);
-
-    /*!
-     * @brief Move constructor.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
-     */
-    MsReferenceDataType(
-            MsReferenceDataType&& x);
-
-    /*!
-     * @brief Copy assignment.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
-     */
-    MsReferenceDataType& operator =(
-            const MsReferenceDataType& x);
-
-    /*!
-     * @brief Move assignment.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
-     */
-    MsReferenceDataType& operator =(
-            MsReferenceDataType&& x);
-
-    /*!
-     * @brief Comparison operator.
-     * @param x MsReferenceDataType object to compare.
-     */
-    bool operator ==(
-            const MsReferenceDataType& x) const;
-
-    /*!
-     * @brief Comparison operator.
-     * @param x MsReferenceDataType object to compare.
-     */
-    bool operator !=(
-            const MsReferenceDataType& x) const;
-
-    /*!
-     * @brief Comparison operator.
-     * @param x MsReferenceDataType object to compare.
-     */
-    bool operator <(
-            const MsReferenceDataType& x) const;
-
-    /*!
-     * TODO
-     */
-    AmlipIdDataType target_id() const;
-
-    /*!
-     * TODO
-     */
-    void target_id(const AmlipIdDataType& new_value);
-
-    /////
-    // InterfaceDataType methods
+    MsDataType(
+            const MsReferenceDataType& reference,
+            const T& data);
 
     /*!
      * @brief This function serializes an object using CDR serialization.
+     *
      * @param cdr CDR serialization object.
+     *
+     * @warning this method must be overriden in child class.
      */
-    void serialize(
+    virtual void serialize(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
+     *
      * @param cdr CDR serialization object.
+     *
+     * @warning this method must be overriden in child class.
      */
-    void deserialize(
+    virtual void deserialize(
             eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
+     *
      * @param cdr CDR serialization object.
+     *
+     * @warning this method must be overriden in child class.
      */
-    void serialize_key(
+    virtual void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
      * depending on the buffer alignment.
+     *
      * @param current_alignment Buffer alignment.
+     *
      * @return Maximum serialized size.
+     *
+     * @warning this method must be overriden in child class.
      */
     static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function returns the serialized size of a data depending on the buffer alignment.
+
      * @param data Data which is calculated its serialized size.
      * @param current_alignment Buffer alignment.
+     *
      * @return Serialized size.
+     *
+     * @warning this method must be overriden in child class.
      */
     static size_t get_cdr_serialized_size(
-            const MsReferenceDataType& data,
+            const MsDataType& data,
             size_t current_alignment = 0);
 
     /*!
      * @brief This function returns the maximum serialized size of the Key of an object
      * depending on the buffer alignment.
+     *
      * @param current_alignment Buffer alignment.
+     *
      * @return Maximum serialized size.
+     *
+     * @warning this method must be overriden in child class.
      */
     static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
+     *
+     * @warning this method must be overriden in child class.
      */
     static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
+     *
+     * @warning this method must be overriden in child class.
      */
     static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
+     *
+     * @warning this method must be overriden in child class.
      */
     static bool is_plain();
 
@@ -198,6 +154,8 @@ public:
      * @param memory already allocated memory for the new data
      *
      * @return true if the construction was successful, false otherwise
+     *
+     * @warning this method must be overriden in child class.
      */
     static bool construct_sample(
             void* memory);
@@ -209,20 +167,22 @@ public:
      */
     static const char* type_name();
 
+    const T& data() const;
+
+    void data(T new_value);
+
 protected:
 
-    AmlipIdDataType target_id_;
+    static const char* DATA_TYPE_PREFIX_NAME_;
 
-    static const char* DATA_TYPE_NAME_; // "ms_reference"
+    T data_;
 };
-
-//! \c MsReferenceDataType to stream serializator
-std::ostream& operator <<(
-        std::ostream& os,
-        const MsReferenceDataType& request);
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+// Include implementation template file
+#include <types/impl/MsDataType.ipp>
+
+#endif // AMLIPCPP_TYPES_MSDATATYPE_HPP

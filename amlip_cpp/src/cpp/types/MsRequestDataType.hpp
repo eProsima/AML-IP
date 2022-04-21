@@ -164,7 +164,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_max_cdr_serialize_size(
+    static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -173,7 +173,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    static size_t get_cdr_serialize_size(
+    static size_t get_cdr_serialized_size(
             const MsRequestDataType& data,
             size_t current_alignment = 0);
 
@@ -213,11 +213,21 @@ public:
     static bool construct_sample(
             void* memory);
 
+    /**
+     * @brief Name of the Data Type. This name will be used as the DDS type name.
+     *
+     * @warning this method must be overriden in child class.
+     */
+    static const char* type_name();
+
 protected:
 
     AmlipIdDataType source_id_;
 
     TaskId task_id_;
+
+    static const char* DATA_TYPE_NAME_; // "ms_request"
+
 };
 
 //! \c MsRequestDataType to stream serializator
