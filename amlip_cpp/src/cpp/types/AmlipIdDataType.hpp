@@ -75,8 +75,8 @@ public:
      * @brief Constructor with name and random id given as arrays of octets.
      */
     AmlipIdDataType(
-            std::array<uint8_t, NAME_SIZE>& name,
-            std::array<uint8_t, RAND_SIZE>& rand_id);
+            const std::array<uint8_t, NAME_SIZE>& name,
+            const std::array<uint8_t, RAND_SIZE>& rand_id);
 
     /*!
      * @brief Constructor given fields.
@@ -158,13 +158,13 @@ public:
      * @brief This function gets the value in member \c name as array of octets
      * @return Value of member \c name_ as array of octets
      */
-    const std::array<uint8_t, NAME_SIZE>& base64_name() const;
+    std::array<uint8_t, NAME_SIZE> base64_name() const;
 
     /*!
      * @brief This function gets the value in member \c rand_id as array of octets
      * @return Value of member \c rand_id_ as array of octets
      */
-    const std::array<uint8_t, RAND_SIZE>& id() const;
+    std::array<uint8_t, RAND_SIZE> id() const;
 
     /*!
      * @brief This function copies the value in member \c rand_id_
@@ -183,7 +183,7 @@ public:
     /*!
      * @brief This function returns the name of this specific data type
      */
-    static const char* type_name();
+    static std::string type_name();
 
     /*!
      * @brief This function returns true if the object is defined (i.e. constructed with a specific name)

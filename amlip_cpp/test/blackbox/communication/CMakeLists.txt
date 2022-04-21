@@ -48,11 +48,6 @@ set(TEST_NAME DirectMessageTest)
 
 set(TEST_SOURCES
         directMessageTest.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/dds/Writer.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
     )
 
 set(TEST_LIST
@@ -60,6 +55,30 @@ set(TEST_LIST
         communicate_writer_reader_multiple_messages
         communicate_multiple_writers_reader
         communicate_writer_multiple_readers
+    )
+
+set(TEST_NEEDED_SOURCES
+    )
+
+add_blackbox_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_NEEDED_SOURCES}"
+    )
+
+##################################################
+# MULTISERVICE COMMUNICATION TESTS
+##################################################
+
+set(TEST_NAME MultiServiceTest)
+
+set(TEST_SOURCES
+        multiserviceTest.cpp
+    )
+
+set(TEST_LIST
+        communicate_service_one_on_one
     )
 
 set(TEST_NEEDED_SOURCES

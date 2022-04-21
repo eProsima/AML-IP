@@ -71,7 +71,7 @@ bool InterfaceDataType::construct_sample(
               "Subclasses of InterfaceDataType must implement construct_sample.");
 }
 
-const char* InterfaceDataType::type_name()
+std::string InterfaceDataType::type_name()
 {
     throw ddsrouter::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement type_name.");

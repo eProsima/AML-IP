@@ -120,7 +120,7 @@ public:
     /*!
      * @brief This function returns the name of this specific data type
      */
-    static const char* type_name();
+    static std::string type_name();
 
     /////
     // InterfaceDataType methods

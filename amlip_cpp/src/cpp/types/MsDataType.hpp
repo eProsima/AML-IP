@@ -46,9 +46,9 @@ public:
     MsDataType();
 
     MsDataType(
-            const AmlipIdDataType& source_id,
+            const AmlipIdDataType& client_id,
             const TaskId& task_id,
-            const AmlipIdDataType& target_id,
+            const AmlipIdDataType& server_id,
             const T& data);
 
     MsDataType(
@@ -165,7 +165,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static const char* type_name();
+    static std::string type_name();
 
     const T& data() const;
 

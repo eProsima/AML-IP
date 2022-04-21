@@ -74,6 +74,16 @@ std::shared_ptr<MultiServiceClient<Data, Solution>> Participant::create_multiser
         dds_handler_.lease());
 }
 
+template <typename Data, typename Solution>
+std::shared_ptr<MultiServiceServer<Data, Solution>> Participant::create_multiservice_server(
+        const std::string& topic_name)
+{
+    return std::make_shared<MultiServiceServer<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

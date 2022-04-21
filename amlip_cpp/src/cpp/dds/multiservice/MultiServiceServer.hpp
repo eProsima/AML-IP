@@ -13,11 +13,11 @@
 // limitations under the License.
 
 /**
- * @file MultiServiceClient.hpp
+ * @file MultiServiceServer.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
+#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP
+#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP
 
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
@@ -36,7 +36,7 @@ namespace dds {
  * TODO
  */
 template <typename Data, typename Solution>
-class MultiServiceClient
+class MultiServiceServer
 {
 
     // Force T to be subclass of InterfaceDataType
@@ -45,12 +45,12 @@ class MultiServiceClient
 
 public:
 
-    MultiServiceClient(
+    MultiServiceServer(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler);
 
-    ~MultiServiceClient();
+    ~MultiServiceServer();
 
     /**
      * @brief
@@ -61,24 +61,23 @@ public:
      * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
      * Thus, using multiple threads will cause desynchronization of messages received and locks.
      */
-    Solution send_request_sync(const Data& data);
+    types::MsReferenceDataType process_task_sync(
+        std::function<Solution(const Data&)> process_callback);
 
 protected:
 
-    types::TaskId new_task_id_();
+    static eprosima::fastdds::dds::DataReaderQos default_request_availability_reader_qos_();
+    static eprosima::fastdds::dds::DataReaderQos default_task_target_reader_qos_();
 
-    static eprosima::fastdds::dds::DataWriterQos default_request_availability_writer_qos_();
-    static eprosima::fastdds::dds::DataWriterQos default_task_target_writer_qos_();
+    Reader<types::MsRequestDataType> request_availability_reader_;
 
-    Writer<types::MsRequestDataType> request_availability_writer_;
+    DirectWriter<types::MsReferenceDataType> reply_available_writer_;
 
-    TargetedReader<types::MsReferenceDataType> reply_available_reader_;
+    Reader<types::MsReferenceDataType> task_target_reader_;
 
-    Writer<types::MsReferenceDataType> task_target_writer_;
+    TargetedReader<types::MsDataType<Data>> task_data_reader_;
 
-    DirectWriter<types::MsDataType<Data>> task_data_writer_;
-
-    TargetedReader<types::MsDataType<Solution>> task_solution_reader_;
+    DirectWriter<types::MsDataType<Solution>> task_solution_writer_;
 
     types::AmlipIdDataType own_id_;
 
@@ -93,6 +92,6 @@ protected:
 } /* namespace eprosima */
 
 // Include implementation template file
-#include <dds/multiservice/impl/MultiServiceClient.ipp>
+#include <dds/multiservice/impl/MultiServiceServer.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP */
+#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP */

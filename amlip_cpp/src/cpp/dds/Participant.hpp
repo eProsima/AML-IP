@@ -35,6 +35,8 @@
 #include <dds/Writer.hpp>
 #include <types/AmlipIdDataType.hpp>
 #include <dds/multiservice/MultiServiceClient.hpp>
+#include <dds/multiservice/MultiServiceServer.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -104,6 +106,10 @@ public:
 
     template <typename Data, typename Solution>
     std::shared_ptr<MultiServiceClient<Data, Solution>> create_multiservice_client(
+        const std::string& topic_name);
+
+    template <typename Data, typename Solution>
+    std::shared_ptr<MultiServiceServer<Data, Solution>> create_multiservice_server(
         const std::string& topic_name);
 
     /**

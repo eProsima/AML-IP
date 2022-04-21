@@ -103,6 +103,7 @@ set(TEST_LIST
         create_directwriter
         create_targetedreader
         create_ms_client
+        create_ms_server
     )
 
 set(TEST_EXTRA_LIBRARIES

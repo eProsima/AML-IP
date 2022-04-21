@@ -38,9 +38,7 @@ namespace amlip {
 namespace types {
 
 /*!
- * @brief This class represents the structure MsReferenceDataType, which implements \c InterfaceDataType and hence serves
- * as a communication interface to \c AmlipId class.
- * @ingroup AMLIP
+ * TODO
  */
 class MsReferenceDataType : public MsRequestDataType
 {
@@ -57,7 +55,7 @@ public:
     MsReferenceDataType(
             const AmlipIdDataType source_id,
             const TaskId& task_id,
-            const AmlipIdDataType& target_id);
+            const AmlipIdDataType& server_id);
 
     /*!
      * @brief Default destructor.
@@ -116,12 +114,12 @@ public:
     /*!
      * TODO
      */
-    AmlipIdDataType target_id() const;
+    AmlipIdDataType server_id() const;
 
     /*!
      * TODO
      */
-    void target_id(const AmlipIdDataType& new_value);
+    void server_id(const AmlipIdDataType& new_value);
 
     /////
     // InterfaceDataType methods
@@ -207,11 +205,11 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static const char* type_name();
+    static std::string type_name();
 
 protected:
 
-    AmlipIdDataType target_id_;
+    AmlipIdDataType server_id_;
 
     static const char* DATA_TYPE_NAME_; // "ms_reference"
 };
@@ -219,7 +217,7 @@ protected:
 //! \c MsReferenceDataType to stream serializator
 std::ostream& operator <<(
         std::ostream& os,
-        const MsReferenceDataType& request);
+        const MsReferenceDataType& reference);
 
 } /* namespace types */
 } /* namespace amlip */

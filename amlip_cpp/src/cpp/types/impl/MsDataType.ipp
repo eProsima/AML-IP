@@ -33,11 +33,11 @@ MsDataType<T>::MsDataType()
 
 template <typename T>
 MsDataType<T>::MsDataType(
-        const AmlipIdDataType& source_id,
+        const AmlipIdDataType& client_id,
         const TaskId& task_id,
-        const AmlipIdDataType& target_id,
+        const AmlipIdDataType& server_id,
         const T& data)
-    : MsReferenceDataType(source_id, task_id, target_id)
+    : MsReferenceDataType(client_id, task_id, server_id)
     , data_(data)
 {
 }
@@ -55,9 +55,9 @@ template <typename T>
 void MsDataType<T>::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << source_id_;
+    scdr << client_id_;
     scdr << task_id_;
-    scdr << target_id_;
+    scdr << server_id_;
     scdr << data_;
 }
 
@@ -65,9 +65,9 @@ template <typename T>
 void MsDataType<T>::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    dcdr >> source_id_;
+    dcdr >> client_id_;
     dcdr >> task_id_;
-    dcdr >> target_id_;
+    dcdr >> server_id_;
     dcdr >> data_;
 }
 
@@ -145,13 +145,13 @@ bool MsDataType<T>::construct_sample(
 }
 
 template <typename T>
-const char* MsDataType<T>::type_name()
+std::string MsDataType<T>::type_name()
 {
     // NOTE: there is no easy way to concatenate 2 const chars
     std::string result(DATA_TYPE_PREFIX_NAME_);
     result.append(T::type_name());
 
-    return result.c_str();
+    return result;
 }
 
 template <typename T>

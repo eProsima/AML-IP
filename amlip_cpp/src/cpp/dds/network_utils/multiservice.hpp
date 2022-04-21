@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include <types/AmlipId.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
