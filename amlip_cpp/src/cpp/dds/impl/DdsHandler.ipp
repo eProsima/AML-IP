@@ -108,9 +108,10 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     }
 
     // Add new topic to map
-    topics_[topic_idx] = topic;
+    auto topic_lessee = topic.lease();
+    topics_[topic_idx] = std::move(topic);
 
-    return topic.lease();
+    return topic_lessee;
 }
 
 template <typename T>
@@ -154,9 +155,10 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
     }
 
     // Stor datawriter
-    datawriters_.push_back(datawriter);
+    auto datawriter_lessee = datawriter.lease();
+    datawriters_.push_back(std::move(datawriter));
 
-    return datawriter.lease();
+    return datawriter_lessee;
 }
 
 template <typename T>
@@ -200,9 +202,10 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
     }
 
     // Stor datareader
-    datareaders_.push_back(datareader);
+    auto datareader_lessee = datareader.lease();
+    datareaders_.push_back(std::move(datareader));
 
-    return datareader.lease();
+    return datareader_lessee;
 }
 
 } /* namespace dds */

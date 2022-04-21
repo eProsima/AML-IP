@@ -96,8 +96,6 @@ class Writer : public WriterListener
 {
 public:
 
-    // TODO: Try to do constructor protected by being friend of Participant (it fails so far)
-
     /**
      * @brief Construct a new Writer object using a DDS DataWriter already created.
      *

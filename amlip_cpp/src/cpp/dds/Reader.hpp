@@ -44,8 +44,6 @@ class Reader : public eprosima::fastdds::dds::DataReaderListener
 {
 public:
 
-    // TODO: Try to do constructor protected by being friend of Participant (it fails so far)
-
     Reader(
         const std::string& topic,
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
