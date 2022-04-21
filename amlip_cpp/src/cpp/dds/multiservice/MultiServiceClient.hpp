@@ -52,7 +52,18 @@ public:
 
     ~MultiServiceClient();
 
+    /**
+     * @brief
+     *
+     * @param data
+     * @return Solution
+     *
+     * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
+     * Thus, using multiple threads will cause desynchronization of messages received and locks.
+     */
     Solution send_request_sync(const Data& data);
+
+    types::TaskId new_task_id();
 
 protected:
 
@@ -72,6 +83,8 @@ protected:
     types::AmlipId own_id_;
 
     std::string topic_;
+
+    std::atomic<types::TaskId> last_task_id_used_;
 
 };
 

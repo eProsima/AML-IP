@@ -53,6 +53,7 @@ MultiServiceClient<Data, Solution>::MultiServiceClient(
         own_id,
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
         dds_handler) // TASK_SOLUTION
+    , last_task_id_used_(0)
 {
 }
 
@@ -80,6 +81,64 @@ template <typename Data, typename Solution>
 eprosima::fastdds::dds::DataWriterQos MultiServiceClient<Data, Solution>::default_task_target_writer_qos_()
 {
     return default_request_availability_writer_qos_();
+}
+
+template <typename Data, typename Solution>
+Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
+{
+    // SEND REQUEST AVAILABILITY
+    // Get new task id
+    types::TaskId this_task_id = new_task_id();
+
+    // Create Request data
+    types::MsRequestDataType request_data(own_id_, this_task_id);
+
+    // Send request
+    request_availability_writer_.publish(request_data);
+
+    // WAIT FOR REPLY AVAILABLE
+    // Wait for someone to reply
+    types::MsReferenceDataType reference;
+
+    while(true)
+    {
+        reply_available_reader_.wait_data_available();
+
+        // Get task reference
+        reference = reply_available_reader_.read();
+
+        if (reference.task_id() == this_task_id ||
+            reference.source_id() == own_id_)
+        {
+            break;
+        }
+    }
+
+    // SEND TASK TARGET
+    // Send the reference sent by the server
+    task_target_writer_.publish(reference);
+
+    // SEND DATA
+    task_data_writer_.write(types::MsDataType<Data>(reference, data));
+
+    // WAIT FOR SOLUTION
+    Solution solution;
+
+    while(true)
+    {
+        task_solution_reader_.wait_data_available();
+
+        // Get task reference
+        solution = task_solution_reader_.read();
+
+        if (solution.task_id() == this_task_id ||
+            solution.source_id() == own_id_)
+        {
+            break;
+        }
+    }
+
+    return solution;
 }
 
 } /* namespace dds */
