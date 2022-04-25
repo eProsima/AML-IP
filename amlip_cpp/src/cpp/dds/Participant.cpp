@@ -16,6 +16,8 @@
  * @file Participant.cpp
  */
 
+#include <ddsrouter_utils/Log.hpp>
+
 #include <dds/Participant.hpp>
 
 namespace eprosima {
@@ -32,12 +34,16 @@ Participant::Participant(
         DomainIdType domain /* = Participant::default_domain_id() */)
     : id_(id)
 {
+    logDebug(AMLIPCPP_PARTICIPANT, "Creating Participant with id " << id << " in domain " << domain << ".");
+
     // Set Participant name
     qos.name(id.name());
 
     // Create DDS Handler
     dds_handler_.reset(
         new DdsHandler(qos, domain));
+
+    logDebug(AMLIPCPP_PARTICIPANT, "Participant " << *this << " created.");
 }
 
 Participant::Participant(
@@ -50,8 +56,12 @@ Participant::Participant(
 
 Participant::~Participant()
 {
+    logDebug(AMLIPCPP_PARTICIPANT, "Destroying Participant " << *this << ".");
+
     // Destroy DdsHandler that will destroy every DDS subentity
     dds_handler_.reset();
+
+    logDebug(AMLIPCPP_PARTICIPANT, "Participant " << *this << " destroyed.");
 }
 
 types::AmlipId Participant::id() const noexcept
@@ -73,6 +83,14 @@ eprosima::fastdds::dds::DomainParticipantQos Participant::default_participant_qo
 DomainIdType Participant::default_domain_id() noexcept
 {
     return DEFAULT_DOMAIN_ID_;
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
+        const Participant& participant)
+{
+    os << "PARTICIPANT{" << participant.id() << "}";
+    return os;
 }
 
 } /* namespace dds */

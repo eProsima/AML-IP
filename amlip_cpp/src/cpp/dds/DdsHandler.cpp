@@ -18,6 +18,8 @@
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 
+#include <ddsrouter_utils/Log.hpp>
+
 #include <dds/DdsHandler.hpp>
 
 namespace eprosima {
@@ -30,6 +32,8 @@ DdsHandler::DdsHandler(
         const eprosima::fastdds::dds::DomainParticipantQos& qos,
         const DomainIdType& domain)
 {
+    logDebug(AMLIPCPP_DDSHANDLER, "Creating DdsHandler in domain " << domain << ".");
+
     // CREATE FASTDDS DOMAIN PARTICIPANT
     participant_.reset(
         DomainParticipantFactory::get_instance()->create_participant(domain, qos),
@@ -76,10 +80,14 @@ DdsHandler::DdsHandler(
         throw ddsrouter::utils::InitializationException(
             STR_ENTRY << "Failed to create subscriber in participant " << qos.name() << ".");
     }
+
+    logDebug(AMLIPCPP_DDSHANDLER, "DdsHandler created with GUID: " << participant_->guid() << ".");
 }
 
 DdsHandler::~DdsHandler()
 {
+    logDebug(AMLIPCPP_DDSHANDLER, "Destroying DdsHandler.");
+
     // Destroy object in correct order
     // Each OwnerPtr has already the deleter for each internal value
     datawriters_.clear();
@@ -88,6 +96,8 @@ DdsHandler::~DdsHandler()
     publisher_.reset();
     subscriber_.reset();
     participant_.reset();
+
+    logDebug(AMLIPCPP_DDSHANDLER, "DdsHandler destroyed.");
 }
 
 eprosima::fastdds::dds::PublisherQos DdsHandler::default_publisher_qos_() noexcept

@@ -114,6 +114,11 @@ protected:
     static const DomainIdType DEFAULT_DOMAIN_ID_; // 166
 };
 
+//! \c Participant to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const Participant& participant);
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
