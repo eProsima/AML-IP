@@ -21,6 +21,8 @@ set(TEST_NAMES
         "writer"
         "targetedreader"
         "directwriter"
+        "msclient"
+        "msserver"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})
