@@ -45,6 +45,15 @@ Reader<T>::~Reader()
 {
     // Stop every waiting thread
     reader_data_waiter_.disable();
+
+    // Unsetting listener for datareader, as the datareader could be alive after this object has been destroyed
+    // In case datareader has already been destroyed, do nothing
+    auto datareader_locked = datareader_.lock();
+
+    if (datareader_locked)
+    {
+        datareader_locked->set_listener(nullptr);
+    }
 }
 
 template <typename T>

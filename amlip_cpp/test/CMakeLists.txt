@@ -15,4 +15,4 @@
 # Add subdirectory with tests
 add_subdirectory(blackbox)
 add_subdirectory(manual)
-# add_subdirectory(unittest)
+add_subdirectory(unittest)
