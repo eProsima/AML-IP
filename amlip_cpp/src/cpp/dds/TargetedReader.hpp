@@ -22,7 +22,7 @@
 #include <atomic>
 
 #include <dds/Reader.hpp>
-#include <types/AmlipId.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -39,7 +39,7 @@ class TargetedReader : public Reader<T>
 public:
 
     TargetedReader(
-        const types::AmlipId own_id,
+        const types::AmlipIdDataType own_id,
         const std::string& topic,
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataReaderQos qos = TargetedReader<T>::default_targetedreader_qos());

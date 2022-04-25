@@ -27,7 +27,7 @@ constexpr const uint32_t TEST_ITERATIONS = 5;
 TEST(participantTest, create_dummy_participant)
 {
     {
-        eprosima::amlip::types::AmlipId id;
+        eprosima::amlip::types::AmlipIdDataType id;
         eprosima::amlip::dds::Participant participant_(id);
     }
 }
@@ -39,7 +39,7 @@ TEST(participantTest, id)
 {
     for (uint32_t i = 0; i < TEST_ITERATIONS; ++i)
     {
-        eprosima::amlip::types::AmlipId id(std::to_string(i));
+        eprosima::amlip::types::AmlipIdDataType id(std::to_string(i));
         eprosima::amlip::dds::Participant participant(id);
         EXPECT_EQ(id, participant.id());
     }
@@ -52,7 +52,7 @@ TEST(participantTest, get_name)
 {
     for (uint32_t i = 0; i < TEST_ITERATIONS; ++i)
     {
-        eprosima::amlip::types::AmlipId id(std::to_string(i));
+        eprosima::amlip::types::AmlipIdDataType id(std::to_string(i));
         eprosima::amlip::dds::Participant participant(id);
         EXPECT_EQ(id.name(), participant.name());
     }

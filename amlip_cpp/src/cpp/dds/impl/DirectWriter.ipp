@@ -43,7 +43,7 @@ DirectWriter<T>::~DirectWriter()
 
 template <typename T>
 eprosima::fastrtps::types::ReturnCode_t DirectWriter<T>::write(
-        const types::AmlipId& target_id,
+        const types::AmlipIdDataType& target_id,
         T& data)
 {
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> target_writer =
@@ -70,7 +70,7 @@ eprosima::fastdds::dds::DataWriterQos DirectWriter<T>::default_directwriter_qos(
 
 template <typename T>
 ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DirectWriter<T>::get_target_datawriter_(
-        types::AmlipId target_id)
+        types::AmlipIdDataType target_id)
 {
     auto it = writers_.find(target_id);
 

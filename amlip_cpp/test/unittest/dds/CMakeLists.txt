@@ -23,7 +23,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/Participant.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
     )
 
@@ -56,7 +55,6 @@ set(TEST_SOURCES
         ddsHandlerTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
     )
 
@@ -92,7 +90,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/Writer.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/network_utils/direct_write.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
     )
 

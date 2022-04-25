@@ -28,7 +28,7 @@
 
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 
-#include <amlip_cpp/types/AmlipId.hpp>
+#include <types/AmlipIdDataType.hpp>
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
@@ -61,7 +61,7 @@ public:
      * @throw \c InitializationException if the DDS DomainParticipant could not be created
      */
     Participant(
-        types::AmlipId id,
+        types::AmlipIdDataType id,
         eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
         DomainIdType domain = Participant::default_domain_id());
 
@@ -70,11 +70,16 @@ public:
         eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
         DomainIdType domain = Participant::default_domain_id());
 
+    Participant(
+        const char* name,
+        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+        DomainIdType domain = Participant::default_domain_id());
+
     //! Participant destructor
     virtual ~Participant();
 
     //! Id associated with this Participant
-    types::AmlipId id() const noexcept;
+    types::AmlipIdDataType id() const noexcept;
 
     //! Name associated with this Participant Id
     std::string name() const noexcept;
@@ -113,7 +118,7 @@ public:
 protected:
 
     //! Id identifying this Participant
-    const types::AmlipId id_;
+    const types::AmlipIdDataType id_;
 
     ddsrouter::utils::OwnerPtr<DdsHandler> dds_handler_;
 

@@ -36,7 +36,6 @@
 
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 
-#include <amlip_cpp/types/AmlipId.hpp>
 #include <types/AmlipGenericTopicDataType.hpp>
 
 namespace eprosima {

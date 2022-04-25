@@ -29,7 +29,7 @@ const DomainIdType Participant::DEFAULT_DOMAIN_ID_(166u);
 using namespace eprosima::fastdds::dds;
 
 Participant::Participant(
-        types::AmlipId id,
+        types::AmlipIdDataType id,
         eprosima::fastdds::dds::DomainParticipantQos qos /* = Participant::default_participant_qos() */,
         DomainIdType domain /* = Participant::default_domain_id() */)
     : id_(id)
@@ -50,7 +50,15 @@ Participant::Participant(
         const std::string& name,
         eprosima::fastdds::dds::DomainParticipantQos qos /* = Participant::default_participant_qos() */,
         DomainIdType domain /* = Participant::default_domain_id() */)
-    : Participant(types::AmlipId(name), qos, domain)
+    : Participant(types::AmlipIdDataType(name), qos, domain)
+{
+}
+
+Participant::Participant(
+        const char* name,
+        eprosima::fastdds::dds::DomainParticipantQos qos /* = Participant::default_participant_qos() */,
+        DomainIdType domain /* = Participant::default_domain_id() */)
+    : Participant(types::AmlipIdDataType(name), qos, domain)
 {
 }
 
@@ -64,7 +72,7 @@ Participant::~Participant()
     logDebug(AMLIPCPP_PARTICIPANT, "Participant " << *this << " destroyed.");
 }
 
-types::AmlipId Participant::id() const noexcept
+types::AmlipIdDataType Participant::id() const noexcept
 {
     return id_;
 }
