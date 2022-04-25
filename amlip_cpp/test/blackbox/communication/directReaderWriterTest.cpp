@@ -35,13 +35,13 @@ using namespace eprosima::amlip::dds;
 
 /**
  * Create a Participant, from there create a DirectWriter and a TargetedReader and send a message from one to the other.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
 TEST(DirectReaderWriterTest, communicate_writer_reader)
 {
     // Ids used along the test
-    types::AmlipId source_id("SourceId1");
-    types::AmlipId target_id("TargetId1");
+    types::AmlipIdDataType source_id("SourceId1");
+    types::AmlipIdDataType target_id("TargetId1");
 
     // Create 2 participants so they have different ids
     // Create a participant
@@ -74,13 +74,13 @@ TEST(DirectReaderWriterTest, communicate_writer_reader)
 
 /**
  * Create a Participant, from there create a DirectWriter and a TargetedReader and send a message from one to the other.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
 TEST(DirectReaderWriterTest, communicate_writer_reader_multiple_messages)
 {
     // Ids used along the test
-    types::AmlipId source_id("SourceId2");
-    types::AmlipId target_id("TargetId2");
+    types::AmlipIdDataType source_id("SourceId2");
+    types::AmlipIdDataType target_id("TargetId2");
 
     // Create 2 participants so they have different ids
     // Create a participant
@@ -123,14 +123,14 @@ TEST(DirectReaderWriterTest, communicate_writer_reader_multiple_messages)
 
 /**
  * Create a Participant, from there create 2 DirectWriters and a TargetedReader and send a message from each one
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
 TEST(DirectReaderWriterTest, communicate_multiple_writers_reader)
 {
     // Ids used along the test
-    types::AmlipId source_id_1("SourceId3");
-    types::AmlipId source_id_2("SourceId3");
-    types::AmlipId target_id("TargetId3");
+    types::AmlipIdDataType source_id_1("SourceId3");
+    types::AmlipIdDataType source_id_2("SourceId3");
+    types::AmlipIdDataType target_id("TargetId3");
 
     // Create 2 participants so they have different ids
     // Create a participant
@@ -179,14 +179,14 @@ TEST(DirectReaderWriterTest, communicate_multiple_writers_reader)
 
 /**
  * Create a Participant, from there create 2 DirectWriters and a TargetedReader and send a message from each one
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
 TEST(DirectReaderWriterTest, communicate_writer_multiple_readers)
 {
     // Ids used along the test
-    types::AmlipId source_id("SourceId4");
-    types::AmlipId target_id_1("TargetId4");
-    types::AmlipId target_id_2("TargetId4");
+    types::AmlipIdDataType source_id("SourceId4");
+    types::AmlipIdDataType target_id_1("TargetId4");
+    types::AmlipIdDataType target_id_2("TargetId4");
 
     // Create 2 participants so they have different ids
     // Create a participant

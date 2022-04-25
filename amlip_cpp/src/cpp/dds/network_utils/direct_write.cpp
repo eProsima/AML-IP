@@ -25,7 +25,7 @@ namespace utils {
 
 std::string direct_topic(
         const std::string& topic,
-        const types::AmlipId& target_id)
+        const types::AmlipIdDataType& target_id)
 {
     return topic + "_" + target_id.to_dds_string();
 }

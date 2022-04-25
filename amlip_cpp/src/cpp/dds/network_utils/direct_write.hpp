@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include <types/AmlipId.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -30,7 +30,7 @@ namespace utils {
 
 std::string direct_topic(
         const std::string& topic,
-        const types::AmlipId& target_id);
+        const types::AmlipIdDataType& target_id);
 
 } /* namespace utils */
 } /* namespace dds */

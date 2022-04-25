@@ -32,7 +32,7 @@
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 
 #include <dds/DdsHandler.hpp>
-#include <types/AmlipId.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -74,7 +74,7 @@ public:
      * TODO
      */
     eprosima::fastrtps::types::ReturnCode_t write(
-        const types::AmlipId& target_id,
+        const types::AmlipIdDataType& target_id,
         T& data);
 
     /**
@@ -91,7 +91,7 @@ public:
 protected:
 
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> get_target_datawriter_(
-        types::AmlipId target_id);
+        types::AmlipIdDataType target_id);
 
     //! Name of the topic this DirectWriter publishes
     std::string topic_;
@@ -101,7 +101,7 @@ protected:
     eprosima::fastdds::dds::DataWriterQos qos_;
 
     //! DDS DataWriter reference
-    std::map<types::AmlipId, ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter>> writers_;
+    std::map<types::AmlipIdDataType, ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter>> writers_;
 };
 
 } /* namespace dds */

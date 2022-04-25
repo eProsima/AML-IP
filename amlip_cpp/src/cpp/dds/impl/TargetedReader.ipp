@@ -27,7 +27,7 @@ namespace dds {
 
 template <typename T>
 TargetedReader<T>::TargetedReader(
-        const types::AmlipId own_id,
+        const types::AmlipIdDataType own_id,
         const std::string& topic,
         ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataReaderQos qos /* = Reader::default_datareader_qos() */)
