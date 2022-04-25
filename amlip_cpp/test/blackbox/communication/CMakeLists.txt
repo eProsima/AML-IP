@@ -16,10 +16,10 @@
 # WRITER & READER COMMUNICATION TESTS
 #####################################
 
-set(TEST_NAME ReaderWriterTest)
+set(TEST_NAME PublicationTest)
 
 set(TEST_SOURCES
-        readerWriterTest.cpp
+        publicationTest.cpp
     )
 
 set(TEST_LIST
@@ -44,10 +44,10 @@ add_blackbox_executable(
 # WRITER & READER DIRECT COMMUNICATION TESTS
 ##################################################
 
-set(TEST_NAME DirectReaderWriterTest)
+set(TEST_NAME DirectMessageTest)
 
 set(TEST_SOURCES
-directReaderWriterTest.cpp
+        directMessageTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/Writer.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp

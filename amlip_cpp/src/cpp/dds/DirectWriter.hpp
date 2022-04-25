@@ -32,6 +32,7 @@
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 
 #include <dds/DdsHandler.hpp>
+#include <dds/Writer.hpp>
 #include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
@@ -78,6 +79,19 @@ public:
         T& data);
 
     /**
+     * @brief Stop this thread for the Writer to be matched with specific reader
+     *
+     * This method will block until the Writer is matched or the \c stop() method is called.
+     *
+     * @param timeout_ms maximum wait time in milliseconds (0 = no wait)
+     *
+     * @return Reason for the awaken.
+     */
+    eprosima::ddsrouter::event::AwakeReason wait_match(
+        const types::AmlipIdDataType& target_id,
+        const eprosima::ddsrouter::utils::Duration_ms &timeout = 0);
+
+    /**
      * @brief Return default QoS for a DataWriter
      *
      * Default DirectWriter QoS is:
@@ -90,7 +104,7 @@ public:
 
 protected:
 
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> get_target_datawriter_(
+    std::shared_ptr<Writer<T>> get_target_writer_(
         types::AmlipIdDataType target_id);
 
     //! Name of the topic this DirectWriter publishes
@@ -100,8 +114,14 @@ protected:
 
     eprosima::fastdds::dds::DataWriterQos qos_;
 
-    //! DDS DataWriter reference
-    std::map<types::AmlipIdDataType, ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter>> writers_;
+    /**
+     * @brief
+     *
+     * @note it is a shared ptr because it is not distributed outside this class.
+     * If in the future it must be used outside the class, consider using OwnerPtr
+     * @note it could also be developed as having Writers instead of dataWriters and Listeners
+     */
+    std::map<types::AmlipIdDataType, std::shared_ptr<Writer<T>>> writers_;
 };
 
 } /* namespace dds */
