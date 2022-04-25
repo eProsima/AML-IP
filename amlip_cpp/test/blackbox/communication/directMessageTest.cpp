@@ -15,6 +15,8 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <ddsrouter_utils/Log.hpp>
+
 #include <dds/Participant.hpp>
 #include <types/AmlipIdDataType.hpp>
 
@@ -37,7 +39,7 @@ using namespace eprosima::amlip::dds;
  * Create a Participant, from there create a DirectWriter and a TargetedReader and send a message from one to the other.
  * It will use the AmlipIdDataType as data type.
  */
-TEST(DirectReaderWriterTest, communicate_writer_reader)
+TEST(DirectMessageTest, communicate_writer_reader)
 {
     // Ids used along the test
     types::AmlipIdDataType source_id("SourceId1");
@@ -76,7 +78,7 @@ TEST(DirectReaderWriterTest, communicate_writer_reader)
  * Create a Participant, from there create a DirectWriter and a TargetedReader and send a message from one to the other.
  * It will use the AmlipIdDataType as data type.
  */
-TEST(DirectReaderWriterTest, communicate_writer_reader_multiple_messages)
+TEST(DirectMessageTest, communicate_writer_reader_multiple_messages)
 {
     // Ids used along the test
     types::AmlipIdDataType source_id("SourceId2");
@@ -125,7 +127,7 @@ TEST(DirectReaderWriterTest, communicate_writer_reader_multiple_messages)
  * Create a Participant, from there create 2 DirectWriters and a TargetedReader and send a message from each one
  * It will use the AmlipIdDataType as data type.
  */
-TEST(DirectReaderWriterTest, communicate_multiple_writers_reader)
+TEST(DirectMessageTest, communicate_multiple_writers_reader)
 {
     // Ids used along the test
     types::AmlipIdDataType source_id_1("SourceId3");
@@ -181,7 +183,7 @@ TEST(DirectReaderWriterTest, communicate_multiple_writers_reader)
  * Create a Participant, from there create 2 DirectWriters and a TargetedReader and send a message from each one
  * It will use the AmlipIdDataType as data type.
  */
-TEST(DirectReaderWriterTest, communicate_writer_multiple_readers)
+TEST(DirectMessageTest, communicate_writer_multiple_readers)
 {
     // Ids used along the test
     types::AmlipIdDataType source_id("SourceId4");

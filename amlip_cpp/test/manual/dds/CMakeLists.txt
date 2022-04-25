@@ -19,6 +19,8 @@ all_library_sources("${TEST_SOURCES}")
 set(TEST_NAMES
         "reader"
         "writer"
+        "targetedreader"
+        "directwriter"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})

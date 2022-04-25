@@ -17,6 +17,8 @@
  *
  */
 
+#include <thread>
+
 #include <ddsrouter_utils/Log.hpp>
 
 #include <types/AmlipIdDataType.hpp>
@@ -29,30 +31,32 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Writer execution.");
+    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Writer execution. Creating Participant...");
 
     {
         // Create Participant
         eprosima::amlip::dds::Participant participant("ManualTestParticipant");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ".");
+        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Writer...");
 
         // Create Writer
         std::shared_ptr<eprosima::amlip::dds::Writer<eprosima::amlip::types::AmlipIdDataType>> writer =
             participant.create_writer<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Writer.");
+        logUser(AMLIP_MANUAL_TEST, "Created Writer. Waiting match...");
 
         // Wait for discover reader
         writer->wait_match();
+        // Wait a bit to let the reader do the match
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-        logUser(AMLIP_MANUAL_TEST, "Writer has matched.");
+        logUser(AMLIP_MANUAL_TEST, "Writer has matched. Sending data...");
 
         // Send data
         eprosima::amlip::types::AmlipIdDataType data("TESTDATA");
         writer->publish(data);
 
-        logUser(AMLIP_MANUAL_TEST, "Writer has sent message: " << data << ".");
+        logUser(AMLIP_MANUAL_TEST, "Writer has sent message: " << data << ". Destroying entities...");
     }
 
     logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Writer execution.");

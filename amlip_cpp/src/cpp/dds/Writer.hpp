@@ -45,6 +45,7 @@ class WriterListener : public eprosima::fastdds::dds::DataWriterListener
 public:
 
     // Default constructor
+    using eprosima::fastdds::dds::DataWriterListener::DataWriterListener;
 
     //! Default destructor
     virtual ~WriterListener();
@@ -67,9 +68,11 @@ public:
      *
      * This method will block until the Writer is matched or the \c stop() method is called.
      *
-     * @return Number of readers matched. 0 if the Writer is stopped.
+     * @param timeout_ms maximum wait time in milliseconds (0 = no wait)
+     *
+     * @return Reason for the awaken.
      */
-    void wait_match();
+    eprosima::ddsrouter::event::AwakeReason wait_match(const eprosima::ddsrouter::utils::Duration_ms &timeout = 0);
 
 protected:
 
@@ -122,6 +125,8 @@ public:
      * This write will be done asynchronously and the data will be copied, so \c data could be destroyed afterwards.
      *
      * @param data new data to write
+     *
+     * @note the parameter should be const, but could not be as fastdds write requires a non const (because of reasons)
      */
     eprosima::fastrtps::types::ReturnCode_t publish(T& data);
 

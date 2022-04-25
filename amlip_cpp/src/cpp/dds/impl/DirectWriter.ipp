@@ -39,6 +39,7 @@ DirectWriter<T>::DirectWriter(
 template <typename T>
 DirectWriter<T>::~DirectWriter()
 {
+    // DataWriters will be erased by themselves
 }
 
 template <typename T>
@@ -46,10 +47,22 @@ eprosima::fastrtps::types::ReturnCode_t DirectWriter<T>::write(
         const types::AmlipIdDataType& target_id,
         T& data)
 {
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> target_writer =
-        get_target_datawriter_(target_id);
+    std::shared_ptr<Writer<T>> target_writer =
+        get_target_writer_(target_id);
 
-    return target_writer.lock_with_exception()->write(&data);
+    return target_writer->publish(data);
+}
+
+template <typename T>
+eprosima::ddsrouter::event::AwakeReason DirectWriter<T>::wait_match(
+        const types::AmlipIdDataType& target_id,
+        const eprosima::ddsrouter::utils::Duration_ms &timeout /* = 0 */)
+{
+    // Get writer associated with this target (if it does not exist it creates it)
+    std::shared_ptr<Writer<T>> target_writer = get_target_writer_(target_id);
+
+    // Do wait in listener
+    return target_writer->wait_match();
 }
 
 template <typename T>
@@ -69,7 +82,7 @@ eprosima::fastdds::dds::DataWriterQos DirectWriter<T>::default_directwriter_qos(
 }
 
 template <typename T>
-ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DirectWriter<T>::get_target_datawriter_(
+std::shared_ptr<Writer<T>> DirectWriter<T>::get_target_writer_(
         types::AmlipIdDataType target_id)
 {
     auto it = writers_.find(target_id);
@@ -77,14 +90,12 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DirectWriter<T>:
     if(it == writers_.end())
     {
         // Create new writer
-        ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> target_writer =
-            dds_handler_.lock_with_exception()->create_datawriter<T>(
-                utils::direct_topic(topic_, target_id),
-                qos_); // without listener
+        std::shared_ptr<Writer<T>> new_writer = std::make_shared<Writer<T>>(
+            utils::direct_topic(topic_, target_id), dds_handler_, qos_);
 
-        writers_.emplace(target_id, target_writer);
+        writers_.emplace(target_id, new_writer);
 
-        return target_writer;
+        return new_writer;
     }
     else
     {

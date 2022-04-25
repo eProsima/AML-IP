@@ -50,9 +50,10 @@ uint32_t WriterListener::readers_matched() const noexcept
     return matched_readers_.load();
 }
 
-void WriterListener::wait_match()
+eprosima::ddsrouter::event::AwakeReason WriterListener::wait_match(
+        const eprosima::ddsrouter::utils::Duration_ms &timeout /* = 0 */)
 {
-    writer_match_waiter_.wait();
+    return writer_match_waiter_.wait(timeout);
 }
 
 void WriterListener::increase_match_() noexcept
