@@ -21,6 +21,7 @@
 
 #include <ddsrouter_utils/exception/InitializationException.hpp>
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <ddsrouter_utils/Log.hpp>
 #include <ddsrouter_utils/macros.hpp>
 
 #include <types/InterfaceDataType.hpp>
@@ -51,6 +52,11 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
         {
             // Add Type to map
             types_.insert({T::type_name(), type_support});
+
+            logInfo(AMLIPCPP_DDSHANDLER, "Registered Type " << T::type_name() << ".");
+            logDebug(AMLIPCPP_DDSHANDLER, "Registered Type " << T::type_name() <<
+                " with class: " << TYPE_NAME(T) << ".");
+
             return ret;
         }
     }
@@ -97,6 +103,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
             eprosima::fastdds::dds::TOPIC_QOS_DEFAULT),
         [this](eprosima::fastdds::dds::Topic* topic)
         {
+            logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Topic " << topic->get_name() << ".");
+
             // deleter for shared ptr
             this->participant_->delete_topic(topic);
         }
@@ -111,6 +119,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     auto topic_lessee = topic.lease();
     topics_[topic_idx] = std::move(topic);
 
+    logInfo(AMLIPCPP_DDSHANDLER, "Registered Topic " << topic_name << " with type :" << T::type_name() << ".");
+
     return topic_lessee;
 }
 
@@ -122,6 +132,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
 {
     // Force T to be subclass of InterfaceDataType
     FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
+
+    logDebug(AMLIPCPP_DDSHANDLER, "Creating DatWriter in topic " << topic_name << ".");
 
     // Get Topic (in case it does already exist return reference)
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
@@ -144,6 +156,9 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
             listener),
         [this](eprosima::fastdds::dds::DataWriter* datawriter)
         {
+            logDebug(AMLIPCPP_DDSHANDLER, "AutoDestroying DataWriter " << datawriter->guid() <<
+                " in topic " << datawriter->get_topic()->get_name() << ".");
+
             // deleter for shared ptr
             this->publisher_->delete_datawriter(datawriter);
         }
@@ -154,11 +169,15 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
             STR_ENTRY << "Failed to create DataWriter " << topic_name << ".");
     }
 
+    logInfo(AMLIPCPP_DDSHANDLER, "DataWriter created in topic " << topic_name <<
+        "with GUID: " << datawriter->guid() << ".");
+
     // Stor datawriter
     auto datawriter_lessee = datawriter.lease();
     datawriters_.push_back(std::move(datawriter));
 
     return datawriter_lessee;
+
 }
 
 template <typename T>
@@ -169,6 +188,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
 {
     // Force T to be subclass of InterfaceDataType
     FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
+
+    logDebug(AMLIPCPP_DDSHANDLER, "Creating DataReader in topic " << topic_name << ".");
 
     // Get Topic (in case it does already exist return reference)
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
@@ -191,6 +212,9 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
             listener),
         [this](eprosima::fastdds::dds::DataReader* datareader)
         {
+            logDebug(AMLIPCPP_DDSHANDLER, "AutoDestroying DataReader " << datareader->guid() <<
+                " in topic " << datareader->get_topicdescription()->get_name() << ".");
+
             // deleter for shared ptr
             this->subscriber_->delete_datareader(datareader);
         }
@@ -200,6 +224,9 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
         throw ddsrouter::utils::InitializationException(
             STR_ENTRY << "Failed to create DataReader " << topic_name << ".");
     }
+
+    logInfo(AMLIPCPP_DDSHANDLER, "DataReader created in topic " << topic_name <<
+        "with GUID: " << datareader->guid() << ".");
 
     // Stor datareader
     auto datareader_lessee = datareader.lease();

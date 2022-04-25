@@ -20,11 +20,6 @@ set(TEST_NAME ReaderWriterTest)
 
 set(TEST_SOURCES
         readerWriterTest.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/dds/Writer.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
     )
 
 set(TEST_LIST
