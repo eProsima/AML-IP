@@ -36,6 +36,20 @@ eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept
     return qos;
 }
 
+eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept
+{
+    eprosima::fastdds::dds::DataReaderQos qos;
+
+    qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
+    qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
+    qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;
+    // TODO: add key to StatusType and use KEEP_LAST 1 as the key will allow to handle it
+
+    // Not needed to use REALLOC policy
+
+    return qos;
+}
+
 } /* namespace network */
 } /* namespace amlip */
 } /* namespace eprosima */
