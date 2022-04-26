@@ -44,10 +44,10 @@ enum NodeKind : uint32_t
     META,
 };
 /*!
- * @brief This class represents the enumeration StatusKind defined by the user in the IDL file.
+ * @brief This class represents the enumeration StateKind defined by the user in the IDL file.
  * @ingroup STATUS
  */
-enum StatusKind : uint32_t
+enum StateKind : uint32_t
 {
     UNKNOWN,
     RUNNING,
@@ -73,7 +73,7 @@ public:
     StatusDataType(
         AmlipIdDataType id,
         NodeKind node_kind,
-        StatusKind status);
+        StateKind state);
 
     /*!
      * @brief Comparison operator.
@@ -93,7 +93,7 @@ public:
 
     NodeKind node_kind() const noexcept;
 
-    StatusKind status() const noexcept;
+    StateKind state() const noexcept;
 
     bool is_defined() const noexcept;
 
@@ -189,7 +189,7 @@ protected:
 
     NodeKind node_kind_;
 
-    StatusKind status_;
+    StateKind state_;
 
     static const char* DATA_TYPE_NAME_; // "status"
 };
@@ -204,10 +204,10 @@ std::ostream& operator <<(
         std::ostream& os,
         const NodeKind& nk);
 
-//! \c StatusKind to stream serializator
+//! \c StateKind to stream serializator
 std::ostream& operator <<(
         std::ostream& os,
-        const StatusKind& sk);
+        const StateKind& sk);
 
 } /* namespace types */
 } /* namespace amlip */
