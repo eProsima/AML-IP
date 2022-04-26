@@ -32,6 +32,7 @@ namespace node {
 /**
  * @brief TODO
  *
+ * @warning Not Thread Safe (yet) (TODO)
  */
 class ParentNode
 {
@@ -46,25 +47,33 @@ public:
 
     types::StateKind current_state() const noexcept;
 
-    types::NodeKind node_kind() const noexcept;
+    virtual types::NodeKind node_kind() const noexcept;
 
-    ddsrouter::utils::ReturnCode run() const noexcept;
+    /**
+     * @brief TODO
+     *
+     * @note decorator
+     */
+    ddsrouter::utils::ReturnCode run();
 
-    ddsrouter::utils::ReturnCode stop() const noexcept;
+    /**
+     * @brief TODO
+     *
+     * @note decorator
+     */
+    ddsrouter::utils::ReturnCode stop();
 
 protected:
 
-    virtual ddsrouter::utils::ReturnCode run_() const noexcept;
+    virtual ddsrouter::utils::ReturnCode run_();
 
-    virtual ddsrouter::utils::ReturnCode stop_() const noexcept;
+    virtual ddsrouter::utils::ReturnCode stop_();
 
     void publish_status_() const;
 
-    static types::NodeKind node_kind_();
+    dds::Participant participant_;
 
-    ddsrouter::utils::LesseePtr<dds::Participant> participant_;
-
-    std::shared_ptr<std::shared_ptr<dds::Writer<T>>> status_writer_;
+    std::shared_ptr<dds::Writer<types::StatusDataType>> status_writer_;
 
     types::StateKind current_state_;
 
@@ -78,8 +87,5 @@ std::ostream& operator <<(
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
-
-// Include implementation template file
-#include <dds/impl/ParentNode.ipp>
 
 #endif /* AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP */
