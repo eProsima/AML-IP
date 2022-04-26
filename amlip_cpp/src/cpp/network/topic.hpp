@@ -22,6 +22,7 @@
 #include <string>
 
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
 #include <types/AmlipIdDataType.hpp>
 
@@ -32,6 +33,8 @@ namespace network {
 constexpr const char* STATUS_TOPIC_NAME = "status";
 
 eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept;
+
+eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
 
 } /* namespace network */
 } /* namespace amlip */

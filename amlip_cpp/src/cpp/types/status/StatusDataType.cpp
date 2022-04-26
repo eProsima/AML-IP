@@ -209,10 +209,10 @@ std::ostream& operator <<(
             os << "RUNNING";
             break;
         case types::StateKind::STOPPED:
-            os << "DISABLED";
+            os << "STOPPED";
             break;
         case types::StateKind::DROPPED:
-            os << "DISABLED";
+            os << "DROPPED";
             break;
     }
 
