@@ -33,6 +33,7 @@ StatusNode::StatusNode(const char* name)
         network::status_reader_qos()))
     , processing_(false)
 {
+    logInfo(AMLIPCPP_NODE_STATUS, "Created new Status Node: " << *this << ".");
 }
 
 StatusNode::StatusNode(const std::string& name)
@@ -42,11 +43,15 @@ StatusNode::StatusNode(const std::string& name)
 
 StatusNode::~StatusNode()
 {
+    logDebug(AMLIPCPP_NODE_STATUS, "Destroying Status Node: " << *this << ".");
+
     // If the thread is running, stop it and join thread
     if (processing_)
     {
         stop_processing();
     }
+
+    logDebug(AMLIPCPP_NODE_STATUS, "Status Node Destroyed.");
 }
 
 void StatusNode::process_status_async(
@@ -70,9 +75,9 @@ void StatusNode::stop_processing()
 {
     if (processing_)
     {
-        status_reader_->awake_waiting_threads(); // This must kill thread
-        process_thread_.join();
         processing_ = false;
+        status_reader_->awake_waiting_threads(); // This must awake thread and it must finish
+        process_thread_.join();
 
         change_status_(types::StateKind::STOPPED);
     }
@@ -81,13 +86,15 @@ void StatusNode::stop_processing()
 void StatusNode::process_routine_(
         const std::function<void(const types::StatusDataType&)>& callback)
 {
-    while(true)
+    while(processing_)
     {
         // Wait for data
         ddsrouter::event::AwakeReason reason = status_reader_->wait_data_available();
 
         if (reason == ddsrouter::event::AwakeReason::DISABLED)
         {
+            logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " finished processing data.");
+
             // Break thread execution
             return;
         }
@@ -95,9 +102,19 @@ void StatusNode::process_routine_(
         // Read data
         types::StatusDataType status = status_reader_->read();
 
+        logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " read data :" << status << ".");
+
         // Call callback
         callback(status);
     }
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
+        const StatusNode& node)
+{
+    os << "STATUS_NODE{" << node.id() << "}";
+    return os;
 }
 
 } /* namespace node */

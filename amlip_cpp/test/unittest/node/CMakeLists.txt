@@ -53,7 +53,7 @@ all_library_sources(${TEST_SOURCES})
 set(TEST_LIST
         run_and_stop
         process_status_parent
-        process_status_status
+        process_status_state
     )
 
 set(TEST_EXTRA_LIBRARIES

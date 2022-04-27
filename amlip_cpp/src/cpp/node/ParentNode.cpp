@@ -33,19 +33,23 @@ ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
         network::STATUS_TOPIC_NAME,
         network::status_writer_qos()))
 {
+    logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
     publish_status_();
 }
 
 ParentNode::ParentNode(const std::string& name, types::NodeKind node_kind)
     : ParentNode(name.c_str(), node_kind)
 {
-    change_status_(types::StateKind::DROPPED);
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 ParentNode::~ParentNode()
 {
-    // Children must publish as dropped in their destructors
+    logDebug(AMLIPCPP_NODE_STATUS, "Destroying Node: " << *this << ".");
+
+    change_status_(types::StateKind::DROPPED);
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    logDebug(AMLIPCPP_NODE_STATUS, "Node destroyed.");
 }
 
 types::AmlipIdDataType ParentNode::id() const noexcept
@@ -79,6 +83,14 @@ void ParentNode::publish_status_() noexcept
 
     // Publish status
     status_writer_->publish(status);
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
+        const ParentNode& node)
+{
+    os << "NODE{" << node.id() << "}";
+    return os;
 }
 
 } /* namespace node */

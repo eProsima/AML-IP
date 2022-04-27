@@ -54,7 +54,7 @@ int main(
         eprosima::ddsrouter::event::SignalEventHandler<SIGINT> sigint_handler;
         sigint_handler.wait_for_event();
 
-        logUser(AMLIP_MANUAL_TEST, "SIGINT receibed. Destroying entities...");
+        logUser(AMLIP_MANUAL_TEST, "SIGINT received. Destroying entities...");
     }
 
     logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test DirectWriter execution.");
