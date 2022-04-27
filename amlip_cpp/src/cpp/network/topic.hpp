@@ -30,6 +30,8 @@ namespace network {
 
 constexpr const char* STATUS_TOPIC_NAME = "status";
 
+constexpr const char* JOB_TOPIC_NAME = "job";
+
 eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept;
 
 eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
