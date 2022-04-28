@@ -171,7 +171,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
     }
 
     logInfo(AMLIPCPP_DDSHANDLER, "DataWriter created in topic " << topic_name <<
-        "with GUID: " << datawriter->guid() << ".");
+        " with GUID: " << datawriter->guid() << ".");
 
     // Stor datawriter
     auto datawriter_lessee = datawriter.lease();
@@ -227,7 +227,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
     }
 
     logInfo(AMLIPCPP_DDSHANDLER, "DataReader created in topic " << topic_name <<
-        "with GUID: " << datareader->guid() << ".");
+        " with GUID: " << datareader->guid() << ".");
 
     // Stor datareader
     auto datareader_lessee = datareader.lease();

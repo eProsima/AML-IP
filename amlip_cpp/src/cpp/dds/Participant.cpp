@@ -19,6 +19,7 @@
 #include <ddsrouter_utils/Log.hpp>
 
 #include <dds/Participant.hpp>
+#include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -84,8 +85,7 @@ std::string Participant::name() const noexcept
 
 eprosima::fastdds::dds::DomainParticipantQos Participant::default_participant_qos() noexcept
 {
-    eprosima::fastdds::dds::DomainParticipantQos qos = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
-    return qos;
+    return utils::default_domain_participant_qos();
 }
 
 DomainIdType Participant::default_domain_id() noexcept

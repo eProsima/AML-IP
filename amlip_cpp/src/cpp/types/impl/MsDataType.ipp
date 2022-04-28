@@ -52,6 +52,15 @@ MsDataType<T>::MsDataType(
 }
 
 template <typename T>
+MsDataType<T>::MsDataType(
+        MsReferenceDataType&& reference,
+        T&& data)
+    : MsReferenceDataType(std::move(reference))
+    , data_(std::move(data))
+{
+}
+
+template <typename T>
 void MsDataType<T>::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
