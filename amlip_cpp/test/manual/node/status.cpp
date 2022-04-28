@@ -29,6 +29,9 @@ int main(
         int argc,
         char** argv)
 {
+    // initialize the random number generator
+    srand (time(NULL));
+
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
@@ -38,7 +41,7 @@ int main(
         // Create Status Node
         eprosima::amlip::node::StatusNode status_node("TestStatusNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created. Processing data asynchronously...");
+        logUser(AMLIP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
 
         // Create callback that only prints by stdout the status that arrives
         status_node.process_status_async(

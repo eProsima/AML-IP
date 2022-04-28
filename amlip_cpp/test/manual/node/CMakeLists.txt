@@ -18,6 +18,8 @@ all_library_sources("${TEST_SOURCES}")
 
 set(TEST_NAMES
         "status"
+        "main"
+        "computational"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})
