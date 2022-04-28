@@ -18,7 +18,7 @@ runs:
   using: composite
   steps:
   - run: >
-      cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest;C:\Program Files' `
+      cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest;C:\Program Files;${{ github.workspace }}\..\eprosima\install' `
         -DCMAKE_CXX_FLAGS="/WX /EHsc" -DBUILD_TESTS=ON -B build\${{ inputs.subpackage }} -A x64 -T host=x64 ${{ inputs.package_path }}/${{ inputs.subpackage_dir }};
       cmake --build build\${{ inputs.subpackage }} --config ${{ inputs.cmake_build_type }} --target install;
 
