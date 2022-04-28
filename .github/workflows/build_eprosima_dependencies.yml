@@ -4,3 +4,71 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
+
+jobs:
+  windows-build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cmake-config:
+          - 'Release'
+          - 'Debug'
+    env:
+      CXXFLAGS: /MP
+      OPENSSL64_ROOT: "C:/Program Files/OpenSSL-Win64"
+
+    steps:
+      - name: Sync eProsima/AML-IP repository
+        uses: actions/checkout@v2
+        with:
+          path: AML-IP
+
+      - name: Install OpenSSL
+        uses: ./AML-IP/.github/actions/install-openssl-windows
+
+      - name: Install eProsima dependencies
+        uses: ./AML-IP/.github/actions/install-eprosima-dependencies-windows
+        with:
+          cmake_build_type: ${{ matrix.cmake-config }}
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows_${{ matrix.cmake-config }}_eprosima_dependencies_install
+          path: ${{ github.workspace }}\eprosima\install
+
+  ubuntu-build:
+    runs-on: ubuntu-latest
+    environment:
+      name: codecov
+
+    steps:
+      - name: Sync eProsima/AML-IP repository
+        uses: actions/checkout@v2
+        with:
+          path: src/AML-IP
+
+      - name: Avoid AML-IP build
+        run: |
+          touch ./src/AML-IP/COLCON_IGNORE
+
+      - name: Install apt packages
+        uses: ./src/AML-IP/.github/actions/install-apt-packages
+
+      - name: Install Python packages
+        uses: ./src/AML-IP/.github/actions/install-python-packages
+
+      - name: Fetch dependencies repositories
+        run: |
+          vcs import src <  src/AML-IP/.github/workflows/ci.repos
+
+      - name: Build workspace
+        run: |
+          colcon build --event-handlers=console_direct+
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: ubuntu_eprosima_dependencies_install
+          path: install
