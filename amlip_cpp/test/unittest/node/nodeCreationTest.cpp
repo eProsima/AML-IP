@@ -15,6 +15,8 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <node/ComputationalNode.hpp>
+#include <node/MainNode.hpp>
 #include <node/ParentNode.hpp>
 #include <node/StatusNode.hpp>
 #include <types/AmlipIdDataType.hpp>
@@ -41,6 +43,28 @@ TEST(NodeCreationTest, create_status)
 
     ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
     ASSERT_EQ(types::NodeKind::STATUS, node.node_kind());
+}
+
+/**
+ * Create Main Node
+ */
+TEST(NodeCreationTest, create_main)
+{
+    node::MainNode node("TestNode");
+
+    ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
+    ASSERT_EQ(types::NodeKind::MAIN, node.node_kind());
+}
+
+/**
+ * Create Computational Node
+ */
+TEST(NodeCreationTest, create_computational)
+{
+    node::ComputationalNode node("TestNode");
+
+    ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
+    ASSERT_EQ(types::NodeKind::COMPUTATIONAL, node.node_kind());
 }
 
 int main(

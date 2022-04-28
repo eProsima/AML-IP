@@ -41,6 +41,9 @@ public:
     ParentNode(const char* name, types::NodeKind node_kind);
     ParentNode(const std::string& name, types::NodeKind node_kind);
 
+    //! Copy constructor not allowed
+    ParentNode(const ParentNode& x) = delete;
+
     ~ParentNode();
 
     types::AmlipIdDataType id() const noexcept;

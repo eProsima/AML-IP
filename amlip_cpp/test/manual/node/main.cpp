@@ -48,7 +48,7 @@ int main(
         // Create job data
         std::string data_str = "<Job Data In String>";
         // The cast to char* is needed to avoid const in ptr
-        eprosima::amlip::types::JobDataType job_data(static_cast<void *>((char*)data_str.c_str()), data_str.size());
+        eprosima::amlip::types::JobDataType job_data(static_cast<void *>(const_cast<char*>(data_str.c_str())), data_str.size());
 
         logUser(AMLIP_MANUAL_TEST, "Job data created with string: " << data_str << ". Sending request...");
 
