@@ -254,6 +254,8 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
 {
     // make sure a random seed is properly set in the main scope
 
+    // TODO: move this random seed to a random manager
+
     std::array<uint8_t, RAND_SIZE> rand_id;
     for (int i = 0; i < RAND_SIZE; i++)
     {

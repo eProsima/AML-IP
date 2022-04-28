@@ -20,6 +20,7 @@
 #define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_TARGETEDREADER_IPP
 
 #include <dds/network_utils/direct_write.hpp>
+#include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -38,11 +39,7 @@ TargetedReader<T>::TargetedReader(
 template <typename T>
 eprosima::fastdds::dds::DataReaderQos TargetedReader<T>::default_targetedreader_qos()
 {
-    eprosima::fastdds::dds::DataReaderQos qos = eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT;
-
-    // Preallocated with realloc
-    qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+    eprosima::fastdds::dds::DataReaderQos qos = utils::default_datareader_qos();
 
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;

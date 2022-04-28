@@ -21,6 +21,8 @@
 
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
 
+#include <dds/network_utils/dds_qos.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -82,6 +84,10 @@ T Reader<T>::read()
     eprosima::fastdds::dds::SampleInfo info;
     T data;
 
+    logDebug(
+        AMLIPCPP_DDS_READER,
+        "Reading message in topic " << topic_ << " from: " << datareader_locked_->guid() << ".");
+
     // TODO: This creates a new data, ergo it is copying the data arrived. Check and refactor this
 
     eprosima::fastrtps::types::ReturnCode_t return_code = datareader_locked_->take_next_sample(&data, &info);
@@ -107,12 +113,7 @@ T Reader<T>::read()
 template <typename T>
 eprosima::fastdds::dds::DataReaderQos Reader<T>::default_datareader_qos()
 {
-    eprosima::fastdds::dds::DataReaderQos qos = eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT;
-
-    // Preallocated with realloc
-    qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
-
+    eprosima::fastdds::dds::DataReaderQos qos = utils::default_datareader_qos();
     return qos;
 }
 
