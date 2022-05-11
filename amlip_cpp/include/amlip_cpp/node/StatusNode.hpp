@@ -19,13 +19,27 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_STATUSNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_STATUSNODE_HPP
 
+#include <atomic>
 #include <functional>
+#include <thread>
 
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 #include <ddsrouter_utils/ReturnCode.hpp>
 
 #include <types/status/StatusDataType.hpp>
 #include <node/ParentNode.hpp>
+
+// Forward declaration of dds classes
+namespace eprosima {
+namespace amlip {
+namespace dds {
+
+template <typename T>
+class Reader;
+
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
 
 namespace eprosima {
 namespace amlip {

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*!
- * @file MsRequestDataType.cpp
+ * @file MsReferenceDataType.cpp
  */
 
 #include <fastcdr/Cdr.h>
@@ -27,76 +27,81 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
-#include <types/MsRequestDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-const char* MsRequestDataType::DATA_TYPE_NAME_ = "ms_request";
+const char* MsReferenceDataType::DATA_TYPE_NAME_ = "ms_reference";
 
-MsRequestDataType::MsRequestDataType()
+MsReferenceDataType::MsReferenceDataType()
 {
 }
 
-MsRequestDataType::MsRequestDataType(
+MsReferenceDataType::MsReferenceDataType(
         const AmlipIdDataType client_id,
-        const TaskId& task_id)
-    : client_id_(client_id)
-    , task_id_(task_id)
+        const TaskId& task_id,
+        const AmlipIdDataType& server_id)
+    : MsRequestDataType(client_id, task_id)
+    , server_id_(server_id)
 {
 }
 
-MsRequestDataType::~MsRequestDataType()
+MsReferenceDataType::~MsReferenceDataType()
 {
 }
 
-MsRequestDataType::MsRequestDataType(
-        const MsRequestDataType& x)
+MsReferenceDataType::MsReferenceDataType(
+        const MsReferenceDataType& x)
 {
     client_id_ = x.client_id_;
     task_id_ = x.task_id_;
+    server_id_ = x.server_id_;
 }
 
-MsRequestDataType::MsRequestDataType(
-        MsRequestDataType&& x)
+MsReferenceDataType::MsReferenceDataType(
+        MsReferenceDataType&& x)
 {
     client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
+    server_id_ = std::move(x.server_id_);
 }
 
-MsRequestDataType& MsRequestDataType::operator =(
-        const MsRequestDataType& x)
+MsReferenceDataType& MsReferenceDataType::operator =(
+        const MsReferenceDataType& x)
 {
     client_id_ = x.client_id_;
     task_id_ = x.task_id_;
+    server_id_ = x.server_id_;
 
     return *this;
 }
 
-MsRequestDataType& MsRequestDataType::operator =(
-        MsRequestDataType&& x)
+MsReferenceDataType& MsReferenceDataType::operator =(
+        MsReferenceDataType&& x)
 {
     client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
+    server_id_ = std::move(x.server_id_);
 
     return *this;
 }
 
-bool MsRequestDataType::operator ==(
-        const MsRequestDataType& x) const
+bool MsReferenceDataType::operator ==(
+        const MsReferenceDataType& x) const
 {
-    return (client_id_ == x.client_id_ && task_id_ == x.task_id_);
+    return (client_id_ == x.client_id_ && task_id_ == x.task_id_ && server_id_ == x.server_id_);
 }
 
-bool MsRequestDataType::operator !=(
-        const MsRequestDataType& x) const
+bool MsReferenceDataType::operator !=(
+        const MsReferenceDataType& x) const
 {
     return !(*this == x);
 }
 
-bool MsRequestDataType::operator <(
-        const MsRequestDataType& x) const
+bool MsReferenceDataType::operator <(
+        const MsReferenceDataType& x) const
 {
     if (client_id_ < x.client_id_)
     {
@@ -108,110 +113,117 @@ bool MsRequestDataType::operator <(
     }
     else
     {
-        return (task_id_ < x.task_id_);
+        if (task_id_ < x.task_id_)
+        {
+            return true;
+        }
+        else if (x.task_id_ < task_id_)
+        {
+            return false;
+        }
+        else
+        {
+            return (server_id_ < x.server_id_);
+        }
     }
 }
 
-AmlipIdDataType MsRequestDataType::client_id() const
+AmlipIdDataType MsReferenceDataType::server_id() const
 {
-    return client_id_;
+    return server_id_;
 }
 
-void MsRequestDataType::client_id(const AmlipIdDataType& new_value)
+void MsReferenceDataType::server_id(const AmlipIdDataType& new_value)
 {
-    client_id_ = new_value;
+    server_id_ = new_value;
 }
 
-TaskId MsRequestDataType::task_id() const
-{
-    return task_id_;
-}
-
-void MsRequestDataType::task_id(const TaskId& new_value)
-{
-    task_id_ = new_value;
-}
-
-void MsRequestDataType::serialize(
+void MsReferenceDataType::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
     scdr << client_id_;
     scdr << task_id_;
+    scdr << server_id_;
 }
 
-void MsRequestDataType::deserialize(
+void MsReferenceDataType::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
     dcdr >> client_id_;
     dcdr >> task_id_;
+    dcdr >> server_id_;
 }
 
-void MsRequestDataType::serialize_key(
+void MsReferenceDataType::serialize_key(
         eprosima::fastcdr::Cdr&) const
 {
 }
 
-size_t MsRequestDataType::get_max_cdr_serialized_size(
+size_t MsReferenceDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
 
     current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
 
     return current_alignment - initial_alignment;
 }
 
-size_t MsRequestDataType::get_cdr_serialized_size(
-        const MsRequestDataType& request,
+size_t MsReferenceDataType::get_cdr_serialized_size(
+        const MsReferenceDataType& request,
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
 
     current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.client_id(), current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.server_id(), current_alignment);
 
     return current_alignment - initial_alignment;
 }
 
-size_t MsRequestDataType::get_key_max_cdr_serialized_size(
+size_t MsReferenceDataType::get_key_max_cdr_serialized_size(
         size_t current_alignment)
 {
     return current_alignment;
 }
 
-bool MsRequestDataType::is_key_defined()
+bool MsReferenceDataType::is_key_defined()
 {
     return false;
 }
 
-bool MsRequestDataType::is_bounded()
+bool MsReferenceDataType::is_bounded()
 {
     return true;
 }
 
-bool MsRequestDataType::is_plain()
+bool MsReferenceDataType::is_plain()
 {
     return true;
 }
 
-bool MsRequestDataType::construct_sample(
+bool MsReferenceDataType::construct_sample(
         void* memory)
 {
-    new (memory) MsRequestDataType();
+    new (memory) MsReferenceDataType();
     return true;
 }
 
-std::string MsRequestDataType::type_name()
+std::string MsReferenceDataType::type_name()
 {
     return DATA_TYPE_NAME_;
 }
 
 std::ostream& operator <<(
         std::ostream& os,
-        const MsRequestDataType& request)
+        const MsReferenceDataType& reference)
 {
-    os << "MS-REQUEST{" << request.client_id() << "|" << request.task_id() << "}";
+    os << "MS-REFERENCE{" << reference.client_id() <<
+        "|" << reference.task_id() <<
+        "|" << reference.server_id() << "}";
     return os;
 }
 

@@ -15,6 +15,8 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <thread>
+
 #include <node/MainNode.hpp>
 #include <node/ComputationalNode.hpp>
 

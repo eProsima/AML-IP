@@ -18,7 +18,7 @@
 #include <fastdds/rtps/common/SerializedPayload.h>
 
 #include <types/AmlipGenericTopicDataType.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <types/GenericDataType.hpp>
 
 using namespace eprosima::amlip::types;

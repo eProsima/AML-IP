@@ -21,7 +21,7 @@
 
 #include <ddsrouter_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <node/ComputationalNode.hpp>
 
 /*
@@ -37,13 +37,13 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Computational Node execution. Creating Node...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Computational Node execution. Creating Node...");
 
     {
         // Create Computational Node
         eprosima::amlip::node::ComputationalNode computational_node("TestComputationalNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created: " << computational_node << ". Answering job request...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << computational_node << ". Answering job request...");
 
         // Answer job request
         eprosima::amlip::types::MsReferenceDataType reference = computational_node.process_job(
@@ -75,10 +75,10 @@ int main(
         // Let a bit of time for the solution to be sent
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-        logUser(AMLIP_MANUAL_TEST, "Answered job task: " << reference << ". Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Answered job task: " << reference << ". Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Computational Node execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Computational Node execution.");
 
     return 0;
 }

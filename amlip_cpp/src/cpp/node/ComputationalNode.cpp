@@ -19,6 +19,8 @@
 #include <ddsrouter_utils/Log.hpp>
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
 
+#include <dds/multiservice/MultiServiceServer.hpp>
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
 #include <node/ComputationalNode.hpp>
 
@@ -28,7 +30,7 @@ namespace node {
 
 ComputationalNode::ComputationalNode(const char* name)
     : ParentNode(name, types::NodeKind::COMPUTATIONAL)
-    , job_server_(participant_.create_multiservice_server<types::JobDataType, types::SolutionDataType>(
+    , job_server_(participant_->create_multiservice_server<types::JobDataType, types::SolutionDataType>(
         network::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_COMPUTATIONAL, "Created new Computational Node: " << *this << ".");

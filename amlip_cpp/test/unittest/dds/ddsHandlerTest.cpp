@@ -16,7 +16,7 @@
 #include <gtest/gtest.h>
 
 #include <dds/DdsHandler.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

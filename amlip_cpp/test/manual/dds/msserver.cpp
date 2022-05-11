@@ -21,13 +21,13 @@
 
 #include <ddsrouter_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <dds/Participant.hpp>
 
 // To process the data, it will be created a new id with same id_num but in uppercase
 eprosima::amlip::types::AmlipIdDataType server_callback(const eprosima::amlip::types::AmlipIdDataType& data)
 {
-    logUser(AMLIP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
 
     // Create new solution from data
     auto name = data.base64_name();
@@ -36,7 +36,7 @@ eprosima::amlip::types::AmlipIdDataType server_callback(const eprosima::amlip::t
     eprosima::amlip::types::AmlipIdDataType solution(
         name, data.id());
 
-    logUser(AMLIP_MANUAL_TEST, "Processed solution: " << solution << " . Returning solution...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Processed solution: " << solution << " . Returning solution...");
 
     return solution;
 }
@@ -48,13 +48,13 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test MultiService Server execution. Creating Participant...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test MultiService Server execution. Creating Participant...");
 
     {
         // Create Participant
         eprosima::amlip::dds::Participant participant("ManualTestParticipant");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Server...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Server...");
 
         // Create Writer
         std::shared_ptr<
@@ -63,15 +63,15 @@ int main(
             participant.create_multiservice_server<
                 eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Server. Waiting data to process...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Server. Waiting data to process...");
 
         // Wait for discover reader
         eprosima::amlip::types::MsReferenceDataType reference = server->process_task_sync(server_callback);
 
-        logUser(AMLIP_MANUAL_TEST, "Server has processed task: " << reference << " . Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Server has processed task: " << reference << " . Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test MultiService Server execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test MultiService Server execution.");
 
     return 0;
 }

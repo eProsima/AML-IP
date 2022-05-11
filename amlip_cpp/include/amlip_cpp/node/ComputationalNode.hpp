@@ -24,6 +24,19 @@
 #include <node/ParentNode.hpp>
 #include <types/job/JobDataType.hpp>
 #include <types/job/SolutionDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
+
+// Forward declaration of dds classes
+namespace eprosima {
+namespace amlip {
+namespace dds {
+
+template <typename Task, typename Solution>
+class MultiServiceServer;
+
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
 
 namespace eprosima {
 namespace amlip {

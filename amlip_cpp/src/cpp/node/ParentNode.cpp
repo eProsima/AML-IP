@@ -18,6 +18,7 @@
 
 #include <ddsrouter_utils/Log.hpp>
 
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
 #include <node/ParentNode.hpp>
 
@@ -26,10 +27,10 @@ namespace amlip {
 namespace node {
 
 ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
-    : participant_(name)
+    : participant_(std::make_unique<dds::Participant>(name))
     , current_state_(types::StateKind::STOPPED)
     , node_kind_(node_kind)
-    , status_writer_(participant_.create_writer<types::StatusDataType>(
+    , status_writer_(participant_->create_writer<types::StatusDataType>(
         network::STATUS_TOPIC_NAME,
         network::status_writer_qos()))
 {
@@ -54,7 +55,7 @@ ParentNode::~ParentNode()
 
 types::AmlipIdDataType ParentNode::id() const noexcept
 {
-    return participant_.id();
+    return participant_->id();
 }
 
 types::StateKind ParentNode::current_state() const noexcept

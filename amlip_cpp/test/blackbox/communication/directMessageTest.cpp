@@ -18,7 +18,7 @@
 #include <ddsrouter_utils/Log.hpp>
 
 #include <dds/Participant.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

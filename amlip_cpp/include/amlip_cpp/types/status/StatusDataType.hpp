@@ -22,7 +22,7 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <types/InterfaceDataType.hpp>
 
 namespace eprosima {

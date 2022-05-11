@@ -19,6 +19,8 @@
 #include <ddsrouter_utils/Log.hpp>
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
 
+#include <dds/multiservice/MultiServiceClient.hpp>
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
 #include <node/MainNode.hpp>
 
@@ -28,7 +30,7 @@ namespace node {
 
 MainNode::MainNode(const char* name)
     : ParentNode(name, types::NodeKind::MAIN)
-    , job_client_(participant_.create_multiservice_client<types::JobDataType, types::SolutionDataType>(
+    , job_client_(participant_->create_multiservice_client<types::JobDataType, types::SolutionDataType>(
         network::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_MAIN, "Created new Main Node: " << *this << ".");

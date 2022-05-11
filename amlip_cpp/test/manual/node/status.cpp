@@ -22,7 +22,7 @@
 #include <ddsrouter_utils/Log.hpp>
 #include <ddsrouter_event/SignalEventHandler.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <node/StatusNode.hpp>
 
 int main(
@@ -35,13 +35,13 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
 
     {
         // Create Status Node
         eprosima::amlip::node::StatusNode status_node("TestStatusNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
 
         // Create callback that only prints by stdout the status that arrives
         status_node.process_status_async(
@@ -52,15 +52,15 @@ int main(
                     "Status: " << data << " received by :" << status_node.id() << ".");
             });
 
-        logUser(AMLIP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
 
         eprosima::ddsrouter::event::SignalEventHandler<SIGINT> sigint_handler;
         sigint_handler.wait_for_event();
 
-        logUser(AMLIP_MANUAL_TEST, "SIGINT received. Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "SIGINT received. Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
 
     return 0;
 }

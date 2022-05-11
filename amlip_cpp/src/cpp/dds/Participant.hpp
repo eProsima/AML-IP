@@ -28,6 +28,7 @@
 
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
@@ -35,7 +36,6 @@
 #include <dds/Writer.hpp>
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/multiservice/MultiServiceServer.hpp>
-#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
