@@ -18,6 +18,7 @@
 
 #include <cpp_utils/Log.hpp>
 
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
 #include <node/ParentNode.hpp>
 
@@ -57,7 +58,7 @@ ParentNode::~ParentNode()
 
 types::AmlipIdDataType ParentNode::id() const noexcept
 {
-    return participant_.id();
+    return participant_->id();
 }
 
 types::StateKind ParentNode::current_state() const noexcept

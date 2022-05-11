@@ -19,7 +19,7 @@
 
 #include <cpp_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <dds/Participant.hpp>
 
 int main(
@@ -29,32 +29,32 @@ int main(
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Reader execution. Creating Participant...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Reader execution. Creating Participant...");
 
     {
         // Create Participant
         eprosima::amlip::dds::Participant participant("ManualTestParticipant");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Reader...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Reader...");
 
         // Create Reader
         std::shared_ptr<eprosima::amlip::dds::Reader<eprosima::amlip::types::AmlipIdDataType>> reader =
                 participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Reader. Waiting for data...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Reader. Waiting for data...");
 
         // Wait for data
         reader->wait_data_available();
 
-        logUser(AMLIP_MANUAL_TEST, "Data received. Reading data...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Data received. Reading data...");
 
         // Read data
         eprosima::amlip::types::AmlipIdDataType received_data = reader->read();
 
-        logUser(AMLIP_MANUAL_TEST, "Read message: " << received_data << ". Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Read message: " << received_data << ". Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Reader execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Reader execution.");
 
     // Needed for Windows
     eprosima::utils::Log::Flush();

@@ -21,8 +21,7 @@ set(TEST_NAME amlipIdTest)
 set(TEST_SOURCES
         amlipIdTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipId.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
     )
 
 set(TEST_LIST
@@ -53,7 +52,7 @@ set(TEST_NAME genericDataTypeTest)
 set(TEST_SOURCES
         genericDataTypeTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
-        ${PROJECT_SOURCE_DIR}/src/cpp/types/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/GenericDataType.cpp
     )
 

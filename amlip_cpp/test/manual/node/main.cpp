@@ -21,7 +21,7 @@
 
 #include <cpp_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <node/MainNode.hpp>
 
 /*
@@ -37,13 +37,13 @@ int main(
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Main Node execution. Creating Node...");
+    logUser(AAMLIPCPP_MLIPCPP_MANUAL_TEST, "Starting Manual Test Main Node execution. Creating Node...");
 
     {
         // Create Main Node
         eprosima::amlip::node::MainNode main_node("TestMainNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created: " << main_node << ". Creating job...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << main_node << ". Creating job...");
 
         // Create job data
         std::string data_str = "<Job Data In String>";
@@ -51,20 +51,20 @@ int main(
         eprosima::amlip::types::JobDataType job_data(static_cast<void*>(const_cast<char*>(data_str.c_str())),
                 data_str.size());
 
-        logUser(AMLIP_MANUAL_TEST, "Job data created with string: " << data_str << ". Sending request...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Job data created with string: " << data_str << ". Sending request...");
 
         // Send job request
         eprosima::amlip::types::SolutionDataType solution = main_node.request_job_solution(job_data);
 
-        logUser(AMLIP_MANUAL_TEST, "Solution received. Deserializing to string...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Solution received. Deserializing to string...");
 
         // Convert solution to string
         std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());
 
-        logUser(AMLIP_MANUAL_TEST, "Solution deserialized is: " << solution_str << ". Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Solution deserialized is: " << solution_str << ". Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Main Node execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Main Node execution.");
 
     return 0;
 }

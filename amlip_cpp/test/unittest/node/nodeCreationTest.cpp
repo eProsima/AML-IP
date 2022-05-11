@@ -19,7 +19,7 @@
 #include <node/MainNode.hpp>
 #include <node/ParentNode.hpp>
 #include <node/StatusNode.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

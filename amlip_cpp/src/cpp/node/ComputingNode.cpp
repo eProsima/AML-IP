@@ -19,6 +19,8 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
+#include <dds/multiservice/MultiServiceServer.hpp>
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
 #include <node/ComputingNode.hpp>
 

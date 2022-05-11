@@ -23,7 +23,20 @@
 #include <cpp_utils/ReturnCode.hpp>
 
 #include <types/status/StatusDataType.hpp>
-#include <dds/Participant.hpp>
+
+// Forward declaration of dds classes
+namespace eprosima {
+namespace amlip {
+namespace dds {
+
+class Participant;
+
+template <typename T>
+class Writer;
+
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
 
 namespace eprosima {
 namespace amlip {
@@ -64,7 +77,7 @@ protected:
 
     void publish_status_() const noexcept;
 
-    dds::Participant participant_;
+    std::unique_ptr<dds::Participant> participant_;
 
     std::shared_ptr<dds::Writer<types::StatusDataType>> status_writer_;
 

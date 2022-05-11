@@ -51,10 +51,8 @@ class ComputingNode : public ParentNode
 {
 public:
 
-    ComputingNode(
-            const char* name);
-    ComputingNode(
-            const std::string& name);
+    ComputingNode(const char* name);
+    ComputingNode(const std::string& name);
 
     ~ComputingNode();
 

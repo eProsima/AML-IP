@@ -21,7 +21,7 @@
 
 #include <cpp_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <dds/Participant.hpp>
 
 int main(
@@ -31,13 +31,13 @@ int main(
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test MultiService Client execution. Creating Participant...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test MultiService Client execution. Creating Participant...");
 
     {
         // Create Participant
         eprosima::amlip::dds::Participant participant("ManualTestParticipant");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Client...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Client...");
 
         // Create Writer
         std::shared_ptr<
@@ -48,15 +48,15 @@ int main(
 
         eprosima::amlip::types::AmlipIdDataType data("testdata");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Client. Sending task data: " << data << " ...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Client. Sending task data: " << data << " ...");
 
         // Wait for discover reader
         eprosima::amlip::types::AmlipIdDataType solution = client->send_request_sync(data);
 
-        logUser(AMLIP_MANUAL_TEST, "Client has received solution: " << solution << " . Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Client has received solution: " << solution << " . Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test MultiService Client execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test MultiService Client execution.");
 
     return 0;
 }

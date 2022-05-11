@@ -27,7 +27,7 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
-#include <types/MsReferenceDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

@@ -18,7 +18,7 @@
 #include <cpp_utils/Log.hpp>
 
 #include <dds/Participant.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 using namespace eprosima::amlip;
 using namespace eprosima::amlip::dds;

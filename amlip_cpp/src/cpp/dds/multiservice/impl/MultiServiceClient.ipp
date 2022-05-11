@@ -98,7 +98,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     }
 
     // From here, reference has the target of the server that is going to process the data
-    logDebug(AMLIP_MULTISERVICE_CLIENT,
+    logDebug(AMLIPCPP_MULTISERVICE_CLIENT,
             "Client " << own_id_ << " sending task: " << reference.task_id() <<
             " to server: " << reference.server_id() << ".");
 

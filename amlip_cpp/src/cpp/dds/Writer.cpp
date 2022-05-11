@@ -40,12 +40,12 @@ void WriterListener::on_publication_matched(
 {
     if (info.current_count_change > 0)
     {
-        logDebug(AMLIP_WRITER, "Writer " << writer->guid() << " matched with Reader.");
+        logDebug(AMLIPCPP_WRITER, "Writer " << writer->guid() << " matched with Reader.");
         increase_match_();
     }
     else if (info.current_count_change < 0)
     {
-        logDebug(AMLIP_WRITER, "Writer " << writer->guid() << " unmatched with Reader.");
+        logDebug(AMLIPCPP_WRITER, "Writer " << writer->guid() << " unmatched with Reader.");
         decrease_match_();
     }
 }

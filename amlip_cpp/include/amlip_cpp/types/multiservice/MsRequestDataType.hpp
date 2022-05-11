@@ -13,19 +13,19 @@
 // limitations under the License.
 
 /*!
- * @file MsReferenceDataType.hpp
+ * @file MsRequestDataType.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
-#define AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+#ifndef AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
+#define AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
 
 #include <array>
 #include <limits>
 #include <ostream>
 #include <string>
 
-#include <types/AmlipIdDataType.hpp>
-#include <types/MsRequestDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
@@ -37,90 +37,102 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+using TaskId = uint32_t;
+
 /*!
  * TODO
  */
-class MsReferenceDataType : public MsRequestDataType
+class MsRequestDataType : public InterfaceDataType
 {
 public:
 
     /**
      * TODO
      */
-    MsReferenceDataType();
+    MsRequestDataType();
 
     /*!
      * @brief Constructor with name.
      */
-    MsReferenceDataType(
+    MsRequestDataType(
             const AmlipIdDataType client_id,
-            const TaskId& task_id,
-            const AmlipIdDataType& server_id);
+            const TaskId& task_id);
 
     /*!
      * @brief Default destructor.
      */
-    virtual ~MsReferenceDataType();
+    virtual ~MsRequestDataType();
 
     /*!
      * @brief Copy constructor.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    MsReferenceDataType(
-            const MsReferenceDataType& x);
+    MsRequestDataType(
+            const MsRequestDataType& x);
 
     /*!
      * @brief Move constructor.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    MsReferenceDataType(
-            MsReferenceDataType&& x);
+    MsRequestDataType(
+            MsRequestDataType&& x);
 
     /*!
      * @brief Copy assignment.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    MsReferenceDataType& operator =(
-            const MsReferenceDataType& x);
+    MsRequestDataType& operator =(
+            const MsRequestDataType& x);
 
     /*!
      * @brief Move assignment.
-     * @param x Reference to the object MsReferenceDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    MsReferenceDataType& operator =(
-            MsReferenceDataType&& x);
+    MsRequestDataType& operator =(
+            MsRequestDataType&& x);
 
     /*!
      * @brief Comparison operator.
-     * @param x MsReferenceDataType object to compare.
+     * @param x MsRequestDataType object to compare.
      */
     bool operator ==(
-            const MsReferenceDataType& x) const;
+            const MsRequestDataType& x) const;
 
     /*!
      * @brief Comparison operator.
-     * @param x MsReferenceDataType object to compare.
+     * @param x MsRequestDataType object to compare.
      */
     bool operator !=(
-            const MsReferenceDataType& x) const;
+            const MsRequestDataType& x) const;
 
     /*!
      * @brief Comparison operator.
-     * @param x MsReferenceDataType object to compare.
+     * @param x MsRequestDataType object to compare.
      */
     bool operator <(
-            const MsReferenceDataType& x) const;
+            const MsRequestDataType& x) const;
 
     /*!
      * TODO
      */
-    AmlipIdDataType server_id() const;
+    AmlipIdDataType client_id() const;
 
     /*!
      * TODO
      */
-    void server_id(
+    void client_id(
             const AmlipIdDataType& new_value);
+
+    /*!
+     * TODO
+     */
+    TaskId task_id() const;
+
+    /*!
+     * TODO
+     */
+    void task_id(
+            const TaskId& new_value);
 
     /////
     // InterfaceDataType methods
@@ -162,7 +174,7 @@ public:
      * @return Serialized size.
      */
     static size_t get_cdr_serialized_size(
-            const MsReferenceDataType& data,
+            const MsRequestDataType& data,
             size_t current_alignment = 0);
 
     /*!
@@ -210,18 +222,21 @@ public:
 
 protected:
 
-    AmlipIdDataType server_id_;
+    AmlipIdDataType client_id_;
 
-    static const char* DATA_TYPE_NAME_; // "ms_reference"
+    TaskId task_id_;
+
+    static const char* DATA_TYPE_NAME_; // "ms_request"
+
 };
 
-//! \c MsReferenceDataType to stream serializator
+//! \c MsRequestDataType to stream serializator
 std::ostream& operator <<(
         std::ostream& os,
-        const MsReferenceDataType& reference);
+        const MsRequestDataType& request);
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+#endif // AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
