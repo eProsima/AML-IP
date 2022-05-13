@@ -12,15 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file _tmp.hpp
- *
- * This filemust be removed when a real file exists
+/*!
+ * @file JobDataType.hpp
  */
 
-#ifndef _AMLIPCPP__TMP_HPP
-#define _AMLIPCPP__TMP_HPP
+#ifndef AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
 
-void __foo();
+#include <amlip_cpp/types/GenericDataType.hpp>
 
-#endif /* _AMLIPCPP__TMP_HPP */
+namespace eprosima {
+namespace amlip {
+namespace types {
+
+/*!
+ * @brief AML Job Task Data Type
+ *
+ * This class may be reimplemented according with AML team designs.
+ */
+class JobDataType : public GenericDataType
+{
+public:
+
+    //! Use parent constructors
+    using GenericDataType::GenericDataType;
+
+};
+
+} /* namespace types */
+} /* namespace amlip */
+} /* namespace eprosima */
+
+#endif // AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
