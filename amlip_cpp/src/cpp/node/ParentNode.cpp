@@ -20,7 +20,7 @@
 
 #include <dds/Participant.hpp>
 #include <network/topic.hpp>
-#include <node/ParentNode.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -71,8 +71,7 @@ types::NodeKind ParentNode::node_kind() const noexcept
     return node_kind_;
 }
 
-void ParentNode::change_status_(
-        types::StateKind new_state) noexcept
+void ParentNode::change_status_(const types::StateKind& new_state) noexcept
 {
     current_state_ = new_state;
     publish_status_();

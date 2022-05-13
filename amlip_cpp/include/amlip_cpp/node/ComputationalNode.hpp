@@ -21,10 +21,10 @@
 
 #include <functional>
 
-#include <node/ParentNode.hpp>
-#include <types/job/JobDataType.hpp>
-#include <types/job/SolutionDataType.hpp>
-#include <types/multiservice/MsReferenceDataType.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
+#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <amlip_cpp/types/job/SolutionDataType.hpp>
+#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
 
 // Forward declaration of dds classes
 namespace eprosima {
@@ -42,6 +42,13 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
+class JobFunctor
+{
+public:
+    virtual ~JobFunctor();
+    virtual types::SolutionDataType operator() (const types::JobDataType& job) const = 0;
+};
+
 /**
  * @brief TODO
  *
@@ -58,6 +65,9 @@ public:
 
     types::MsReferenceDataType process_job(
             const std::function<types::SolutionDataType(const types::JobDataType&)>& callback);
+
+    types::MsReferenceDataType process_job(
+            const JobFunctor& callback_functor);
 
 protected:
 

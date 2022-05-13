@@ -21,7 +21,7 @@
 
 #include <dds/Participant.hpp>
 #include <network/topic.hpp>
-#include <node/StatusNode.hpp>
+#include <amlip_cpp/node/StatusNode.hpp>
 
 namespace eprosima {
 namespace amlip {

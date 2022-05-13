@@ -19,7 +19,7 @@
 #ifndef AMLIPCPP_TYPES_MSDATATYPE_HPP
 #define AMLIPCPP_TYPES_MSDATATYPE_HPP
 
-#include <types/multiservice/MsReferenceDataType.hpp>
+#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {

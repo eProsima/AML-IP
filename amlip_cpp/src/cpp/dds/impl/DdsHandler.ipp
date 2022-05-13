@@ -24,7 +24,7 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/macros/macros.hpp>
 
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

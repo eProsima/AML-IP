@@ -19,10 +19,11 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
+#include <amlip_cpp/node/ComputationalNode.hpp>
+
 #include <dds/multiservice/MultiServiceServer.hpp>
 #include <dds/Participant.hpp>
 #include <network/topic.hpp>
-#include <node/ComputingNode.hpp>
 
 namespace eprosima {
 namespace amlip {

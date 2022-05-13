@@ -22,7 +22,7 @@
 
 #include <atomic>
 
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {

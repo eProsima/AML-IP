@@ -15,10 +15,10 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <node/ComputingNode.hpp>
-#include <node/MainNode.hpp>
-#include <node/ParentNode.hpp>
-#include <node/StatusNode.hpp>
+#include <amlip_cpp/node/ComputationalNode.hpp>
+#include <amlip_cpp/node/MainNode.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
+#include <amlip_cpp/node/StatusNode.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {

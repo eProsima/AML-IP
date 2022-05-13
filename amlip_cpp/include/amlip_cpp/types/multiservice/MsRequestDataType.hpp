@@ -25,7 +25,7 @@
 #include <string>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {

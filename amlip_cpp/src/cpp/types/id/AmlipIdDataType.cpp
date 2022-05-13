@@ -34,6 +34,8 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
+#include <ddsrouter_utils/utils.hpp>
+
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
@@ -193,6 +195,11 @@ std::string AmlipIdDataType::type_name()
 bool AmlipIdDataType::is_defined() const noexcept
 {
     return (*this) != UNDEFINED_ID_;
+}
+
+std::string AmlipIdDataType::to_string() const noexcept
+{
+    return ddsrouter::utils::to_string(*this);
 }
 
 AmlipIdDataType AmlipIdDataType::new_unique_id()

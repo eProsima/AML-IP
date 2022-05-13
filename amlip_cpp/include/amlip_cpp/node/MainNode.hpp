@@ -21,12 +21,9 @@
 
 #include <functional>
 
-#include <cpp_utils/memory/owner_ptr.hpp>
-#include <cpp_utils/ReturnCode.hpp>
-
-#include <node/ParentNode.hpp>
-#include <types/job/JobDataType.hpp>
-#include <types/job/SolutionDataType.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
+#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <amlip_cpp/types/job/SolutionDataType.hpp>
 
 // Forward declaration of dds classes
 namespace eprosima {
