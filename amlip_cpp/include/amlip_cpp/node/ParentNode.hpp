@@ -19,10 +19,9 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
-#include <ddsrouter_utils/ReturnCode.hpp>
+#include <memory>
 
-#include <types/status/StatusDataType.hpp>
+#include <amlip_cpp/types/status/StatusDataType.hpp>
 
 // Forward declaration of dds classes
 namespace eprosima {
@@ -67,7 +66,7 @@ public:
 
 protected:
 
-    void change_status_(types::StateKind new_state) noexcept;
+    void change_status_(const types::StateKind& new_state) noexcept;
 
     void publish_status_() noexcept;
 

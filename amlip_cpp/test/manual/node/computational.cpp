@@ -22,7 +22,7 @@
 #include <ddsrouter_utils/Log.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <node/ComputationalNode.hpp>
+#include <amlip_cpp/node/ComputationalNode.hpp>
 
 /*
  * The job in this example will be a string serialized to bytes.

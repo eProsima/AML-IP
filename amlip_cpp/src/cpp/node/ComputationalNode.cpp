@@ -22,7 +22,7 @@
 #include <dds/multiservice/MultiServiceServer.hpp>
 #include <dds/Participant.hpp>
 #include <network/topic.hpp>
-#include <node/ComputationalNode.hpp>
+#include <amlip_cpp/node/ComputationalNode.hpp>
 
 namespace eprosima {
 namespace amlip {

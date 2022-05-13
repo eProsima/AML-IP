@@ -19,7 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
 
-#include <types/GenericDataType.hpp>
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

@@ -27,7 +27,7 @@
 #include <ostream>
 #include <string>
 
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
@@ -189,6 +189,9 @@ public:
      * @brief This function returns true if the object is defined (i.e. constructed with a specific name)
      */
     bool is_defined() const noexcept;
+
+    //! Override parent \c to_string method using << operator
+    std::string to_string() const noexcept;
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object with random name and numerical id

@@ -23,7 +23,7 @@
 #include <ddsrouter_event/SignalEventHandler.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <node/StatusNode.hpp>
+#include <amlip_cpp/node/StatusNode.hpp>
 
 int main(
         int argc,

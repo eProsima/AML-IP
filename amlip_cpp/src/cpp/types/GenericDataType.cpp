@@ -34,7 +34,7 @@ using namespace eprosima::fastcdr::exception;
 
 #include <ddsrouter_utils/Log.hpp>
 
-#include <types/GenericDataType.hpp>
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

@@ -65,7 +65,6 @@ public:
     virtual void deserialize(
             eprosima::fastcdr::Cdr& cdr) = 0;
 
-
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      *

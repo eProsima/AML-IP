@@ -17,8 +17,9 @@
  */
 
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <ddsrouter_utils/exception/InconsistencyException.hpp>
 
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

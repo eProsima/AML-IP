@@ -17,8 +17,8 @@
 
 #include <thread>
 
-#include <node/MainNode.hpp>
-#include <node/ComputationalNode.hpp>
+#include <amlip_cpp/node/MainNode.hpp>
+#include <amlip_cpp/node/ComputationalNode.hpp>
 
 namespace eprosima {
 namespace amlip {

@@ -19,7 +19,7 @@
 
 #include <types/AmlipGenericTopicDataType.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <types/GenericDataType.hpp>
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;

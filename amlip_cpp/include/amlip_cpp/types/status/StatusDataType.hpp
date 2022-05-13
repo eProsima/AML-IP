@@ -23,7 +23,7 @@
 #define AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -96,6 +96,9 @@ public:
     StateKind state() const noexcept;
 
     bool is_defined() const noexcept;
+
+    //! Overload parent \c to_string method
+    std::string to_string() const noexcept;
 
     /////
     // InterfaceDataType methods
