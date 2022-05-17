@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add test subdirectories
+# Add subdirectory with tests
 add_subdirectory(dds)
 add_subdirectory(node)
-add_subdirectory(types)

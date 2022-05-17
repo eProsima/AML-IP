@@ -12,7 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add test subdirectories
-add_subdirectory(dds)
-add_subdirectory(node)
-add_subdirectory(types)
+###############################################################################
+# Set settings for project amlip_swig for SWIG code
+###############################################################################
+
+set(MODULE_NAME
+    amlip_swig)
+
+set(MODULE_SUMMARY
+    "SWIG library to create python bindings from amlip_cpp.")
+
+set(MODULE_FIND_PACKAGES
+        amlip_cpp
+        ddsrouter_utils
+        ddsrouter_event
+    )
+
+set(MODULE_DEPENDENCIES
+        ${MODULE_FIND_PACKAGES}
+    )
