@@ -10,7 +10,6 @@ runs:
           colcon-common-extensions \
           colcon-mixin \
           doc8==0.8.0 \
-          gcovr \
           GitPython \
           isort==5.10.0 \
           mypy==0.761 \
