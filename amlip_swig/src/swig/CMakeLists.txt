@@ -19,7 +19,7 @@
 message(STATUS "Configuring AMLIP_SWIG wrapper for Python...")
 
 set(${PROJECT_NAME}_MODULE
-        amlip_py
+        amlip_swig
     )
 
 set(${PROJECT_NAME}_FILES
