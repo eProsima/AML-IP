@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////
 
 // Import needed classes
-%include "amlip_py/types/status/StatusDataType.i"
+%include "amlip_swig/types/status/StatusDataType.i"
 
 %{
 #include <amlip_cpp/node/ParentNode.hpp>

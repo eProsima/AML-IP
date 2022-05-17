@@ -13,7 +13,7 @@
 # limitations under the License.
 
 ###############################################################################
-# Set settings for project amlip_py for SWIG code
+# Set settings for project amlip_swig for SWIG code
 ###############################################################################
 
 set(MODULE_NAME
