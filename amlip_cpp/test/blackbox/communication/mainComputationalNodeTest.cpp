@@ -15,6 +15,7 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <thread>
 
 #include <amlip_cpp/node/MainNode.hpp>
