@@ -66,16 +66,16 @@ typedef unsigned int uint32_t;
 typedef unsigned long uint64_t;
 
 // types
-%include "amlip_py/types/GenericDataType.i"
-%include "amlip_py/types/id/AmlipIdDataType.i"
-%include "amlip_py/types/InterfaceDataType.i"
-%include "amlip_py/types/job/JobDataType.i"
-%include "amlip_py/types/job/SolutionDataType.i"
-%include "amlip_py/types/multiservice/MsReferenceDataType.i"
-%include "amlip_py/types/multiservice/MsRequestDataType.i"
-%include "amlip_py/types/status/StatusDataType.i"
+%include "amlip_swig/types/GenericDataType.i"
+%include "amlip_swig/types/id/AmlipIdDataType.i"
+%include "amlip_swig/types/InterfaceDataType.i"
+%include "amlip_swig/types/job/JobDataType.i"
+%include "amlip_swig/types/job/SolutionDataType.i"
+%include "amlip_swig/types/multiservice/MsReferenceDataType.i"
+%include "amlip_swig/types/multiservice/MsRequestDataType.i"
+%include "amlip_swig/types/status/StatusDataType.i"
 // node
-%include "amlip_py/node/ComputationalNode.i"
-%include "amlip_py/node/MainNode.i"
-%include "amlip_py/node/ParentNode.i"
-%include "amlip_py/node/StatusNode.i"
+%include "amlip_swig/node/ComputationalNode.i"
+%include "amlip_swig/node/MainNode.i"
+%include "amlip_swig/node/ParentNode.i"
+%include "amlip_swig/node/StatusNode.i"
