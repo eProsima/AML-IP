@@ -104,7 +104,7 @@ uint32_t GenericDataType::data_size() const
     return data_size_;
 }
 
-const char* GenericDataType::type_name()
+std::string GenericDataType::type_name()
 {
     return TYPE_NAME_;
 }

@@ -12,24 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-###############################################################################
-# Set settings for project amlip_cpp
-###############################################################################
-
-set(MODULE_NAME
-    amlip_cpp)
-
-set(MODULE_SUMMARY
-    "C++ library for DDS Entities and Nodes for AML-IP implementation.")
-
-set(MODULE_FIND_PACKAGES
-        fastcdr
-        fastrtps
-        ddsrouter_utils
-        ddsrouter_event
-    )
-
-set(MODULE_DEPENDENCIES
-        $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
-        ${MODULE_FIND_PACKAGES}
-    )
+# Add test subdirectories
+add_subdirectory(communication)

@@ -19,7 +19,7 @@
 #include <memory>
 #include <string>
 
-#include <types/AmlipId.hpp>
+#include <amlip_cpp/types/AmlipId.hpp>
 #include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
@@ -78,14 +78,30 @@ bool AmlipId::operator !=(
     return !(*this == x);
 }
 
+bool AmlipId::operator <(
+        const AmlipId& x) const
+{
+    return (this->dds_data()) < (x.dds_data());
+}
+
 std::string AmlipId::name() const
 {
     return data_->name();
 }
 
+std::string AmlipId::to_dds_string() const
+{
+    return data_->to_dds_string();
+}
+
 std::shared_ptr<AmlipIdDataType> AmlipId::data() const
 {
     return data_;
+}
+
+AmlipIdDataType AmlipId::dds_data() const
+{
+    return *data_;
 }
 
 AmlipId AmlipId::new_unique_id(
@@ -98,7 +114,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const AmlipId& id)
 {
-    return os << *id.data();
+    return os << id.dds_data();
 }
 
 } /* namespace types */

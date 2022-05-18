@@ -40,7 +40,7 @@ using InstanceHandle_t = eprosima::fastrtps::rtps::InstanceHandle_t;
 template <class T>
 AmlipGenericTopicDataType<T>::AmlipGenericTopicDataType()
 {
-    setName(T::type_name());
+    setName(T::type_name().c_str());
     auto type_size = T::get_max_cdr_serialized_size();
     type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
     m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/

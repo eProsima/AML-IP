@@ -19,8 +19,6 @@
 #ifndef AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
 #define AMLIP_AMLIPCPP_TYPES_AMLIPID_HPP
 
-#include <array>
-#include <limits>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -102,6 +100,13 @@ public:
     bool operator !=(
             const AmlipId& x) const;
 
+    /*!
+     * @brief Comparison operator.
+     * @param x AmlipId object to compare.
+     */
+    bool operator <(
+            const AmlipId& x) const;
+
     /////
     // PUBLIC METHODS
 
@@ -111,10 +116,24 @@ public:
     std::string name() const;
 
     /*!
+     * @brief This function creates a string that uniquely describe this object.
+     *
+     * @note This string is forced to be valid as a DDS name for entity or topic.
+     */
+    std::string to_dds_string() const;
+
+    /*!
      * @brief This function gets the value of attribute \c data_
      * @return Value of attribute \c data_ (a pointer, no the value pointed to)
      */
     std::shared_ptr<AmlipIdDataType> data() const;
+
+    /**
+     * @brief Return a DDS Data object copy from the internal data.
+     *
+     * @return AmlipIdDataType copy of the internal data.
+     */
+    AmlipIdDataType dds_data() const;
 
     /*!
      * @brief This function returns an \c AmlipId object constructed with the given name

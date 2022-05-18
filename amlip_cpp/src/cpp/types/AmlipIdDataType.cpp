@@ -63,8 +63,8 @@ AmlipIdDataType::AmlipIdDataType(
 }
 
 AmlipIdDataType::AmlipIdDataType(
-        std::array<uint8_t, NAME_SIZE>& name,
-        std::array<uint8_t, RAND_SIZE>& rand_id)
+        const std::array<uint8_t, NAME_SIZE>& name,
+        const std::array<uint8_t, RAND_SIZE>& rand_id)
 {
     name_ = name;
     rand_id_ = rand_id;
@@ -126,6 +126,23 @@ bool AmlipIdDataType::operator !=(
     return !(*this == x);
 }
 
+bool AmlipIdDataType::operator <(
+        const AmlipIdDataType& x) const
+{
+    if (name_ < x.name_)
+    {
+        return true;
+    }
+    else if (name_ > x.name_)
+    {
+        return false;
+    }
+    else
+    {
+        return (rand_id_ < x.rand_id_);
+    }
+}
+
 std::string AmlipIdDataType::name() const
 {
     auto it = std::find(name_.begin(), name_.end(), '\0');
@@ -145,12 +162,12 @@ void AmlipIdDataType::name(
     name_ = name;
 }
 
-const std::array<uint8_t, NAME_SIZE>& AmlipIdDataType::base64_name() const
+std::array<uint8_t, NAME_SIZE> AmlipIdDataType::base64_name() const
 {
     return name_;
 }
 
-const std::array<uint8_t, RAND_SIZE>& AmlipIdDataType::id() const
+std::array<uint8_t, RAND_SIZE> AmlipIdDataType::id() const
 {
     return rand_id_;
 }
@@ -161,7 +178,12 @@ void AmlipIdDataType::id(
     rand_id_ = id;
 }
 
-const char* AmlipIdDataType::type_name()
+std::string AmlipIdDataType::to_dds_string() const
+{
+    return name() + "_" + std::to_string(rand_id_[0]);
+}
+
+std::string AmlipIdDataType::type_name()
 {
     return TYPE_NAME_;
 }
