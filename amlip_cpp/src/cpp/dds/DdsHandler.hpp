@@ -65,7 +65,8 @@ public:
      * @param qos QoS of the DDS DomainParticipant
      * @param domain DomainId of the DDS DomainParticipant
      *
-     * @throw \c InitializationException if the DDS DomainParticipant could not be created
+     * @throw \c InitializationException if the DDS DomainParticipant could not be created or Publisher or Subscriber
+     * creation failed.
      */
     DdsHandler(
         const eprosima::fastdds::dds::DomainParticipantQos& qos,
@@ -104,8 +105,6 @@ protected:
      * @return RETCODE_ERROR if registration failed
      * @return RETCODE_PRECONDITION_NOT_MET if type was already registered
      *
-     * @throw \c InitializationException if the topic could not be created
-     *
      * @warning Do not use this type support once the DdsHandler is deleted
      */
     template<typename T>
@@ -115,7 +114,7 @@ protected:
      * @brief Get the topic object related with type \c T and topic name.
      *
      * If the topic has been already created, take the Topic, if not create a new one.
-     * This Topic is a shared ptr and will be automatically deleted when the shared ptr is not referenced.
+     * If the topic has already been created, take the Topic, otherwise create a new one.
      *
      * @tparam T type related with the topic
      * @param topic_name name of the topic
@@ -144,7 +143,7 @@ protected:
      * @brief Map with references to the Topics already created from this DdsHandler
      *
      * Every Time a Topic is get from this DdsHandler, it stores a share reference of it.
-     * If the Topic is get again, it will return a reference to this same Topic.
+     * Every Time a Topic is get from this \c DdsHandler, it stores a shared reference of it.
      *
      * Topic is indexed by a duple of topic name and topic type
      */

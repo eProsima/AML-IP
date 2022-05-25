@@ -76,8 +76,7 @@ std::string Participant::name() const noexcept
 
 eprosima::fastdds::dds::DomainParticipantQos Participant::default_participant_qos() noexcept
 {
-    eprosima::fastdds::dds::DomainParticipantQos qos = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
-    return qos;
+    return eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
 }
 
 DomainIdType Participant::default_domain_id() noexcept

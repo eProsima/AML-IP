@@ -83,7 +83,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     // Check if topic and type are coherent
     for (auto& topic_it : topics_)
     {
-        if (topic_it.second->get_type_name() == topic_name)
+        // Check if this topic name already exist (this case could only happen with different type names)
+        if (topic_it.first.first == topic_name)
         {
             // The Topic already exists with other type
             throw ddsrouter::utils::InconsistencyException(
@@ -93,7 +94,14 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     }
 
     // Register type (if already registered nothing happens)
-    register_type_<T>();
+    eprosima::fastrtps::types::ReturnCode_t ret = register_type_<T>();
+
+    if (ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK &&
+        ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_PRECONDITION_NOT_MET)
+    {
+        throw ddsrouter::utils::InconsistencyException(
+                STR_ENTRY << "Topic " << topic_name << " creation failed.");
+    }
 
     // Create topic
     ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::Topic> topic(
@@ -172,7 +180,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
     logInfo(AMLIPCPP_DDSHANDLER, "DataWriter created in topic " << topic_name <<
         "with GUID: " << datawriter->guid() << ".");
 
-    // Stor datawriter
+    // Store datawriter
     auto datawriter_lessee = datawriter.lease();
     datawriters_.push_back(std::move(datawriter));
 

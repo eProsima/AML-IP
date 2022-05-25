@@ -48,9 +48,8 @@ public:
     /**
      * @brief Construct a new Participant object
      *
-     * This constructor creates a new DDS DomainParticipant from fastdds and one Publisher and one Subscriber.
-     * All the entities created will be associated with a shared ptr, and will be automatically deleted when the
-     * shared ptr is not referenced.
+     * This constructor creates a new \c DdsHandler that handles all the dds entities.
+     * This object owns the \c DdsHandler , that could be leased to subentities.
      *
      * @param id Id of the Participant (associated with the Node it belongs to)
      * @param qos QoS of the DDS DomainParticipant

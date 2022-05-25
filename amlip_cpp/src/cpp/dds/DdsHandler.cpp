@@ -57,6 +57,7 @@ DdsHandler::DdsHandler(
         [this](eprosima::fastdds::dds::Publisher* publisher)
         {
             // deleter for shared ptr
+            publisher->delete_contained_entities();
             this->participant_->delete_publisher(publisher);
         }
     );
@@ -72,6 +73,7 @@ DdsHandler::DdsHandler(
         [this](eprosima::fastdds::dds::Subscriber* subscriber)
         {
             // deleter for shared ptr
+            subscriber->delete_contained_entities();
             this->participant_->delete_subscriber(subscriber);
         }
     );
