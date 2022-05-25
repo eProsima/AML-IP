@@ -44,6 +44,7 @@ template <typename T>
 Reader<T>::~Reader()
 {
     // Stop every waiting thread
+    // TODO: this should be blocking or not exist at all
     reader_data_waiter_.disable();
 }
 
