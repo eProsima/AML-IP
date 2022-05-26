@@ -174,7 +174,7 @@ public:
             const std::array<uint8_t, RAND_SIZE>& id);
 
     /*!
-     * @brief This function creates a string that uniquely describe this object.
+     * @brief This function creates a string that uniquely describes this object.
      *
      * @note This string is forced to be valid as a DDS name for entity or topic.
      */

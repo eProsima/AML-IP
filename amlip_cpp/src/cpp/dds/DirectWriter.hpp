@@ -40,7 +40,11 @@ namespace amlip {
 namespace dds {
 
 /**
- * @brief Class that allows to publish messages
+ * @brief Class that allows to write messages to a specific receiver ( \c TargetedReader ).
+ *
+ * Direct Write is implemented by using a specific topic for each receiver in the network.
+ * For each TargetedReader, the topic used is mangled so only that TargetedReader is listening in that specific topic.
+ * This class creates Writers each time a new receiver is needed.
  *
  * @tparam T
  */
@@ -50,16 +54,12 @@ class DirectWriter
 public:
 
     /**
-     * @brief Construct a new DirectWriter object using a DDS DataWriter already created.
+     * @brief Construct a new DirectWriter object
      *
-     * The DataWriter
+     * This object will handle a copy of the DdsHandler (as a lessee) so it can create new Writers for each
+     * receiver needed.
      *
-     * @pre \c datawriter must be a valid pointer to a DataWriter, must be disabled and without listener.
-     *
-     * @param topic DDS topic name in which the data this DirectWriter publish will be published
-     * @param datawriter disabled datawriter reference without listener set
-     *
-     * @remarks This constructor is protected because this object should be created from Participant (factory).
+     * TODO
      */
     DirectWriter(
         const std::string& topic,
@@ -81,11 +81,11 @@ public:
     /**
      * @brief Stop this thread for the Writer to be matched with specific reader
      *
-     * This method will block until the Writer is matched or the \c stop() method is called.
+     * This method will block until the Writer is matched or timeout is reached.
      *
      * @param timeout_ms maximum wait time in milliseconds (0 = no wait)
      *
-     * @return Reason for the awaken.
+     * @return Reason for the awakening.
      */
     eprosima::ddsrouter::event::AwakeReason wait_match(
         const types::AmlipIdDataType& target_id,
@@ -96,6 +96,9 @@ public:
      *
      * Default DirectWriter QoS is:
      * - Allocation: PREALLOCATED_WITH_REALLOC
+     * - Durability: VOLATILE
+     * - Reliability: RELIABLE
+     * - History: KEEP_ALL
      * The rest of values are left as Fast-DDS default
      *
      * @return eprosima::fastdds::dds::DataWriterQos
@@ -107,7 +110,7 @@ protected:
     std::shared_ptr<Writer<T>> get_target_writer_(
         types::AmlipIdDataType target_id);
 
-    //! Name of the topic this DirectWriter publishes
+    //! Name of the topic in which this \c DirectWriter publishes
     std::string topic_;
 
     ddsrouter::utils::LesseePtr<DdsHandler> dds_handler_;

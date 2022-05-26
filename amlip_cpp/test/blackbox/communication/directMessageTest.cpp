@@ -59,6 +59,7 @@ TEST(DirectMessageTest, communicate_writer_reader)
         target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_1");
 
     // Create a data
+    // TODO: refactor for any number of RAND_SIZE in AmlipId
     types::AmlipIdDataType to_send_data(
         {'T', 'e', 's', 't', 'D', 'a', 't', 'a'},
         {1});
@@ -75,7 +76,7 @@ TEST(DirectMessageTest, communicate_writer_reader)
 }
 
 /**
- * Create a Participant, from there create a DirectWriter and a TargetedReader and send a message from one to the other.
+ * Create a Participant, from there create a DirectWriter and a TargetedReader and send multiple messages from one to the other.
  * It will use the AmlipIdDataType as data type.
  */
 TEST(DirectMessageTest, communicate_writer_reader_multiple_messages)

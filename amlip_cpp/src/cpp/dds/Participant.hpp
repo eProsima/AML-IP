@@ -23,17 +23,17 @@
 #include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/publisher/qos/PublisherQos.hpp>
-#include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
+#include <fastdds/dds/subscriber/Subscriber.hpp>
 
 #include <ddsrouter_utils/memory/owner_ptr.hpp>
 
-#include <types/AmlipIdDataType.hpp>
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

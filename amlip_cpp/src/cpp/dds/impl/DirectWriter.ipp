@@ -62,7 +62,7 @@ eprosima::ddsrouter::event::AwakeReason DirectWriter<T>::wait_match(
     std::shared_ptr<Writer<T>> target_writer = get_target_writer_(target_id);
 
     // Do wait in listener
-    return target_writer->wait_match();
+    return target_writer->wait_match(timeout);
 }
 
 template <typename T>

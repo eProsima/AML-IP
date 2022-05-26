@@ -117,7 +117,7 @@ template <typename T>
 void Reader<T>::on_data_available(
         eprosima::fastdds::dds::DataReader* reader)
 {
-    logDebug(AMLIP_WRITER, "Reader " << reader->guid() << " has received a data.");
+    logDebug(AMLIP_READER, "Reader " << reader->guid() << " has received a data.");
 
     reader_data_waiter_.open();
     logDebug(AMLIP_READER, "on_data_available callback received on reader with topic: " << topic_);
@@ -130,11 +130,11 @@ void Reader<T>::on_subscription_matched(
 {
     if (info.current_count_change > 0)
     {
-        logDebug(AMLIP_WRITER, "Reader " << reader->guid() << " matched with Writer.");
+        logDebug(AMLIP_READER, "Reader " << reader->guid() << " matched with Writer.");
     }
     else if (info.current_count_change < 0)
     {
-        logDebug(AMLIP_WRITER, "Reader " << reader->guid() << " unmatched with Writer.");
+        logDebug(AMLIP_READER, "Reader " << reader->guid() << " unmatched with Writer.");
     }
 }
 
