@@ -18,34 +18,33 @@
 #include <fastdds/rtps/common/SerializedPayload.h>
 
 #include <types/AmlipGenericTopicDataType.hpp>
-#include <types/AmlipId.hpp>
 #include <types/AmlipIdDataType.hpp>
 
 using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 
 /**
- * Test \c AmlipId construction
+ * Test \c AmlipIdDataType construction
  *
  */
 TEST(amlipIdTest, create_id)
 {
     std::string name("TestNode");
-    AmlipId id = AmlipId::new_unique_id(name);
+    AmlipIdDataType id = AmlipIdDataType::new_unique_id(name);
 
     ASSERT_TRUE(id.data()->is_defined());
     ASSERT_EQ(id.name(), name.substr(0, eprosima::amlip::types::NAME_SIZE));
 }
 
 /**
- * Construct multiple \c AmlipId with same and different names, and check they are never (or hardly ever) equal
+ * Construct multiple \c AmlipIdDataType with same and different names, and check they are never (or hardly ever) equal
  *
  */
 TEST(amlipIdTest, ids_not_equal)
 {
-    AmlipId id_A1 = AmlipId::new_unique_id("NodeA");
-    AmlipId id_A2 = AmlipId::new_unique_id("NodeA");
-    AmlipId id_B = AmlipId::new_unique_id("NodeB");
+    AmlipIdDataType id_A1 = AmlipIdDataType::new_unique_id("NodeA");
+    AmlipIdDataType id_A2 = AmlipIdDataType::new_unique_id("NodeA");
+    AmlipIdDataType id_B = AmlipIdDataType::new_unique_id("NodeB");
 
     ASSERT_NE(id_A1, id_A2);
     ASSERT_NE(id_A1, id_B);

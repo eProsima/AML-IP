@@ -19,7 +19,7 @@
 #include <memory>
 #include <string>
 
-#include <types/AmlipId.hpp>
+#include <amlip_cpp/types/AmlipId.hpp>
 #include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
@@ -78,9 +78,20 @@ bool AmlipId::operator !=(
     return !(*this == x);
 }
 
+bool AmlipId::operator <(
+        const AmlipId& x) const
+{
+    return (*this->data()) < (*x.data());
+}
+
 std::string AmlipId::name() const
 {
     return data_->name();
+}
+
+std::string AmlipId::to_dds_string() const
+{
+    return data_->to_dds_string();
 }
 
 std::shared_ptr<AmlipIdDataType> AmlipId::data() const
