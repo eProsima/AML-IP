@@ -99,8 +99,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     if (ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK &&
         ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_PRECONDITION_NOT_MET)
     {
-        throw ddsrouter::utils::InconsistencyException(
-                STR_ENTRY << "Topic " << topic_name << " creation failed.");
+        throw ddsrouter::utils::InitializationException(
+                STR_ENTRY << "Topic " << topic_name << " creation failed due to type registration.");
     }
 
     // Create topic
