@@ -102,7 +102,7 @@ protected:
      *
      * @tparam T \c TopicDataType associated with the TypeSupport required
      * @return RETCODE_OK if registration was successful
-     * @return RETCODE_ERROR if registration failed
+     * @return RETCODE_BAD_PARAMETER if registration failed
      * @return RETCODE_PRECONDITION_NOT_MET if type was already registered
      *
      * @warning Do not use this type support once the DdsHandler is deleted
@@ -120,6 +120,7 @@ protected:
      * @param topic_name name of the topic
      * @return reference to the Topic
      *
+     * @throw \c InconsistencyException if the topic already exist with other type
      * @throw \c InitializationException if the topic could not be created
      *
      * @warning Do not use this type support once the DdsHandler is deleted
