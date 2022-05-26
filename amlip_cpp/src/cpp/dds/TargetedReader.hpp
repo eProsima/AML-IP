@@ -29,7 +29,11 @@ namespace amlip {
 namespace dds {
 
 /**
- * @brief Class that allows to publish messages
+ * @brief Class that allows to receive messages that are only meant to arrive to this Reader and none else.
+ *
+ * This object will receive data from \c DirectWriter that send data to this id object.
+ * This data is meant to arrive only to this reader (as id should not be repeated) by using a mangled
+ * topic using the topic name and id.
  *
  * @tparam T
  */

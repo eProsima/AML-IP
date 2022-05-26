@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ int main(
         // Wait a bit to let the reader do the match
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-        logUser(AMLIP_MANUAL_TEST, "Matched with Reader. Seding data...");
+        logUser(AMLIP_MANUAL_TEST, "Matched with Reader. Sending data...");
 
         // Send data
         eprosima::amlip::types::AmlipIdDataType data("TESTDATA");

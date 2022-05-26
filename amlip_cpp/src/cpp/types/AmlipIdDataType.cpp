@@ -180,6 +180,8 @@ void AmlipIdDataType::id(
 
 std::string AmlipIdDataType::to_dds_string() const
 {
+    // NOTE: this uses only the first numeric value, as there is only one.
+    // In case this changes, this should change
     return name() + "_" + std::to_string(rand_id_[0]);
 }
 
