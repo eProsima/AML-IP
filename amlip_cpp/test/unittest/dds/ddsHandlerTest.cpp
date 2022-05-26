@@ -27,6 +27,7 @@ namespace test {
 class DdsHandlerMock : public DdsHandler
 {
 public:
+
     using DdsHandler::DdsHandler;
 
     using DdsHandler::participant_;
@@ -81,7 +82,7 @@ TEST(DdsHandlerTest, create_datawriter)
 
     // Create DataWriter
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter =
-        handler.create_datawriter<types::AmlipIdDataType>(topic_name_, qos, &listener);
+            handler.create_datawriter<types::AmlipIdDataType>(topic_name_, qos, &listener);
 
     // Check DataWriter internal values
     auto datawriter_locked = datawriter.lock();
@@ -112,7 +113,7 @@ TEST(DdsHandlerTest, create_datareader)
 
     // Create DataReader
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> datareader =
-        handler.create_datareader<types::AmlipIdDataType>(topic_name_, qos, &listener);
+            handler.create_datareader<types::AmlipIdDataType>(topic_name_, qos, &listener);
 
     // Check DataReader internal values
     auto datareader_locked = datareader.lock();

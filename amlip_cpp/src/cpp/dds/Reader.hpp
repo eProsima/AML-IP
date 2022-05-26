@@ -45,13 +45,14 @@ class Reader : public eprosima::fastdds::dds::DataReaderListener
 public:
 
     Reader(
-        const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
-        eprosima::fastdds::dds::DataReaderQos qos = Reader::default_datareader_qos());
+            const std::string& topic,
+            ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+            eprosima::fastdds::dds::DataReaderQos qos = Reader::default_datareader_qos());
 
     virtual ~Reader();
 
-    void wait_data_available(uint32_t timeout = 0);
+    void wait_data_available(
+            uint32_t timeout = 0);
 
     bool is_data_available();
 

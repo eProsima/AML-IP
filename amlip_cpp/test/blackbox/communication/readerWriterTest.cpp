@@ -47,7 +47,6 @@ eprosima::fastdds::dds::DataReaderQos reader_qos()
     return qos;
 }
 
-
 } /* namespace test */
 } /* namespace dds */
 } /* namespace amlip */
@@ -67,11 +66,11 @@ TEST(ReaderWriterTest, communicate_reader_writer)
 
     // Create a writer
     std::shared_ptr<Writer<types::AmlipIdDataType>> writer =
-        participant.create_writer<types::AmlipIdDataType>("TestTopic_1", test::writer_qos());
+            participant.create_writer<types::AmlipIdDataType>("TestTopic_1", test::writer_qos());
 
     // Create a reader
     std::shared_ptr<Reader<types::AmlipIdDataType>> reader =
-        participant.create_reader<types::AmlipIdDataType>("TestTopic_1", test::reader_qos());
+            participant.create_reader<types::AmlipIdDataType>("TestTopic_1", test::reader_qos());
 
 
     // Create a data
@@ -101,11 +100,11 @@ TEST(ReaderWriterTest, communicate_reader_writer_multiple_messages)
 
     // Create a writer
     std::shared_ptr<Writer<types::AmlipIdDataType>> writer =
-        participant.create_writer<types::AmlipIdDataType>("TestTopic_1_1", test::writer_qos());
+            participant.create_writer<types::AmlipIdDataType>("TestTopic_1_1", test::writer_qos());
 
     // Create a reader
     std::shared_ptr<Reader<types::AmlipIdDataType>> reader =
-        participant.create_reader<types::AmlipIdDataType>("TestTopic_1_1", test::reader_qos());
+            participant.create_reader<types::AmlipIdDataType>("TestTopic_1_1", test::reader_qos());
 
     // Create and send N data
     for (uint32_t i = 0; i < test::N_ITERATIONS_TEST; ++i)
@@ -163,7 +162,7 @@ TEST(ReaderWriterTest, communicate_reader_multiple_writers)
 
     // Create a reader
     std::shared_ptr<Reader<types::AmlipIdDataType>> reader =
-        participant.create_reader<types::AmlipIdDataType>("TestTopic_2", test::reader_qos());
+            participant.create_reader<types::AmlipIdDataType>("TestTopic_2", test::reader_qos());
 
     // Write data, once from each writer
     for (uint32_t i = 0; i < test::N_ITERATIONS_TEST; ++i)
@@ -211,7 +210,7 @@ TEST(ReaderWriterTest, communicate_multiple_readers_writer)
 
     // Create a writer
     std::shared_ptr<Writer<types::AmlipIdDataType>> writer =
-        participant.create_writer<types::AmlipIdDataType>("TestTopic_3", test::writer_qos());
+            participant.create_writer<types::AmlipIdDataType>("TestTopic_3", test::writer_qos());
 
     // Create a reader
     std::vector<std::shared_ptr<Reader<types::AmlipIdDataType>>> readers;
@@ -287,7 +286,7 @@ TEST(ReaderWriterTest, communicate_multiple_readers_multiple_writers)
     }
 
     // Check len of data received
-    ASSERT_EQ(received_data.size(), test::N_ITERATIONS_TEST * test::N_ITERATIONS_TEST);
+    ASSERT_EQ(received_data.size(), test::N_ITERATIONS_TEST* test::N_ITERATIONS_TEST);
 }
 
 int main(

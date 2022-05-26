@@ -69,23 +69,23 @@ public:
      * creation failed.
      */
     DdsHandler(
-        const eprosima::fastdds::dds::DomainParticipantQos& qos,
-        const DomainIdType& domain);
+            const eprosima::fastdds::dds::DomainParticipantQos& qos,
+            const DomainIdType& domain);
 
     //! DdsHandler destructor
     virtual ~DdsHandler();
 
     template <typename T>
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> create_datawriter(
-        const std::string topic_name,
-        eprosima::fastdds::dds::DataWriterQos qos,
-        eprosima::fastdds::dds::DataWriterListener* listener = nullptr);
+            const std::string topic_name,
+            eprosima::fastdds::dds::DataWriterQos qos,
+            eprosima::fastdds::dds::DataWriterListener* listener = nullptr);
 
     template <typename T>
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> create_datareader(
-        const std::string topic_name,
-        eprosima::fastdds::dds::DataReaderQos qos,
-        eprosima::fastdds::dds::DataReaderListener* listener = nullptr);
+            const std::string topic_name,
+            eprosima::fastdds::dds::DataReaderQos qos,
+            eprosima::fastdds::dds::DataReaderListener* listener = nullptr);
 
 protected:
 
@@ -126,7 +126,8 @@ protected:
      * @warning Do not use this type support once the DdsHandler is deleted
      */
     template<typename T>
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> get_topic_(const std::string& topic_name);
+    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> get_topic_(
+            const std::string& topic_name);
 
     /////
     // INTERNAL VARIABLES

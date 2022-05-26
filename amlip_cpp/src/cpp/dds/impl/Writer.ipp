@@ -33,9 +33,9 @@ Writer<T>::Writer(
     auto dds_handler_locked = dds_handler.lock_with_exception();
 
     datawriter_ = dds_handler_locked->create_datawriter<T>(
-            topic_,
-            qos,
-            this);
+        topic_,
+        qos,
+        this);
 }
 
 template <typename T>
@@ -44,7 +44,8 @@ Writer<T>::~Writer()
 }
 
 template <typename T>
-eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(T& data)
+eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(
+        T& data)
 {
     auto datawriter_locked = datawriter_.lock_with_exception();
     return datawriter_locked->write(&data);
@@ -57,7 +58,7 @@ eprosima::fastdds::dds::DataWriterQos Writer<T>::default_datawriter_qos()
 
     // Preallocated with realloc
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
     return qos;
 }
