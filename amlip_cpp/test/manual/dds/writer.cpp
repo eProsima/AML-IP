@@ -39,7 +39,7 @@ int main(
 
         // Create Writer
         std::shared_ptr<eprosima::amlip::dds::Writer<eprosima::amlip::types::AmlipIdDataType>> writer =
-            participant.create_writer<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
+                participant.create_writer<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
         logUser(AMLIP_MANUAL_TEST, "Created Writer.");
 

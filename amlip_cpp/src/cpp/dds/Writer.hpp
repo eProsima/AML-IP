@@ -109,9 +109,9 @@ public:
      * @remarks This constructor is protected because this object should be created from Participant (factory).
      */
     Writer(
-        const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
-        eprosima::fastdds::dds::DataWriterQos qos = Writer::default_datawriter_qos());
+            const std::string& topic,
+            ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+            eprosima::fastdds::dds::DataWriterQos qos = Writer::default_datawriter_qos());
 
     //! Default destructor, stop listener before destruction
     virtual ~Writer();
@@ -123,7 +123,8 @@ public:
      *
      * @param data new data to write
      */
-    eprosima::fastrtps::types::ReturnCode_t publish(T& data);
+    eprosima::fastrtps::types::ReturnCode_t publish(
+            T& data);
 
     /**
      * @brief Return default QoS for a DataWriter

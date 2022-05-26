@@ -44,11 +44,11 @@ DdsHandler::DdsHandler(
 
             DomainParticipantFactory::get_instance()->delete_participant(participant);
         }
-    );
+        );
     if (nullptr == participant_)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create participant " << qos.name() << ".");
+                  STR_ENTRY << "Failed to create participant " << qos.name() << ".");
     }
 
     // CREATE FASTDDS PUBLISHER
@@ -60,11 +60,11 @@ DdsHandler::DdsHandler(
             publisher->delete_contained_entities();
             this->participant_->delete_publisher(publisher);
         }
-    );
+        );
     if (nullptr == publisher_)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create publisher in participant " << qos.name() << ".");
+                  STR_ENTRY << "Failed to create publisher in participant " << qos.name() << ".");
     }
 
     // CREATE FASTDDS SUBSCRIBER
@@ -76,11 +76,11 @@ DdsHandler::DdsHandler(
             subscriber->delete_contained_entities();
             this->participant_->delete_subscriber(subscriber);
         }
-    );
+        );
     if (nullptr == subscriber_)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create subscriber in participant " << qos.name() << ".");
+                  STR_ENTRY << "Failed to create subscriber in participant " << qos.name() << ".");
     }
 
     logDebug(AMLIPCPP_DDSHANDLER, "DdsHandler created with GUID: " << participant_->guid() << ".");

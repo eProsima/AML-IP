@@ -39,7 +39,7 @@ int main(
 
         // Create Reader
         std::shared_ptr<eprosima::amlip::dds::Reader<eprosima::amlip::types::AmlipIdDataType>> reader =
-            participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
+                participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
         logUser(AMLIP_MANUAL_TEST, "Created Reader.");
 

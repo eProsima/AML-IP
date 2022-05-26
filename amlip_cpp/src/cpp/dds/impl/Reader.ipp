@@ -35,9 +35,9 @@ Reader<T>::Reader(
     auto dds_handler_locked = dds_handler.lock_with_exception();
 
     datareader_ = dds_handler_locked->create_datareader<T>(
-            topic_,
-            qos,
-            this);
+        topic_,
+        qos,
+        this);
 }
 
 template <typename T>
@@ -48,7 +48,8 @@ Reader<T>::~Reader()
 }
 
 template <typename T>
-void Reader<T>::wait_data_available(uint32_t timeout /* = 0 */)
+void Reader<T>::wait_data_available(
+        uint32_t timeout /* = 0 */)
 {
     reader_data_waiter_.wait();
 }
@@ -85,7 +86,7 @@ T Reader<T>::read()
     {
         // TODO
         throw ddsrouter::utils::InconsistencyException(
-            "Try to read data from a reader that does not have it.");
+                  "Try to read data from a reader that does not have it.");
     }
 }
 
@@ -96,7 +97,7 @@ eprosima::fastdds::dds::DataReaderQos Reader<T>::default_datareader_qos()
 
     // Preallocated with realloc
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
     return qos;
 }

@@ -55,7 +55,7 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
 
             logInfo(AMLIPCPP_DDSHANDLER, "Registered Type " << T::type_name() << ".");
             logDebug(AMLIPCPP_DDSHANDLER, "Registered Type " << T::type_name() <<
-                " with class: " << TYPE_NAME(T) << ".");
+                    " with class: " << TYPE_NAME(T) << ".");
 
             return ret;
         }
@@ -67,7 +67,8 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
 }
 
 template<typename T>
-ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_(const std::string& topic_name)
+ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_(
+        const std::string& topic_name)
 {
     // Force T to be subclass of InterfaceDataType
     FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
@@ -88,8 +89,8 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
         {
             // The Topic already exists with other type
             throw ddsrouter::utils::InconsistencyException(
-                STR_ENTRY << "Topic " << topic_name << " already exists with other type that is not "
-                          << T::type_name() << ".");
+                      STR_ENTRY << "Topic " << topic_name << " already exists with other type that is not "
+                                << T::type_name() << ".");
         }
     }
 
@@ -97,10 +98,10 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     eprosima::fastrtps::types::ReturnCode_t ret = register_type_<T>();
 
     if (ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK &&
-        ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_PRECONDITION_NOT_MET)
+            ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_PRECONDITION_NOT_MET)
     {
         throw ddsrouter::utils::InitializationException(
-                STR_ENTRY << "Topic " << topic_name << " creation failed due to type registration.");
+                  STR_ENTRY << "Topic " << topic_name << " creation failed due to type registration.");
     }
 
     // Create topic
@@ -116,11 +117,11 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
             // deleter for shared ptr
             this->participant_->delete_topic(topic);
         }
-    );
+        );
     if (nullptr == topic)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create topic " << topic_name << ".");
+                  STR_ENTRY << "Failed to create topic " << topic_name << ".");
     }
 
     // Add new topic to map
@@ -145,7 +146,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
 
     // Get Topic (in case it does already exist return reference)
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
-        get_topic_<T>(topic_name);
+            get_topic_<T>(topic_name);
 
     // Lock the Topic so its pointer is used to create datawriter.
     // This variable will be destroyed at the end of the function and will release mutex
@@ -153,7 +154,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
     if (!topic_locked_ptr)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create DataWriter " << topic_name << " after Participant destruction.");
+                  STR_ENTRY << "Failed to create DataWriter " << topic_name << " after Participant destruction.");
     }
 
     // Create DataWriter
@@ -170,15 +171,15 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
             // deleter for shared ptr
             this->publisher_->delete_datawriter(datawriter);
         }
-    );
+        );
     if (nullptr == datawriter)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create DataWriter " << topic_name << ".");
+                  STR_ENTRY << "Failed to create DataWriter " << topic_name << ".");
     }
 
     logInfo(AMLIPCPP_DDSHANDLER, "DataWriter created in topic " << topic_name <<
-        "with GUID: " << datawriter->guid() << ".");
+            "with GUID: " << datawriter->guid() << ".");
 
     // Store datawriter
     auto datawriter_lessee = datawriter.lease();
@@ -201,7 +202,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
 
     // Get Topic (in case it does already exist return reference)
     ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
-        get_topic_<T>(topic_name);
+            get_topic_<T>(topic_name);
 
     // Lock the Topic so its pointer is used to create datareader.
     // This variable will be destroyed at the end of the function and will release mutex
@@ -209,7 +210,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
     if (!topic_locked_ptr)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create DataReader " << topic_name << " after Participant destruction.");
+                  STR_ENTRY << "Failed to create DataReader " << topic_name << " after Participant destruction.");
     }
 
     // Create DataReader
@@ -226,15 +227,15 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
             // deleter for shared ptr
             this->subscriber_->delete_datareader(datareader);
         }
-    );
+        );
     if (nullptr == datareader)
     {
         throw ddsrouter::utils::InitializationException(
-            STR_ENTRY << "Failed to create DataReader " << topic_name << ".");
+                  STR_ENTRY << "Failed to create DataReader " << topic_name << ".");
     }
 
     logInfo(AMLIPCPP_DDSHANDLER, "DataReader created in topic " << topic_name <<
-        "with GUID: " << datareader->guid() << ".");
+            "with GUID: " << datareader->guid() << ".");
 
     // Stor datareader
     auto datareader_lessee = datareader.lease();

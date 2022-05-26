@@ -58,14 +58,14 @@ public:
      * @throw \c InitializationException if the DDS DomainParticipant could not be created
      */
     Participant(
-        types::AmlipId id,
-        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
-        DomainIdType domain = Participant::default_domain_id());
+            types::AmlipId id,
+            eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+            DomainIdType domain = Participant::default_domain_id());
 
     Participant(
-        const std::string& name,
-        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
-        DomainIdType domain = Participant::default_domain_id());
+            const std::string& name,
+            eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+            DomainIdType domain = Participant::default_domain_id());
 
     //! Participant destructor
     virtual ~Participant();
@@ -78,13 +78,13 @@ public:
 
     template <typename T>
     std::shared_ptr<Writer<T>> create_writer(
-        const std::string& topic_name,
-        eprosima::fastdds::dds::DataWriterQos qos = Writer<T>::default_datawriter_qos());
+            const std::string& topic_name,
+            eprosima::fastdds::dds::DataWriterQos qos = Writer<T>::default_datawriter_qos());
 
     template <typename T>
     std::shared_ptr<Reader<T>> create_reader(
-        const std::string& topic_name,
-        eprosima::fastdds::dds::DataReaderQos qos = Reader<T>::default_datareader_qos());
+            const std::string& topic_name,
+            eprosima::fastdds::dds::DataReaderQos qos = Reader<T>::default_datareader_qos());
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip
