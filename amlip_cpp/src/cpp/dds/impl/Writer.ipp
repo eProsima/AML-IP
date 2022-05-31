@@ -34,13 +34,19 @@ Writer<T>::Writer(
 
     datawriter_ = dds_handler_locked->create_datawriter<T>(
         topic_,
-        qos,
-        this);
+        qos);
+
+    datawriter_->set_listener(this);
 }
 
 template <typename T>
 Writer<T>::~Writer()
 {
+    auto guarded_ptr = datawriter_.lock();
+    if (guarded_ptr)
+    {
+        guarded_ptr->set_listener(nullptr);
+    }
 }
 
 template <typename T>

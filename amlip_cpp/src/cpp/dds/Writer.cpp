@@ -24,6 +24,11 @@ namespace eprosima {
 namespace amlip {
 namespace dds {
 
+WriterListener::WriterListener()
+    : matched_readers_(0)
+{
+}
+
 WriterListener::~WriterListener()
 {
     writer_match_waiter_.disable();

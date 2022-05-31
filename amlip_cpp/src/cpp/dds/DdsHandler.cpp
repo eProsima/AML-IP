@@ -39,9 +39,11 @@ DdsHandler::DdsHandler(
         DomainParticipantFactory::get_instance()->create_participant(domain, qos),
         [](eprosima::fastdds::dds::DomainParticipant* participant)
         {
-            // deleter for shared ptr
-            participant->delete_contained_entities();
+            logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Participant.");
 
+            // deleter for shared ptr
+            // TODO: this is not needed but could be useful. But there is a bug in fast with statistics
+            // participant->delete_contained_entities();
             DomainParticipantFactory::get_instance()->delete_participant(participant);
         }
         );
@@ -56,6 +58,8 @@ DdsHandler::DdsHandler(
         participant_->create_publisher(default_publisher_qos_(), nullptr),
         [this](eprosima::fastdds::dds::Publisher* publisher)
         {
+            logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Publisher.");
+
             // deleter for shared ptr
             publisher->delete_contained_entities();
             this->participant_->delete_publisher(publisher);
@@ -72,6 +76,8 @@ DdsHandler::DdsHandler(
         participant_->create_subscriber(default_subscriber_qos_(), nullptr),
         [this](eprosima::fastdds::dds::Subscriber* subscriber)
         {
+            logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Subscriber.");
+
             // deleter for shared ptr
             subscriber->delete_contained_entities();
             this->participant_->delete_subscriber(subscriber);
