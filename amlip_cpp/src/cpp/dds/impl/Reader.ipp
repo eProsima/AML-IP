@@ -36,8 +36,9 @@ Reader<T>::Reader(
 
     datareader_ = dds_handler_locked->create_datareader<T>(
         topic_,
-        qos,
-        this);
+        qos);
+
+    datareader_->set_listener(this);
 }
 
 template <typename T>
@@ -45,6 +46,12 @@ Reader<T>::~Reader()
 {
     // Stop every waiting thread
     reader_data_waiter_.blocking_disable();
+
+    auto guarded_ptr = datareader_.lock();
+    if (guarded_ptr)
+    {
+        guarded_ptr->set_listener(nullptr);
+    }
 }
 
 template <typename T>

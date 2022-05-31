@@ -45,6 +45,7 @@ class WriterListener : public eprosima::fastdds::dds::DataWriterListener
 public:
 
     // Default constructor
+    WriterListener();
 
     //! Default destructor
     virtual ~WriterListener();
