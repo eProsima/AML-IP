@@ -52,7 +52,7 @@ jobs:
           git_location: "https://github.com/eProsima/Fast-DDS.git"
           package_name: "fastdds"
           cmake_options: "-DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
-                          -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 "
+                          -DINTERNAL_DEBUG=ON -DSHM_TRANSPORT_DEFAULT=OFF -Ax64 -T host=x64 "
 
       - name: Install DDS Router
         uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows

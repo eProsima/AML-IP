@@ -56,5 +56,8 @@ int main(
 
     logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Reader execution.");
 
+    // Needed for Windows
+    eprosima::ddsrouter::utils::Log::Flush();
+
     return 0;
 }
