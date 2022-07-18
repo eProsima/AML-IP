@@ -26,7 +26,7 @@
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+#include <ddsrouter_utils/memory/owner_ptr.hpp>
 
 #include <amlip_cpp/types/AmlipId.hpp>
 #include <dds/DdsHandler.hpp>
