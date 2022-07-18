@@ -25,8 +25,8 @@
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
-#include <ddsrouter_event/wait/BooleanWaitHandler.hpp>
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+#include <ddsrouter_utils/wait/BooleanWaitHandler.hpp>
+#include <ddsrouter_utils/memory/owner_ptr.hpp>
 
 #include <dds/DdsHandler.hpp>
 

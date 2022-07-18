@@ -34,7 +34,7 @@
 #include <fastdds/dds/topic/Topic.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+#include <ddsrouter_utils/memory/owner_ptr.hpp>
 
 #include <amlip_cpp/types/AmlipId.hpp>
 #include <types/AmlipGenericTopicDataType.hpp>

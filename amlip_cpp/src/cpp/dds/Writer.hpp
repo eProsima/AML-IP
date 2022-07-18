@@ -28,8 +28,8 @@
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
 
-#include <ddsrouter_event/wait/BooleanWaitHandler.hpp>
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+#include <ddsrouter_utils/wait/BooleanWaitHandler.hpp>
+#include <ddsrouter_utils/memory/owner_ptr.hpp>
 
 #include <dds/DdsHandler.hpp>
 
