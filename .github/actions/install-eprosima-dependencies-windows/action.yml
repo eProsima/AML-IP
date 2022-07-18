@@ -40,7 +40,7 @@ runs:
       shell: pwsh
       run: >
         git clone https://github.com/eProsima/DDS-Router.git;
-        "ddsrouter_cmake ddsrouter_utils ddsrouter_event".Split(" ") | ForEach {
+        "ddsrouter_cmake ddsrouter_utils".Split(" ") | ForEach {
           echo "building package: $_";
           cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
             -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
