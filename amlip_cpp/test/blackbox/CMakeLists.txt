@@ -13,5 +13,4 @@
 # limitations under the License.
 
 # Add test subdirectories
-add_subdirectory(dds)
-add_subdirectory(types)
+add_subdirectory(communication)
