@@ -66,6 +66,9 @@ eprosima::fastdds::dds::DataWriterQos Writer<T>::default_datawriter_qos()
     qos.endpoint().history_memory_policy =
             eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
+    // Disabling datasharing
+    qos.data_sharing().off();
+
     return qos;
 }
 

@@ -20,6 +20,7 @@
 #define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP
 
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <ddsrouter_utils/Log.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -106,6 +107,9 @@ eprosima::fastdds::dds::DataReaderQos Reader<T>::default_datareader_qos()
     qos.endpoint().history_memory_policy =
             eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
+    // Disabling datasharing
+    qos.data_sharing().off();
+
     return qos;
 }
 
@@ -114,6 +118,7 @@ void Reader<T>::on_data_available(
         eprosima::fastdds::dds::DataReader*)
 {
     reader_data_waiter_.open();
+    logDebug(AMLIP_READER, "on_data_available callback received on reader with topic: " << topic_);
 }
 
 } /* namespace dds */
