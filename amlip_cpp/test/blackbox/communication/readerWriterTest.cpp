@@ -15,6 +15,8 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <ddsrouter_utils/Log.hpp>
+
 #include <dds/Participant.hpp>
 #include <types/AmlipIdDataType.hpp>
 
@@ -87,6 +89,9 @@ TEST(ReaderWriterTest, communicate_reader_writer)
 
     // Check data
     ASSERT_EQ(to_send_data, received_data);
+
+    // Needed for Windows
+    eprosima::ddsrouter::utils::Log::Flush();
 }
 
 /**
@@ -141,6 +146,9 @@ TEST(ReaderWriterTest, communicate_reader_writer_multiple_messages)
     {
         ASSERT_TRUE(id_received[received_data[i].id()[0]]);
     }
+
+    // Needed for Windows
+    eprosima::ddsrouter::utils::Log::Flush();
 }
 
 /**
@@ -197,6 +205,9 @@ TEST(ReaderWriterTest, communicate_reader_multiple_writers)
     {
         ASSERT_TRUE(id_received[received_data[i].id()[0]]);
     }
+
+    // Needed for Windows
+    eprosima::ddsrouter::utils::Log::Flush();
 }
 
 /**
@@ -235,6 +246,9 @@ TEST(ReaderWriterTest, communicate_multiple_readers_writer)
         // Checks data
         ASSERT_EQ(to_send_data, received_data);
     }
+
+    // Needed for Windows
+    eprosima::ddsrouter::utils::Log::Flush();
 }
 
 /**
@@ -287,6 +301,9 @@ TEST(ReaderWriterTest, communicate_multiple_readers_multiple_writers)
 
     // Check len of data received
     ASSERT_EQ(received_data.size(), test::N_ITERATIONS_TEST* test::N_ITERATIONS_TEST);
+
+    // Needed for Windows
+    eprosima::ddsrouter::utils::Log::Flush();
 }
 
 int main(
@@ -294,5 +311,9 @@ int main(
         char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
+
+    // Activate log
+    eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
+
     return RUN_ALL_TESTS();
 }
