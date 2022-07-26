@@ -13,4 +13,5 @@
 # limitations under the License.
 
 # Add test subdirectories
-# TODO
+add_subdirectory(dds)
+add_subdirectory(types)

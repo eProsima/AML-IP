@@ -13,13 +13,28 @@
 // limitations under the License.
 
 /**
- * @file _tmp.cpp
- *
- * This filemust be removed when a real file exists
+ * @file direct_write.hpp
  */
 
-# include <amlip_cpp/_tmp.hpp>
+#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DIRECTWRITE_HPP
+#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DIRECTWRITE_HPP
 
-void __foo()
-{
-}
+#include <string>
+
+#include <types/AmlipIdDataType.hpp>
+
+namespace eprosima {
+namespace amlip {
+namespace dds {
+namespace utils {
+
+std::string direct_topic(
+        const std::string& topic,
+        const types::AmlipIdDataType& target_id);
+
+} /* namespace utils */
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
+
+#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DIRECTWRITE_HPP */
