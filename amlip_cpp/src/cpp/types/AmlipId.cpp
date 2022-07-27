@@ -19,7 +19,7 @@
 #include <memory>
 #include <string>
 
-#include <types/AmlipId.hpp>
+#include <amlip_cpp/types/AmlipId.hpp>
 #include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {

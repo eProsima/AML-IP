@@ -46,13 +46,14 @@ jobs:
           git_location: "https://github.com/eProsima/Fast-CDR.git"
           package_name: "fastcdr"
 
+      # It is compiled Fast DDS without SHM because of fastrtps SHM issues that make tests fail
       - name: Install Fast DDS
         uses: ./AML-IP/.github/actions/install-eprosima-package-windows
         with:
           git_location: "https://github.com/eProsima/Fast-DDS.git"
           package_name: "fastdds"
           cmake_options: "-DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
-                          -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 "
+                          -DINTERNAL_DEBUG=ON -DSHM_TRANSPORT_DEFAULT=OFF -Ax64 -T host=x64 "
 
       - name: Install DDS Router
         uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
@@ -123,7 +124,7 @@ jobs:
           package_name: "fastdds"
           cmake_build_type: "Debug"
           cmake_options: "-DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
-                          -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 "
+                          -DINTERNAL_DEBUG=ON -DSHM_TRANSPORT_DEFAULT=OFF -Ax64 -T host=x64 "
 
       - name: Install DDS Router
         uses: ./AML-IP/.github/actions/install-eprosima-multipackage-windows
