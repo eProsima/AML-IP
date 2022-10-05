@@ -40,18 +40,22 @@ runs:
       shell: pwsh
       run: >
         git clone https://github.com/eProsima/dev-utils.git;
-        cmake `
-          -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
-          -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
-          -DCMAKE_CXX_FLAGS="/WX /EHsc" `
-          -Ax64 -T host=x64 `
-          -B build\cmake_utils -S dev-utils\cmake_utils;
-        cmake --build build\cmake_utils --config ${{ inputs.cmake_build_type }} --target install;
-        cmake `
-          -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
-          -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
-          -DCMAKE_CXX_FLAGS="/WX /EHsc" `
-          ${{ env.W2019_CMAKE_EXTRA_ARGS }} `
-          -Ax64 -T host=x64 `
-          -B build\cpp_utils -S dev-utils\cpp_utils;
-        cmake --build build\cpp_utils --config ${{ inputs.cmake_build_type }} --target install;
+        "cmake_utils cpp_utils".Split(" ") | ForEach {
+          echo "building package: $_";
+          cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
+            -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
+            -Ax64 -T host=x64 -B build\$_ dev-utils/$_;
+          cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
+        }
+
+    - name: Install DDS Router
+      shell: pwsh
+      run: >
+        git clone https://github.com/eProsima/DDS-Router.git;
+        "ddsrouter_core ddsrouter_yaml ddsrouter_tool".Split(" ") | ForEach {
+          echo "building package: $_";
+          cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
+            -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
+            -Ax64 -T host=x64 -B build\$_ DDS-Router/$_;
+          cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
+        }
