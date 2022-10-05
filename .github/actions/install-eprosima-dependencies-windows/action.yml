@@ -48,14 +48,23 @@ runs:
           cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
         }
 
-    - name: Install DDS Router
-      shell: pwsh
-      run: >
-        git clone https://github.com/eProsima/DDS-Router.git;
-        "ddsrouter_core ddsrouter_yaml ddsrouter_tool".Split(" ") | ForEach {
-          echo "building package: $_";
-          cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
-            -DCMAKE_PREFIX_PATH='C:\Program Files\yamlcpp;${{ github.workspace }}\eprosima\install' `
-            -Ax64 -T host=x64 -B build\$_ DDS-Router/$_;
-          cmake --build build\$_ --config ${{ inputs.cmake_build_type }} --target install;
-        }
+    - name: Install ddsrouter_core
+      uses: ./AML-IP/.github/actions/install-router-subpackage-windows
+      with:
+        cmake_build_type: ${{ matrix.cmake-config }}
+        subpackage: ddsrouter_core
+        subpackage_dir: ddsrouter_core
+
+    - name: Install ddsrouter_yaml
+      uses: ./AML-IP/.github/actions/install-router-subpackage-windows
+      with:
+        cmake_build_type: ${{ matrix.cmake-config }}
+        subpackage: ddsrouter_yaml
+        subpackage_dir: ddsrouter_yaml
+
+    - name: Install ddsrouter_tool
+      uses: ./AML-IP/.github/actions/install-router-subpackage-windows
+      with:
+        cmake_build_type: ${{ matrix.cmake-config }}
+        subpackage: ddsrouter_tool
+        subpackage_dir: tools/ddsrouter_tool
