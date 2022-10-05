@@ -23,7 +23,7 @@ set(MODULE_SUMMARY
     "Sphinx documentation for AML-IP project.")
 
 set(MODULE_FIND_PACKAGES
-    ddsrouter_cmake
+    cmake_utils
     Sphinx
 )
 

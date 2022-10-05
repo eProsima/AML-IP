@@ -19,8 +19,8 @@
 
   <depend>fastcdr</depend>
   <depend>fastrtps</depend>
-  <depend>ddsrouter_cmake</depend>
-  <depend>ddsrouter_utils</depend>
+  <depend>cmake_utils</depend>
+  <depend>cpp_utils</depend>
 
   <doc_depend>doxygen</doc_depend>
 
