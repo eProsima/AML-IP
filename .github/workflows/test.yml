@@ -32,6 +32,11 @@ jobs:
       - name: Install OpenSSL
         uses: ./AML-IP/.github/actions/install-openssl-windows
 
+      - name: Install yaml-cpp
+        uses: ./AML-IP/.github/actions/install-yamlcpp-windows
+        with:
+          cmake_build_type: ${{ matrix.cmake-config }}
+
       - name: Install GTest
         uses: ./AML-IP/.github/actions/install-gtest-windows
         with:
