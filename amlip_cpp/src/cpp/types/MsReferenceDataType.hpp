@@ -13,16 +13,19 @@
 // limitations under the License.
 
 /*!
- * @file GenericDataType.hpp
- * This header file contains the declaration of a generic type that contains void* data.
+ * @file MsReferenceDataType.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
-#define AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
+#ifndef AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+#define AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
 
-#include <atomic>
+#include <array>
+#include <limits>
+#include <ostream>
+#include <string>
 
-#include <types/InterfaceDataType.hpp>
+#include <types/AmlipIdDataType.hpp>
+#include <types/MsRequestDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
@@ -30,97 +33,93 @@ class Cdr;
 } // namespace fastcdr
 } // namespace eprosima
 
-
 namespace eprosima {
 namespace amlip {
 namespace types {
 
 /*!
- * @brief This class represents the structure GenericDataType, which allows to send any type of data as a void*.
- * This is, data is streamed as an array of octets given its size in memory regardless of its original type/structure.
- * @ingroup AMLIP
+ * TODO
  */
-class GenericDataType : public InterfaceDataType
+class MsReferenceDataType : public MsRequestDataType
 {
 public:
 
-    /*!
-     * @brief Default constructor with values.
+    /**
+     * TODO
      */
-    GenericDataType(
-            void* data,
-            const uint32_t size);
+    MsReferenceDataType();
 
     /*!
-     * @brief Default constructor.
+     * @brief Constructor with name.
      */
-    GenericDataType();
+    MsReferenceDataType(
+            const AmlipIdDataType client_id,
+            const TaskId& task_id,
+            const AmlipIdDataType& server_id);
 
     /*!
      * @brief Default destructor.
      */
-    ~GenericDataType();
+    ~MsReferenceDataType();
 
     /*!
-     * @brief Copy constructor not allowed.
-     * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
+     * @brief Copy constructor.
+     * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    GenericDataType(
-            GenericDataType&) = delete;
+    MsReferenceDataType(
+            const MsReferenceDataType& x);
 
     /*!
      * @brief Move constructor.
-     * @param x Reference to the object GenericDataType that will be copied.
+     * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    GenericDataType(
-            GenericDataType&& x);
+    MsReferenceDataType(
+            MsReferenceDataType&& x);
 
     /*!
-     * @brief Copy assignment not allowed.
-     * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
+     * @brief Copy assignment.
+     * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    GenericDataType& operator =(
-            const GenericDataType&) = delete;
+    MsReferenceDataType& operator =(
+            const MsReferenceDataType& x);
 
     /*!
      * @brief Move assignment.
-     * @param x Reference to the object GenericDataType that will be copied.
+     * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    GenericDataType& operator =(
-            GenericDataType&& x);
+    MsReferenceDataType& operator =(
+            MsReferenceDataType&& x);
 
     /*!
      * @brief Comparison operator.
-     * @param x GenericDataType object to compare.
-     *
-     * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
+     * @param x MsReferenceDataType object to compare.
      */
     bool operator ==(
-            const GenericDataType& x) const;
+            const MsReferenceDataType& x) const;
 
     /*!
      * @brief Comparison operator.
-     * @param x GenericDataType object to compare.
-     *
-     * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
+     * @param x MsReferenceDataType object to compare.
      */
     bool operator !=(
-            const GenericDataType& x) const;
+            const MsReferenceDataType& x) const;
 
     /*!
-     * @brief Return value of attribute \c data_
+     * @brief Comparison operator.
+     * @param x MsReferenceDataType object to compare.
      */
-    void* data() const;
+    bool operator <(
+            const MsReferenceDataType& x) const;
 
     /*!
-     * @brief Return value of attribute \c data__size_
+     * TODO
      */
-    uint32_t data_size() const;
+    AmlipIdDataType server_id() const;
 
     /*!
-     * @brief This function returns the name of this specific data type
+     * TODO
      */
-    static std::string type_name();
+    void server_id(const AmlipIdDataType& new_value);
 
     /////
     // InterfaceDataType methods
@@ -130,21 +129,21 @@ public:
      * @param cdr CDR serialization object.
      */
     void serialize(
-            eprosima::fastcdr::Cdr& cdr) const;
+            eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     void deserialize(
-            eprosima::fastcdr::Cdr& cdr);
+            eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const;
+            eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -162,7 +161,7 @@ public:
      * @return Serialized size.
      */
     static size_t get_cdr_serialized_size(
-            const GenericDataType& data,
+            const MsReferenceDataType& data,
             size_t current_alignment = 0);
 
     /*!
@@ -201,21 +200,27 @@ public:
     static bool construct_sample(
             void* memory);
 
+    /**
+     * @brief Name of the Data Type. This name will be used as the DDS type name.
+     *
+     * @warning this method must be overriden in child class.
+     */
+    static std::string type_name();
+
 protected:
 
-    void* data_;
+    AmlipIdDataType server_id_;
 
-    uint32_t data_size_;
-
-    std::atomic<bool> has_been_allocated_;
-
-    static const char* TYPE_NAME_;
-
-    static const size_t DEFAULT_PREALLOCATED_SIZE_;
+    static const char* DATA_TYPE_NAME_; // "ms_reference"
 };
+
+//! \c MsReferenceDataType to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const MsReferenceDataType& reference);
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
+#endif // AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP

@@ -16,8 +16,8 @@
  * @file Reader.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_READER_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_READER_IPP
 
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
 #include <ddsrouter_utils/Log.hpp>
@@ -142,4 +142,4 @@ void Reader<T>::on_subscription_matched(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_READER_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_READER_IPP */

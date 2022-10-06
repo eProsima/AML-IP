@@ -16,8 +16,8 @@
  * @file DirectWriter.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_DIRECTWRITER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_DIRECTWRITER_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP
 
 #include <dds/network_utils/direct_write.hpp>
 
@@ -74,7 +74,7 @@ eprosima::fastdds::dds::DataWriterQos DirectWriter<T>::default_directwriter_qos(
     qos.endpoint().history_memory_policy =
                 eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
-    qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::VOLATILE_DURABILITY_QOS;
+    qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;
 
@@ -107,4 +107,4 @@ std::shared_ptr<Writer<T>> DirectWriter<T>::get_target_writer_(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_DIRECTWRITER_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP */

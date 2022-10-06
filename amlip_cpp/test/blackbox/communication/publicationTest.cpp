@@ -62,7 +62,7 @@ using namespace eprosima::amlip::dds;
 TEST(PublicationTest, communicate_reader_writer)
 {
     // Create a participant
-    Participant participant("1_TestParticipant");
+    Participant participant(std::string("1_TestParticipant"));
 
     // Create a writer
     std::shared_ptr<Writer<types::AmlipIdDataType>> writer =
@@ -96,7 +96,7 @@ TEST(PublicationTest, communicate_reader_writer)
 TEST(PublicationTest, communicate_reader_writer_multiple_messages)
 {
     // Create a participant
-    Participant participant("1_1_TestParticipant");
+    Participant participant(std::string("1_1_TestParticipant"));
 
     // Create a writer
     std::shared_ptr<Writer<types::AmlipIdDataType>> writer =
@@ -150,7 +150,7 @@ TEST(PublicationTest, communicate_reader_writer_multiple_messages)
 TEST(PublicationTest, communicate_reader_multiple_writers)
 {
     // Create a participant
-    Participant participant("2_TestParticipant");
+    Participant participant(std::string("2_TestParticipant"));
 
     // Create writers
     std::vector<std::shared_ptr<Writer<types::AmlipIdDataType>>> writers;
@@ -206,7 +206,7 @@ TEST(PublicationTest, communicate_reader_multiple_writers)
 TEST(PublicationTest, communicate_multiple_readers_writer)
 {
     // Create a participant
-    Participant participant("3_TestParticipant");
+    Participant participant(std::string("3_TestParticipant"));
 
     // Create a writer
     std::shared_ptr<Writer<types::AmlipIdDataType>> writer =
@@ -245,7 +245,7 @@ TEST(PublicationTest, communicate_multiple_readers_writer)
 TEST(PublicationTest, communicate_multiple_readers_multiple_writers)
 {
     // Create a participant
-    Participant participant("4_TestParticipant");
+    Participant participant(std::string("4_TestParticipant"));
 
     // Create writers
     std::vector<std::shared_ptr<Writer<types::AmlipIdDataType>>> writers;

@@ -16,8 +16,8 @@
  * @file Participant.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_PARTICIPANT_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_PARTICIPANT_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP
 
 namespace eprosima {
 namespace amlip {
@@ -64,8 +64,28 @@ std::shared_ptr<TargetedReader<T>> Participant::create_targeted_reader(
         dds_handler_.lease());
 }
 
+template <typename Data, typename Solution>
+std::shared_ptr<MultiServiceClient<Data, Solution>> Participant::create_multiservice_client(
+        const std::string& topic_name)
+{
+    return std::make_shared<MultiServiceClient<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
+template <typename Data, typename Solution>
+std::shared_ptr<MultiServiceServer<Data, Solution>> Participant::create_multiservice_server(
+        const std::string& topic_name)
+{
+    return std::make_shared<MultiServiceServer<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_PARTICIPANT_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP */

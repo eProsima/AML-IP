@@ -115,6 +115,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
             logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Topic " << topic->get_name() << ".");
 
             // deleter for shared ptr
+            logDebug(AMLIP_DDSHANDLER, "Destroying topic " << topic->get_name() << ".");
             this->participant_->delete_topic(topic);
         }
         );

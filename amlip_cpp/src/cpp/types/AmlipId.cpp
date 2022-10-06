@@ -81,7 +81,7 @@ bool AmlipId::operator !=(
 bool AmlipId::operator <(
         const AmlipId& x) const
 {
-    return (*this->data()) < (*x.data());
+    return (this->dds_data()) < (x.dds_data());
 }
 
 std::string AmlipId::name() const
@@ -99,6 +99,11 @@ std::shared_ptr<AmlipIdDataType> AmlipId::data() const
     return data_;
 }
 
+AmlipIdDataType AmlipId::dds_data() const
+{
+    return *data_;
+}
+
 AmlipId AmlipId::new_unique_id(
         const std::string& name)
 {
@@ -109,7 +114,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const AmlipId& id)
 {
-    return os << *id.data();
+    return os << id.dds_data();
 }
 
 } /* namespace types */
