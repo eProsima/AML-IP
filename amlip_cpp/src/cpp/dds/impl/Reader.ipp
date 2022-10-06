@@ -115,10 +115,27 @@ eprosima::fastdds::dds::DataReaderQos Reader<T>::default_datareader_qos()
 
 template <typename T>
 void Reader<T>::on_data_available(
-        eprosima::fastdds::dds::DataReader*)
+        eprosima::fastdds::dds::DataReader* reader)
 {
+    logDebug(AMLIP_READER, "Reader " << reader->guid() << " has received a data.");
+
     reader_data_waiter_.open();
     logDebug(AMLIP_READER, "on_data_available callback received on reader with topic: " << topic_);
+}
+
+template <typename T>
+void Reader<T>::on_subscription_matched(
+        eprosima::fastdds::dds::DataReader* reader,
+        const eprosima::fastdds::dds::SubscriptionMatchedStatus& info)
+{
+    if (info.current_count_change > 0)
+    {
+        logDebug(AMLIP_READER, "Reader " << reader->guid() << " matched with Writer.");
+    }
+    else if (info.current_count_change < 0)
+    {
+        logDebug(AMLIP_READER, "Reader " << reader->guid() << " unmatched with Writer.");
+    }
 }
 
 } /* namespace dds */

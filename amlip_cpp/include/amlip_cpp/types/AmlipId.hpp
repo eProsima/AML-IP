@@ -102,6 +102,13 @@ public:
     bool operator !=(
             const AmlipId& x) const;
 
+    /*!
+     * @brief Comparison operator.
+     * @param x AmlipId object to compare.
+     */
+    bool operator <(
+            const AmlipId& x) const;
+
     /////
     // PUBLIC METHODS
 
@@ -109,6 +116,13 @@ public:
      * @brief This function gets the value of member \c name_ from object pointed to by \c data_
      */
     std::string name() const;
+
+    /*!
+     * @brief This function creates a string that uniquely describes this object.
+     *
+     * @note This string is forced to be valid as a DDS name for entity or topic.
+     */
+    std::string to_dds_string() const;
 
     /*!
      * @brief This function gets the value of attribute \c data_

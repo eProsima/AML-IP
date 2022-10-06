@@ -29,29 +29,29 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Reader execution.");
+    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Reader execution. Creating Participant...");
 
     {
         // Create Participant
         eprosima::amlip::dds::Participant participant("ManualTestParticipant");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ".");
+        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Reader...");
 
         // Create Reader
         std::shared_ptr<eprosima::amlip::dds::Reader<eprosima::amlip::types::AmlipIdDataType>> reader =
                 participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Reader.");
+        logUser(AMLIP_MANUAL_TEST, "Created Reader. Waiting for data...");
 
         // Wait for data
         reader->wait_data_available();
 
-        logUser(AMLIP_MANUAL_TEST, "Data received.");
+        logUser(AMLIP_MANUAL_TEST, "Data received. Reading data...");
 
         // Read data
         eprosima::amlip::types::AmlipIdDataType received_data = reader->read();
 
-        logUser(AMLIP_MANUAL_TEST, "Read message: " << received_data << ".");
+        logUser(AMLIP_MANUAL_TEST, "Read message: " << received_data << ". Destroying entities...");
     }
 
     logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Reader execution.");

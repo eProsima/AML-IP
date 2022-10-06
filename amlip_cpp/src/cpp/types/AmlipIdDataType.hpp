@@ -135,6 +135,13 @@ public:
             const AmlipIdDataType& x) const;
 
     /*!
+     * @brief Comparison operator.
+     * @param x AmlipIdDataType object to compare.
+     */
+    bool operator <(
+            const AmlipIdDataType& x) const;
+
+    /*!
      * @brief This function gets the value of member \c name_ as string
      * @return Value of member \c name_ as string
      */
@@ -165,6 +172,13 @@ public:
      */
     void id(
             const std::array<uint8_t, RAND_SIZE>& id);
+
+    /*!
+     * @brief This function creates a string that uniquely describes this object.
+     *
+     * @note This string is forced to be valid as a DDS name for entity or topic.
+     */
+    std::string to_dds_string() const;
 
     /*!
      * @brief This function returns the name of this specific data type
