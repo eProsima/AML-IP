@@ -57,9 +57,9 @@ using namespace eprosima::amlip::dds;
 
 /**
  * Create a Participant, from there create a Writer and a Reader and communicate them.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
-TEST(ReaderWriterTest, communicate_reader_writer)
+TEST(PublicationTest, communicate_reader_writer)
 {
     // Create a participant
     Participant participant("1_TestParticipant");
@@ -91,9 +91,9 @@ TEST(ReaderWriterTest, communicate_reader_writer)
 
 /**
  * Create a Participant, from there create a Writer and a Reader and communicate them.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
-TEST(ReaderWriterTest, communicate_reader_writer_multiple_messages)
+TEST(PublicationTest, communicate_reader_writer_multiple_messages)
 {
     // Create a participant
     Participant participant("1_1_TestParticipant");
@@ -145,9 +145,9 @@ TEST(ReaderWriterTest, communicate_reader_writer_multiple_messages)
 
 /**
  * Create a Participant, from there create N Writers and a Reader and communicate them.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
-TEST(ReaderWriterTest, communicate_reader_multiple_writers)
+TEST(PublicationTest, communicate_reader_multiple_writers)
 {
     // Create a participant
     Participant participant("2_TestParticipant");
@@ -201,9 +201,9 @@ TEST(ReaderWriterTest, communicate_reader_multiple_writers)
 
 /**
  * Create a Participant, from there create N Readers and a Writer and communicate them.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  */
-TEST(ReaderWriterTest, communicate_multiple_readers_writer)
+TEST(PublicationTest, communicate_multiple_readers_writer)
 {
     // Create a participant
     Participant participant("3_TestParticipant");
@@ -239,10 +239,10 @@ TEST(ReaderWriterTest, communicate_multiple_readers_writer)
 
 /**
  * Create a Participant, from there create N Writers and N Readers and communicate them.
- * It will use the AmlipId as data type.
+ * It will use the AmlipIdDataType as data type.
  * It will only check that each reader receives N data, it will not check the data internally to simplify
  */
-TEST(ReaderWriterTest, communicate_multiple_readers_multiple_writers)
+TEST(PublicationTest, communicate_multiple_readers_multiple_writers)
 {
     // Create a participant
     Participant participant("4_TestParticipant");

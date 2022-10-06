@@ -42,10 +42,13 @@ Writer<T>::Writer(
 template <typename T>
 Writer<T>::~Writer()
 {
-    auto guarded_ptr = datawriter_.lock();
-    if (guarded_ptr)
+    // Unsetting listener for datawriter, as the datawriter could be alive after this object has been destroyed
+    // In case datawriter has already been destroyed, do nothing
+    auto datawriter_locked = datawriter_.lock();
+
+    if (datawriter_locked)
     {
-        guarded_ptr->set_listener(nullptr);
+        datawriter_locked->set_listener(nullptr);
     }
 }
 

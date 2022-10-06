@@ -23,15 +23,17 @@
 #include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/publisher/qos/PublisherQos.hpp>
-#include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
+#include <fastdds/dds/subscriber/Subscriber.hpp>
 
 #include <ddsrouter_utils/memory/owner_ptr.hpp>
 
-#include <amlip_cpp/types/AmlipId.hpp>
 #include <dds/DdsHandler.hpp>
+#include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
+#include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
+#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -67,11 +69,16 @@ public:
             eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
             DomainIdType domain = Participant::default_domain_id());
 
+    Participant(
+        const char* name,
+        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+        DomainIdType domain = Participant::default_domain_id());
+
     //! Participant destructor
     virtual ~Participant();
 
     //! Id associated with this Participant
-    types::AmlipId id() const noexcept;
+    types::AmlipIdDataType id() const noexcept;
 
     //! Name associated with this Participant Id
     std::string name() const noexcept;
@@ -85,6 +92,14 @@ public:
     std::shared_ptr<Reader<T>> create_reader(
             const std::string& topic_name,
             eprosima::fastdds::dds::DataReaderQos qos = Reader<T>::default_datareader_qos());
+
+    template <typename T>
+    std::shared_ptr<DirectWriter<T>> create_direct_writer(
+        const std::string& topic_name);
+
+    template <typename T>
+    std::shared_ptr<TargetedReader<T>> create_targeted_reader(
+        const std::string& topic_name);
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip
@@ -102,7 +117,7 @@ public:
 protected:
 
     //! Id identifying this Participant
-    const types::AmlipId id_;
+    const types::AmlipIdDataType id_;
 
     ddsrouter::utils::OwnerPtr<DdsHandler> dds_handler_;
 
