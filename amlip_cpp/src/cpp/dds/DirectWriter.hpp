@@ -42,7 +42,7 @@ namespace dds {
 /**
  * @brief Class that allows to write messages to a specific receiver ( \c TargetedReader ).
  *
- * Direct Write is implemented by using a specific topic for each receiver in the network.
+ * Direct Writer is implemented by using a specific topic for each receiver in the network.
  * For each TargetedReader, the topic used is mangled so only that TargetedReader is listening in that specific topic.
  * This class creates Writers each time a new receiver is needed.
  *
