@@ -163,15 +163,11 @@ size_t MsRequestDataType::get_max_cdr_serialized_size(
 }
 
 size_t MsRequestDataType::get_cdr_serialized_size(
-        const MsRequestDataType& request,
+        const MsRequestDataType&,
         size_t current_alignment)
 {
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.client_id(), current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-    return current_alignment - initial_alignment;
+    // As the data type is plain, the max size and the size for a data is the same
+    return get_max_cdr_serialized_size(current_alignment);
 }
 
 size_t MsRequestDataType::get_key_max_cdr_serialized_size(

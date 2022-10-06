@@ -16,8 +16,8 @@
  * @file MultiServiceClient.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
+#define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
 
 #include <dds/network_utils/multiservice.hpp>
 
@@ -84,7 +84,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
         // Get task reference
         reference = reply_available_reader_.read();
 
-        if (reference.task_id() == this_task_id ||
+        if (reference.task_id() == this_task_id &&
             reference.client_id() == own_id_)
         {
             break;
@@ -115,7 +115,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
         types::MsDataType<Solution> ms_solution = task_solution_reader_.read();
 
         // NOTE: it does not check the server, it can be assumed is the one we are waiting for
-        if (ms_solution.task_id() == this_task_id ||
+        if (ms_solution.task_id() == this_task_id &&
             ms_solution.client_id() == own_id_)
         {
             solution = ms_solution.data();
@@ -157,4 +157,4 @@ types::TaskId MultiServiceClient<Data, Solution>::new_task_id_()
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP */

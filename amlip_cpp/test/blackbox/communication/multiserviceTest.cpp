@@ -24,7 +24,7 @@ using namespace eprosima::amlip;
 using namespace eprosima::amlip::dds;
 
 /**
- * Communicate a MS Client and a MS Server from differenct participants
+ * Communicate a MS Client and a MS Server from different participants
  * They use AmlipIdDataType as data type for Data and Solution.
  */
 TEST(MultiServiceTest, communicate_service_one_on_one)

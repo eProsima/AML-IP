@@ -16,8 +16,8 @@
  * @file MultiServiceServer.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP
+#define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP
 
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
@@ -82,9 +82,6 @@ protected:
     types::AmlipIdDataType own_id_;
 
     std::string topic_;
-
-    std::atomic<types::TaskId> last_task_id_used_;
-
 };
 
 } /* namespace dds */
@@ -94,4 +91,4 @@ protected:
 // Include implementation template file
 #include <dds/multiservice/impl/MultiServiceServer.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICESERVER_HPP */

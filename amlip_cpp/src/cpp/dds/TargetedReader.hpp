@@ -16,8 +16,8 @@
  * @file TargetedReader.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_TARGETEDREADER_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_TARGETEDREADER_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_TARGETEDREADER_HPP
+#define AMLIPCPP__SRC_CPP_DDS_TARGETEDREADER_HPP
 
 #include <atomic>
 
@@ -59,4 +59,4 @@ public:
 // Include implementation template file
 #include <dds/impl/TargetedReader.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_TARGETEDREADER_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_TARGETEDREADER_HPP */

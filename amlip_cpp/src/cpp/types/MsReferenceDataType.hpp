@@ -53,7 +53,7 @@ public:
      * @brief Constructor with name.
      */
     MsReferenceDataType(
-            const AmlipIdDataType source_id,
+            const AmlipIdDataType client_id,
             const TaskId& task_id,
             const AmlipIdDataType& server_id);
 

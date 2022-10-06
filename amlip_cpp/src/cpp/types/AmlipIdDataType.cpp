@@ -299,6 +299,7 @@ size_t AmlipIdDataType::get_cdr_serialized_size(
         const AmlipIdDataType&,
         size_t current_alignment)
 {
+    // As the data type is plain, the max size and the size for a data is the same
     return get_max_cdr_serialized_size(current_alignment);
 }
 

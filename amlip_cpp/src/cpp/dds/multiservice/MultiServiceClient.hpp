@@ -16,8 +16,8 @@
  * @file MultiServiceClient.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
+#define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
 
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
@@ -95,4 +95,4 @@ protected:
 // Include implementation template file
 #include <dds/multiservice/impl/MultiServiceClient.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP */

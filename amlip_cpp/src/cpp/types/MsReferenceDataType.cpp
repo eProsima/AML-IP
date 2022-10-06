@@ -141,16 +141,14 @@ void MsReferenceDataType::server_id(const AmlipIdDataType& new_value)
 void MsReferenceDataType::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << client_id_;
-    scdr << task_id_;
+    MsRequestDataType::serialize(scdr);
     scdr << server_id_;
 }
 
 void MsReferenceDataType::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    dcdr >> client_id_;
-    dcdr >> task_id_;
+    MsRequestDataType::deserialize(dcdr);
     dcdr >> server_id_;
 }
 
@@ -175,13 +173,8 @@ size_t MsReferenceDataType::get_cdr_serialized_size(
         const MsReferenceDataType& request,
         size_t current_alignment)
 {
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.client_id(), current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_cdr_serialized_size(request.server_id(), current_alignment);
-
-    return current_alignment - initial_alignment;
+    // As the data type is plain, the max size and the size for a data is the same
+    return get_max_cdr_serialized_size(current_alignment);
 }
 
 size_t MsReferenceDataType::get_key_max_cdr_serialized_size(

@@ -16,8 +16,8 @@
  * @file Participant.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_PARTICIPANT_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_PARTICIPANT_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP
 
 namespace eprosima {
 namespace amlip {
@@ -88,4 +88,4 @@ std::shared_ptr<MultiServiceServer<Data, Solution>> Participant::create_multiser
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_PARTICIPANT_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_PARTICIPANT_IPP */

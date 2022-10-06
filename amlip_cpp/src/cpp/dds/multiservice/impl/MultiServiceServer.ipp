@@ -16,8 +16,8 @@
  * @file MultiServiceServer.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP
+#define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP
 
 #include <dds/network_utils/multiservice.hpp>
 
@@ -52,7 +52,6 @@ MultiServiceServer<Data, Solution>::MultiServiceServer(
     , task_solution_writer_(
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
         dds_handler) // TASK_SOLUTION
-    , last_task_id_used_(0)
 {
 }
 
@@ -117,7 +116,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
     // From here, task_target has the reference for the task this must solve
     logDebug(AMLIP_MULTISERVICE_SERVER,
-        "Server " << own_id_ << " processing task: " << task_target.server_id() <<
+        "Server " << own_id_ << " processing task: " << task_target.task_id() <<
         " from client: " << task_target.client_id() << ".");
 
     // WAIT FOR TASK DATA
@@ -166,4 +165,4 @@ eprosima::fastdds::dds::DataReaderQos MultiServiceServer<Data, Solution>::defaul
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP */

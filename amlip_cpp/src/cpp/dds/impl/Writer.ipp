@@ -16,8 +16,8 @@
  * @file Writer.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_WRITER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_WRITER_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 
 namespace eprosima {
 namespace amlip {
@@ -79,4 +79,4 @@ eprosima::fastdds::dds::DataWriterQos Writer<T>::default_datawriter_qos()
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_WRITER_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP */

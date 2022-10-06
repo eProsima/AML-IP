@@ -16,8 +16,8 @@
  * @file Reader.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_READER_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_READER_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_READER_HPP
+#define AMLIPCPP__SRC_CPP_DDS_READER_HPP
 
 #include <atomic>
 
@@ -86,4 +86,4 @@ protected:
 // Include implementation template file
 #include <dds/impl/Reader.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_READER_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_READER_HPP */

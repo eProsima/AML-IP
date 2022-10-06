@@ -16,8 +16,8 @@
  * @file Writer.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_WRITER_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_WRITER_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_WRITER_HPP
+#define AMLIPCPP__SRC_CPP_DDS_WRITER_HPP
 
 #include <atomic>
 
@@ -158,4 +158,4 @@ protected:
 // Include implementation template file
 #include <dds/impl/Writer.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_WRITER_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_WRITER_HPP */

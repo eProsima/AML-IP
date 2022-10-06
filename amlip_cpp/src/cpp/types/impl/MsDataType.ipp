@@ -55,9 +55,7 @@ template <typename T>
 void MsDataType<T>::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << client_id_;
-    scdr << task_id_;
-    scdr << server_id_;
+    MsDataType<T>::serialize(scdr);
     scdr << data_;
 }
 
@@ -65,9 +63,7 @@ template <typename T>
 void MsDataType<T>::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    dcdr >> client_id_;
-    dcdr >> task_id_;
-    dcdr >> server_id_;
+    MsDataType<T>::deserialize(dcdr);
     dcdr >> data_;
 }
 

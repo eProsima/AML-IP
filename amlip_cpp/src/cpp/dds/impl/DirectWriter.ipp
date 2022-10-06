@@ -16,8 +16,8 @@
  * @file DirectWriter.ipp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_DIRECTWRITER_IPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_DIRECTWRITER_IPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP
+#define AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP
 
 #include <dds/network_utils/direct_write.hpp>
 
@@ -107,4 +107,4 @@ std::shared_ptr<Writer<T>> DirectWriter<T>::get_target_writer_(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_IMPL_DIRECTWRITER_IPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP */

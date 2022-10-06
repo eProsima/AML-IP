@@ -16,8 +16,8 @@
  * @file DirectWriter.hpp
  */
 
-#ifndef AMLIP__SRC_CPP_AMLIPCPP_DDS_DIRECTWRITER_HPP
-#define AMLIP__SRC_CPP_AMLIPCPP_DDS_DIRECTWRITER_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_DIRECTWRITER_HPP
+#define AMLIPCPP__SRC_CPP_DDS_DIRECTWRITER_HPP
 
 #include <atomic>
 
@@ -134,4 +134,4 @@ protected:
 // Include implementation template file
 #include <dds/impl/DirectWriter.ipp>
 
-#endif /* AMLIP__SRC_CPP_AMLIPCPP_DDS_DIRECTWRITER_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_DIRECTWRITER_HPP */
