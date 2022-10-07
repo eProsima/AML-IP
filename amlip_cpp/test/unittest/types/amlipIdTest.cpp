@@ -32,7 +32,7 @@ TEST(amlipIdTest, create_id)
     std::string name("TestNode");
     AmlipIdDataType id = AmlipIdDataType::new_unique_id(name);
 
-    ASSERT_TRUE(id.data()->is_defined());
+    ASSERT_TRUE(id.is_defined());
     ASSERT_EQ(id.name(), name.substr(0, eprosima::amlip::types::NAME_SIZE));
 }
 
