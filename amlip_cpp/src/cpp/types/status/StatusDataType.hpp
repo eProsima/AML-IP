@@ -22,6 +22,8 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 
+#include <cpp_utils/macros/custom_enumeration.hpp>
+
 #include <types/AmlipIdDataType.hpp>
 #include <types/InterfaceDataType.hpp>
 
@@ -33,8 +35,8 @@ namespace types {
  * @brief This class represents the enumeration NodeKind defined by the user in the IDL file.
  * @ingroup STATUS
  */
-enum NodeKind : uint32_t
-{
+ENUMERATION_BUILDER(
+    NodeKind
     UNDETERMINED,
     DISCOVERY,
     AGENT,
@@ -42,18 +44,20 @@ enum NodeKind : uint32_t
     COMPUTATIONAL,
     STATUS,
     META,
-};
+);
+
 /*!
  * @brief This class represents the enumeration StatusKind defined by the user in the IDL file.
  * @ingroup STATUS
  */
-enum StatusKind : uint32_t
-{
+ENUMERATION_BUILDER(
+    StatusKind,
     UNKNOWN,
     RUNNING,
     STOPPED,
     DROPPED,
-};
+);
+
 /*!
  * @brief This class represents the structure StatusDataType defined by the user in the IDL file.
  * @ingroup STATUS
@@ -198,16 +202,6 @@ protected:
 std::ostream& operator <<(
         std::ostream& os,
         const StatusDataType& st);
-
-//! \c NodeKind to stream serializator
-std::ostream& operator <<(
-        std::ostream& os,
-        const NodeKind& nk);
-
-//! \c StatusKind to stream serializator
-std::ostream& operator <<(
-        std::ostream& os,
-        const StatusKind& sk);
 
 } /* namespace types */
 } /* namespace amlip */

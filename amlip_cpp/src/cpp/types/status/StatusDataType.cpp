@@ -160,69 +160,6 @@ std::string StatusDataType::type_name()
 
 std::ostream& operator <<(
         std::ostream& os,
-        const NodeKind& nk)
-{
-    os << "NODE_KIND{";
-
-    switch (nk)
-    {
-        case types::NodeKind::UNDETERMINED:
-            os << "UNDETERMINED";
-            break;
-        case types::NodeKind::DISCOVERY:
-            os << "DISCOVERY";
-            break;
-        case types::NodeKind::AGENT:
-            os << "AGENT";
-            break;
-        case types::NodeKind::MAIN:
-            os << "MAIN";
-            break;
-        case types::NodeKind::COMPUTATIONAL:
-            os << "COMPUTATIONAL";
-            break;
-        case types::NodeKind::META:
-            os << "META";
-            break;
-        case types::NodeKind::STATUS:
-            os << "STATUS";
-            break;
-    }
-
-    os << "}";
-
-    return os;
-}
-
-std::ostream& operator <<(
-        std::ostream& os,
-        const StatusKind& sk)
-{
-    os << "STATUS_KIND{";
-
-    switch (sk)
-    {
-        case types::StatusKind::UNKNOWN:
-            os << "UNKNOWN";
-            break;
-        case types::StatusKind::RUNNING:
-            os << "RUNNING";
-            break;
-        case types::StatusKind::STOPPED:
-            os << "DISABLED";
-            break;
-        case types::StatusKind::DROPPED:
-            os << "DISABLED";
-            break;
-    }
-
-    os << "}";
-
-    return os;
-}
-
-std::ostream& operator <<(
-        std::ostream& os,
         const StatusDataType& st)
 {
     os << "STATUS{" << st.id() << ", " << st.node_kind() << ", " << st.status() << "}";
