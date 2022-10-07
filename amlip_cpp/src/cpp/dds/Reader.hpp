@@ -25,8 +25,8 @@
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
-#include <ddsrouter_utils/wait/BooleanWaitHandler.hpp>
-#include <ddsrouter_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/wait/BooleanWaitHandler.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
 #include <dds/DdsHandler.hpp>
 
@@ -46,7 +46,7 @@ public:
 
     Reader(
             const std::string& topic,
-            ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+            eprosima::utils::LesseePtr<DdsHandler> dds_handler,
             eprosima::fastdds::dds::DataReaderQos qos = Reader::default_datareader_qos());
 
     virtual ~Reader();
@@ -73,10 +73,10 @@ protected:
     std::string topic_;
 
     //! DDS DataReader reference
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> datareader_;
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataReader> datareader_;
 
     //! Waiter variable to wait for a data to be available
-    ddsrouter::event::BooleanWaitHandler reader_data_waiter_;
+    eprosima::utils::event::BooleanWaitHandler reader_data_waiter_;
 };
 
 } /* namespace dds */

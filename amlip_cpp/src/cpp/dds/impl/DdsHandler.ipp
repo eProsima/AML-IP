@@ -19,10 +19,10 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_DDSHANDLER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_IMPL_DDSHANDLER_IPP
 
-#include <ddsrouter_utils/exception/InitializationException.hpp>
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
-#include <ddsrouter_utils/Log.hpp>
-#include <ddsrouter_utils/macros.hpp>
+#include <cpp_utils/exception/InitializationException.hpp>
+#include <cpp_utils/exception/InconsistencyException.hpp>
+#include <cpp_utils/Log.hpp>
+#include <cpp_utils/macros/macros.hpp>
 
 #include <types/InterfaceDataType.hpp>
 
@@ -67,7 +67,7 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
 }
 
 template<typename T>
-ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_(
+eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_(
         const std::string& topic_name)
 {
     // Force T to be subclass of InterfaceDataType
@@ -88,7 +88,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
         if (topic_it.first.first == topic_name)
         {
             // The Topic already exists with other type
-            throw ddsrouter::utils::InconsistencyException(
+            throw eprosima::utils::InconsistencyException(
                       STR_ENTRY << "Topic " << topic_name << " already exists with other type that is not "
                                 << T::type_name() << ".");
         }
@@ -100,12 +100,12 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
     if (ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK &&
             ret != eprosima::fastrtps::types::ReturnCode_t::RETCODE_PRECONDITION_NOT_MET)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Topic " << topic_name << " creation failed due to type registration.");
     }
 
     // Create topic
-    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::Topic> topic(
+    eprosima::utils::OwnerPtr<eprosima::fastdds::dds::Topic> topic(
         participant_->create_topic(
             topic_name,
             T::type_name(),
@@ -121,7 +121,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
         );
     if (nullptr == topic)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create topic " << topic_name << ".");
     }
 
@@ -135,7 +135,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic
 }
 
 template <typename T>
-ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::create_datawriter(
+eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::create_datawriter(
         const std::string topic_name,
         eprosima::fastdds::dds::DataWriterQos qos,
         eprosima::fastdds::dds::DataWriterListener* listener /* = nullptr */)
@@ -146,7 +146,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
     logDebug(AMLIPCPP_DDSHANDLER, "Creating DatWriter in topic " << topic_name << ".");
 
     // Get Topic (in case it does already exist return reference)
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
             get_topic_<T>(topic_name);
 
     // Lock the Topic so its pointer is used to create datawriter.
@@ -154,12 +154,12 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
     auto topic_locked_ptr = topic_.lock();
     if (!topic_locked_ptr)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create DataWriter " << topic_name << " after Participant destruction.");
     }
 
     // Create DataWriter
-    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DataWriter> datawriter(
+    eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DataWriter> datawriter(
         publisher_->create_datawriter(
             topic_locked_ptr.get(),
             qos,
@@ -175,7 +175,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
         );
     if (nullptr == datawriter)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create DataWriter " << topic_name << ".");
     }
 
@@ -191,7 +191,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::crea
 }
 
 template <typename T>
-ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::create_datareader(
+eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::create_datareader(
         const std::string topic_name,
         eprosima::fastdds::dds::DataReaderQos qos,
         eprosima::fastdds::dds::DataReaderListener* listener /* = nullptr */)
@@ -202,7 +202,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
     logDebug(AMLIPCPP_DDSHANDLER, "Creating DataReader in topic " << topic_name << ".");
 
     // Get Topic (in case it does already exist return reference)
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
             get_topic_<T>(topic_name);
 
     // Lock the Topic so its pointer is used to create datareader.
@@ -210,12 +210,12 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
     auto topic_locked_ptr = topic_.lock();
     if (!topic_locked_ptr)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create DataReader " << topic_name << " after Participant destruction.");
     }
 
     // Create DataReader
-    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DataReader> datareader(
+    eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DataReader> datareader(
         subscriber_->create_datareader(
             topic_locked_ptr.get(),
             qos,
@@ -231,7 +231,7 @@ ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::crea
         );
     if (nullptr == datareader)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create DataReader " << topic_name << ".");
     }
 

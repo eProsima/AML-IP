@@ -81,7 +81,7 @@ TEST(DdsHandlerTest, create_datawriter)
     test::DdsHandlerMock handler(eprosima::fastdds::dds::DomainParticipantQos(), DomainIdType(42));
 
     // Create DataWriter
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter =
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter =
             handler.create_datawriter<types::AmlipIdDataType>(topic_name_, qos, &listener);
 
     // Check DataWriter internal values
@@ -112,7 +112,7 @@ TEST(DdsHandlerTest, create_datareader)
     test::DdsHandlerMock handler(eprosima::fastdds::dds::DomainParticipantQos(), DomainIdType(42));
 
     // Create DataReader
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> datareader =
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataReader> datareader =
             handler.create_datareader<types::AmlipIdDataType>(topic_name_, qos, &listener);
 
     // Check DataReader internal values
@@ -135,7 +135,7 @@ TEST(DdsHandlerTest, fail_create_participant)
     // Create Handler with internal participant
     ASSERT_THROW(
         test::DdsHandlerMock(qos, DomainIdType(42)),
-        ddsrouter::utils::InitializationException);
+        eprosima::utils::InitializationException);
 }
 
 } /* namespace dds */

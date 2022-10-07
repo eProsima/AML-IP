@@ -22,7 +22,7 @@
 #include <fastdds/dds/topic/TopicDataType.hpp>
 #include <fastrtps/utils/md5.h>
 
-#include <ddsrouter_utils/macros.hpp>
+#include <cpp_utils/macros/macros.hpp>
 
 #include <types/InterfaceDataType.hpp>
 

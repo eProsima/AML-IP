@@ -15,7 +15,7 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <dds/Participant.hpp>
 #include <types/AmlipIdDataType.hpp>

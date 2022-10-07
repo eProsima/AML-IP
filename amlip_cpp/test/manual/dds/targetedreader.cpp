@@ -17,7 +17,7 @@
  *
  */
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <types/AmlipIdDataType.hpp>
 #include <dds/Participant.hpp>
@@ -27,7 +27,7 @@ int main(
         char** argv)
 {
     // Activate log
-    eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIP_MANUAL_TEST, "Starting Manual Test TargetedReader execution. Creating Participant...");
 

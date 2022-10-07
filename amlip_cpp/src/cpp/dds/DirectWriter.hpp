@@ -28,8 +28,8 @@
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
 
-#include <ddsrouter_event/wait/BooleanWaitHandler.hpp>
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+#include <cpp_utils/wait/BooleanWaitHandler.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
 #include <dds/DdsHandler.hpp>
 #include <dds/Writer.hpp>
@@ -63,7 +63,7 @@ public:
      */
     DirectWriter(
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataWriterQos qos = DirectWriter::default_directwriter_qos());
 
     //! Default destructor, stop listener before destruction
@@ -87,9 +87,9 @@ public:
      *
      * @return Reason for the awakening.
      */
-    eprosima::ddsrouter::event::AwakeReason wait_match(
+    eprosima::utils::event::AwakeReason wait_match(
         const types::AmlipIdDataType& target_id,
-        const eprosima::ddsrouter::utils::Duration_ms &timeout = 0);
+        const eprosima::utils::Duration_ms &timeout = 0);
 
     /**
      * @brief Return default QoS for a DataWriter
@@ -113,7 +113,7 @@ protected:
     //! Name of the topic in which this \c DirectWriter publishes
     std::string topic_;
 
-    ddsrouter::utils::LesseePtr<DdsHandler> dds_handler_;
+    eprosima::utils::LesseePtr<DdsHandler> dds_handler_;
 
     eprosima::fastdds::dds::DataWriterQos qos_;
 

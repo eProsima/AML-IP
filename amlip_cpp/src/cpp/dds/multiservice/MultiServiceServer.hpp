@@ -48,7 +48,7 @@ public:
     MultiServiceServer(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler);
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler);
 
     ~MultiServiceServer();
 

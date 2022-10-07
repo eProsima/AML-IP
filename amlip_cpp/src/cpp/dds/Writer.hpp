@@ -28,8 +28,8 @@
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/topic/Topic.hpp>
 
-#include <ddsrouter_utils/wait/BooleanWaitHandler.hpp>
-#include <ddsrouter_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/wait/BooleanWaitHandler.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
 #include <dds/DdsHandler.hpp>
 
@@ -45,7 +45,7 @@ class WriterListener : public eprosima::fastdds::dds::DataWriterListener
 public:
 
     // Default constructor
-    using eprosima::fastdds::dds::DataWriterListener::DataWriterListener;
+    WriterListener();
 
     //! Default destructor
     virtual ~WriterListener();
@@ -72,7 +72,7 @@ public:
      *
      * @return Reason for the awaken.
      */
-    eprosima::ddsrouter::event::AwakeReason wait_match(const eprosima::ddsrouter::utils::Duration_ms &timeout = 0);
+    eprosima::utils::event::AwakeReason wait_match(const eprosima::utils::Duration_ms &timeout = 0);
 
 protected:
 
@@ -86,7 +86,7 @@ protected:
     std::atomic<uint32_t> matched_readers_;
 
     //! Waiter variable to wait for a reader to be matched
-    ddsrouter::event::BooleanWaitHandler writer_match_waiter_;
+    eprosima::utils::event::BooleanWaitHandler writer_match_waiter_;
 };
 
 /**
@@ -113,7 +113,7 @@ public:
      */
     Writer(
             const std::string& topic,
-            ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+            eprosima::utils::LesseePtr<DdsHandler> dds_handler,
             eprosima::fastdds::dds::DataWriterQos qos = Writer::default_datawriter_qos());
 
     //! Default destructor, stop listener before destruction
@@ -148,7 +148,7 @@ protected:
     std::string topic_;
 
     //! DDS DataWriter reference
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter_;
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter_;
 };
 
 } /* namespace dds */

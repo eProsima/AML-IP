@@ -28,7 +28,7 @@ namespace dds {
 template <typename T>
 DirectWriter<T>::DirectWriter(
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataWriterQos qos /* = DirectWriter::default_directwriter_qos() */)
     : topic_(topic)
     , dds_handler_(dds_handler)
@@ -54,9 +54,9 @@ eprosima::fastrtps::types::ReturnCode_t DirectWriter<T>::write(
 }
 
 template <typename T>
-eprosima::ddsrouter::event::AwakeReason DirectWriter<T>::wait_match(
+eprosima::utils::event::AwakeReason DirectWriter<T>::wait_match(
         const types::AmlipIdDataType& target_id,
-        const eprosima::ddsrouter::utils::Duration_ms &timeout /* = 0 */)
+        const eprosima::utils::Duration_ms &timeout /* = 0 */)
 {
     // Get writer associated with this target (if it does not exist it creates it)
     std::shared_ptr<Writer<T>> target_writer = get_target_writer_(target_id);

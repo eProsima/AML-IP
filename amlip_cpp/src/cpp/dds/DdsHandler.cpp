@@ -18,7 +18,7 @@
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <dds/DdsHandler.hpp>
 
@@ -49,7 +49,7 @@ DdsHandler::DdsHandler(
         );
     if (nullptr == participant_)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create participant " << qos.name() << ".");
     }
 
@@ -67,7 +67,7 @@ DdsHandler::DdsHandler(
         );
     if (nullptr == publisher_)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create publisher in participant " << qos.name() << ".");
     }
 
@@ -85,7 +85,7 @@ DdsHandler::DdsHandler(
         );
     if (nullptr == subscriber_)
     {
-        throw ddsrouter::utils::InitializationException(
+        throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create subscriber in participant " << qos.name() << ".");
     }
 

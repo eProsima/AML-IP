@@ -26,7 +26,7 @@
 #include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 
-#include <ddsrouter_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
@@ -63,7 +63,7 @@ public:
      * @throw \c InitializationException if the DDS DomainParticipant could not be created
      */
     Participant(
-            types::AmlipId id,
+            types::AmlipIdDataType id,
             eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
             DomainIdType domain = Participant::default_domain_id());
 
@@ -130,7 +130,7 @@ protected:
     //! Id identifying this Participant
     const types::AmlipIdDataType id_;
 
-    ddsrouter::utils::OwnerPtr<DdsHandler> dds_handler_;
+    eprosima::utils::OwnerPtr<DdsHandler> dds_handler_;
 
     /////
     // STATIC CONST VARIABLES

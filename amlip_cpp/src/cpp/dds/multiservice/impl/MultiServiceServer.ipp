@@ -21,7 +21,7 @@
 
 #include <dds/network_utils/multiservice.hpp>
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -31,7 +31,7 @@ template <typename Data, typename Solution>
 MultiServiceServer<Data, Solution>::MultiServiceServer(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler)
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : own_id_(own_id)
     , topic_(topic)
     , request_availability_reader_(

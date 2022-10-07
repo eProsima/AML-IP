@@ -55,7 +55,7 @@ template <typename T>
 void MsDataType<T>::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    MsReferenceDataType<T>::serialize(scdr);
+    MsReferenceDataType::serialize(scdr);
     scdr << data_;
 }
 
@@ -63,7 +63,7 @@ template <typename T>
 void MsDataType<T>::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    MsReferenceDataType<T>::deserialize(dcdr);
+    MsReferenceDataType::deserialize(dcdr);
     dcdr >> data_;
 }
 

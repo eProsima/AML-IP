@@ -16,7 +16,7 @@
  * @file Participant.cpp
  */
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <dds/Participant.hpp>
 

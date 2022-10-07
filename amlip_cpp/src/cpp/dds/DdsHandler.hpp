@@ -34,7 +34,7 @@
 #include <fastdds/dds/topic/Topic.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 
-#include <ddsrouter_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
 #include <types/AmlipGenericTopicDataType.hpp>
 
@@ -75,13 +75,13 @@ public:
     virtual ~DdsHandler();
 
     template <typename T>
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> create_datawriter(
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> create_datawriter(
             const std::string topic_name,
             eprosima::fastdds::dds::DataWriterQos qos,
             eprosima::fastdds::dds::DataWriterListener* listener = nullptr);
 
     template <typename T>
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::DataReader> create_datareader(
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataReader> create_datareader(
             const std::string topic_name,
             eprosima::fastdds::dds::DataReaderQos qos,
             eprosima::fastdds::dds::DataReaderListener* listener = nullptr);
@@ -125,20 +125,20 @@ protected:
      * @warning Do not use this type support once the DdsHandler is deleted
      */
     template<typename T>
-    ddsrouter::utils::LesseePtr<eprosima::fastdds::dds::Topic> get_topic_(
+    eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> get_topic_(
             const std::string& topic_name);
 
     /////
     // INTERNAL VARIABLES
 
     //! Shared ptr referencing the DDS DomainParticipant
-    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DomainParticipant> participant_;
+    eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DomainParticipant> participant_;
 
     //! Shared ptr referencing the DDS Publisher
-    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::Publisher> publisher_;
+    eprosima::utils::OwnerPtr<eprosima::fastdds::dds::Publisher> publisher_;
 
     //! Shared ptr referencing the DDS Subscriber
-    ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::Subscriber> subscriber_;
+    eprosima::utils::OwnerPtr<eprosima::fastdds::dds::Subscriber> subscriber_;
 
     /**
      * @brief Map with references to the Topics already created from this DdsHandler
@@ -148,10 +148,10 @@ protected:
      *
      * Topic is indexed by a duple of topic name and topic type
      */
-    std::map<std::pair<std::string, std::string>, ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::Topic>> topics_;
+    std::map<std::pair<std::string, std::string>, eprosima::utils::OwnerPtr<eprosima::fastdds::dds::Topic>> topics_;
 
-    std::vector<ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DataWriter>> datawriters_;
-    std::vector<ddsrouter::utils::OwnerPtr<eprosima::fastdds::dds::DataReader>> datareaders_;
+    std::vector<eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DataWriter>> datawriters_;
+    std::vector<eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DataReader>> datareaders_;
 
     /**
      * @brief Map with references to the TypeSupports already created from this DdsHandler

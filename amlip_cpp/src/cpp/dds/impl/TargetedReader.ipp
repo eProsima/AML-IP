@@ -29,7 +29,7 @@ template <typename T>
 TargetedReader<T>::TargetedReader(
         const types::AmlipIdDataType own_id,
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataReaderQos qos /* = Reader::default_datareader_qos() */)
     : Reader<T>(utils::direct_topic(topic, own_id), dds_handler, qos)
 {

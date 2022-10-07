@@ -16,7 +16,7 @@
  * @file InterfaceDataType.cpp
  */
 
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <cpp_utils/exception/InconsistencyException.hpp>
 
 #include <types/InterfaceDataType.hpp>
 
@@ -27,7 +27,7 @@ namespace types {
 size_t InterfaceDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement get_max_cdr_serialized_size.");
 }
 
@@ -35,45 +35,45 @@ size_t InterfaceDataType::get_cdr_serialized_size(
         const InterfaceDataType&,
         size_t current_alignment)
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement get_cdr_serialized_size.");
 }
 
 size_t InterfaceDataType::get_key_max_cdr_serialized_size(
         size_t current_alignment)
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement get_key_max_cdr_serialized_size.");
 }
 
 bool InterfaceDataType::is_key_defined()
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement is_key_defined.");
 }
 
 bool InterfaceDataType::is_bounded()
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement is_bounded.");
 }
 
 bool InterfaceDataType::is_plain()
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement is_plain.");
 }
 
 bool InterfaceDataType::construct_sample(
         void*)
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement construct_sample.");
 }
 
 std::string InterfaceDataType::type_name()
 {
-    throw ddsrouter::utils::InconsistencyException(
+    throw eprosima::utils::InconsistencyException(
               "Subclasses of InterfaceDataType must implement type_name.");
 }
 

@@ -26,7 +26,7 @@ namespace dds {
 template <typename T>
 Writer<T>::Writer(
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataWriterQos qos /* = Writer::default_datawriter_qos() */)
     : topic_(topic)
 {

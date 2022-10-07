@@ -19,8 +19,8 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_READER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_IMPL_READER_IPP
 
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/exception/InconsistencyException.hpp>
+#include <cpp_utils/Log.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -29,7 +29,7 @@ namespace dds {
 template <typename T>
 Reader<T>::Reader(
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler,
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataReaderQos qos /* = Reader::default_datareader_qos() */)
     : topic_(topic)
 {
@@ -93,7 +93,7 @@ T Reader<T>::read()
     else
     {
         // TODO
-        throw ddsrouter::utils::InconsistencyException(
+        throw eprosima::utils::InconsistencyException(
                   "Try to read data from a reader that does not have it.");
     }
 }

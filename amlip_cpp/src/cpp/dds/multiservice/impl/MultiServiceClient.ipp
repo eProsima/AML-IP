@@ -29,7 +29,7 @@ template <typename Data, typename Solution>
 MultiServiceClient<Data, Solution>::MultiServiceClient(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
-        ddsrouter::utils::LesseePtr<DdsHandler> dds_handler)
+        eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : own_id_(own_id)
     , topic_(topic)
     , request_availability_writer_(

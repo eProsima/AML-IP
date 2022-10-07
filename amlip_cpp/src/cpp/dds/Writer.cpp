@@ -16,7 +16,7 @@
  * @file Writer.cpp
  */
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <dds/Writer.hpp>
 
@@ -55,8 +55,8 @@ uint32_t WriterListener::readers_matched() const noexcept
     return matched_readers_.load();
 }
 
-eprosima::ddsrouter::event::AwakeReason WriterListener::wait_match(
-        const eprosima::ddsrouter::utils::Duration_ms &timeout /* = 0 */)
+eprosima::utils::event::AwakeReason WriterListener::wait_match(
+        const eprosima::utils::Duration_ms &timeout /* = 0 */)
 {
     return writer_match_waiter_.wait(timeout);
 }
