@@ -25,23 +25,30 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-ParentNode::ParentNode(const char* name)
+ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
     : participant_(name)
     , current_state_(types::StateKind::STOPPED)
+    , node_kind_(node_kind)
     , status_writer_(participant_.create_writer<types::StatusDataType>(
         network::STATUS_TOPIC_NAME,
         network::status_writer_qos()))
 {
+    logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
+    publish_status_();
 }
 
-ParentNode::ParentNode(std::string name)
-    : ParentNode(name.c_str())
+ParentNode::ParentNode(const std::string& name, types::NodeKind node_kind)
+    : ParentNode(name.c_str(), node_kind)
 {
 }
 
 ParentNode::~ParentNode()
 {
-    // Children must publish as dropped in their destructors
+    logDebug(AMLIPCPP_NODE_STATUS, "Destroying Node: " << *this << ".");
+
+    change_status_(types::StateKind::DROPPED);
+
+    logDebug(AMLIPCPP_NODE_STATUS, "Node destroyed.");
 }
 
 types::AmlipIdDataType ParentNode::id() const noexcept
@@ -56,66 +63,16 @@ types::StateKind ParentNode::current_state() const noexcept
 
 types::NodeKind ParentNode::node_kind() const noexcept
 {
-    return types::NodeKind::UNDETERMINED;
+    return node_kind_;
 }
 
-ddsrouter::utils::ReturnCode ParentNode::run()
+void ParentNode::change_status_(types::StateKind new_state) noexcept
 {
-    // If it is already running, do nothing
-    if (current_state_ == types::StateKind::RUNNING)
-    {
-        return ddsrouter::utils::ReturnCode::RETCODE_PRECONDITION_NOT_MET;
-    }
-    else
-    {
-        current_state_ = types::StateKind::RUNNING;
-        ddsrouter::utils::ReturnCode code = run_(); // Children specific run methods
-
-        if (code())
-        {
-            publish_status_();
-        }
-
-        return code;
-    }
+    current_state_ = new_state;
+    publish_status_();
 }
 
-ddsrouter::utils::ReturnCode ParentNode::stop()
-{
-    // If it is already running, do nothing
-    if (current_state_ == types::StateKind::STOPPED)
-    {
-        return ddsrouter::utils::ReturnCode::RETCODE_PRECONDITION_NOT_MET;
-    }
-    else
-    {
-        current_state_ = types::StateKind::STOPPED;
-        ddsrouter::utils::ReturnCode code = stop_(); // Children specific run methods
-
-        if (code())
-        {
-            publish_status_();
-        }
-
-        return code;
-    }
-}
-
-ddsrouter::utils::ReturnCode ParentNode::run_()
-{
-    // Do nothing
-    // Implement in children node if needed
-    return ddsrouter::utils::ReturnCode::RETCODE_OK;
-}
-
-ddsrouter::utils::ReturnCode ParentNode::stop_()
-{
-    // Do nothing
-    // Implement in children node if needed
-    return ddsrouter::utils::ReturnCode::RETCODE_OK;
-}
-
-void ParentNode::publish_status_() const
+void ParentNode::publish_status_() noexcept
 {
     // Create status data
     types::StatusDataType status(
@@ -125,6 +82,14 @@ void ParentNode::publish_status_() const
 
     // Publish status
     status_writer_->publish(status);
+}
+
+std::ostream& operator <<(
+        std::ostream& os,
+        const ParentNode& node)
+{
+    os << "NODE{" << node.id() << ";" << node.current_state() << "}";
+    return os;
 }
 
 } /* namespace node */

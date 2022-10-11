@@ -51,7 +51,9 @@ public:
 
     virtual ~Reader();
 
-    void wait_data_available(uint32_t timeout = 0);
+    eprosima::ddsrouter::event::AwakeReason wait_data_available(uint32_t timeout = 0);
+
+    void awake_waiting_threads();
 
     bool is_data_available();
 
