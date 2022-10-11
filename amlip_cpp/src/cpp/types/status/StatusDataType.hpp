@@ -36,7 +36,7 @@ namespace types {
  * @ingroup STATUS
  */
 ENUMERATION_BUILDER(
-    NodeKind
+    NodeKind,
     UNDETERMINED,
     DISCOVERY,
     AGENT,
@@ -47,11 +47,11 @@ ENUMERATION_BUILDER(
 );
 
 /*!
- * @brief This class represents the enumeration StatusKind defined by the user in the IDL file.
+ * @brief This class represents the enumeration StateKind defined by the user in the IDL file.
  * @ingroup STATUS
  */
 ENUMERATION_BUILDER(
-    StatusKind,
+    StateKind,
     UNKNOWN,
     RUNNING,
     STOPPED,
@@ -77,7 +77,7 @@ public:
     StatusDataType(
         AmlipIdDataType id,
         NodeKind node_kind,
-        StatusKind status);
+        StateKind state);
 
     /*!
      * @brief Comparison operator.
@@ -97,7 +97,7 @@ public:
 
     NodeKind node_kind() const noexcept;
 
-    StatusKind status() const noexcept;
+    StateKind state() const noexcept;
 
     bool is_defined() const noexcept;
 
@@ -193,7 +193,7 @@ protected:
 
     NodeKind node_kind_;
 
-    StatusKind status_;
+    StateKind state_;
 
     static const char* DATA_TYPE_NAME_; // "status"
 };

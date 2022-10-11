@@ -29,10 +29,10 @@ const char* StatusDataType::DATA_TYPE_NAME_ = "status";
 StatusDataType::StatusDataType(
         AmlipIdDataType id,
         NodeKind node_kind,
-        StatusKind status)
+        StateKind state)
     : id_(id)
     , node_kind_(node_kind)
-    , status_(status)
+    , state_(state)
 {
 }
 
@@ -40,14 +40,14 @@ StatusDataType::StatusDataType()
     : StatusDataType(
         AmlipIdDataType(),
         NodeKind::UNDETERMINED,
-        StatusKind::UNKNOWN)
+        StateKind::UNKNOWN)
 {
 }
 
 bool StatusDataType::operator ==(
         const StatusDataType& x) const
 {
-    return (id() == x.id() && node_kind() == x.node_kind() && status() == x.status());
+    return (id() == x.id() && node_kind() == x.node_kind() && state() == x.state());
 }
 
 bool StatusDataType::operator !=(
@@ -66,14 +66,14 @@ NodeKind StatusDataType::node_kind() const noexcept
     return node_kind_;
 }
 
-StatusKind StatusDataType::status() const noexcept
+StateKind StatusDataType::state() const noexcept
 {
-    return status_;
+    return state_;
 }
 
 bool StatusDataType::is_defined() const noexcept
 {
-    return (id().is_defined() && node_kind() != NodeKind::UNDETERMINED && status() != StatusKind::UNKNOWN);
+    return (id().is_defined() && node_kind() != NodeKind::UNDETERMINED && state() != StateKind::UNKNOWN);
 }
 
 void StatusDataType::serialize(
@@ -81,7 +81,7 @@ void StatusDataType::serialize(
 {
     scdr << id_;
     scdr << (uint32_t)node_kind_;
-    scdr << (uint32_t)status_;
+    scdr << (uint32_t)state_;
 }
 
 void StatusDataType::deserialize(
@@ -98,7 +98,7 @@ void StatusDataType::deserialize(
     {
         uint32_t enum_value = 0;
         dcdr >> enum_value;
-        status_ = (StatusKind)enum_value;
+        state_ = (StateKind)enum_value;
     }
 }
 
@@ -162,7 +162,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const StatusDataType& st)
 {
-    os << "STATUS{" << st.id() << ", " << st.node_kind() << ", " << st.status() << "}";
+    os << "STATUS{" << st.id() << ", " << st.node_kind() << ", " << st.state() << "}";
     return os;
 }
 
