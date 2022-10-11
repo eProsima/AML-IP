@@ -55,7 +55,7 @@ int main(
         // Send job request
         eprosima::amlip::types::SolutionDataType solution = main_node.request_job_solution(job_data);
 
-        logUser(AMLIP_MANUAL_TEST, "Solution received. Deseralizing to string...");
+        logUser(AMLIP_MANUAL_TEST, "Solution received. Deserializing to string...");
 
         // Convert solution to string
         std::string solution_str(static_cast<char *>(solution.data()), solution.data_size());

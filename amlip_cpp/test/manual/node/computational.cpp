@@ -63,7 +63,7 @@ int main(
                     AMLIP_MANUAL_TEST,
                     "Job solution: " << data_str << ".");
 
-                // Create and allocate ptr that will be then release by the Generic Data Type
+                // Create and allocate ptr that will be then released by the Generic Data Type
                 char* ptr_data = static_cast<char*>(malloc(data_str.size()));
                 std::memcpy(ptr_data, data_str.c_str(), data_str.size());
 

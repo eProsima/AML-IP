@@ -113,7 +113,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
             }
         }
 
-        if (task_target.server_id() == own_id_)
+        if (task_target.client_id() == reference.client_id( && task_target.server_id() == own_id_)
         {
             // This is the target, stop waiting
             break;
