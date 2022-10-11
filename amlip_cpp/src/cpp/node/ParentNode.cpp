@@ -47,7 +47,6 @@ ParentNode::~ParentNode()
     logDebug(AMLIPCPP_NODE_STATUS, "Destroying Node: " << *this << ".");
 
     change_status_(types::StateKind::DROPPED);
-    // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     logDebug(AMLIPCPP_NODE_STATUS, "Node destroyed.");
 }
@@ -89,7 +88,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const ParentNode& node)
 {
-    os << "NODE{" << node.id() << "}";
+    os << "NODE{" << node.id() << ";" << node.current_state() << "}";
     return os;
 }
 

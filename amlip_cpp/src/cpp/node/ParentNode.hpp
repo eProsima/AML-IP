@@ -38,9 +38,6 @@ class ParentNode
 {
 public:
 
-    ParentNode(const char* name, types::NodeKind node_kind);
-    ParentNode(const std::string& name, types::NodeKind node_kind);
-
     ~ParentNode();
 
     types::AmlipIdDataType id() const noexcept;
@@ -51,9 +48,12 @@ public:
 
 protected:
 
+    ParentNode(const char* name, types::NodeKind node_kind);
+    ParentNode(const std::string& name, types::NodeKind node_kind);
+
     void change_status_(types::StateKind new_state) noexcept;
 
-    void publish_status_() noexcept;
+    void publish_status_() const noexcept;
 
     dds::Participant participant_;
 

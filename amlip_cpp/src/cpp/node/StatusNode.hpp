@@ -20,6 +20,7 @@
 #define AMLIPCPP__SRC_CPP_NODE_STATUSNODE_HPP
 
 #include <functional>
+#include <thread>
 
 #include <ddsrouter_utils/memory/OwnerPtr.hpp>
 #include <ddsrouter_utils/ReturnCode.hpp>

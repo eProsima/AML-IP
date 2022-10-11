@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @file directwriter.cpp
+ * @file status.cpp
  *
  */
 
@@ -32,7 +32,7 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test DirectWriter execution. Creating Node...");
+    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
 
     {
         // Create Status Node
@@ -57,7 +57,7 @@ int main(
         logUser(AMLIP_MANUAL_TEST, "SIGINT received. Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test DirectWriter execution.");
+    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
 
     return 0;
 }
