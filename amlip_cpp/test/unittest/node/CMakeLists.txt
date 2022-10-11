@@ -25,6 +25,35 @@ all_library_sources(${TEST_SOURCES})
 
 set(TEST_LIST
         create_parent
+        create_status
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        "${MODULE_FIND_PACKAGES}"
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+    )
+
+#####################################
+# NODE CREATION TESTS
+#####################################
+
+set(TEST_NAME StatusNodeTest)
+
+set(TEST_SOURCES
+        statusNodeTest.cpp
+    )
+all_library_sources(${TEST_SOURCES})
+
+set(TEST_LIST
+        run_and_stop
+        process_status_parent
+        process_status_state
     )
 
 set(TEST_EXTRA_LIBRARIES

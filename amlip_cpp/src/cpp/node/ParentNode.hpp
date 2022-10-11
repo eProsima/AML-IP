@@ -38,9 +38,6 @@ class ParentNode
 {
 public:
 
-    ParentNode(const char* name);
-    ParentNode(std::string name);
-
     ~ParentNode();
 
     types::AmlipIdDataType id() const noexcept;
@@ -49,33 +46,22 @@ public:
 
     virtual types::NodeKind node_kind() const noexcept;
 
-    /**
-     * @brief TODO
-     *
-     * @note decorator
-     */
-    ddsrouter::utils::ReturnCode run();
-
-    /**
-     * @brief TODO
-     *
-     * @note decorator
-     */
-    ddsrouter::utils::ReturnCode stop();
-
 protected:
 
-    virtual ddsrouter::utils::ReturnCode run_();
+    ParentNode(const char* name, types::NodeKind node_kind);
+    ParentNode(const std::string& name, types::NodeKind node_kind);
 
-    virtual ddsrouter::utils::ReturnCode stop_();
+    void change_status_(types::StateKind new_state) noexcept;
 
-    void publish_status_() const;
+    void publish_status_() const noexcept;
 
     dds::Participant participant_;
 
     std::shared_ptr<dds::Writer<types::StatusDataType>> status_writer_;
 
     types::StateKind current_state_;
+
+    types::NodeKind node_kind_;
 
 };
 

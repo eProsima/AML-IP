@@ -56,10 +56,15 @@ Reader<T>::~Reader()
 }
 
 template <typename T>
-void Reader<T>::wait_data_available(
-        uint32_t timeout /* = 0 */)
+eprosima::utils::event::AwakeReason Reader<T>::wait_data_available(uint32_t timeout /* = 0 */)
 {
-    reader_data_waiter_.wait();
+    return reader_data_waiter_.wait();
+}
+
+template <typename T>
+void Reader<T>::awake_waiting_threads()
+{
+    reader_data_waiter_.stop_and_continue();
 }
 
 template <typename T>
