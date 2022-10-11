@@ -23,8 +23,6 @@
 
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 
-#include <types/AmlipIdDataType.hpp>
-
 namespace eprosima {
 namespace amlip {
 namespace network {
