@@ -12,7 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add test subdirectories
-add_subdirectory(dds)
-add_subdirectory(node)
-add_subdirectory(types)
+#####################################
+# NODE CREATION TESTS
+#####################################
+
+set(TEST_NAME NodeCreationTest)
+
+set(TEST_SOURCES
+        nodeCreationTest.cpp
+    )
+all_library_sources(${TEST_SOURCES})
+
+set(TEST_LIST
+        create_parent
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        "${MODULE_FIND_PACKAGES}"
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+    )
