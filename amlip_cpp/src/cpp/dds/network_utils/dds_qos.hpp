@@ -13,31 +13,36 @@
 // limitations under the License.
 
 /**
- * @file topic.hpp
+ * @file dds_qos.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_NETWORK_TOPIC_HPP
-#define AMLIPCPP__SRC_CPP_NETWORK_TOPIC_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DDSQOS_HPP
+#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DDSQOS_HPP
 
-#include <string>
-
+#include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
+#include <fastdds/dds/publisher/qos/PublisherQos.hpp>
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+#include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace network {
+namespace dds {
+namespace utils {
 
-constexpr const char* STATUS_TOPIC_NAME = "status";
+fastdds::dds::DomainParticipantQos default_domain_participant_qos();
 
-constexpr const char* JOB_TOPIC_NAME = "job";
+fastdds::dds::PublisherQos default_publisher_qos();
 
-eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept;
+fastdds::dds::DataWriterQos default_datawriter_qos();
 
-eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
+fastdds::dds::SubscriberQos default_subscriber_qos();
 
-} /* namespace network */
+fastdds::dds::DataReaderQos default_datareader_qos();
+
+} /* namespace utils */
+} /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_NETWORK_TOPIC_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DDSQOS_HPP */

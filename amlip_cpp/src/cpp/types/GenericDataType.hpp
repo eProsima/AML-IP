@@ -49,7 +49,8 @@ public:
      */
     GenericDataType(
             void* data,
-            const uint32_t size);
+            const uint32_t size,
+            bool take_ownership = false);
 
     /*!
      * @brief Default constructor.
@@ -62,11 +63,13 @@ public:
     virtual ~GenericDataType();
 
     /*!
-     * @brief Copy constructor not allowed.
-     * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
+     * @brief Copy constructor.
+     *
+     * If \c x has no ownership, it copies the reference.
+     * If \c x has ownership, it copies the data inside.
      */
     GenericDataType(
-            GenericDataType&) = delete;
+            const GenericDataType& x);
 
     /*!
      * @brief Move constructor.

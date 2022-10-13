@@ -38,6 +38,9 @@ class ParentNode
 {
 public:
 
+    //! Copy constructor not allowed
+    ParentNode(const ParentNode& x) = delete;
+
     ~ParentNode();
 
     types::AmlipIdDataType id() const noexcept;

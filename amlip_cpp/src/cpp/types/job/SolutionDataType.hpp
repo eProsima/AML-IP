@@ -29,6 +29,8 @@ namespace types {
  * @brief AML Solution Task Data Type
  *
  * This class may be reimplemented according with AML team designs.
+ *
+ * TODO: change name to JobSolutionDataType
  */
 class SolutionDataType : public GenericDataType
 {

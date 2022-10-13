@@ -26,6 +26,8 @@ all_library_sources(${TEST_SOURCES})
 set(TEST_LIST
         create_parent
         create_status
+        create_main
+        create_computing
     )
 
 set(TEST_EXTRA_LIBRARIES
@@ -40,7 +42,7 @@ add_unittest_executable(
     )
 
 #####################################
-# NODE CREATION TESTS
+# STATUS NODE TESTS
 #####################################
 
 set(TEST_NAME StatusNodeTest)
@@ -66,3 +68,4 @@ add_unittest_executable(
         "${TEST_LIST}"
         "${TEST_EXTRA_LIBRARIES}"
     )
+

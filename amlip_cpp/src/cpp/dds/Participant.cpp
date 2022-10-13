@@ -20,6 +20,7 @@
 #include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
 
 #include <dds/Participant.hpp>
+#include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -93,7 +94,7 @@ std::string Participant::name() const noexcept
 
 eprosima::fastdds::dds::DomainParticipantQos Participant::default_participant_qos() noexcept
 {
-    return eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
+    return utils::default_domain_participant_qos();
 }
 
 DomainIdType Participant::default_domain_id() noexcept

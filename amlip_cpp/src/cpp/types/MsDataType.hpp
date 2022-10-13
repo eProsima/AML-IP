@@ -55,6 +55,10 @@ public:
             const MsReferenceDataType& reference,
             const T& data);
 
+    MsDataType(
+            MsReferenceDataType&& reference,
+            T&& data);
+
     /*!
      * @brief This function serializes an object using CDR serialization.
      *

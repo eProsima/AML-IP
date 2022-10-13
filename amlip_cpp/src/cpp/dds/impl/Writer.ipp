@@ -19,6 +19,8 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 
+#include <dds/network_utils/dds_qos.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -57,22 +59,18 @@ eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(
         T& data)
 {
     auto datawriter_locked = datawriter_.lock_with_exception();
+
+    logDebug(
+        AMLIPCPP_DDS_WRITER,
+        "Writing message in topic " << topic_ << " from: " << datawriter_locked->guid() << ".");
+
     return datawriter_locked->write(&data);
 }
 
 template <typename T>
 eprosima::fastdds::dds::DataWriterQos Writer<T>::default_datawriter_qos()
 {
-    eprosima::fastdds::dds::DataWriterQos qos = eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT;
-
-    // Preallocated with realloc
-    qos.endpoint().history_memory_policy =
-            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
-
-    // Disabling datasharing
-    qos.data_sharing().off();
-
-    return qos;
+    return utils::default_datawriter_qos();
 }
 
 } /* namespace dds */
