@@ -15,7 +15,7 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <node/ComputationalNode.hpp>
+#include <node/ComputingNode.hpp>
 #include <node/MainNode.hpp>
 #include <node/ParentNode.hpp>
 #include <node/StatusNode.hpp>
@@ -57,14 +57,14 @@ TEST(NodeCreationTest, create_main)
 }
 
 /**
- * Create Computational Node
+ * Create Computing Node
  */
-TEST(NodeCreationTest, create_computational)
+TEST(NodeCreationTest, create_computing)
 {
-    node::ComputationalNode node("TestNode");
+    node::ComputingNode node("TestNode");
 
     ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
-    ASSERT_EQ(types::NodeKind::COMPUTATIONAL, node.node_kind());
+    ASSERT_EQ(types::NodeKind::COMPUTING, node.node_kind());
 }
 
 int main(

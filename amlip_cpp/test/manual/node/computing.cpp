@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @file computational.cpp
+ * @file computing.cpp
  *
  */
 
@@ -22,7 +22,7 @@
 #include <ddsrouter_utils/Log.hpp>
 
 #include <types/AmlipIdDataType.hpp>
-#include <node/ComputationalNode.hpp>
+#include <node/ComputingNode.hpp>
 
 /*
  * The job in this example will be a string serialized to bytes.
@@ -37,16 +37,16 @@ int main(
     // Activate log
     eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Computational Node execution. Creating Node...");
+    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Computing Node execution. Creating Node...");
 
     {
-        // Create Computational Node
-        eprosima::amlip::node::ComputationalNode computational_node("TestComputationalNode");
+        // Create Computing Node
+        eprosima::amlip::node::ComputingNode computing_node("TestComputingNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created: " << computational_node << ". Answering job request...");
+        logUser(AMLIP_MANUAL_TEST, "Node created: " << computing_node << ". Answering job request...");
 
         // Answer job request
-        eprosima::amlip::types::MsReferenceDataType reference = computational_node.process_job(
+        eprosima::amlip::types::MsReferenceDataType reference = computing_node.process_job(
             [](const eprosima::amlip::types::JobDataType& data)
             {
                 // Convert data to string
@@ -78,7 +78,7 @@ int main(
         logUser(AMLIP_MANUAL_TEST, "Answered job task: " << reference << ". Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Computational Node execution.");
+    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Computing Node execution.");
 
     return 0;
 }

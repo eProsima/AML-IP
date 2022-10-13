@@ -13,38 +13,38 @@
 // limitations under the License.
 
 /**
- * @file ComputationalNode.cpp
+ * @file ComputingNode.cpp
  */
 
 #include <ddsrouter_utils/Log.hpp>
 #include <ddsrouter_utils/exception/InconsistencyException.hpp>
 
 #include <network/topic.hpp>
-#include <node/ComputationalNode.hpp>
+#include <node/ComputingNode.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
-ComputationalNode::ComputationalNode(const char* name)
-    : ParentNode(name, types::NodeKind::COMPUTATIONAL)
+ComputingNode::ComputingNode(const char* name)
+    : ParentNode(name, types::NodeKind::COMPUTING)
     , job_server_(participant_.create_multiservice_server<types::JobDataType, types::SolutionDataType>(
         network::JOB_TOPIC_NAME))
 {
-    logInfo(AMLIPCPP_NODE_COMPUTATIONAL, "Created new Computational Node: " << *this << ".");
+    logInfo(AMLIPCPP_NODE_COMPUTING, "Created new Computing Node: " << *this << ".");
 }
 
-ComputationalNode::ComputationalNode(const std::string& name)
-    : ComputationalNode(name.c_str())
+ComputingNode::ComputingNode(const std::string& name)
+    : ComputingNode(name.c_str())
 {
 }
 
-ComputationalNode::~ComputationalNode()
+ComputingNode::~ComputingNode()
 {
-    logDebug(AMLIPCPP_NODE_COMPUTATIONAL, "Destroying Computational Node: " << *this << ".");
+    logDebug(AMLIPCPP_NODE_COMPUTING, "Destroying Computing Node: " << *this << ".");
 }
 
-types::MsReferenceDataType ComputationalNode::process_job(
+types::MsReferenceDataType ComputingNode::process_job(
         const std::function<types::SolutionDataType(const types::JobDataType&)>& callback)
 {
     return job_server_->process_task_sync(callback);
@@ -52,9 +52,9 @@ types::MsReferenceDataType ComputationalNode::process_job(
 
 std::ostream& operator <<(
         std::ostream& os,
-        const ComputationalNode& node)
+        const ComputingNode& node)
 {
-    os << "COMPUTATIONAL_NODE{" << node.id() << "}";
+    os << "COMPUTING_NODE{" << node.id() << "}";
     return os;
 }
 

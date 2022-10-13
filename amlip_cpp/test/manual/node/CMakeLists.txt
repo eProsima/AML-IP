@@ -19,7 +19,7 @@ all_library_sources("${TEST_SOURCES}")
 set(TEST_NAMES
         "status"
         "main"
-        "computational"
+        "computing"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})

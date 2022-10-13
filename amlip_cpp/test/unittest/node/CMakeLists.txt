@@ -27,7 +27,7 @@ set(TEST_LIST
         create_parent
         create_status
         create_main
-        create_computational
+        create_computing
     )
 
 set(TEST_EXTRA_LIBRARIES

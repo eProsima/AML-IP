@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @file ComputationalNode.hpp
+ * @file ComputingNode.hpp
  */
 
 #ifndef AMLIPCPP__SRC_CPP_NODE_COMPUTINGNODE_HPP
@@ -34,14 +34,14 @@ namespace node {
  *
  * @warning Not Thread Safe (yet) (TODO)
  */
-class ComputationalNode : public ParentNode
+class ComputingNode : public ParentNode
 {
 public:
 
-    ComputationalNode(const char* name);
-    ComputationalNode(const std::string& name);
+    ComputingNode(const char* name);
+    ComputingNode(const std::string& name);
 
-    ~ComputationalNode();
+    ~ComputingNode();
 
     types::MsReferenceDataType process_job(
             const std::function<types::SolutionDataType(const types::JobDataType&)>& callback);

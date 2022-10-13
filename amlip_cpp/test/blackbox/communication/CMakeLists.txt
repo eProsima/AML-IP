@@ -92,19 +92,19 @@ add_blackbox_executable(
     )
 
 #####################################
-# NODE MAIN & COMPUTATIONAL TESTS
+# NODE MAIN & COMPUTING TESTS
 #####################################
 
-set(TEST_NAME MainComputationalNodeTest)
+set(TEST_NAME MainComputingNodeTest)
 
 set(TEST_SOURCES
-        mainComputationalNodeTest.cpp
+        mainComputingNodeTest.cpp
     )
 
 set(TEST_LIST
-        one_main_one_computational
-        n_main_one_computational
-        one_main_n_computational
+        one_main_one_computing
+        n_main_one_computing
+        one_main_n_computing
     )
 
 set(TEST_NEEDED_SOURCES

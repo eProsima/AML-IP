@@ -16,14 +16,14 @@
 #include <gtest/gtest.h>
 
 #include <node/MainNode.hpp>
-#include <node/ComputationalNode.hpp>
+#include <node/ComputingNode.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 namespace test {
 
-types::SolutionDataType computational_process_routine(const types::JobDataType& job_data)
+types::SolutionDataType computing_process_routine(const types::JobDataType& job_data)
 {
     // Get string from data
     std::string data_str(static_cast<char*>(job_data.data()), job_data.data_size());
@@ -50,36 +50,36 @@ uint32_t NUMBER_OF_NODES_IN_TEST = 3;
 using namespace eprosima::amlip;
 
 /**
- * Check that having 1 main and 1 computational node, they can communicate and resolve a job.
+ * Check that having 1 main and 1 computing node, they can communicate and resolve a job.
  * Job used is string to uppercase.
  *
  * STEPS:
  * - Create one Main Node
- * - Create one Computational Node
- * - Execute process msg in Computational in new thread
- * - Send Job (as string) from main to Computational
+ * - Create one Computing Node
+ * - Execute process msg in Computing in new thread
+ * - Send Job (as string) from main to Computing
  * - Check solution response
  */
-TEST(MainComputationalNodeTest, one_main_one_computational)
+TEST(MainComputingNodeTest, one_main_one_computing)
 {
     // Create one Main Node
     node::MainNode main_node("MainTestNode");
     types::AmlipIdDataType main_id = main_node.id();
 
-    // Create one Computational Node
-    node::ComputationalNode computational_node("CompTestNode");
+    // Create one Computing Node
+    node::ComputingNode computing_node("CompTestNode");
 
-    // Send a new thread for computational to process message
-    std::thread computational_thread(
-            [&computational_node, &main_id]()
+    // Send a new thread for computing to process message
+    std::thread computing_thread(
+            [&computing_node, &main_id]()
             {
                 eprosima::amlip::types::MsReferenceDataType reference =
-                    computational_node.process_job(node::test::computational_process_routine);
+                    computing_node.process_job(node::test::computing_process_routine);
 
                 // Check the reference comes from this test main
                 EXPECT_EQ(reference.client_id(), main_id);
                 // Check the reference is responsed by this node
-                EXPECT_EQ(reference.server_id(), computational_node.id());
+                EXPECT_EQ(reference.server_id(), computing_node.id());
             });
 
     // Create job data and process request from main
@@ -87,8 +87,8 @@ TEST(MainComputationalNodeTest, one_main_one_computational)
     types::JobDataType job_data(static_cast<void *>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
     types::SolutionDataType solution = main_node.request_job_solution(job_data);
 
-    // Wait for computational to process job
-    computational_thread.join();
+    // Wait for computing to process job
+    computing_thread.join();
 
     // Check solution is upper case of data sent
     std::transform(data_sent_str.begin(), data_sent_str.end(), data_sent_str.begin(), ::toupper);
@@ -99,18 +99,18 @@ TEST(MainComputationalNodeTest, one_main_one_computational)
 }
 
 /**
- * Check that having N main and 1 computational node, they can communicate and resolve jobs.
+ * Check that having N main and 1 computing node, they can communicate and resolve jobs.
  * Job used is string to uppercase.
- * Mains are in different threads to check syncronization while speaking with computational.
+ * Mains are in different threads to check syncronization while speaking with computing.
  *
  * STEPS:
  * - Create N Main Node
- * - Create one Computational Node
- * - Execute process msg in Computational in new thread
- * - Send Job (as string) from every main to Computational in new threads each
+ * - Create one Computing Node
+ * - Execute process msg in Computing in new thread
+ * - Send Job (as string) from every main to Computing in new threads each
  * - Check solution response
  */
-TEST(MainComputationalNodeTest, n_main_one_computational)
+TEST(MainComputingNodeTest, n_main_one_computing)
 {
     // Create N Main Node
     std::vector<std::shared_ptr<node::MainNode>> main_nodes;
@@ -121,17 +121,17 @@ TEST(MainComputationalNodeTest, n_main_one_computational)
         main_nodes.push_back(new_main_node);
     }
 
-    // Create one Computational Node
-    node::ComputationalNode computational_node("CompTestNode");
+    // Create one Computing Node
+    node::ComputingNode computing_node("CompTestNode");
 
-    // Send a new thread for computational to process N messages
-    std::thread computational_thread(
-            [&computational_node]()
+    // Send a new thread for computing to process N messages
+    std::thread computing_thread(
+            [&computing_node]()
             {
                 for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
                 {
                     eprosima::amlip::types::MsReferenceDataType reference =
-                        computational_node.process_job(node::test::computational_process_routine);
+                        computing_node.process_job(node::test::computing_process_routine);
                 }
             });
 
@@ -158,8 +158,8 @@ TEST(MainComputationalNodeTest, n_main_one_computational)
     }
 
 
-    // Wait for computational to process job
-    computational_thread.join();
+    // Wait for computing to process job
+    computing_thread.join();
     for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
     {
         main_threads[i].join();
@@ -167,44 +167,44 @@ TEST(MainComputationalNodeTest, n_main_one_computational)
 }
 
 /**
- * Check that having 1 main and N computational node, they can communicate and resolve jobs.
+ * Check that having 1 main and N computing node, they can communicate and resolve jobs.
  * Job used is string to uppercase.
  *
  * STEPS:
  * - Create 1 Main Node
- * - Create N Computational Nodes
- * - Execute process msg in every Computational in new thread
- * - Send N Jobs (as string) from main to Computational, so each gets one
+ * - Create N Computing Nodes
+ * - Execute process msg in every Computing in new thread
+ * - Send N Jobs (as string) from main to Computing, so each gets one
  * (it is auto syncrhonized, do not say which one will answer)
  * - Check solution responses
  */
-TEST(MainComputationalNodeTest, one_main_n_computational)
+TEST(MainComputingNodeTest, one_main_n_computing)
 {
     // Create one Main Node
     node::MainNode main_node("MainTestNode");
     types::AmlipIdDataType main_id = main_node.id();
 
-    // Create N Computational Node
-    std::vector<std::shared_ptr<node::ComputationalNode>> computational_nodes;
-    std::vector<std::thread> computational_threads;
+    // Create N Computing Node
+    std::vector<std::shared_ptr<node::ComputingNode>> computing_nodes;
+    std::vector<std::thread> computing_threads;
 
     for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
     {
-        std::shared_ptr<node::ComputationalNode> new_computational_node(
-            new node::ComputationalNode(std::to_string(i) + "ComputationalTestNode"));
-        computational_nodes.push_back(new_computational_node);
+        std::shared_ptr<node::ComputingNode> new_computing_node(
+            new node::ComputingNode(std::to_string(i) + "ComputingTestNode"));
+        computing_nodes.push_back(new_computing_node);
 
-        // Execute thread for each computational node
-        computational_threads.push_back(
-                std::thread( [new_computational_node, main_id]()
+        // Execute thread for each computing node
+        computing_threads.push_back(
+                std::thread( [new_computing_node, main_id]()
                 {
                     eprosima::amlip::types::MsReferenceDataType reference =
-                        new_computational_node->process_job(node::test::computational_process_routine);
+                        new_computing_node->process_job(node::test::computing_process_routine);
 
                     // Check the reference comes from this test main
                     EXPECT_EQ(reference.client_id(), main_id);
                     // Check the reference is responsed by this node
-                    EXPECT_EQ(reference.server_id(), new_computational_node->id());
+                    EXPECT_EQ(reference.server_id(), new_computing_node->id());
                 }));
     }
 
@@ -225,10 +225,10 @@ TEST(MainComputationalNodeTest, one_main_n_computational)
             ASSERT_EQ(solution_str, data_sent_str);
     }
 
-    // Wait for computational to finish
+    // Wait for computing to finish
     for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
     {
-        computational_threads[i].join();
+        computing_threads[i].join();
     }
 }
 
