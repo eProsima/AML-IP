@@ -64,13 +64,13 @@ jobs:
           package_path: AML-IP
           subpackage: amlip_cpp
           subpackage_dir: amlip_cpp
-          cmake_build_type: "Debug"
+          cmake_build_type: ${{ matrix.cmake-config }}
 
       - name: Run tests amlip_cpp
         uses: ./AML-IP/.github/actions/run-test-windows
         with:
           package_name: amlip_cpp
-          cmake_build_type: "Debug"
+          cmake_build_type: ${{ matrix.cmake-config }}
         if: always()
 
 
