@@ -33,7 +33,7 @@ runs:
         cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
           -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
           -DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
-          -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 -B build\fastdds Fast-DDS;
+          -DINTERNAL_DEBUG=ON -DSHM_TRANSPORT_DEFAULT=OFF -Ax64 -T host=x64 -B build\fastdds Fast-DDS;
         cmake --build build\fastdds --config ${{ inputs.cmake_build_type }} --target install
 
     - name: Install Dev Utils
