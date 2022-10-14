@@ -62,9 +62,9 @@ public:
      * TODO
      */
     DirectWriter(
-        const std::string& topic,
-        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
-        eprosima::fastdds::dds::DataWriterQos qos = DirectWriter::default_directwriter_qos());
+            const std::string& topic,
+            eprosima::utils::LesseePtr<DdsHandler> dds_handler,
+            eprosima::fastdds::dds::DataWriterQos qos = DirectWriter::default_directwriter_qos());
 
     //! Default destructor, stop listener before destruction
     virtual ~DirectWriter();
@@ -75,8 +75,8 @@ public:
      * TODO
      */
     eprosima::fastrtps::types::ReturnCode_t write(
-        const types::AmlipIdDataType& target_id,
-        T& data);
+            const types::AmlipIdDataType& target_id,
+            T& data);
 
     /**
      * @brief Stop this thread for the Writer to be matched with specific reader
@@ -88,8 +88,8 @@ public:
      * @return Reason for the awakening.
      */
     eprosima::utils::event::AwakeReason wait_match(
-        const types::AmlipIdDataType& target_id,
-        const eprosima::utils::Duration_ms &timeout = 0);
+            const types::AmlipIdDataType& target_id,
+            const eprosima::utils::Duration_ms& timeout = 0);
 
     /**
      * @brief Return default QoS for a DataWriter
@@ -108,7 +108,7 @@ public:
 protected:
 
     std::shared_ptr<Writer<T>> get_target_writer_(
-        types::AmlipIdDataType target_id);
+            types::AmlipIdDataType target_id);
 
     //! Name of the topic in which this \c DirectWriter publishes
     std::string topic_;

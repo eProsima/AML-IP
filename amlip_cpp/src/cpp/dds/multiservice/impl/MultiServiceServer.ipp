@@ -66,7 +66,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 {
     types::MsReferenceDataType task_target;
 
-    while(true)
+    while (true)
     {
         // WAIT FOR REQUEST AVAILABILITY
         request_availability_reader_.wait_data_available();
@@ -85,7 +85,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
         reply_available_writer_.write(reference.client_id(), reference);
 
         // WAIT FOR TASK TARGET
-        while(true)
+        while (true)
         {
             // Wait for data to arrive
             task_target_reader_.wait_data_available();
@@ -95,7 +95,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
             // Check if it is the reference we are expecting
             if (task_target.client_id() != reference.client_id() ||
-                task_target.server_id() != reference.server_id())
+                    task_target.server_id() != reference.server_id())
             {
                 // If not, continue waiting
                 continue;
@@ -116,8 +116,8 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
     // From here, task_target has the reference for the task this must solve
     logDebug(AMLIP_MULTISERVICE_SERVER,
-        "Server " << own_id_ << " processing task: " << task_target.task_id() <<
-        " from client: " << task_target.client_id() << ".");
+            "Server " << own_id_ << " processing task: " << task_target.task_id() <<
+            " from client: " << task_target.client_id() << ".");
 
     // WAIT FOR TASK DATA
     task_data_reader_.wait_data_available();
@@ -146,7 +146,7 @@ eprosima::fastdds::dds::DataReaderQos MultiServiceServer<Data, Solution>::defaul
     eprosima::fastdds::dds::DataReaderQos qos;
 
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;

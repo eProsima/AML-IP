@@ -61,7 +61,8 @@ MultiServiceClient<Data, Solution>::~MultiServiceClient()
 }
 
 template <typename Data, typename Solution>
-Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
+Solution MultiServiceClient<Data, Solution>::send_request_sync(
+        const Data& data)
 {
     // SEND REQUEST AVAILABILITY
     // Get new task id
@@ -77,7 +78,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
     // Wait for someone to reply
     types::MsReferenceDataType reference;
 
-    while(true)
+    while (true)
     {
         reply_available_reader_.wait_data_available();
 
@@ -85,7 +86,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
         reference = reply_available_reader_.read();
 
         if (reference.task_id() == this_task_id &&
-            reference.client_id() == own_id_)
+                reference.client_id() == own_id_)
         {
             break;
         }
@@ -93,8 +94,8 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
 
     // From here, reference has the target of the server that is going to process the data
     logDebug(AMLIP_MULTISERVICE_CLIENT,
-        "Client " << own_id_ << " sending task: " << reference.task_id() <<
-        " to server: " << reference.server_id() << ".");
+            "Client " << own_id_ << " sending task: " << reference.task_id() <<
+            " to server: " << reference.server_id() << ".");
 
     // SEND TASK TARGET
     // Send the reference sent by the server
@@ -107,7 +108,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
     // WAIT FOR SOLUTION
     Solution solution;
 
-    while(true)
+    while (true)
     {
         task_solution_reader_.wait_data_available();
 
@@ -116,7 +117,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(const Data& data)
 
         // NOTE: it does not check the server, it can be assumed is the one we are waiting for
         if (ms_solution.task_id() == this_task_id &&
-            ms_solution.client_id() == own_id_)
+                ms_solution.client_id() == own_id_)
         {
             solution = ms_solution.data();
             break;
@@ -132,7 +133,7 @@ eprosima::fastdds::dds::DataWriterQos MultiServiceClient<Data, Solution>::defaul
     eprosima::fastdds::dds::DataWriterQos qos;
 
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;

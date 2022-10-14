@@ -72,7 +72,8 @@ public:
      *
      * @return Reason for the awaken.
      */
-    eprosima::utils::event::AwakeReason wait_match(const eprosima::utils::Duration_ms &timeout = 0);
+    eprosima::utils::event::AwakeReason wait_match(
+            const eprosima::utils::Duration_ms& timeout = 0);
 
 protected:
 

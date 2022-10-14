@@ -43,10 +43,10 @@ class TargetedReader : public Reader<T>
 public:
 
     TargetedReader(
-        const types::AmlipIdDataType own_id,
-        const std::string& topic,
-        eprosima::utils::LesseePtr<DdsHandler> dds_handler,
-        eprosima::fastdds::dds::DataReaderQos qos = TargetedReader<T>::default_targetedreader_qos());
+            const types::AmlipIdDataType own_id,
+            const std::string& topic,
+            eprosima::utils::LesseePtr<DdsHandler> dds_handler,
+            eprosima::fastdds::dds::DataReaderQos qos = TargetedReader<T>::default_targetedreader_qos());
 
     static eprosima::fastdds::dds::DataReaderQos default_targetedreader_qos();
 

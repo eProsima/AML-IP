@@ -46,7 +46,7 @@ int main(
         qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;
 
         std::shared_ptr<eprosima::amlip::dds::Reader<eprosima::amlip::types::AmlipIdDataType>> reader =
-            participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic", qos);
+                participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic", qos);
 
         logUser(AMLIP_MANUAL_TEST, "Created Reader. Waiting for Id...");
 
@@ -62,7 +62,7 @@ int main(
 
         // Create Writer
         std::shared_ptr<eprosima::amlip::dds::DirectWriter<eprosima::amlip::types::AmlipIdDataType>> writer =
-            participant.create_direct_writer<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
+                participant.create_direct_writer<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
         logUser(AMLIP_MANUAL_TEST, "Created Direct Writer. Waiting to match with TargetedReader...");
 

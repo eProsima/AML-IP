@@ -48,7 +48,7 @@ eprosima::fastrtps::types::ReturnCode_t DirectWriter<T>::write(
         T& data)
 {
     std::shared_ptr<Writer<T>> target_writer =
-        get_target_writer_(target_id);
+            get_target_writer_(target_id);
 
     return target_writer->publish(data);
 }
@@ -56,7 +56,7 @@ eprosima::fastrtps::types::ReturnCode_t DirectWriter<T>::write(
 template <typename T>
 eprosima::utils::event::AwakeReason DirectWriter<T>::wait_match(
         const types::AmlipIdDataType& target_id,
-        const eprosima::utils::Duration_ms &timeout /* = 0 */)
+        const eprosima::utils::Duration_ms& timeout /* = 0 */)
 {
     // Get writer associated with this target (if it does not exist it creates it)
     std::shared_ptr<Writer<T>> target_writer = get_target_writer_(target_id);
@@ -72,7 +72,7 @@ eprosima::fastdds::dds::DataWriterQos DirectWriter<T>::default_directwriter_qos(
 
     // Preallocated with realloc
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
@@ -87,7 +87,7 @@ std::shared_ptr<Writer<T>> DirectWriter<T>::get_target_writer_(
 {
     auto it = writers_.find(target_id);
 
-    if(it == writers_.end())
+    if (it == writers_.end())
     {
         // Create new writer
         std::shared_ptr<Writer<T>> new_writer = std::make_shared<Writer<T>>(

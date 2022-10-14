@@ -73,9 +73,9 @@ public:
             DomainIdType domain = Participant::default_domain_id());
 
     Participant(
-        const char* name,
-        eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
-        DomainIdType domain = Participant::default_domain_id());
+            const char* name,
+            eprosima::fastdds::dds::DomainParticipantQos qos = Participant::default_participant_qos(),
+            DomainIdType domain = Participant::default_domain_id());
 
     //! Participant destructor
     virtual ~Participant();
@@ -98,19 +98,19 @@ public:
 
     template <typename T>
     std::shared_ptr<DirectWriter<T>> create_direct_writer(
-        const std::string& topic_name);
+            const std::string& topic_name);
 
     template <typename T>
     std::shared_ptr<TargetedReader<T>> create_targeted_reader(
-        const std::string& topic_name);
+            const std::string& topic_name);
 
     template <typename Data, typename Solution>
     std::shared_ptr<MultiServiceClient<Data, Solution>> create_multiservice_client(
-        const std::string& topic_name);
+            const std::string& topic_name);
 
     template <typename Data, typename Solution>
     std::shared_ptr<MultiServiceServer<Data, Solution>> create_multiservice_server(
-        const std::string& topic_name);
+            const std::string& topic_name);
 
     /**
      * @brief Return a default Participant QoS, based QoS for every Participant in amlip

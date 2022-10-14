@@ -46,9 +46,9 @@ class MultiServiceClient
 public:
 
     MultiServiceClient(
-        const types::AmlipIdDataType& own_id,
-        const std::string& topic,
-        eprosima::utils::LesseePtr<DdsHandler> dds_handler);
+            const types::AmlipIdDataType& own_id,
+            const std::string& topic,
+            eprosima::utils::LesseePtr<DdsHandler> dds_handler);
 
     ~MultiServiceClient();
 
@@ -61,7 +61,8 @@ public:
      * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
      * Thus, using multiple threads will cause desynchronization of messages received and locks.
      */
-    Solution send_request_sync(const Data& data);
+    Solution send_request_sync(
+            const Data& data);
 
 protected:
 

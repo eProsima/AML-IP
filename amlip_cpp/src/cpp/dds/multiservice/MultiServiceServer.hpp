@@ -46,9 +46,9 @@ class MultiServiceServer
 public:
 
     MultiServiceServer(
-        const types::AmlipIdDataType& own_id,
-        const std::string& topic,
-        eprosima::utils::LesseePtr<DdsHandler> dds_handler);
+            const types::AmlipIdDataType& own_id,
+            const std::string& topic,
+            eprosima::utils::LesseePtr<DdsHandler> dds_handler);
 
     ~MultiServiceServer();
 
@@ -62,7 +62,7 @@ public:
      * Thus, using multiple threads will cause desynchronization of messages received and locks.
      */
     types::MsReferenceDataType process_task_sync(
-        std::function<Solution(const Data&)> process_callback);
+            std::function<Solution(const Data&)> process_callback);
 
 protected:
 

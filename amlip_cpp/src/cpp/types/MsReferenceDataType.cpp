@@ -133,7 +133,8 @@ AmlipIdDataType MsReferenceDataType::server_id() const
     return server_id_;
 }
 
-void MsReferenceDataType::server_id(const AmlipIdDataType& new_value)
+void MsReferenceDataType::server_id(
+        const AmlipIdDataType& new_value)
 {
     server_id_ = new_value;
 }

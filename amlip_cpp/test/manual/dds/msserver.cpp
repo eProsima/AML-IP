@@ -25,7 +25,8 @@
 #include <dds/Participant.hpp>
 
 // To process the data, it will be created a new id with same id_num but in uppercase
-eprosima::amlip::types::AmlipIdDataType server_callback(const eprosima::amlip::types::AmlipIdDataType& data)
+eprosima::amlip::types::AmlipIdDataType server_callback(
+        const eprosima::amlip::types::AmlipIdDataType& data)
 {
     logUser(AMLIP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
 
@@ -60,8 +61,8 @@ int main(
         std::shared_ptr<
             eprosima::amlip::dds::MultiServiceServer<
                 eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>> server =
-            participant.create_multiservice_server<
-                eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
+                participant.create_multiservice_server<
+            eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
         logUser(AMLIP_MANUAL_TEST, "Created Server. Waiting data to process...");
 

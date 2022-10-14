@@ -35,11 +35,11 @@ TEST(MultiServiceTest, communicate_service_one_on_one)
 
     // Create a MS Client
     std::shared_ptr<MultiServiceClient<types::AmlipIdDataType, types::AmlipIdDataType>> client =
-        participant_client.create_multiservice_client<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+            participant_client.create_multiservice_client<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
 
     // Create a MS Server
     std::shared_ptr<MultiServiceServer<types::AmlipIdDataType, types::AmlipIdDataType>> server =
-        participant_server.create_multiservice_server<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+            participant_server.create_multiservice_server<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
 
     // Create a data
     types::AmlipIdDataType to_send_data(
@@ -56,7 +56,7 @@ TEST(MultiServiceTest, communicate_service_one_on_one)
         {
             types::MsReferenceDataType task_solved_reference = server->process_task_sync(
                 []
-                (const types::AmlipIdDataType& data)
+                    (const types::AmlipIdDataType& data)
                 {
                     auto id_received = data.id();
                     id_received[0] += 1;

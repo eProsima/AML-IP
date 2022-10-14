@@ -169,7 +169,8 @@ public:
 
     const T& data() const;
 
-    void data(T new_value);
+    void data(
+            T new_value);
 
 protected:
 

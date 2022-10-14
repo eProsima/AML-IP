@@ -119,7 +119,8 @@ public:
     /*!
      * TODO
      */
-    void server_id(const AmlipIdDataType& new_value);
+    void server_id(
+            const AmlipIdDataType& new_value);
 
     /////
     // InterfaceDataType methods

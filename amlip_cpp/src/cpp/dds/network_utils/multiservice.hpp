@@ -28,7 +28,8 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
-enum MultiServiceTopicType {
+enum MultiServiceTopicType
+{
     REQUEST_AVAILABILITY,
     REPLY_AVAILABLE,
     TASK_TARGET,

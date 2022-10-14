@@ -120,7 +120,8 @@ public:
     /*!
      * TODO
      */
-    void client_id(const AmlipIdDataType& new_value);
+    void client_id(
+            const AmlipIdDataType& new_value);
 
     /*!
      * TODO
@@ -130,7 +131,8 @@ public:
     /*!
      * TODO
      */
-    void task_id(const TaskId& new_value);
+    void task_id(
+            const TaskId& new_value);
 
     /////
     // InterfaceDataType methods

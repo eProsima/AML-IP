@@ -52,11 +52,11 @@ TEST(DirectMessageTest, communicate_writer_reader)
 
     // Create a writer
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer =
-        client_participant.create_direct_writer<types::AmlipIdDataType>("TestTopic_1");
+            client_participant.create_direct_writer<types::AmlipIdDataType>("TestTopic_1");
 
     // Create a reader
     std::shared_ptr<TargetedReader<types::AmlipIdDataType>> reader =
-        target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_1");
+            target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_1");
 
     // Create a data
     // TODO: refactor for any number of RAND_SIZE in AmlipId
@@ -92,11 +92,11 @@ TEST(DirectMessageTest, communicate_writer_reader_multiple_messages)
 
     // Create a writer
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer =
-        client_participant.create_direct_writer<types::AmlipIdDataType>("TestTopic_2");
+            client_participant.create_direct_writer<types::AmlipIdDataType>("TestTopic_2");
 
     // Create a reader
     std::shared_ptr<TargetedReader<types::AmlipIdDataType>> reader =
-        target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_2");
+            target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_2");
 
     // Create a data
     for (uint32_t i = 0; i < test::N_ITERATIONS_TEST; ++i)
@@ -121,7 +121,7 @@ TEST(DirectMessageTest, communicate_writer_reader_multiple_messages)
     }
 
     // Check the sum of ids is correct
-    ASSERT_EQ(ids_checksum, test::N_ITERATIONS_TEST * (test::N_ITERATIONS_TEST - 1) / 2);
+    ASSERT_EQ(ids_checksum, test::N_ITERATIONS_TEST* (test::N_ITERATIONS_TEST - 1) / 2);
 }
 
 /**
@@ -143,15 +143,15 @@ TEST(DirectMessageTest, communicate_multiple_writers_reader)
 
     // Create a writer 1
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer_1 =
-        client_participant_1.create_direct_writer<types::AmlipIdDataType>("TestTopic_3");
+            client_participant_1.create_direct_writer<types::AmlipIdDataType>("TestTopic_3");
 
     // Create a writer 2
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer_2 =
-        client_participant_2.create_direct_writer<types::AmlipIdDataType>("TestTopic_3");
+            client_participant_2.create_direct_writer<types::AmlipIdDataType>("TestTopic_3");
 
     // Create a reader
     std::shared_ptr<TargetedReader<types::AmlipIdDataType>> reader =
-        target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_3");
+            target_participant.create_targeted_reader<types::AmlipIdDataType>("TestTopic_3");
 
     // Create data
     types::AmlipIdDataType to_send_data_1(
@@ -199,15 +199,15 @@ TEST(DirectMessageTest, communicate_writer_multiple_readers)
 
     // Create a writer
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> writer =
-        client_participant.create_direct_writer<types::AmlipIdDataType>("TestTopic_4");
+            client_participant.create_direct_writer<types::AmlipIdDataType>("TestTopic_4");
 
     // Create a reader 1
     std::shared_ptr<TargetedReader<types::AmlipIdDataType>> reader_1 =
-        target_participant_1.create_targeted_reader<types::AmlipIdDataType>("TestTopic_4");
+            target_participant_1.create_targeted_reader<types::AmlipIdDataType>("TestTopic_4");
 
     // Create a reader 2
     std::shared_ptr<TargetedReader<types::AmlipIdDataType>> reader_2 =
-        target_participant_2.create_targeted_reader<types::AmlipIdDataType>("TestTopic_4");
+            target_participant_2.create_targeted_reader<types::AmlipIdDataType>("TestTopic_4");
 
     // Create data
     types::AmlipIdDataType to_send_data(

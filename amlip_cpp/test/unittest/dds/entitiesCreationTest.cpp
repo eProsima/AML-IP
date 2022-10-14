@@ -37,7 +37,7 @@ TEST(EntitiesCreationTest, create_writer)
     Participant participant(std::string("TestWriterParticipant"));
 
     std::shared_ptr<Writer<types::AmlipIdDataType>> entity_ =
-        participant.create_writer<types::AmlipIdDataType>("test_topic");
+            participant.create_writer<types::AmlipIdDataType>("test_topic");
 }
 
 /**
@@ -48,7 +48,7 @@ TEST(EntitiesCreationTest, create_reader)
     Participant participant(std::string("TestReaderParticipant"));
 
     std::shared_ptr<Reader<types::AmlipIdDataType>> entity_ =
-        participant.create_reader<types::AmlipIdDataType>("test_topic");
+            participant.create_reader<types::AmlipIdDataType>("test_topic");
 }
 
 /**
@@ -59,7 +59,7 @@ TEST(EntitiesCreationTest, create_directwriter)
     Participant participant(std::string("TestDirectWriterParticipant"));
 
     std::shared_ptr<DirectWriter<types::AmlipIdDataType>> entity_ =
-        participant.create_direct_writer<types::AmlipIdDataType>("test_topic");
+            participant.create_direct_writer<types::AmlipIdDataType>("test_topic");
 }
 
 /**
@@ -70,7 +70,7 @@ TEST(EntitiesCreationTest, create_targetedreader)
     Participant participant(std::string("TestTargetedReaderParticipant"));
 
     std::shared_ptr<TargetedReader<types::AmlipIdDataType>> entity_ =
-        participant.create_targeted_reader<types::AmlipIdDataType>("test_topic");
+            participant.create_targeted_reader<types::AmlipIdDataType>("test_topic");
 }
 
 /**
@@ -81,7 +81,7 @@ TEST(EntitiesCreationTest, create_ms_client)
     Participant participant(std::string("TestMsClientParticipant"));
 
     std::shared_ptr<MultiServiceClient<types::AmlipIdDataType, types::AmlipIdDataType>>  entity_ =
-        participant.create_multiservice_client<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+            participant.create_multiservice_client<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
 }
 
 /**
@@ -92,7 +92,7 @@ TEST(EntitiesCreationTest, create_ms_server)
     Participant participant(std::string("TestMsServerParticipant"));
 
     std::shared_ptr<MultiServiceServer<types::AmlipIdDataType, types::AmlipIdDataType>>  entity_ =
-        participant.create_multiservice_server<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+            participant.create_multiservice_server<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
 }
 
 int main(

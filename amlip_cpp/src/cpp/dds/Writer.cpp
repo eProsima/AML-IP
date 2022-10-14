@@ -56,7 +56,7 @@ uint32_t WriterListener::readers_matched() const noexcept
 }
 
 eprosima::utils::event::AwakeReason WriterListener::wait_match(
-        const eprosima::utils::Duration_ms &timeout /* = 0 */)
+        const eprosima::utils::Duration_ms& timeout /* = 0 */)
 {
     return writer_match_waiter_.wait(timeout);
 }

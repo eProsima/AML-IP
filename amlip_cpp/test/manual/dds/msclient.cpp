@@ -43,15 +43,15 @@ int main(
         std::shared_ptr<
             eprosima::amlip::dds::MultiServiceClient<
                 eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>> client =
-            participant.create_multiservice_client<
-                eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
+                participant.create_multiservice_client<
+            eprosima::amlip::types::AmlipIdDataType, eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
         eprosima::amlip::types::AmlipIdDataType data("testdata");
 
         logUser(AMLIP_MANUAL_TEST, "Created Client. Sending task data: " << data << " ...");
 
         // Wait for discover reader
-         eprosima::amlip::types::AmlipIdDataType solution = client->send_request_sync(data);
+        eprosima::amlip::types::AmlipIdDataType solution = client->send_request_sync(data);
 
         logUser(AMLIP_MANUAL_TEST, "Client has received solution: " << solution << " . Destroying entities...");
     }

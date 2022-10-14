@@ -75,7 +75,7 @@ void MsDataType<T>::serialize_key(
 
 template <typename T>
 size_t MsDataType<T>::get_max_cdr_serialized_size(
-            size_t current_alignment /* = 0 */)
+        size_t current_alignment /* = 0 */)
 {
     size_t initial_alignment = current_alignment;
 
@@ -88,8 +88,8 @@ size_t MsDataType<T>::get_max_cdr_serialized_size(
 
 template <typename T>
 size_t MsDataType<T>::get_cdr_serialized_size(
-            const MsDataType& data,
-            size_t current_alignment /* = 0 */)
+        const MsDataType& data,
+        size_t current_alignment /* = 0 */)
 {
     size_t initial_alignment = current_alignment;
 
@@ -102,7 +102,7 @@ size_t MsDataType<T>::get_cdr_serialized_size(
 
 template <typename T>
 size_t MsDataType<T>::get_key_max_cdr_serialized_size(
-            size_t current_alignment /* = 0 */)
+        size_t current_alignment /* = 0 */)
 {
     return current_alignment;
 }
@@ -127,7 +127,7 @@ bool MsDataType<T>::is_plain()
 
 template <typename T>
 bool MsDataType<T>::construct_sample(
-            void* memory)
+        void* memory)
 {
     if (!is_plain())
     {
@@ -157,7 +157,8 @@ const T& MsDataType<T>::data() const
 }
 
 template <typename T>
-void MsDataType<T>::data(T new_value)
+void MsDataType<T>::data(
+        T new_value)
 {
     data_ = new_value;
 }

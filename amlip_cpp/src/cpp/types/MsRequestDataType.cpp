@@ -117,7 +117,8 @@ AmlipIdDataType MsRequestDataType::client_id() const
     return client_id_;
 }
 
-void MsRequestDataType::client_id(const AmlipIdDataType& new_value)
+void MsRequestDataType::client_id(
+        const AmlipIdDataType& new_value)
 {
     client_id_ = new_value;
 }
@@ -127,7 +128,8 @@ TaskId MsRequestDataType::task_id() const
     return task_id_;
 }
 
-void MsRequestDataType::task_id(const TaskId& new_value)
+void MsRequestDataType::task_id(
+        const TaskId& new_value)
 {
     task_id_ = new_value;
 }
