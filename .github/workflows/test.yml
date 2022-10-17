@@ -241,8 +241,7 @@ jobs:
           colcon build \
             --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
-            --metas src/AML-IP/.github/workflows/test_colcon.meta \
-            --mixin coverage-gcc
+            --metas src/AML-IP/.github/workflows/test_colcon.meta
 
       - name: Run tests
         run: |
@@ -322,13 +321,6 @@ jobs:
           name: asan-logs
           path: log/
         if: always()
-
-      - name: Report ASAN errors
-        if: always()
-        run: |
-          echo -n "**ASAN Errors**: " >> $GITHUB_STEP_SUMMARY
-          echo $(sed 's/==.*==ERROR:/==.*==ERROR:\n/g' log/latest_test/AML-IP/stdout_stderr.log | grep -c "==.*==ERROR:") >> $GITHUB_STEP_SUMMARY
-          python3 src/AML-IP/.github/workflows/asan_log_parser.py
 
   clang-tidy:
     runs-on: ubuntu-latest
