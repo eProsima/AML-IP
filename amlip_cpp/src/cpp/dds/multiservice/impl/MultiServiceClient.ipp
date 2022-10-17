@@ -30,9 +30,7 @@ MultiServiceClient<Data, Solution>::MultiServiceClient(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
-    : own_id_(own_id)
-    , topic_(topic)
-    , request_availability_writer_(
+    : request_availability_writer_(
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REQUEST_AVAILABILITY),
         dds_handler,
         default_request_availability_writer_qos_()) // REQUEST_AVAILABILITY
@@ -51,6 +49,8 @@ MultiServiceClient<Data, Solution>::MultiServiceClient(
         own_id,
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
         dds_handler) // TASK_SOLUTION
+    , own_id_(own_id)
+    , topic_(topic)
     , last_task_id_used_(0)
 {
 }

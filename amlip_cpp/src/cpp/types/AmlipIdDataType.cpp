@@ -242,7 +242,7 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name_()
     // make sure a random seed is properly set in the main scope
 
     std::array<uint8_t, NAME_SIZE> name;
-    for (int i = 0; i < NAME_SIZE; i++)
+    for (uint32_t i = 0; i < NAME_SIZE; i++)
     {
         // generate a random char between 'a' and 'z'
         char c = 'a' + static_cast<char>(rand() % 26);
@@ -257,7 +257,7 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
     // make sure a random seed is properly set in the main scope
 
     std::array<uint8_t, RAND_SIZE> rand_id;
-    for (int i = 0; i < RAND_SIZE; i++)
+    for (uint32_t i = 0; i < RAND_SIZE; i++)
     {
         // generate a random number between 0 and 255
         uint8_t num = static_cast<uint8_t>(rand() % 256);

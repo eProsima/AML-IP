@@ -90,7 +90,7 @@ public:
     /*!
      * @brief Default destructor.
      */
-    ~AmlipIdDataType();
+    virtual ~AmlipIdDataType();
 
     /*!
      * @brief Copy constructor.

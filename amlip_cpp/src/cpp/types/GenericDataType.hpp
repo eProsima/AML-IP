@@ -59,7 +59,7 @@ public:
     /*!
      * @brief Default destructor.
      */
-    ~GenericDataType();
+    virtual ~GenericDataType();
 
     /*!
      * @brief Copy constructor not allowed.

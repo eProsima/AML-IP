@@ -61,7 +61,7 @@ public:
     /*!
      * @brief Default destructor.
      */
-    ~MsRequestDataType();
+    virtual ~MsRequestDataType();
 
     /*!
      * @brief Copy constructor.

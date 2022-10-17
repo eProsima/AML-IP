@@ -60,7 +60,7 @@ public:
     /*!
      * @brief Default destructor.
      */
-    ~MsReferenceDataType();
+    virtual ~MsReferenceDataType();
 
     /*!
      * @brief Copy constructor.

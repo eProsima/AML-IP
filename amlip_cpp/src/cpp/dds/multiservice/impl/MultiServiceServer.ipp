@@ -32,9 +32,7 @@ MultiServiceServer<Data, Solution>::MultiServiceServer(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
-    : own_id_(own_id)
-    , topic_(topic)
-    , request_availability_reader_(
+    : request_availability_reader_(
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REQUEST_AVAILABILITY),
         dds_handler,
         default_request_availability_reader_qos_()) // REQUEST_AVAILABILITY
@@ -52,6 +50,8 @@ MultiServiceServer<Data, Solution>::MultiServiceServer(
     , task_solution_writer_(
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
         dds_handler) // TASK_SOLUTION
+    , own_id_(own_id)
+    , topic_(topic)
 {
 }
 
