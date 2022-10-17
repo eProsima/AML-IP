@@ -124,7 +124,7 @@ jobs:
             --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/test_colcon.meta \
-            --mixin coverage-gcc asan-gcc
+            --mixin coverage-gcc
 
       - name: Run tests amlip_docs
         uses: ./src/AML-IP/.github/actions/run-test-ubuntu
@@ -242,7 +242,7 @@ jobs:
             --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/test_colcon.meta \
-            --mixin coverage-gcc asan-gcc
+            --mixin coverage-gcc
 
       - name: Run tests
         run: |
@@ -254,6 +254,81 @@ jobs:
             --ctest-args \
               --label-regex xfail \
               --timeout 60
+
+  asan-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: codecov
+
+    steps:
+      - name: Sync eProsima/AML-IP repository
+        uses: actions/checkout@v2
+        with:
+          path: src/AML-IP
+
+      - name: Install apt packages
+        uses: ./src/AML-IP/.github/actions/install-apt-packages
+
+      - name: Install GTest
+        uses: ./src/AML-IP/.github/actions/install-gtest-linux
+
+      - name: Install Python packages
+        uses: ./src/AML-IP/.github/actions/install-python-packages
+
+      - name: Get build eProsima dependencies Job Id
+        run: |
+          export JOB_ID=$(curl -sL $GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/build_eprosima_dependencies.yml/runs | \
+            jq '.workflow_runs[] | select(.status == "completed") | .id' | \
+            head -n 1)
+          echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
+
+      - name: Download eProsima dependencies
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build_eprosima_dependencies.yml
+          path: /home/runner/work/eprosima/install
+          name: ubuntu_eprosima_dependencies_install
+          run_id: ${{ env.eprosima_dependencies_job_id }}
+
+      - name: Update colcon mixin
+        run: |
+          colcon mixin add default \
+            https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+          colcon mixin update default
+        continue-on-error: true
+
+      - name: Build workspace
+        run: |
+          cat src/AML-IP/.github/workflows/asan_colcon.meta
+          source /home/runner/work/eprosima/install/setup.bash
+          colcon build \
+            --packages-up-to-regex amlip \
+            --event-handlers=console_direct+ \
+            --metas src/AML-IP/.github/workflows/asan_colcon.meta
+
+      - name: Run tests
+        run: |
+          source install/setup.bash && \
+          colcon test \
+            --packages-select-regex amlip \
+            --event-handlers=console_direct+ \
+            --return-code-on-test-failure \
+            --ctest-args \
+              --timeout 60
+
+      - name: Upload Logs
+        uses: actions/upload-artifact@v1
+        with:
+          name: asan-logs
+          path: log/
+        if: always()
+
+      - name: Report ASAN errors
+        if: always()
+        run: |
+          echo -n "**ASAN Errors**: " >> $GITHUB_STEP_SUMMARY
+          echo $(sed 's/==.*==ERROR:/==.*==ERROR:\n/g' log/latest_test/AML-IP/stdout_stderr.log | grep -c "==.*==ERROR:") >> $GITHUB_STEP_SUMMARY
+          python3 src/AML-IP/.github/workflows/asan_log_parser.py
 
   clang-tidy:
     runs-on: ubuntu-latest
