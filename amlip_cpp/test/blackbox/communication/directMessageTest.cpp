@@ -177,7 +177,7 @@ TEST(DirectMessageTest, communicate_multiple_writers_reader)
     }
 
     // Check the sum of ids is correct
-    ASSERT_EQ(ids_checksum, 3);
+    ASSERT_EQ(ids_checksum, 3u);
 }
 
 /**
