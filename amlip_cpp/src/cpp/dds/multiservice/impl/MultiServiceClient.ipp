@@ -19,7 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <dds/network_utils/dds_qos.hpp>
 #include <dds/network_utils/multiservice.hpp>

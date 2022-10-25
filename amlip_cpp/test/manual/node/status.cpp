@@ -19,8 +19,8 @@
 
 #include <thread>
 
-#include <ddsrouter_utils/Log.hpp>
-#include <ddsrouter_event/SignalEventHandler.hpp>
+#include <cpp_utils/Log.hpp>
+#include <cpp_utils/event/SignalEventHandler.hpp>
 
 #include <types/AmlipIdDataType.hpp>
 #include <node/StatusNode.hpp>
@@ -33,7 +33,7 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
 
@@ -54,7 +54,7 @@ int main(
 
         logUser(AMLIP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
 
-        eprosima::ddsrouter::event::SignalEventHandler<SIGINT> sigint_handler;
+        eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
         sigint_handler.wait_for_event();
 
         logUser(AMLIP_MANUAL_TEST, "SIGINT received. Destroying entities...");

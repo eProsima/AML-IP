@@ -89,6 +89,12 @@ protected:
 
 };
 
+//! \c MultiServiceClient to stream serializator
+template <typename Data, typename Solution>
+std::ostream& operator <<(
+        std::ostream& os,
+        const MultiServiceClient<Data, Solution>& obj);
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

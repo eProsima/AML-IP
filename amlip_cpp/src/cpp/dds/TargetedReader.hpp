@@ -52,6 +52,12 @@ public:
 
 };
 
+//! \c TargetedReader to stream serializator
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const TargetedReader<T>& obj);
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

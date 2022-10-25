@@ -32,7 +32,7 @@ using namespace eprosima::fastcdr::exception;
 #include <array>
 #include <stdlib.h>
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <types/GenericDataType.hpp>
 

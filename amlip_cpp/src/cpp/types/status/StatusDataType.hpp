@@ -79,6 +79,8 @@ public:
         NodeKind node_kind,
         StateKind state);
 
+    virtual ~StatusDataType() = default;
+
     /*!
      * @brief Comparison operator.
      * @param x StatusDataType object to compare.

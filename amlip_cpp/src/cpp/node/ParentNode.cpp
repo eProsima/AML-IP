@@ -16,7 +16,7 @@
  * @file ParentNode.cpp
  */
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <network/topic.hpp>
 #include <node/ParentNode.hpp>
@@ -27,11 +27,11 @@ namespace node {
 
 ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
     : participant_(name)
-    , current_state_(types::StateKind::STOPPED)
-    , node_kind_(node_kind)
     , status_writer_(participant_.create_writer<types::StatusDataType>(
         network::STATUS_TOPIC_NAME,
         network::status_writer_qos()))
+    , current_state_(types::StateKind::STOPPED)
+    , node_kind_(node_kind)
 {
     logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
     publish_status_();
@@ -72,7 +72,7 @@ void ParentNode::change_status_(types::StateKind new_state) noexcept
     publish_status_();
 }
 
-void ParentNode::publish_status_() noexcept
+void ParentNode::publish_status_() const noexcept
 {
     // Create status data
     types::StatusDataType status(

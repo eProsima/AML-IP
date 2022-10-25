@@ -19,8 +19,8 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
-#include <ddsrouter_utils/ReturnCode.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/ReturnCode.hpp>
 
 #include <types/status/StatusDataType.hpp>
 #include <dds/Participant.hpp>
@@ -41,7 +41,7 @@ public:
     //! Copy constructor not allowed
     ParentNode(const ParentNode& x) = delete;
 
-    ~ParentNode();
+    virtual ~ParentNode();
 
     types::AmlipIdDataType id() const noexcept;
 

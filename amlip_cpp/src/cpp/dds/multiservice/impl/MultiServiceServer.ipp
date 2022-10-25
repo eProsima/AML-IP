@@ -99,7 +99,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
             // Check if it is the reference we are expecting
             if (task_target.client_id() != reference.client_id() ||
-                    task_target.server_id() != own_id_)
+                    task_target.task_id() != reference.task_id())
             {
                 // If not, continue waiting
                 logDebug(AMLIPCPP_DDS_MSSERVER, "Request received but not valid: " << task_target << ". Keep waiting.");

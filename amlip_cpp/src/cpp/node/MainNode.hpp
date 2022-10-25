@@ -21,8 +21,8 @@
 
 #include <functional>
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
-#include <ddsrouter_utils/ReturnCode.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/ReturnCode.hpp>
 
 #include <node/ParentNode.hpp>
 #include <types/job/JobDataType.hpp>

@@ -16,8 +16,8 @@
  * @file ComputingNode.cpp
  */
 
-#include <ddsrouter_utils/Log.hpp>
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <cpp_utils/Log.hpp>
+#include <cpp_utils/exception/InconsistencyException.hpp>
 
 #include <network/topic.hpp>
 #include <node/ComputingNode.hpp>

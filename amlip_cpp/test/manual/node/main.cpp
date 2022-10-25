@@ -19,7 +19,7 @@
 
 #include <thread>
 
-#include <ddsrouter_utils/Log.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <types/AmlipIdDataType.hpp>
 #include <node/MainNode.hpp>
@@ -35,7 +35,7 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    eprosima::ddsrouter::utils::Log::SetVerbosity(eprosima::ddsrouter::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Main Node execution. Creating Node...");
 

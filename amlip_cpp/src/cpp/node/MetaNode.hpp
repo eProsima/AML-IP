@@ -19,7 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_METANODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_METANODE_HPP
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
 #include <dds/Participant.hpp>
 

@@ -127,6 +127,12 @@ protected:
     std::map<types::AmlipIdDataType, std::shared_ptr<Writer<T>>> writers_;
 };
 
+//! \c DirectWriter to stream serializator
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const DirectWriter<T>& obj);
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

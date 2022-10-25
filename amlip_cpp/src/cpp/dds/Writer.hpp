@@ -150,7 +150,19 @@ protected:
 
     //! DDS DataWriter reference
     eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> datawriter_;
+
+    // Allow operator << to access private members
+    template <typename U>
+    friend std::ostream& operator <<(
+        std::ostream& os,
+        const Writer<U>& obj);
 };
+
+//! \c Writer to stream serializator
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const Writer<T>& obj);
 
 } /* namespace dds */
 } /* namespace amlip */

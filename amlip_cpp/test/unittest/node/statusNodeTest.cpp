@@ -26,6 +26,15 @@ namespace test {
 
 uint32_t PROCESS_DATA_TIME_MS = 100u;
 
+class DummyNode : public ParentNode
+{
+public:
+    DummyNode(const std::string& name, types::NodeKind node_kind)
+        : ParentNode(name, node_kind)
+    {
+    }
+};
+
 } /* namespace test */
 } /* namespace node */
 } /* namespace amlip */
@@ -102,8 +111,8 @@ TEST(StatusNodeTest, process_status_parent)
 
     {
         // Create Parent Node to be destroyed afterwards
-        node::ParentNode parent_node("TestParentNode", types::NodeKind::UNDETERMINED);
-        parent_id = parent_node.id();
+        node::test::DummyNode dummy_node("TestParentNode", types::NodeKind::UNDETERMINED);
+        parent_id = dummy_node.id();
 
         // Wait so status reader has time to process the data
         std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
@@ -236,13 +245,13 @@ TEST(StatusNodeTest, process_status_state)
         }
     }
 
-    ASSERT_EQ(node_1_drop, 1);
-    ASSERT_EQ(node_1_run, 1);
-    ASSERT_EQ(node_1_stop, 2);
+    ASSERT_EQ(node_1_drop, 1u);
+    ASSERT_EQ(node_1_run, 1u);
+    ASSERT_EQ(node_1_stop, 2u);
 
-    ASSERT_EQ(node_2_drop, 1);
-    ASSERT_EQ(node_2_run, 0);
-    ASSERT_EQ(node_2_stop, 1);
+    ASSERT_EQ(node_2_drop, 1u);
+    ASSERT_EQ(node_2_run, 0u);
+    ASSERT_EQ(node_2_stop, 1u);
 }
 
 int main(

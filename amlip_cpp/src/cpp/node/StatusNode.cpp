@@ -16,8 +16,8 @@
  * @file StatusNode.cpp
  */
 
-#include <ddsrouter_utils/Log.hpp>
-#include <ddsrouter_utils/exception/InconsistencyException.hpp>
+#include <cpp_utils/Log.hpp>
+#include <cpp_utils/exception/InconsistencyException.hpp>
 
 #include <network/topic.hpp>
 #include <node/StatusNode.hpp>
@@ -59,7 +59,7 @@ void StatusNode::process_status_async(
 {
     if (processing_)
     {
-        throw ddsrouter::utils::InconsistencyException(
+        throw utils::InconsistencyException(
             STR_ENTRY << "Status node " << this << " is already processing data.");
     }
     else
@@ -89,9 +89,9 @@ void StatusNode::process_routine_(
     while(processing_)
     {
         // Wait for data
-        ddsrouter::event::AwakeReason reason = status_reader_->wait_data_available();
+        utils::event::AwakeReason reason = status_reader_->wait_data_available();
 
-        if (reason == ddsrouter::event::AwakeReason::DISABLED)
+        if (reason == utils::event::AwakeReason::disabled)
         {
             logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " finished processing data.");
 

@@ -22,8 +22,8 @@
 #include <functional>
 #include <thread>
 
-#include <ddsrouter_utils/memory/OwnerPtr.hpp>
-#include <ddsrouter_utils/ReturnCode.hpp>
+#include <cpp_utils/memory/owner_ptr.hpp>
+#include <cpp_utils/ReturnCode.hpp>
 
 #include <types/status/StatusDataType.hpp>
 #include <node/ParentNode.hpp>
@@ -64,11 +64,11 @@ protected:
     void process_routine_(
             const std::function<void(const types::StatusDataType&)>& callback);
 
-    std::atomic<bool> processing_;
-
     std::thread process_thread_;
 
     std::shared_ptr<dds::Reader<types::StatusDataType>> status_reader_;
+
+    std::atomic<bool> processing_;
 };
 
 } /* namespace node */

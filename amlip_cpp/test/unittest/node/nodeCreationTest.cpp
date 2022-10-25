@@ -21,6 +21,25 @@
 #include <node/StatusNode.hpp>
 #include <types/AmlipIdDataType.hpp>
 
+namespace eprosima {
+namespace amlip {
+namespace node {
+namespace test {
+
+class DummyNode : public ParentNode
+{
+public:
+    DummyNode(const std::string& name, types::NodeKind node_kind)
+        : ParentNode(name, node_kind)
+    {
+    }
+};
+
+} /* namespace test */
+} /* namespace node */
+} /* namespace amlip */
+} /* namespace eprosima */
+
 using namespace eprosima::amlip;
 
 /**
@@ -28,7 +47,7 @@ using namespace eprosima::amlip;
  */
 TEST(NodeCreationTest, create_parent)
 {
-    node::ParentNode node("TestNode", types::NodeKind::UNDETERMINED);
+    node::test::DummyNode node("TestNode", types::NodeKind::UNDETERMINED);
 
     ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
     ASSERT_EQ(types::NodeKind::UNDETERMINED, node.node_kind());
