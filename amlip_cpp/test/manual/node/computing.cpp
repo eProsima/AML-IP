@@ -17,12 +17,13 @@
  *
  */
 
+#include <algorithm>
 #include <thread>
 
 #include <cpp_utils/Log.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <amlip_cpp/node/ComputationalNode.hpp>
+#include <amlip_cpp/node/ComputingNode.hpp>
 
 /*
  * The job in this example will be a string serialized to bytes.

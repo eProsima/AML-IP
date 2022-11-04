@@ -22,6 +22,8 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 
+#include <cpp_utils/macros/custom_enumeration.hpp>
+
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 

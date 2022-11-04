@@ -17,7 +17,8 @@
  */
 
 #include <fastcdr/Cdr.h>
-#include <ddsrouter_utils/utils.hpp>
+
+#include <cpp_utils/utils.hpp>
 
 #include <types/status/StatusDataType.hpp>
 
@@ -79,7 +80,7 @@ bool StatusDataType::is_defined() const noexcept
 
 std::string StatusDataType::to_string() const noexcept
 {
-    return ddsrouter::utils::to_string(*this);
+    return utils::generic_to_string(*this);
 }
 
 void StatusDataType::serialize(

@@ -34,7 +34,6 @@
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
-#include <types/AmlipIdDataType.hpp>
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/multiservice/MultiServiceServer.hpp>
 

@@ -26,6 +26,7 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
+<<<<<<< HEAD
 ParentNode::ParentNode(
         const char* name,
         types::NodeKind node_kind)
@@ -33,6 +34,13 @@ ParentNode::ParentNode(
     , status_writer_(participant_.create_writer<types::StatusDataType>(
                 network::STATUS_TOPIC_NAME,
                 network::status_writer_qos()))
+=======
+ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
+    : participant_(std::make_unique<dds::Participant>(name))
+    , status_writer_(participant_->create_writer<types::StatusDataType>(
+        network::STATUS_TOPIC_NAME,
+        network::status_writer_qos()))
+>>>>>>> 3706473... Refs #14546: Fix rebase
     , current_state_(types::StateKind::stopped)
     , node_kind_(node_kind)
 {

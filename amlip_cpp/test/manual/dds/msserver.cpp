@@ -17,6 +17,7 @@
  *
  */
 
+#include <algorithm>
 #include <thread>
 
 #include <cpp_utils/Log.hpp>

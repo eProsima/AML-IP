@@ -15,7 +15,7 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <amlip_cpp/node/ComputationalNode.hpp>
+#include <amlip_cpp/node/ComputingNode.hpp>
 #include <amlip_cpp/node/MainNode.hpp>
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>

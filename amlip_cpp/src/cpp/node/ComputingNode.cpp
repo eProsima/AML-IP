@@ -19,7 +19,7 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
-#include <amlip_cpp/node/ComputationalNode.hpp>
+#include <amlip_cpp/node/ComputingNode.hpp>
 
 #include <dds/multiservice/MultiServiceServer.hpp>
 #include <dds/Participant.hpp>
@@ -32,8 +32,8 @@ namespace node {
 ComputingNode::ComputingNode(
         const char* name)
     : ParentNode(name, types::NodeKind::computing)
-    , job_server_(participant_.create_multiservice_server<types::JobDataType, types::SolutionDataType>(
-                network::JOB_TOPIC_NAME))
+    , job_server_(participant_->create_multiservice_server<types::JobDataType, types::SolutionDataType>(
+        network::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_COMPUTING, "Created new Computing Node: " << *this << ".");
 }
