@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class ComputationalNode
+// Binding for class ComputingNode
 ////////////////////////////////////////////////////////
 
 // Import parent class
@@ -35,8 +35,8 @@
 }
 
 %{
-#include <amlip_cpp/node/ComputationalNode.hpp>
+#include <amlip_cpp/node/ComputingNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/node/ComputationalNode.hpp>
+%include <amlip_cpp/node/ComputingNode.hpp>

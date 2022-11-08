@@ -75,7 +75,7 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/multiservice/MsRequestDataType.i"
 %include "amlip_swig/types/status/StatusDataType.i"
 // node
-%include "amlip_swig/node/ComputationalNode.i"
+%include "amlip_swig/node/ComputingNode.i"
 %include "amlip_swig/node/MainNode.i"
 %include "amlip_swig/node/ParentNode.i"
 %include "amlip_swig/node/StatusNode.i"
