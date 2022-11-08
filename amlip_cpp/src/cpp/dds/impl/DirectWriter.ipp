@@ -19,6 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_IMPL_DIRECTWRITER_IPP
 
+#include <dds/network_utils/dds_qos.hpp>
 #include <dds/network_utils/direct_write.hpp>
 
 namespace eprosima {
@@ -68,11 +69,7 @@ eprosima::utils::event::AwakeReason DirectWriter<T>::wait_match(
 template <typename T>
 eprosima::fastdds::dds::DataWriterQos DirectWriter<T>::default_directwriter_qos()
 {
-    eprosima::fastdds::dds::DataWriterQos qos = eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT;
-
-    // Preallocated with realloc
-    qos.endpoint().history_memory_policy =
-            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+    eprosima::fastdds::dds::DataWriterQos qos = utils::default_datawriter_qos();
 
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
@@ -101,6 +98,19 @@ std::shared_ptr<Writer<T>> DirectWriter<T>::get_target_writer_(
     {
         return it->second;
     }
+}
+
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const DirectWriter<T>& obj)
+{
+    os << "DIRECT_WRITER{";
+    os << obj.topic_ << ";";
+    os << obj.datawriter_->guid();
+    os << "}";
+
+    return os;
 }
 
 } /* namespace dds */

@@ -12,40 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file multiservice.hpp
+/*!
+ * @file JobDataType.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
-#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
+#ifndef AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
 
-#include <string>
-
-#include <cpp_utils/macros/custom_enumeration.hpp>
-
-#include <types/AmlipIdDataType.hpp>
+#include <types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace dds {
-namespace utils {
+namespace types {
 
-ENUMERATION_BUILDER(
-    MultiServiceTopicType,
-    request_availability,
-    reply_available,
-    task_target,
-    task_data,
-    task_solution
-    );
+/*!
+ * @brief AML Job Task Data Type
+ *
+ * This class may be reimplemented according with AML team designs.
+ */
+class JobDataType : public GenericDataType
+{
+public:
 
-std::string multiservice_topic_mangling(
-        const std::string& actual_topic_name,
-        const MultiServiceTopicType& internal_topic_type);
+    //! Use parent constructors
+    using GenericDataType::GenericDataType;
 
-} /* namespace utils */
-} /* namespace dds */
+};
+
+} /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP */
+#endif // AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP

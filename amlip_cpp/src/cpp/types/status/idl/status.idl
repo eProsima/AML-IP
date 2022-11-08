@@ -1,0 +1,29 @@
+
+// This is an example file with an IDL interface for Status Data Type.
+// The code of StatusDataType it is based in this interface, but it is not exact and it is not generated
+// from Fast DDS Gen
+
+enum NodeKind
+{
+    UNDETERMINED,
+    DISCOVERY,
+    AGENT,
+    MAIN,
+    COMPUTING,
+    EDGE,
+    STATUS
+};
+
+enum StatusKind
+{
+    RUNNING,
+    STOPPED,
+    DROPPED,
+};
+
+struct Status
+{
+    AmlipId id;
+    NodeKind node_kind;
+    StatusKind status;
+};

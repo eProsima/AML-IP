@@ -13,39 +13,31 @@
 // limitations under the License.
 
 /**
- * @file multiservice.hpp
+ * @file topic.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
-#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
+#ifndef AMLIPCPP__SRC_CPP_NETWORK_TOPIC_HPP
+#define AMLIPCPP__SRC_CPP_NETWORK_TOPIC_HPP
 
 #include <string>
 
-#include <cpp_utils/macros/custom_enumeration.hpp>
-
-#include <types/AmlipIdDataType.hpp>
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace dds {
-namespace utils {
+namespace network {
 
-ENUMERATION_BUILDER(
-    MultiServiceTopicType,
-    request_availability,
-    reply_available,
-    task_target,
-    task_data,
-    task_solution
-    );
+constexpr const char* STATUS_TOPIC_NAME = "status";
 
-std::string multiservice_topic_mangling(
-        const std::string& actual_topic_name,
-        const MultiServiceTopicType& internal_topic_type);
+constexpr const char* JOB_TOPIC_NAME = "job";
 
-} /* namespace utils */
-} /* namespace dds */
+eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept;
+
+eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
+
+} /* namespace network */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP */
+#endif /* AMLIPCPP__SRC_CPP_NETWORK_TOPIC_HPP */

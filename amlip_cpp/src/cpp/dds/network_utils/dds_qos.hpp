@@ -13,39 +13,36 @@
 // limitations under the License.
 
 /**
- * @file multiservice.hpp
+ * @file dds_qos.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
-#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
+#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DDSQOS_HPP
+#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DDSQOS_HPP
 
-#include <string>
-
-#include <cpp_utils/macros/custom_enumeration.hpp>
-
-#include <types/AmlipIdDataType.hpp>
+#include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
+#include <fastdds/dds/publisher/qos/PublisherQos.hpp>
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+#include <fastdds/dds/subscriber/qos/SubscriberQos.hpp>
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
 namespace utils {
 
-ENUMERATION_BUILDER(
-    MultiServiceTopicType,
-    request_availability,
-    reply_available,
-    task_target,
-    task_data,
-    task_solution
-    );
+fastdds::dds::DomainParticipantQos default_domain_participant_qos();
 
-std::string multiservice_topic_mangling(
-        const std::string& actual_topic_name,
-        const MultiServiceTopicType& internal_topic_type);
+fastdds::dds::PublisherQos default_publisher_qos();
+
+fastdds::dds::DataWriterQos default_datawriter_qos();
+
+fastdds::dds::SubscriberQos default_subscriber_qos();
+
+fastdds::dds::DataReaderQos default_datareader_qos();
 
 } /* namespace utils */
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP */
+#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_DDSQOS_HPP */

@@ -32,6 +32,8 @@ using namespace eprosima::fastcdr::exception;
 #include <array>
 #include <stdlib.h>
 
+#include <cpp_utils/Log.hpp>
+
 #include <types/GenericDataType.hpp>
 
 namespace eprosima {
@@ -43,10 +45,11 @@ const size_t GenericDataType::DEFAULT_PREALLOCATED_SIZE_ = 16;
 
 GenericDataType::GenericDataType(
         void* data,
-        const uint32_t size)
+        const uint32_t size,
+        bool take_ownership /* = false */)
     : data_(data)
     , data_size_(size)
-    , has_been_allocated_(false)
+    , has_been_allocated_(take_ownership)
 {
 }
 
@@ -60,7 +63,29 @@ GenericDataType::~GenericDataType()
     // In case the data has been allocated from this class, we free it.
     if (has_been_allocated_)
     {
+        logDebug(AMLIPCPP_TYPES_GENERIC, "Releasing data allocated.");
         free(data_);
+    }
+}
+
+GenericDataType::GenericDataType(
+        const GenericDataType& x)
+{
+    if (x.has_been_allocated_)
+    {
+        logWarning(
+            AMLIPCPP_TYPES_GENERIC,
+            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
+        data_size_ = x.data_size_;
+        data_ = malloc(data_size_ * sizeof(uint8_t));
+        std::memcpy(data_, x.data_, data_size_);
+        has_been_allocated_.store(true);
+    }
+    else
+    {
+        data_ = x.data_;
+        data_size_ = x.data_size_;
+        has_been_allocated_.store(false);
     }
 }
 

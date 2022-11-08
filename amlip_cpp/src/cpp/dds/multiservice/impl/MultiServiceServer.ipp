@@ -19,9 +19,10 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICESERVER_IPP
 
-#include <dds/network_utils/multiservice.hpp>
-
 #include <cpp_utils/Log.hpp>
+
+#include <dds/network_utils/dds_qos.hpp>
+#include <dds/network_utils/multiservice.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -33,22 +34,22 @@ MultiServiceServer<Data, Solution>::MultiServiceServer(
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : request_availability_reader_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REQUEST_AVAILABILITY),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::request_availability),
         dds_handler,
         default_request_availability_reader_qos_()) // REQUEST_AVAILABILITY
     , reply_available_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REPLY_AVAILABLE),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::reply_available),
         dds_handler) // REPLY_AVAILABLE
     , task_target_reader_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_TARGET),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_target),
         dds_handler,
         default_task_target_reader_qos_()) // TASK_TARGET
     , task_data_reader_(
         own_id,
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_DATA),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_data),
         dds_handler) // TASK_DATA
     , task_solution_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
         dds_handler) // TASK_SOLUTION
     , own_id_(own_id)
     , topic_(topic)
@@ -65,6 +66,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
         std::function<Solution(const Data&)> process_callback)
 {
     types::MsReferenceDataType task_target;
+    logDebug(AMLIPCPP_DDS_MSSERVER, "Waiting for request in: " << own_id_ << ".");
 
     while (true)
     {
@@ -73,6 +75,8 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
         // read request
         types::MsRequestDataType request = request_availability_reader_.read();
+
+        logDebug(AMLIPCPP_DDS_MSSERVER, "Request received: " << request << ". Sending available reply.");
 
         // ANSWER AVAILABLE
         // Create data
@@ -95,9 +99,10 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
             // Check if it is the reference we are expecting
             if (task_target.client_id() != reference.client_id() ||
-                    task_target.server_id() != reference.server_id())
+                    task_target.task_id() != reference.task_id())
             {
                 // If not, continue waiting
+                logDebug(AMLIPCPP_DDS_MSSERVER, "Request received but not valid: " << task_target << ". Keep waiting.");
                 continue;
             }
             else
@@ -107,10 +112,16 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
             }
         }
 
-        if (task_target.server_id() == own_id_)
+        if (task_target.client_id() == reference.client_id() && task_target.server_id() == own_id_)
         {
             // This is the target, stop waiting
             break;
+        }
+        else
+        {
+            logDebug(
+                AMLIPCPP_DDS_MSSERVER,
+                "Task: " << request << " lost due to other server has been taken. Start over.");
         }
     }
 
@@ -131,8 +142,8 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
     // Create solution data
     types::MsDataType<Solution> ms_solution(
-        task_target,
-        solution);
+        types::MsReferenceDataType(task_target),
+        std::move(solution));
 
     // Send solution
     task_solution_writer_.write(task_target.client_id(), ms_solution);
@@ -143,10 +154,8 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 template <typename Data, typename Solution>
 eprosima::fastdds::dds::DataReaderQos MultiServiceServer<Data, Solution>::default_request_availability_reader_qos_()
 {
-    eprosima::fastdds::dds::DataReaderQos qos;
+    eprosima::fastdds::dds::DataReaderQos qos = utils::default_datareader_qos();
 
-    qos.endpoint().history_memory_policy =
-            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;

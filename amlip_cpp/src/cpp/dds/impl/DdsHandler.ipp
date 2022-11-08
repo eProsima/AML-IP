@@ -143,7 +143,7 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::creat
     // Force T to be subclass of InterfaceDataType
     FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
 
-    logDebug(AMLIPCPP_DDSHANDLER, "Creating DatWriter in topic " << topic_name << ".");
+    logDebug(AMLIPCPP_DDSHANDLER, "Creating DataWriter in topic " << topic_name << ".");
 
     // Get Topic (in case it does already exist return reference)
     eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> topic_ =
@@ -180,7 +180,7 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::creat
     }
 
     logInfo(AMLIPCPP_DDSHANDLER, "DataWriter created in topic " << topic_name <<
-            "with GUID: " << datawriter->guid() << ".");
+            " with GUID: " << datawriter->guid() << ".");
 
     // Store datawriter
     auto datawriter_lessee = datawriter.lease();
@@ -236,7 +236,7 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::creat
     }
 
     logInfo(AMLIPCPP_DDSHANDLER, "DataReader created in topic " << topic_name <<
-            "with GUID: " << datareader->guid() << ".");
+            " with GUID: " << datareader->guid() << ".");
 
     // Stor datareader
     auto datareader_lessee = datareader.lease();

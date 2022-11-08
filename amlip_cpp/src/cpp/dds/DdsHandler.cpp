@@ -21,6 +21,7 @@
 #include <cpp_utils/Log.hpp>
 
 #include <dds/DdsHandler.hpp>
+#include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -55,7 +56,7 @@ DdsHandler::DdsHandler(
 
     // CREATE FASTDDS PUBLISHER
     publisher_.reset(
-        participant_->create_publisher(default_publisher_qos_(), nullptr),
+        participant_->create_publisher(utils::default_publisher_qos(), nullptr),
         [this](eprosima::fastdds::dds::Publisher* publisher)
         {
             logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Publisher.");
@@ -73,7 +74,7 @@ DdsHandler::DdsHandler(
 
     // CREATE FASTDDS SUBSCRIBER
     subscriber_.reset(
-        participant_->create_subscriber(default_subscriber_qos_(), nullptr),
+        participant_->create_subscriber(utils::default_subscriber_qos(), nullptr),
         [this](eprosima::fastdds::dds::Subscriber* subscriber)
         {
             logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Subscriber.");
@@ -106,16 +107,6 @@ DdsHandler::~DdsHandler()
     participant_.reset();
 
     logDebug(AMLIPCPP_DDSHANDLER, "DdsHandler destroyed.");
-}
-
-eprosima::fastdds::dds::PublisherQos DdsHandler::default_publisher_qos_() noexcept
-{
-    return eprosima::fastdds::dds::PUBLISHER_QOS_DEFAULT;
-}
-
-eprosima::fastdds::dds::SubscriberQos DdsHandler::default_subscriber_qos_() noexcept
-{
-    return eprosima::fastdds::dds::SUBSCRIBER_QOS_DEFAULT;
 }
 
 } /* namespace dds */

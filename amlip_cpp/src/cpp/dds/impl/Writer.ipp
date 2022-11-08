@@ -19,6 +19,8 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 
+#include <dds/network_utils/dds_qos.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -36,7 +38,14 @@ Writer<T>::Writer(
         topic_,
         qos);
 
-    datawriter_->set_listener(this);
+    auto datawriter_locked = datawriter_.lock_with_exception();
+
+    // TODO: this produces a TSAN issue as listener could be called before totally create the object.
+    datawriter_locked->set_listener(this);
+
+    logDebug(
+        AMLIPCPP_DDS_WRITER,
+        "Writer created: " << *this << ".");
 }
 
 template <typename T>
@@ -45,6 +54,10 @@ Writer<T>::~Writer()
     // Unsetting listener for datawriter, as the datawriter could be alive after this object has been destroyed
     // In case datawriter has already been destroyed, do nothing
     auto datawriter_locked = datawriter_.lock();
+
+    logDebug(
+        AMLIPCPP_DDS_WRITER,
+        "Destroying writer:  " << *this << ".");
 
     if (datawriter_locked)
     {
@@ -57,22 +70,31 @@ eprosima::fastrtps::types::ReturnCode_t Writer<T>::publish(
         T& data)
 {
     auto datawriter_locked = datawriter_.lock_with_exception();
+
+    logDebug(
+        AMLIPCPP_DDS_WRITER,
+        "Writing message: " << data << " from: " << *this << ".");
+
     return datawriter_locked->write(&data);
 }
 
 template <typename T>
 eprosima::fastdds::dds::DataWriterQos Writer<T>::default_datawriter_qos()
 {
-    eprosima::fastdds::dds::DataWriterQos qos = eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT;
+    return utils::default_datawriter_qos();
+}
 
-    // Preallocated with realloc
-    qos.endpoint().history_memory_policy =
-            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const Writer<T>& obj)
+{
+    os << "WRITER{";
+    os << obj.topic_ << ";";
+    os << obj.datawriter_->guid();
+    os << "}";
 
-    // Disabling datasharing
-    qos.data_sharing().off();
-
-    return qos;
+    return os;
 }
 
 } /* namespace dds */

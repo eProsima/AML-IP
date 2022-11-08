@@ -22,6 +22,8 @@
 #include <cpp_utils/exception/InconsistencyException.hpp>
 #include <cpp_utils/Log.hpp>
 
+#include <dds/network_utils/dds_qos.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -40,6 +42,10 @@ Reader<T>::Reader(
         qos);
 
     datareader_->set_listener(this);
+
+    logDebug(
+        AMLIPCPP_DDS_READER,
+        "Reader created: " << *this << ".");
 }
 
 template <typename T>
@@ -47,6 +53,10 @@ Reader<T>::~Reader()
 {
     // Stop every waiting thread
     reader_data_waiter_.blocking_disable();
+
+    logDebug(
+        AMLIPCPP_DDS_READER,
+        "Destroying Reader: " << *this << ".");
 
     auto guarded_ptr = datareader_.lock();
     if (guarded_ptr)
@@ -56,10 +66,16 @@ Reader<T>::~Reader()
 }
 
 template <typename T>
-void Reader<T>::wait_data_available(
+eprosima::utils::event::AwakeReason Reader<T>::wait_data_available(
         uint32_t timeout /* = 0 */)
 {
-    reader_data_waiter_.wait();
+    return reader_data_waiter_.wait();
+}
+
+template <typename T>
+void Reader<T>::awake_waiting_threads()
+{
+    reader_data_waiter_.stop_and_continue();
 }
 
 template <typename T>
@@ -76,6 +92,10 @@ T Reader<T>::read()
     eprosima::fastdds::dds::SampleInfo info;
     T data;
 
+    logDebug(
+        AMLIPCPP_DDS_READER,
+        "Reading message from: " << *this << ".");
+
     // TODO: This creates a new data, ergo it is copying the data arrived. Check and refactor this
 
     eprosima::fastrtps::types::ReturnCode_t return_code = datareader_locked_->take_next_sample(&data, &info);
@@ -84,8 +104,14 @@ T Reader<T>::read()
         // Set number of data still available
         if (datareader_locked_->get_unread_count() <= 0)
         {
+            // TODO: there is a race condition here as get_unread_count is not guarded by any mutex here
+            // and so a call to is_data_available could be skipped here.
             reader_data_waiter_.close();
         }
+
+        logDebug(
+            AMLIPCPP_DDS_READER,
+            "Reader: " << *this << " received message: " << data << ".");
 
         // Return data (this does a move)
         return data;
@@ -101,26 +127,16 @@ T Reader<T>::read()
 template <typename T>
 eprosima::fastdds::dds::DataReaderQos Reader<T>::default_datareader_qos()
 {
-    eprosima::fastdds::dds::DataReaderQos qos = eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT;
-
-    // Preallocated with realloc
-    qos.endpoint().history_memory_policy =
-            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
-
-    // Disabling datasharing
-    qos.data_sharing().off();
-
-    return qos;
+    return utils::default_datareader_qos();
 }
 
 template <typename T>
 void Reader<T>::on_data_available(
         eprosima::fastdds::dds::DataReader* reader)
 {
-    logDebug(AMLIP_READER, "Reader " << reader->guid() << " has received a data.");
+    logDebug(AMLIP_READER, "Reader " << *this << " has received a data.");
 
     reader_data_waiter_.open();
-    logDebug(AMLIP_READER, "on_data_available callback received on reader with topic: " << topic_);
 }
 
 template <typename T>
@@ -130,12 +146,27 @@ void Reader<T>::on_subscription_matched(
 {
     if (info.current_count_change > 0)
     {
-        logDebug(AMLIP_READER, "Reader " << reader->guid() << " matched with Writer.");
+        logDebug(
+            AMLIP_READER, "Reader " << *this << " matched with Writer: " << info.last_publication_handle << ".");
     }
     else if (info.current_count_change < 0)
     {
-        logDebug(AMLIP_READER, "Reader " << reader->guid() << " unmatched with Writer.");
+        logDebug(
+            AMLIP_READER, "Reader " << *this << " unmatched with Writer: "  << info.last_publication_handle << ".");
     }
+}
+
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const Reader<T>& obj)
+{
+    os << "READER{";
+    os << obj.topic_ << ";";
+    os << obj.datareader_->guid();
+    os << "}";
+
+    return os;
 }
 
 } /* namespace dds */

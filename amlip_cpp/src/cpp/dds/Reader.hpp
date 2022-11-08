@@ -51,8 +51,10 @@ public:
 
     virtual ~Reader();
 
-    void wait_data_available(
+    eprosima::utils::event::AwakeReason wait_data_available(
             uint32_t timeout = 0);
+
+    void awake_waiting_threads();
 
     bool is_data_available();
 
@@ -77,7 +79,19 @@ protected:
 
     //! Waiter variable to wait for a data to be available
     eprosima::utils::event::BooleanWaitHandler reader_data_waiter_;
+
+    // Allow operator << to access private members
+    template <typename U>
+    friend std::ostream& operator <<(
+            std::ostream& os,
+            const Reader<U>& obj);
 };
+
+//! \c Reader to stream serializator
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const Reader<T>& obj);
 
 } /* namespace dds */
 } /* namespace amlip */

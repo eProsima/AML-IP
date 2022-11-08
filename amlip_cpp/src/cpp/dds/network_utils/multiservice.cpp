@@ -30,19 +30,19 @@ std::string multiservice_topic_mangling(
     std::string mangled_topic_name = actual_topic_name;
     switch (internal_topic_type)
     {
-        case MultiServiceTopicType::REQUEST_AVAILABILITY:
+        case MultiServiceTopicType::request_availability:
             mangled_topic_name += "_request_availability";
             break;
-        case MultiServiceTopicType::REPLY_AVAILABLE:
+        case MultiServiceTopicType::reply_available:
             mangled_topic_name += "_reply_available";
             break;
-        case MultiServiceTopicType::TASK_TARGET:
+        case MultiServiceTopicType::task_target:
             mangled_topic_name += "_task_target";
             break;
-        case MultiServiceTopicType::TASK_DATA:
+        case MultiServiceTopicType::task_data:
             mangled_topic_name += "_task_data";
             break;
-        case MultiServiceTopicType::TASK_SOLUTION:
+        case MultiServiceTopicType::task_solution:
             mangled_topic_name += "_task_solution";
             break;
         default:

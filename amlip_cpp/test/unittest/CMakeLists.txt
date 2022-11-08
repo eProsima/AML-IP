@@ -14,4 +14,5 @@
 
 # Add test subdirectories
 add_subdirectory(dds)
+add_subdirectory(node)
 add_subdirectory(types)

@@ -13,39 +13,40 @@
 // limitations under the License.
 
 /**
- * @file multiservice.hpp
+ * @file MetaNode.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
-#define AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP
+#ifndef AMLIPCPP__SRC_CPP_NODE_METANODE_HPP
+#define AMLIPCPP__SRC_CPP_NODE_METANODE_HPP
 
-#include <string>
+#include <cpp_utils/memory/owner_ptr.hpp>
 
-#include <cpp_utils/macros/custom_enumeration.hpp>
-
-#include <types/AmlipIdDataType.hpp>
+#include <dds/Participant.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
-namespace utils {
 
-ENUMERATION_BUILDER(
-    MultiServiceTopicType,
-    request_availability,
-    reply_available,
-    task_target,
-    task_data,
-    task_solution
-    );
+/**
+ * @brief TODO
+ *
+ */
+class MetaNode
+{
+public:
 
-std::string multiservice_topic_mangling(
-        const std::string& actual_topic_name,
-        const MultiServiceTopicType& internal_topic_type);
+};
 
-} /* namespace utils */
+//! \c MetaNode to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const MetaNode& participant);
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_DDS_NETWORKUTILS_MULTISERVICE_HPP */
+// Include implementation template file
+#include <dds/impl/MetaNode.ipp>
+
+#endif /* AMLIPCPP__SRC_CPP_NODE_METANODE_HPP */

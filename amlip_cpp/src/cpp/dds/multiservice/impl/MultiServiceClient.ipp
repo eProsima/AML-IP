@@ -19,6 +19,9 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_IMPL_MULTISERVICECLIENT_IPP
 
+#include <cpp_utils/Log.hpp>
+
+#include <dds/network_utils/dds_qos.hpp>
 #include <dds/network_utils/multiservice.hpp>
 
 namespace eprosima {
@@ -31,23 +34,23 @@ MultiServiceClient<Data, Solution>::MultiServiceClient(
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : request_availability_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REQUEST_AVAILABILITY),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::request_availability),
         dds_handler,
         default_request_availability_writer_qos_()) // REQUEST_AVAILABILITY
     , reply_available_reader_(
         own_id,
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REPLY_AVAILABLE),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::reply_available),
         dds_handler) // REPLY_AVAILABLE
     , task_target_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_TARGET),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_target),
         dds_handler,
         default_task_target_writer_qos_()) // TASK_TARGET
     , task_data_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_DATA),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_data),
         dds_handler) // TASK_DATA
     , task_solution_reader_(
         own_id,
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
         dds_handler) // TASK_SOLUTION
     , own_id_(own_id)
     , topic_(topic)
@@ -67,6 +70,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     // SEND REQUEST AVAILABILITY
     // Get new task id
     types::TaskId this_task_id = new_task_id_();
+    logDebug(AMLIPCPP_DDS_MSCLIENT, "Sending sync request " << this_task_id << " sync from " << own_id_ << ".");
 
     // Create Request data
     types::MsRequestDataType request_data(own_id_, this_task_id);
@@ -77,6 +81,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     // WAIT FOR REPLY AVAILABLE
     // Wait for someone to reply
     types::MsReferenceDataType reference;
+    logDebug(AMLIPCPP_DDS_MSCLIENT, "Waiting for available servers in task " << request_data << ".");
 
     while (true)
     {
@@ -106,7 +111,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     task_data_writer_.write(reference.server_id(), data_);
 
     // WAIT FOR SOLUTION
-    Solution solution;
+    logDebug(AMLIPCPP_DDS_MSCLIENT, "Wait for solution of task: " << reference << ".");
 
     while (true)
     {
@@ -119,21 +124,19 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
         if (ms_solution.task_id() == this_task_id &&
                 ms_solution.client_id() == own_id_)
         {
-            solution = ms_solution.data();
-            break;
+            logDebug(AMLIPCPP_DDS_MSCLIENT, "Solution found for task: " << reference << ".");
+
+            // Return the data so it is not copied but moved
+            return ms_solution.data();
         }
     }
-
-    return solution;
 }
 
 template <typename Data, typename Solution>
 eprosima::fastdds::dds::DataWriterQos MultiServiceClient<Data, Solution>::default_request_availability_writer_qos_()
 {
-    eprosima::fastdds::dds::DataWriterQos qos;
+    eprosima::fastdds::dds::DataWriterQos qos = utils::default_datawriter_qos();
 
-    qos.endpoint().history_memory_policy =
-            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;
