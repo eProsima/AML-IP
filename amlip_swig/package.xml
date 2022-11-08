@@ -18,9 +18,8 @@
   <buildtool_depend>cmake</buildtool_depend>
   <!-- <buildtool_depend>ament_cmake_python</buildtool_depend> -->
 
-  <depend>ddsrouter_cmake</depend>
-  <depend>ddsrouter_utils</depend>
-  <depend>ddsrouter_event</depend>
+  <depend>cmake_utils</depend>
+  <depend>cpp_utils</depend>
   <depend>amlip_cpp</depend>
 
   <test_depend>python3-pytest</test_depend>

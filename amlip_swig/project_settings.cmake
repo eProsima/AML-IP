@@ -24,8 +24,7 @@ set(MODULE_SUMMARY
 
 set(MODULE_FIND_PACKAGES
         amlip_cpp
-        ddsrouter_utils
-        ddsrouter_event
+        cpp_utils
     )
 
 set(MODULE_DEPENDENCIES
