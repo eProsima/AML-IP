@@ -39,7 +39,8 @@ class ParentNode
 public:
 
     //! Copy constructor not allowed
-    ParentNode(const ParentNode& x) = delete;
+    ParentNode(
+            const ParentNode& x) = delete;
 
     virtual ~ParentNode();
 
@@ -51,10 +52,15 @@ public:
 
 protected:
 
-    ParentNode(const char* name, types::NodeKind node_kind);
-    ParentNode(const std::string& name, types::NodeKind node_kind);
+    ParentNode(
+            const char* name,
+            types::NodeKind node_kind);
+    ParentNode(
+            const std::string& name,
+            types::NodeKind node_kind);
 
-    void change_status_(types::StateKind new_state) noexcept;
+    void change_status_(
+            types::StateKind new_state) noexcept;
 
     void publish_status_() const noexcept;
 

@@ -25,11 +25,13 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
+ParentNode::ParentNode(
+        const char* name,
+        types::NodeKind node_kind)
     : participant_(name)
     , status_writer_(participant_.create_writer<types::StatusDataType>(
-        network::STATUS_TOPIC_NAME,
-        network::status_writer_qos()))
+                network::STATUS_TOPIC_NAME,
+                network::status_writer_qos()))
     , current_state_(types::StateKind::stopped)
     , node_kind_(node_kind)
 {
@@ -37,7 +39,9 @@ ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
     publish_status_();
 }
 
-ParentNode::ParentNode(const std::string& name, types::NodeKind node_kind)
+ParentNode::ParentNode(
+        const std::string& name,
+        types::NodeKind node_kind)
     : ParentNode(name.c_str(), node_kind)
 {
 }
@@ -66,7 +70,8 @@ types::NodeKind ParentNode::node_kind() const noexcept
     return node_kind_;
 }
 
-void ParentNode::change_status_(types::StateKind new_state) noexcept
+void ParentNode::change_status_(
+        types::StateKind new_state) noexcept
 {
     current_state_ = new_state;
     publish_status_();
@@ -76,9 +81,9 @@ void ParentNode::publish_status_() const noexcept
 {
     // Create status data
     types::StatusDataType status(
-            id(),
-            node_kind(),
-            current_state());
+        id(),
+        node_kind(),
+        current_state());
 
     // Publish status
     status_writer_->publish(status);

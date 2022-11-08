@@ -23,7 +23,8 @@ namespace amlip {
 namespace node {
 namespace test {
 
-types::SolutionDataType computing_process_routine(const types::JobDataType& job_data)
+types::SolutionDataType computing_process_routine(
+        const types::JobDataType& job_data)
 {
     // Get string from data
     std::string data_str(static_cast<char*>(job_data.data()), job_data.data_size());
@@ -71,20 +72,20 @@ TEST(MainComputingNodeTest, one_main_one_computing)
 
     // Send a new thread for computing to process message
     std::thread computing_thread(
-            [&computing_node, &main_id]()
-            {
-                eprosima::amlip::types::MsReferenceDataType reference =
-                    computing_node.process_job(node::test::computing_process_routine);
+        [&computing_node, &main_id]()
+        {
+            eprosima::amlip::types::MsReferenceDataType reference =
+            computing_node.process_job(node::test::computing_process_routine);
 
-                // Check the reference comes from this test main
-                EXPECT_EQ(reference.client_id(), main_id);
-                // Check the reference is responsed by this node
-                EXPECT_EQ(reference.server_id(), computing_node.id());
-            });
+            // Check the reference comes from this test main
+            EXPECT_EQ(reference.client_id(), main_id);
+            // Check the reference is responsed by this node
+            EXPECT_EQ(reference.server_id(), computing_node.id());
+        });
 
     // Create job data and process request from main
     std::string data_sent_str("test_data");
-    types::JobDataType job_data(static_cast<void *>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
+    types::JobDataType job_data(static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
     types::SolutionDataType solution = main_node.request_job_solution(job_data);
 
     // Wait for computing to process job
@@ -126,14 +127,14 @@ TEST(MainComputingNodeTest, n_main_one_computing)
 
     // Send a new thread for computing to process N messages
     std::thread computing_thread(
-            [&computing_node]()
+        [&computing_node]()
+        {
+            for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
             {
-                for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
-                {
-                    eprosima::amlip::types::MsReferenceDataType reference =
-                        computing_node.process_job(node::test::computing_process_routine);
-                }
-            });
+                eprosima::amlip::types::MsReferenceDataType reference =
+                computing_node.process_job(node::test::computing_process_routine);
+            }
+        });
 
     std::vector<std::thread> main_threads;
     // Create job data and process request from mains in new threads
@@ -141,20 +142,20 @@ TEST(MainComputingNodeTest, n_main_one_computing)
     {
         std::shared_ptr<node::MainNode> main_node_to_process = main_nodes[i];
         main_threads.push_back(std::thread(
-            [main_node_to_process, i]()
-            {
-                std::string data_sent_str("test_data" + std::to_string(i));
-                types::JobDataType job_data(
-                    static_cast<void *>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
-                types::SolutionDataType solution = main_node_to_process->request_job_solution(job_data);
+                    [main_node_to_process, i]()
+                    {
+                        std::string data_sent_str("test_data" + std::to_string(i));
+                        types::JobDataType job_data(
+                            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
+                        types::SolutionDataType solution = main_node_to_process->request_job_solution(job_data);
 
-                // Check solution is upper case of data sent
-                std::transform(data_sent_str.begin(), data_sent_str.end(), data_sent_str.begin(), ::toupper);
+                        // Check solution is upper case of data sent
+                        std::transform(data_sent_str.begin(), data_sent_str.end(), data_sent_str.begin(), ::toupper);
 
-                std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());
+                        std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());
 
-                ASSERT_EQ(solution_str, data_sent_str);
-            }));
+                        ASSERT_EQ(solution_str, data_sent_str);
+                    }));
     }
 
 
@@ -196,33 +197,33 @@ TEST(MainComputingNodeTest, one_main_n_computing)
 
         // Execute thread for each computing node
         computing_threads.push_back(
-                std::thread( [new_computing_node, main_id]()
-                {
-                    eprosima::amlip::types::MsReferenceDataType reference =
-                        new_computing_node->process_job(node::test::computing_process_routine);
+            std::thread( [new_computing_node, main_id]()
+            {
+                eprosima::amlip::types::MsReferenceDataType reference =
+                new_computing_node->process_job(node::test::computing_process_routine);
 
-                    // Check the reference comes from this test main
-                    EXPECT_EQ(reference.client_id(), main_id);
-                    // Check the reference is responsed by this node
-                    EXPECT_EQ(reference.server_id(), new_computing_node->id());
-                }));
+                // Check the reference comes from this test main
+                EXPECT_EQ(reference.client_id(), main_id);
+                // Check the reference is responsed by this node
+                EXPECT_EQ(reference.server_id(), new_computing_node->id());
+            }));
     }
 
     // Create job data and process request from main N times
     for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
     {
-            std::string data_sent_str("test_data" + std::to_string(i));
-            types::JobDataType job_data(
-                static_cast<void *>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
+        std::string data_sent_str("test_data" + std::to_string(i));
+        types::JobDataType job_data(
+            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
 
-            types::SolutionDataType solution = main_node.request_job_solution(job_data);
+        types::SolutionDataType solution = main_node.request_job_solution(job_data);
 
-            // Check solution is upper case of data sent
-            std::transform(data_sent_str.begin(), data_sent_str.end(), data_sent_str.begin(), ::toupper);
+        // Check solution is upper case of data sent
+        std::transform(data_sent_str.begin(), data_sent_str.end(), data_sent_str.begin(), ::toupper);
 
-            std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());
+        std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());
 
-            ASSERT_EQ(solution_str, data_sent_str);
+        ASSERT_EQ(solution_str, data_sent_str);
     }
 
     // Wait for computing to finish

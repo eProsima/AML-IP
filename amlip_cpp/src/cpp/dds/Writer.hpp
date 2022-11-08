@@ -154,8 +154,8 @@ protected:
     // Allow operator << to access private members
     template <typename U>
     friend std::ostream& operator <<(
-        std::ostream& os,
-        const Writer<U>& obj);
+            std::ostream& os,
+            const Writer<U>& obj);
 };
 
 //! \c Writer to stream serializator

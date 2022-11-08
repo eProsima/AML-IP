@@ -40,7 +40,7 @@ fastdds::dds::DataWriterQos default_datawriter_qos()
 
     // Preallocated with realloc
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
     qos.publish_mode().kind = eprosima::fastdds::dds::PublishModeQosPolicyKind::SYNCHRONOUS_PUBLISH_MODE;
 
@@ -61,7 +61,7 @@ fastdds::dds::DataReaderQos default_datareader_qos()
 
     // Preallocated with realloc
     qos.endpoint().history_memory_policy =
-                eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
     // Disabling datasharing
     qos.data_sharing().off();

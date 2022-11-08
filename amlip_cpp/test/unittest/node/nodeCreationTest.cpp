@@ -29,10 +29,14 @@ namespace test {
 class DummyNode : public ParentNode
 {
 public:
-    DummyNode(const std::string& name, types::NodeKind node_kind)
+
+    DummyNode(
+            const std::string& name,
+            types::NodeKind node_kind)
         : ParentNode(name, node_kind)
     {
     }
+
 };
 
 } /* namespace test */

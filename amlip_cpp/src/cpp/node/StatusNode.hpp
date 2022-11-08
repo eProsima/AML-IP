@@ -41,8 +41,10 @@ class StatusNode : public ParentNode
 {
 public:
 
-    StatusNode(const char* name);
-    StatusNode(const std::string& name);
+    StatusNode(
+            const char* name);
+    StatusNode(
+            const std::string& name);
 
     ~StatusNode();
 

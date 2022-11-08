@@ -29,10 +29,14 @@ uint32_t PROCESS_DATA_TIME_MS = 100u;
 class DummyNode : public ParentNode
 {
 public:
-    DummyNode(const std::string& name, types::NodeKind node_kind)
+
+    DummyNode(
+            const std::string& name,
+            types::NodeKind node_kind)
         : ParentNode(name, node_kind)
     {
     }
+
 };
 
 } /* namespace test */

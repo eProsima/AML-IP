@@ -26,17 +26,19 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-StatusNode::StatusNode(const char* name)
+StatusNode::StatusNode(
+        const char* name)
     : ParentNode(name, types::NodeKind::status)
     , status_reader_(participant_.create_reader<types::StatusDataType>(
-        network::STATUS_TOPIC_NAME,
-        network::status_reader_qos()))
+                network::STATUS_TOPIC_NAME,
+                network::status_reader_qos()))
     , processing_(false)
 {
     logInfo(AMLIPCPP_NODE_STATUS, "Created new Status Node: " << *this << ".");
 }
 
-StatusNode::StatusNode(const std::string& name)
+StatusNode::StatusNode(
+        const std::string& name)
     : StatusNode(name.c_str())
 {
 }
@@ -60,7 +62,7 @@ void StatusNode::process_status_async(
     if (processing_)
     {
         throw utils::InconsistencyException(
-            STR_ENTRY << "Status node " << this << " is already processing data.");
+                  STR_ENTRY << "Status node " << this << " is already processing data.");
     }
     else
     {
@@ -86,7 +88,7 @@ void StatusNode::stop_processing()
 void StatusNode::process_routine_(
         const std::function<void(const types::StatusDataType&)>& callback)
 {
-    while(processing_)
+    while (processing_)
     {
         // Wait for data
         utils::event::AwakeReason reason = status_reader_->wait_data_available();

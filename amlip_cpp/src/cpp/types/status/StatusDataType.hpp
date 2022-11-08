@@ -44,7 +44,7 @@ ENUMERATION_BUILDER(
     computing,
     status,
     meta,
-);
+    );
 
 /*!
  * @brief This class represents the enumeration StateKind defined by the user in the IDL file.
@@ -56,7 +56,7 @@ ENUMERATION_BUILDER(
     running,
     stopped,
     dropped,
-);
+    );
 
 /*!
  * @brief This class represents the structure StatusDataType defined by the user in the IDL file.
@@ -75,9 +75,9 @@ public:
      * @brief Default constructor.
      */
     StatusDataType(
-        AmlipIdDataType id,
-        NodeKind node_kind,
-        StateKind state);
+            AmlipIdDataType id,
+            NodeKind node_kind,
+            StateKind state);
 
     virtual ~StatusDataType() = default;
 

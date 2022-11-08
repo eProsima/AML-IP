@@ -37,7 +37,7 @@ ENUMERATION_BUILDER(
     task_target,
     task_data,
     task_solution
-);
+    );
 
 std::string multiservice_topic_mangling(
         const std::string& actual_topic_name,

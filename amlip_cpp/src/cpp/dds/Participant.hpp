@@ -78,7 +78,8 @@ public:
             DomainIdType domain = Participant::default_domain_id());
 
     //! Copy constructor not allowed
-    Participant(const Participant&) = delete;
+    Participant(
+            const Participant&) = delete;
 
     //! Participant destructor
     virtual ~Participant();

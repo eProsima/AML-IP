@@ -41,12 +41,15 @@ class MainNode : public ParentNode
 {
 public:
 
-    MainNode(const char* name);
-    MainNode(const std::string& name);
+    MainNode(
+            const char* name);
+    MainNode(
+            const std::string& name);
 
     ~MainNode();
 
-    types::SolutionDataType request_job_solution(const types::JobDataType& data);
+    types::SolutionDataType request_job_solution(
+            const types::JobDataType& data);
 
 protected:
 

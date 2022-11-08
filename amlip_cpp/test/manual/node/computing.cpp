@@ -57,7 +57,7 @@ int main(
                     "Job data: " << data_str << " received.");
 
                 // Mangling string converting it to upper case
-                std::transform(data_str.begin(), data_str.end(),data_str.begin(), ::toupper);
+                std::transform(data_str.begin(), data_str.end(), data_str.begin(), ::toupper);
 
                 logUser(
                     AMLIP_MANUAL_TEST,

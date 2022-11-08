@@ -71,7 +71,7 @@ GenericDataType::~GenericDataType()
 GenericDataType::GenericDataType(
         const GenericDataType& x)
 {
-    if(x.has_been_allocated_)
+    if (x.has_been_allocated_)
     {
         logWarning(
             AMLIPCPP_TYPES_GENERIC,
