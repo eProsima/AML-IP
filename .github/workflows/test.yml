@@ -486,5 +486,6 @@ jobs:
 
       - name: Check flake8 linter
         run: |
-          python3 -m flake8 --config ./src/AML-IP/.github/workflows/setup.cfg ${MODIFIED_FILES}
+          cd src/AML-IP
+          python3 -m flake8 --config ./.github/workflows/setup.cfg ${MODIFIED_FILES}
         if: always()
