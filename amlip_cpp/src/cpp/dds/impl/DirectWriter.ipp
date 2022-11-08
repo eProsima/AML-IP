@@ -100,6 +100,19 @@ std::shared_ptr<Writer<T>> DirectWriter<T>::get_target_writer_(
     }
 }
 
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const DirectWriter<T>& obj)
+{
+    os << "DIRECT_WRITER{";
+    os << obj.topic_ << ";";
+    os << obj.datawriter_->guid();
+    os << "}";
+
+    return os;
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

@@ -47,10 +47,10 @@ using namespace eprosima::amlip;
  */
 TEST(NodeCreationTest, create_parent)
 {
-    node::test::DummyNode node("TestNode", types::NodeKind::UNDETERMINED);
+    node::test::DummyNode node("TestNode", types::NodeKind::undetermined);
 
-    ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
-    ASSERT_EQ(types::NodeKind::UNDETERMINED, node.node_kind());
+    ASSERT_EQ(types::StateKind::stopped, node.current_state());
+    ASSERT_EQ(types::NodeKind::undetermined, node.node_kind());
 }
 
 /**
@@ -60,8 +60,8 @@ TEST(NodeCreationTest, create_status)
 {
     node::StatusNode node("TestNode");
 
-    ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
-    ASSERT_EQ(types::NodeKind::STATUS, node.node_kind());
+    ASSERT_EQ(types::StateKind::stopped, node.current_state());
+    ASSERT_EQ(types::NodeKind::status, node.node_kind());
 }
 
 /**
@@ -71,8 +71,8 @@ TEST(NodeCreationTest, create_main)
 {
     node::MainNode node("TestNode");
 
-    ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
-    ASSERT_EQ(types::NodeKind::MAIN, node.node_kind());
+    ASSERT_EQ(types::StateKind::stopped, node.current_state());
+    ASSERT_EQ(types::NodeKind::main, node.node_kind());
 }
 
 /**
@@ -82,8 +82,8 @@ TEST(NodeCreationTest, create_computing)
 {
     node::ComputingNode node("TestNode");
 
-    ASSERT_EQ(types::StateKind::STOPPED, node.current_state());
-    ASSERT_EQ(types::NodeKind::COMPUTING, node.node_kind());
+    ASSERT_EQ(types::StateKind::stopped, node.current_state());
+    ASSERT_EQ(types::NodeKind::computing, node.node_kind());
 }
 
 int main(

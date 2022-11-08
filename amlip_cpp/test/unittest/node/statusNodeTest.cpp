@@ -59,7 +59,7 @@ TEST(StatusNodeTest, run_and_stop)
         // Create Status Node
         node::StatusNode status_node("TestStatusNode");
 
-        ASSERT_EQ(types::StateKind::STOPPED, status_node.current_state());
+        ASSERT_EQ(types::StateKind::stopped, status_node.current_state());
 
         status_node.process_status_async(
             [](const types::StatusDataType& data)
@@ -67,11 +67,11 @@ TEST(StatusNodeTest, run_and_stop)
                 // Do nothing
             });
 
-        ASSERT_EQ(types::StateKind::RUNNING, status_node.current_state());
+        ASSERT_EQ(types::StateKind::running, status_node.current_state());
 
         status_node.stop_processing();
 
-        ASSERT_EQ(types::StateKind::STOPPED, status_node.current_state());
+        ASSERT_EQ(types::StateKind::stopped, status_node.current_state());
     }
 
     // no stop before destruction
@@ -79,7 +79,7 @@ TEST(StatusNodeTest, run_and_stop)
         // Create Status Node
         node::StatusNode status_node("TestStatusNode");
 
-        ASSERT_EQ(types::StateKind::STOPPED, status_node.current_state());
+        ASSERT_EQ(types::StateKind::stopped, status_node.current_state());
 
         status_node.process_status_async(
             [](const types::StatusDataType& data)
@@ -87,7 +87,7 @@ TEST(StatusNodeTest, run_and_stop)
                 // Do nothing
             });
 
-        ASSERT_EQ(types::StateKind::RUNNING, status_node.current_state());
+        ASSERT_EQ(types::StateKind::running, status_node.current_state());
     }
 }
 
@@ -111,7 +111,7 @@ TEST(StatusNodeTest, process_status_parent)
 
     {
         // Create Parent Node to be destroyed afterwards
-        node::test::DummyNode dummy_node("TestParentNode", types::NodeKind::UNDETERMINED);
+        node::test::DummyNode dummy_node("TestParentNode", types::NodeKind::undetermined);
         parent_id = dummy_node.id();
 
         // Wait so status reader has time to process the data
@@ -129,12 +129,12 @@ TEST(StatusNodeTest, process_status_parent)
     {
         if (data.id() == parent_id)
         {
-            ASSERT_EQ(types::NodeKind::UNDETERMINED, data.node_kind());
-            if (data.state() == types::StateKind::STOPPED)
+            ASSERT_EQ(types::NodeKind::undetermined, data.node_kind());
+            if (data.state() == types::StateKind::stopped)
             {
                 parent_stopped = true;
             }
-            else if (data.state() == types::StateKind::DROPPED)
+            else if (data.state() == types::StateKind::dropped)
             {
                 parent_dropped = true;
             }
@@ -212,16 +212,16 @@ TEST(StatusNodeTest, process_status_state)
         if (data.id() == status_node_1_id)
         {
             // First Node
-            ASSERT_EQ(types::NodeKind::STATUS, data.node_kind());
-            if (data.state() == types::StateKind::STOPPED)
+            ASSERT_EQ(types::NodeKind::status, data.node_kind());
+            if (data.state() == types::StateKind::stopped)
             {
                 node_1_stop++;
             }
-            else if (data.state() == types::StateKind::DROPPED)
+            else if (data.state() == types::StateKind::dropped)
             {
                 node_1_drop++;
             }
-            else if (data.state() == types::StateKind::RUNNING)
+            else if (data.state() == types::StateKind::running)
             {
                 node_1_run++;
             }
@@ -229,16 +229,16 @@ TEST(StatusNodeTest, process_status_state)
         else if (data.id() == status_node_2_id)
         {
             // First Node
-            ASSERT_EQ(types::NodeKind::STATUS, data.node_kind());
-            if (data.state() == types::StateKind::STOPPED)
+            ASSERT_EQ(types::NodeKind::status, data.node_kind());
+            if (data.state() == types::StateKind::stopped)
             {
                 node_2_stop++;
             }
-            else if (data.state() == types::StateKind::DROPPED)
+            else if (data.state() == types::StateKind::dropped)
             {
                 node_2_drop++;
             }
-            else if (data.state() == types::StateKind::RUNNING)
+            else if (data.state() == types::StateKind::running)
             {
                 node_2_run++;
             }

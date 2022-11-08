@@ -27,7 +27,7 @@ namespace amlip {
 namespace node {
 
 StatusNode::StatusNode(const char* name)
-    : ParentNode(name, types::NodeKind::STATUS)
+    : ParentNode(name, types::NodeKind::status)
     , status_reader_(participant_.create_reader<types::StatusDataType>(
         network::STATUS_TOPIC_NAME,
         network::status_reader_qos()))
@@ -67,7 +67,7 @@ void StatusNode::process_status_async(
         processing_ = true;
         process_thread_ = std::thread(&StatusNode::process_routine_, this, callback);
 
-        change_status_(types::StateKind::RUNNING);
+        change_status_(types::StateKind::running);
     }
 }
 
@@ -79,7 +79,7 @@ void StatusNode::stop_processing()
         status_reader_->awake_waiting_threads(); // This must awake thread and it must finish
         process_thread_.join();
 
-        change_status_(types::StateKind::STOPPED);
+        change_status_(types::StateKind::stopped);
     }
 }
 

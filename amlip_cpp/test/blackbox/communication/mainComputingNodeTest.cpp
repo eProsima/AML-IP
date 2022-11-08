@@ -15,9 +15,6 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-// TODO remove
-#include <cpp_utils/Log.hpp>
-
 #include <node/MainNode.hpp>
 #include <node/ComputingNode.hpp>
 
@@ -240,7 +237,5 @@ int main(
         char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
-    // TODO remove
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     return RUN_ALL_TESTS();
 }

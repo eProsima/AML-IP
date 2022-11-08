@@ -40,6 +40,7 @@ Writer<T>::Writer(
 
     auto datawriter_locked = datawriter_.lock_with_exception();
 
+    // TODO: this produces a TSAN issue as listener could be called before totally create the object.
     datawriter_locked->set_listener(this);
 
     logDebug(

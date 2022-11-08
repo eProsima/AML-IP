@@ -30,7 +30,7 @@ ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
     , status_writer_(participant_.create_writer<types::StatusDataType>(
         network::STATUS_TOPIC_NAME,
         network::status_writer_qos()))
-    , current_state_(types::StateKind::STOPPED)
+    , current_state_(types::StateKind::stopped)
     , node_kind_(node_kind)
 {
     logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
@@ -46,7 +46,7 @@ ParentNode::~ParentNode()
 {
     logDebug(AMLIPCPP_NODE_STATUS, "Destroying Node: " << *this << ".");
 
-    change_status_(types::StateKind::DROPPED);
+    change_status_(types::StateKind::dropped);
 
     logDebug(AMLIPCPP_NODE_STATUS, "Node destroyed.");
 }

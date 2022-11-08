@@ -21,6 +21,8 @@
 
 #include <string>
 
+#include <cpp_utils/macros/custom_enumeration.hpp>
+
 #include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
@@ -28,14 +30,14 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
-enum MultiServiceTopicType
-{
-    REQUEST_AVAILABILITY,
-    REPLY_AVAILABLE,
-    TASK_TARGET,
-    TASK_DATA,
-    TASK_SOLUTION,
-};
+ENUMERATION_BUILDER(
+    MultiServiceTopicType,
+    request_availability,
+    reply_available,
+    task_target,
+    task_data,
+    task_solution
+);
 
 std::string multiservice_topic_mangling(
         const std::string& actual_topic_name,

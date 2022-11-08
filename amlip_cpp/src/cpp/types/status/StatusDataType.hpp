@@ -37,13 +37,13 @@ namespace types {
  */
 ENUMERATION_BUILDER(
     NodeKind,
-    UNDETERMINED,
-    DISCOVERY,
-    AGENT,
-    MAIN,
-    COMPUTING,
-    STATUS,
-    META,
+    undetermined,
+    discovery,
+    agent,
+    main,
+    computing,
+    status,
+    meta,
 );
 
 /*!
@@ -52,10 +52,10 @@ ENUMERATION_BUILDER(
  */
 ENUMERATION_BUILDER(
     StateKind,
-    UNKNOWN,
-    RUNNING,
-    STOPPED,
-    DROPPED,
+    unknown,
+    running,
+    stopped,
+    dropped,
 );
 
 /*!

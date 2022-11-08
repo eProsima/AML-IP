@@ -34,22 +34,22 @@ MultiServiceServer<Data, Solution>::MultiServiceServer(
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : request_availability_reader_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REQUEST_AVAILABILITY),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::request_availability),
         dds_handler,
         default_request_availability_reader_qos_()) // REQUEST_AVAILABILITY
     , reply_available_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::REPLY_AVAILABLE),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::reply_available),
         dds_handler) // REPLY_AVAILABLE
     , task_target_reader_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_TARGET),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_target),
         dds_handler,
         default_task_target_reader_qos_()) // TASK_TARGET
     , task_data_reader_(
         own_id,
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_DATA),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_data),
         dds_handler) // TASK_DATA
     , task_solution_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::TASK_SOLUTION),
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
         dds_handler) // TASK_SOLUTION
     , own_id_(own_id)
     , topic_(topic)

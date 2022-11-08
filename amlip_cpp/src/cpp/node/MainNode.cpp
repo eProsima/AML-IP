@@ -27,7 +27,7 @@ namespace amlip {
 namespace node {
 
 MainNode::MainNode(const char* name)
-    : ParentNode(name, types::NodeKind::MAIN)
+    : ParentNode(name, types::NodeKind::main)
     , job_client_(participant_.create_multiservice_client<types::JobDataType, types::SolutionDataType>(
         network::JOB_TOPIC_NAME))
 {
@@ -46,9 +46,9 @@ MainNode::~MainNode()
 
 types::SolutionDataType MainNode::request_job_solution(const types::JobDataType& data)
 {
-    change_status_(types::StateKind::RUNNING);
+    change_status_(types::StateKind::running);
     types::SolutionDataType solution = job_client_->send_request_sync(data);
-    change_status_(types::StateKind::STOPPED);
+    change_status_(types::StateKind::stopped);
     return solution;
 }
 

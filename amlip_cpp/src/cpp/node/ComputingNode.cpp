@@ -27,7 +27,7 @@ namespace amlip {
 namespace node {
 
 ComputingNode::ComputingNode(const char* name)
-    : ParentNode(name, types::NodeKind::COMPUTING)
+    : ParentNode(name, types::NodeKind::computing)
     , job_server_(participant_.create_multiservice_server<types::JobDataType, types::SolutionDataType>(
         network::JOB_TOPIC_NAME))
 {

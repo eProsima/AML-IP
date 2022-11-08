@@ -48,6 +48,19 @@ eprosima::fastdds::dds::DataReaderQos TargetedReader<T>::default_targetedreader_
     return qos;
 }
 
+template <typename T>
+std::ostream& operator <<(
+        std::ostream& os,
+        const TargetedReader<T>& obj)
+{
+    os << "TARGETED_READER{";
+    os << obj.topic_ << ";";
+    os << obj.datareader_->guid();
+    os << "}";
+
+    return os;
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

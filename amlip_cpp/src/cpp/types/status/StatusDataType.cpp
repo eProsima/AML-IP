@@ -39,8 +39,8 @@ StatusDataType::StatusDataType(
 StatusDataType::StatusDataType()
     : StatusDataType(
         AmlipIdDataType(),
-        NodeKind::UNDETERMINED,
-        StateKind::UNKNOWN)
+        NodeKind::undetermined,
+        StateKind::unknown)
 {
 }
 
@@ -73,7 +73,7 @@ StateKind StatusDataType::state() const noexcept
 
 bool StatusDataType::is_defined() const noexcept
 {
-    return (id().is_defined() && node_kind() != NodeKind::UNDETERMINED && state() != StateKind::UNKNOWN);
+    return (id().is_defined() && node_kind() != NodeKind::undetermined && state() != StateKind::unknown);
 }
 
 void StatusDataType::serialize(
