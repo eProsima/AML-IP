@@ -484,26 +484,8 @@ jobs:
           fi
           echo ${MODIFIED_FILES}
 
-      - name: Check mypy
+      - name: Check flake8 linter
         run: |
           cd src/AML-IP
-          mypy ${MODIFIED_FILES}
-        if: always()
-
-      - name: Check black
-        run: |
-          cd src/AML-IP
-          black ${MODIFIED_FILES} --check --diff
-        if: always()
-
-      - name: Check isort
-        run: |
-          cd src/AML-IP
-          isort ${MODIFIED_FILES} --check-only
-        if: always()
-
-      - name: Check pylint
-        run: |
-          cd src/AML-IP
-          pylint ${MODIFIED_FILES}
+          python3 -m flake8 --append-config ./src/AML-IP/.github/workflows/setup.cfg ${MODIFIED_FILES}
         if: always()

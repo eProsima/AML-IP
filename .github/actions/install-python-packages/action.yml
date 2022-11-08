@@ -11,14 +11,13 @@ runs:
           colcon-mixin \
           doc8==0.8.0 \
           GitPython \
-          isort==5.10.0 \
-          mypy==0.761 \
-          pylint==2.13.0 \
           setuptools \
           gcovr==5.0 \
           sphinx_rtd_theme==0.4.3 \
           sphinx==3.0.3 \
           sphinxcontrib-imagehelper==1.1.1 \
           sphinxcontrib.spelling==5.0.0 \
-          vcstool
+          vcstool \
+          flake8 \
+          flake8-quotes
       shell: bash

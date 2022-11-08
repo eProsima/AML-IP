@@ -14,6 +14,9 @@ file_packages = [
     package_name + '/types',
 ]
 
+# TODO remove
+variable = 'this variable is veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery long for python'
+
 setup(
     name=package_name,
     version="0.0.0",
