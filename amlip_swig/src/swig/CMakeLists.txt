@@ -76,7 +76,7 @@ install(EXPORT ${PROJECT_NAME}-targets
 include(CMakePackageConfigHelpers)
 
 configure_package_config_file(
-        ${ddsrouter_cmake_CONFIG_TEMPLATES_PATH}/library-Config.cmake.in
+        ${cmake_utils_CONFIG_TEMPLATES_PATH}/library-Config.cmake.in
         ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-config.cmake
         INSTALL_DESTINATION ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}
         PATH_VARS LIB_INSTALL_DIR
