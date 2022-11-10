@@ -20,6 +20,10 @@ set(TEST_NAMES
         "status"
         "main"
         "computing"
+        "several_main"
+        "several_computing"
+        "loop_main"
+        "loop_computing"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})
