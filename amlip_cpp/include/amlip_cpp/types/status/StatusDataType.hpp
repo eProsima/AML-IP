@@ -36,27 +36,27 @@ namespace types {
  * @ingroup STATUS
  */
 ENUMERATION_BUILDER(
-    NodeKind,
-    undetermined,
-    discovery,
-    agent,
-    main,
-    computing,
-    status,
-    meta,
-    );
+    NodeKind
+    , undetermined
+    , discovery
+    , agent
+    , main
+    , computing
+    , status
+    , meta
+);
 
 /*!
  * @brief This class represents the enumeration StateKind defined by the user in the IDL file.
  * @ingroup STATUS
  */
 ENUMERATION_BUILDER(
-    StateKind,
-    unknown,
-    running,
-    stopped,
-    dropped,
-    );
+    StateKind
+    , unknown
+    , running
+    , stopped
+    , dropped
+);
 
 /*!
  * @brief This class represents the structure StatusDataType defined by the user in the IDL file.
