@@ -43,6 +43,10 @@
 
 %{
 #include <amlip_cpp/types/status/StatusDataType.hpp>
+
+// enum class are required to be added with a using
+using NodeKind = eprosima::amlip::types::NodeKind;
+using StateKind = eprosima::amlip::types::StateKind;
 %}
 
 // Include needed headers
