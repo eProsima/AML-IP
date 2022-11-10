@@ -1,5 +1,5 @@
 
-struct AmlipId
+struct AmlipIdDataType
 {
     unsigned long name_[12];
     unsigned long rand_id_[1];

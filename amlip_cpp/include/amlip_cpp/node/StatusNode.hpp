@@ -68,7 +68,7 @@ public:
     /**
      * Execute in a new thread a passive listening in Status topic and execute the callback given with each message
      *
-     * @pre There could only be called once per instance before calling \c stop_processing
+     * @pre Should only be called once per instance before calling \c stop_processing
      */
     void process_status_async(
             const std::function<void(const types::StatusDataType&)>& callback);
@@ -76,7 +76,7 @@ public:
     /**
      * Execute in a new thread a passive listening in Status topic and execute the functor given with each message
      *
-     * @pre There could only be called once per instance before calling \c stop_processing
+     * @pre Should only be called once per instance before calling \c stop_processing
      */
     void process_status_async(
             const StatusFunctor& callback_functor);
