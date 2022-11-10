@@ -71,7 +71,8 @@ protected:
             const std::string& name,
             types::NodeKind node_kind);
 
-    void change_status_(const types::StateKind& new_state) noexcept;
+    void change_status_(
+            const types::StateKind& new_state) noexcept;
 
     void publish_status_() const noexcept;
 

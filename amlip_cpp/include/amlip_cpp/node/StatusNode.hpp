@@ -45,8 +45,10 @@ namespace node {
 class StatusFunctor
 {
 public:
+
     virtual ~StatusFunctor();
-    virtual bool operator() (const types::StatusDataType& status) const = 0;
+    virtual bool operator () (
+            const types::StatusDataType& status) const = 0;
 };
 
 /**

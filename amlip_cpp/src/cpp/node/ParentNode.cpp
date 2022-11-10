@@ -26,11 +26,13 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-ParentNode::ParentNode(const char* name, types::NodeKind node_kind)
+ParentNode::ParentNode(
+        const char* name,
+        types::NodeKind node_kind)
     : participant_(std::make_unique<dds::Participant>(name))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
-        network::STATUS_TOPIC_NAME,
-        network::status_writer_qos()))
+                network::STATUS_TOPIC_NAME,
+                network::status_writer_qos()))
     , current_state_(types::StateKind::stopped)
     , node_kind_(node_kind)
 {
@@ -69,7 +71,8 @@ types::NodeKind ParentNode::node_kind() const noexcept
     return node_kind_;
 }
 
-void ParentNode::change_status_(const types::StateKind& new_state) noexcept
+void ParentNode::change_status_(
+        const types::StateKind& new_state) noexcept
 {
     current_state_ = new_state;
     publish_status_();

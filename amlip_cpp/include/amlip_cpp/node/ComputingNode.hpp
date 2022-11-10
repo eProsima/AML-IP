@@ -45,8 +45,10 @@ namespace node {
 class JobFunctor
 {
 public:
+
     virtual ~JobFunctor();
-    virtual types::SolutionDataType operator() (const types::JobDataType& job) const = 0;
+    virtual types::SolutionDataType operator () (
+            const types::JobDataType& job) const = 0;
 };
 
 /**
@@ -58,8 +60,10 @@ class ComputingNode : public ParentNode
 {
 public:
 
-    ComputingNode(const char* name);
-    ComputingNode(const std::string& name);
+    ComputingNode(
+            const char* name);
+    ComputingNode(
+            const std::string& name);
 
     ~ComputingNode();
 
