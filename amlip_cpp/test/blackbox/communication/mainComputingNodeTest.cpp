@@ -15,8 +15,11 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <node/MainNode.hpp>
-#include <node/ComputingNode.hpp>
+#include <algorithm>
+#include <thread>
+
+#include <amlip_cpp/node/MainNode.hpp>
+#include <amlip_cpp/node/ComputingNode.hpp>
 
 namespace eprosima {
 namespace amlip {

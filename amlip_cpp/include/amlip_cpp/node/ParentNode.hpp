@@ -19,11 +19,23 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_PARENTNODE_HPP
 
-#include <cpp_utils/memory/owner_ptr.hpp>
-#include <cpp_utils/ReturnCode.hpp>
+#include <memory>
 
-#include <types/status/StatusDataType.hpp>
-#include <dds/Participant.hpp>
+#include <amlip_cpp/types/status/StatusDataType.hpp>
+
+// Forward declaration of dds classes
+namespace eprosima {
+namespace amlip {
+namespace dds {
+
+class Participant;
+
+template <typename T>
+class Writer;
+
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
 
 namespace eprosima {
 namespace amlip {
@@ -60,11 +72,11 @@ protected:
             types::NodeKind node_kind);
 
     void change_status_(
-            types::StateKind new_state) noexcept;
+            const types::StateKind& new_state) noexcept;
 
     void publish_status_() const noexcept;
 
-    dds::Participant participant_;
+    std::unique_ptr<dds::Participant> participant_;
 
     std::shared_ptr<dds::Writer<types::StatusDataType>> status_writer_;
 

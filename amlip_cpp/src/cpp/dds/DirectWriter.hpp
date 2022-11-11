@@ -33,7 +33,7 @@
 
 #include <dds/DdsHandler.hpp>
 #include <dds/Writer.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

@@ -19,8 +19,11 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
+#include <amlip_cpp/node/ComputingNode.hpp>
+
+#include <dds/multiservice/MultiServiceServer.hpp>
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
-#include <node/ComputingNode.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -29,7 +32,7 @@ namespace node {
 ComputingNode::ComputingNode(
         const char* name)
     : ParentNode(name, types::NodeKind::computing)
-    , job_server_(participant_.create_multiservice_server<types::JobDataType, types::SolutionDataType>(
+    , job_server_(participant_->create_multiservice_server<types::JobDataType, types::SolutionDataType>(
                 network::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_COMPUTING, "Created new Computing Node: " << *this << ".");

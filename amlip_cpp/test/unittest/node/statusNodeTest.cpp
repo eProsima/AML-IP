@@ -15,9 +15,9 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <node/ParentNode.hpp>
-#include <node/StatusNode.hpp>
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
+#include <amlip_cpp/node/StatusNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

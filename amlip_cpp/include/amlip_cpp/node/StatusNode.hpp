@@ -19,18 +19,37 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_STATUSNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_STATUSNODE_HPP
 
+#include <atomic>
 #include <functional>
 #include <thread>
 
-#include <cpp_utils/memory/owner_ptr.hpp>
-#include <cpp_utils/ReturnCode.hpp>
+#include <amlip_cpp/types/status/StatusDataType.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
 
-#include <types/status/StatusDataType.hpp>
-#include <node/ParentNode.hpp>
+// Forward declaration of dds classes
+namespace eprosima {
+namespace amlip {
+namespace dds {
+
+template <typename T>
+class Reader;
+
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
 
 namespace eprosima {
 namespace amlip {
 namespace node {
+
+class StatusFunctor
+{
+public:
+
+    virtual ~StatusFunctor();
+    virtual bool operator () (
+            const types::StatusDataType& status) const = 0;
+};
 
 /**
  * @brief TODO
@@ -49,12 +68,20 @@ public:
     ~StatusNode();
 
     /**
-     * Execute in a new thread a passive listening in Status topic and execute the callback given
+     * Execute in a new thread a passive listening in Status topic and execute the callback given with each message
      *
-     * @pre There could only be called once per instance before calling \c stop_processing
+     * @pre Should only be called once per instance before calling \c stop_processing
      */
     void process_status_async(
             const std::function<void(const types::StatusDataType&)>& callback);
+
+    /**
+     * Execute in a new thread a passive listening in Status topic and execute the functor given with each message
+     *
+     * @pre Should only be called once per instance before calling \c stop_processing
+     */
+    void process_status_async(
+            const StatusFunctor& callback_functor);
 
     /**
      * Stop the internal thread that is running created in \c process_status_async

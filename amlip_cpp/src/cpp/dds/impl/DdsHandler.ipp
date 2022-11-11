@@ -24,7 +24,7 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/macros/macros.hpp>
 
-#include <types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -115,7 +115,7 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_
             logDebug(AMLIPCPP_DDSHANDLER, "AutoDeleting Topic " << topic->get_name() << ".");
 
             // deleter for shared ptr
-            logDebug(AMLIP_DDSHANDLER, "Destroying topic " << topic->get_name() << ".");
+            logDebug(AMLIPCPP_DDSHANDLER, "Destroying topic " << topic->get_name() << ".");
             this->participant_->delete_topic(topic);
         }
         );

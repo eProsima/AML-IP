@@ -28,15 +28,14 @@
 
 #include <cpp_utils/memory/owner_ptr.hpp>
 
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
-#include <types/AmlipIdDataType.hpp>
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/multiservice/MultiServiceServer.hpp>
-#include <types/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

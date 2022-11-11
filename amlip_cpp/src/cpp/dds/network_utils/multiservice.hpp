@@ -23,7 +23,7 @@
 
 #include <cpp_utils/macros/custom_enumeration.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

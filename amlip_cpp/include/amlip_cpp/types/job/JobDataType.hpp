@@ -13,26 +13,24 @@
 // limitations under the License.
 
 /*!
- * @file SolutionDataType.hpp
+ * @file JobDataType.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
-#define AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
+#ifndef AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
 
-#include <types/GenericDataType.hpp>
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
 /*!
- * @brief AML Solution Task Data Type
+ * @brief AML Job Task Data Type
  *
  * This class may be reimplemented according with AML team designs.
- *
- * TODO: change name to JobSolutionDataType
  */
-class SolutionDataType : public GenericDataType
+class JobDataType : public GenericDataType
 {
 public:
 
@@ -45,4 +43,4 @@ public:
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
+#endif // AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP

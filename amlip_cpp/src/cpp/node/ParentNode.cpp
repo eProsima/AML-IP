@@ -18,8 +18,9 @@
 
 #include <cpp_utils/Log.hpp>
 
+#include <dds/Participant.hpp>
 #include <network/topic.hpp>
-#include <node/ParentNode.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -28,8 +29,8 @@ namespace node {
 ParentNode::ParentNode(
         const char* name,
         types::NodeKind node_kind)
-    : participant_(name)
-    , status_writer_(participant_.create_writer<types::StatusDataType>(
+    : participant_(std::make_unique<dds::Participant>(name))
+    , status_writer_(participant_->create_writer<types::StatusDataType>(
                 network::STATUS_TOPIC_NAME,
                 network::status_writer_qos()))
     , current_state_(types::StateKind::stopped)
@@ -57,7 +58,7 @@ ParentNode::~ParentNode()
 
 types::AmlipIdDataType ParentNode::id() const noexcept
 {
-    return participant_.id();
+    return participant_->id();
 }
 
 types::StateKind ParentNode::current_state() const noexcept
@@ -71,7 +72,7 @@ types::NodeKind ParentNode::node_kind() const noexcept
 }
 
 void ParentNode::change_status_(
-        types::StateKind new_state) noexcept
+        const types::StateKind& new_state) noexcept
 {
     current_state_ = new_state;
     publish_status_();

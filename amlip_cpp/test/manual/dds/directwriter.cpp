@@ -21,7 +21,7 @@
 
 #include <cpp_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <dds/Participant.hpp>
 
 int main(
@@ -31,13 +31,13 @@ int main(
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test DirectWriter execution. Creating Participant...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test DirectWriter execution. Creating Participant...");
 
     {
         // Create Participant
         eprosima::amlip::dds::Participant participant("ManualTestParticipant");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Reader for getting Id...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Reader for getting Id...");
 
         // Create Reader to get id of the target
         eprosima::fastdds::dds::DataReaderQos qos;
@@ -48,39 +48,39 @@ int main(
         std::shared_ptr<eprosima::amlip::dds::Reader<eprosima::amlip::types::AmlipIdDataType>> reader =
                 participant.create_reader<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic", qos);
 
-        logUser(AMLIP_MANUAL_TEST, "Created Reader. Waiting for Id...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Reader. Waiting for Id...");
 
         // Wait to receive target id
         reader->wait_data_available();
 
-        logUser(AMLIP_MANUAL_TEST, "Received Data with target Id. Reading Id...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Received Data with target Id. Reading Id...");
 
         // Read target id
         eprosima::amlip::types::AmlipIdDataType target_id = reader->read();
 
-        logUser(AMLIP_MANUAL_TEST, "Read Id: " << target_id << ". Creating Direct Writer...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Read Id: " << target_id << ". Creating Direct Writer...");
 
         // Create Writer
         std::shared_ptr<eprosima::amlip::dds::DirectWriter<eprosima::amlip::types::AmlipIdDataType>> writer =
                 participant.create_direct_writer<eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
-        logUser(AMLIP_MANUAL_TEST, "Created Direct Writer. Waiting to match with TargetedReader...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Created Direct Writer. Waiting to match with TargetedReader...");
 
         // Wait for matching
         writer->wait_match(target_id);
         // Wait a bit to let the reader do the match
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-        logUser(AMLIP_MANUAL_TEST, "Matched with Reader. Sending data...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Matched with Reader. Seding data...");
 
         // Send data
         eprosima::amlip::types::AmlipIdDataType data("TESTDATA");
         writer->write(target_id, data);
 
-        logUser(AMLIP_MANUAL_TEST, "Direct Writer has sent message: " << data << ". Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Direct Writer has sent message: " << data << ". Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test DirectWriter execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test DirectWriter execution.");
 
     return 0;
 }

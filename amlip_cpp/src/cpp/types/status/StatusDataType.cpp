@@ -18,6 +18,8 @@
 
 #include <fastcdr/Cdr.h>
 
+#include <cpp_utils/utils.hpp>
+
 #include <types/status/StatusDataType.hpp>
 
 namespace eprosima {
@@ -74,6 +76,11 @@ StateKind StatusDataType::state() const noexcept
 bool StatusDataType::is_defined() const noexcept
 {
     return (id().is_defined() && node_kind() != NodeKind::undetermined && state() != StateKind::unknown);
+}
+
+std::string StatusDataType::to_string() const noexcept
+{
+    return utils::generic_to_string(*this);
 }
 
 void StatusDataType::serialize(

@@ -126,7 +126,7 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
     }
 
     // From here, task_target has the reference for the task this must solve
-    logDebug(AMLIP_MULTISERVICE_SERVER,
+    logDebug(AMLIPCPP_MULTISERVICE_SERVER,
             "Server " << own_id_ << " processing task: " << task_target.task_id() <<
             " from client: " << task_target.client_id() << ".");
 

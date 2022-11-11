@@ -21,12 +21,21 @@
 
 #include <functional>
 
-#include <cpp_utils/memory/owner_ptr.hpp>
-#include <cpp_utils/ReturnCode.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
+#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <amlip_cpp/types/job/SolutionDataType.hpp>
 
-#include <node/ParentNode.hpp>
-#include <types/job/JobDataType.hpp>
-#include <types/job/SolutionDataType.hpp>
+// Forward declaration of dds classes
+namespace eprosima {
+namespace amlip {
+namespace dds {
+
+template <typename Task, typename Solution>
+class MultiServiceClient;
+
+} /* namespace dds */
+} /* namespace amlip */
+} /* namespace eprosima */
 
 namespace eprosima {
 namespace amlip {

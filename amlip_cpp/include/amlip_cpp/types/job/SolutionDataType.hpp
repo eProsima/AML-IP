@@ -12,41 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file MetaNode.hpp
+/*!
+ * @file SolutionDataType.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_NODE_METANODE_HPP
-#define AMLIPCPP__SRC_CPP_NODE_METANODE_HPP
+#ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
 
-#include <cpp_utils/memory/owner_ptr.hpp>
-
-#include <dds/Participant.hpp>
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace dds {
+namespace types {
 
-/**
- * @brief TODO
+/*!
+ * @brief AML Solution Task Data Type
  *
+ * This class may be reimplemented according with AML team designs.
+ *
+ * TODO: change name to JobSolutionDataType
  */
-class MetaNode
+class SolutionDataType : public GenericDataType
 {
 public:
 
+    //! Use parent constructors
+    using GenericDataType::GenericDataType;
+
 };
 
-//! \c MetaNode to stream serializator
-std::ostream& operator <<(
-        std::ostream& os,
-        const MetaNode& participant);
-
-} /* namespace dds */
+} /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-// Include implementation template file
-#include <dds/impl/MetaNode.ipp>
-
-#endif /* AMLIPCPP__SRC_CPP_NODE_METANODE_HPP */
+#endif // AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP

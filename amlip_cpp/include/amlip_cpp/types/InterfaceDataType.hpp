@@ -13,13 +13,11 @@
 // limitations under the License.
 
 /*!
- * @file MsDataType.hpp
+ * @file InterfaceDataType.hpp
  */
 
-#ifndef AMLIPCPP_TYPES_MSDATATYPE_HPP
-#define AMLIPCPP_TYPES_MSDATATYPE_HPP
-
-#include <types/MsReferenceDataType.hpp>
+#ifndef AMLIPCPP_TYPES_INTERFACEDATATYPE_HPP
+#define AMLIPCPP_TYPES_INTERFACEDATATYPE_HPP
 
 namespace eprosima {
 namespace fastcdr {
@@ -33,31 +31,19 @@ namespace amlip {
 namespace types {
 
 /**
- * TODO
+ * @brief Interface to create DDS DataTypes.
+ *
+ * Every DataType that will work beneath the AMLIP library must implement this interface.
+ * This is because the "PubSub" type (actually TopicDataType) is a template class, and it needs
+ * to know the type of the data that will be published.
+ * This specialization could only be done from a class inheriting from this interface.
+ *
+ * @warning This interface requires to override some methods, including static ones.
+ * Every class inheriting from it must override every method initialized in this file.
  */
-template <typename T>
-class MsDataType : public MsReferenceDataType
+class InterfaceDataType
 {
-
-    FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
-
 public:
-
-    MsDataType();
-
-    MsDataType(
-            const AmlipIdDataType& client_id,
-            const TaskId& task_id,
-            const AmlipIdDataType& server_id,
-            const T& data);
-
-    MsDataType(
-            const MsReferenceDataType& reference,
-            const T& data);
-
-    MsDataType(
-            MsReferenceDataType&& reference,
-            T&& data);
 
     /*!
      * @brief This function serializes an object using CDR serialization.
@@ -67,7 +53,7 @@ public:
      * @warning this method must be overriden in child class.
      */
     virtual void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
+            eprosima::fastcdr::Cdr& cdr) const = 0;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
@@ -77,7 +63,7 @@ public:
      * @warning this method must be overriden in child class.
      */
     virtual void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
+            eprosima::fastcdr::Cdr& cdr) = 0;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
@@ -87,7 +73,7 @@ public:
      * @warning this method must be overriden in child class.
      */
     virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
+            eprosima::fastcdr::Cdr& cdr) const = 0;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -113,7 +99,7 @@ public:
      * @warning this method must be overriden in child class.
      */
     static size_t get_cdr_serialized_size(
-            const MsDataType& data,
+            const InterfaceDataType& data,
             size_t current_alignment = 0);
 
     /*!
@@ -170,24 +156,10 @@ public:
      * @warning this method must be overriden in child class.
      */
     static std::string type_name();
-
-    const T& data() const;
-
-    void data(
-            T new_value);
-
-protected:
-
-    static const char* DATA_TYPE_PREFIX_NAME_;
-
-    T data_;
 };
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-// Include implementation template file
-#include <types/impl/MsDataType.ipp>
-
-#endif // AMLIPCPP_TYPES_MSDATATYPE_HPP
+#endif // AMLIPCPP_TYPES_INTERFACEDATATYPE_HPP

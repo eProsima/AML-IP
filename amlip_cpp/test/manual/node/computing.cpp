@@ -17,12 +17,13 @@
  *
  */
 
+#include <algorithm>
 #include <thread>
 
 #include <cpp_utils/Log.hpp>
 
-#include <types/AmlipIdDataType.hpp>
-#include <node/ComputingNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/node/ComputingNode.hpp>
 
 /*
  * The job in this example will be a string serialized to bytes.
@@ -37,13 +38,13 @@ int main(
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Computing Node execution. Creating Node...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Computing Node execution. Creating Node...");
 
     {
         // Create Computing Node
         eprosima::amlip::node::ComputingNode computing_node("TestComputingNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created: " << computing_node << ". Answering job request...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << computing_node << ". Answering job request...");
 
         // Answer job request
         eprosima::amlip::types::MsReferenceDataType reference = computing_node.process_job(
@@ -53,14 +54,14 @@ int main(
                 std::string data_str(static_cast<char*>(data.data()), data.data_size());
 
                 logUser(
-                    AMLIP_MANUAL_TEST,
+                    AMLIPCPP_MANUAL_TEST,
                     "Job data: " << data_str << " received.");
 
                 // Mangling string converting it to upper case
                 std::transform(data_str.begin(), data_str.end(), data_str.begin(), ::toupper);
 
                 logUser(
-                    AMLIP_MANUAL_TEST,
+                    AMLIPCPP_MANUAL_TEST,
                     "Job solution: " << data_str << ".");
 
                 // Create and allocate ptr that will be then released by the Generic Data Type
@@ -75,10 +76,10 @@ int main(
         // Let a bit of time for the solution to be sent
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-        logUser(AMLIP_MANUAL_TEST, "Answered job task: " << reference << ". Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Answered job task: " << reference << ". Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Computing Node execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Computing Node execution.");
 
     return 0;
 }

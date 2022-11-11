@@ -22,8 +22,8 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/event/SignalEventHandler.hpp>
 
-#include <types/AmlipIdDataType.hpp>
-#include <node/StatusNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/node/StatusNode.hpp>
 
 int main(
         int argc,
@@ -35,32 +35,32 @@ int main(
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
 
     {
         // Create Status Node
         eprosima::amlip::node::StatusNode status_node("TestStatusNode");
 
-        logUser(AMLIP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
 
         // Create callback that only prints by stdout the status that arrives
         status_node.process_status_async(
             [&status_node](const eprosima::amlip::types::StatusDataType& data)
             {
                 logUser(
-                    AMLIP_MANUAL_TEST,
+                    AMLIPCPP_MANUAL_TEST,
                     "Status: " << data << " received by :" << status_node.id() << ".");
             });
 
-        logUser(AMLIP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
 
         eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
         sigint_handler.wait_for_event();
 
-        logUser(AMLIP_MANUAL_TEST, "SIGINT received. Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "SIGINT received. Destroying entities...");
     }
 
-    logUser(AMLIP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
 
     return 0;
 }
