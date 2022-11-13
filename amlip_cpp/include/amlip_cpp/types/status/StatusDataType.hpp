@@ -31,6 +31,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+// TODO do this in a more elegant way
 /*!
  * @brief This class represents the enumeration NodeKind defined by the user in the IDL file.
  * @ingroup STATUS

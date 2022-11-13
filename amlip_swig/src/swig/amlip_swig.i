@@ -65,6 +65,7 @@ typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 typedef unsigned long uint64_t;
 
+// IMPORTANT: the order of these includes is relevant, and must keep same order of cpp declarations.
 // types
 %include "amlip_swig/types/InterfaceDataType.i"
 %include "amlip_swig/types/GenericDataType.i"
