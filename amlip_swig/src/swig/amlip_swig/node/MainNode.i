@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_cpp") "amlip_cpp/node/ParentNode.hpp";
+%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
 %{
 #include <amlip_cpp/node/MainNode.hpp>

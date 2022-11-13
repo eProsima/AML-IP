@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_cpp") "amlip_cpp/types/InterfaceDataType.hpp";
+%import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
 // Include the class interfaces
 // %include <amlip_cpp/types/id/StatusDataType.hpp>

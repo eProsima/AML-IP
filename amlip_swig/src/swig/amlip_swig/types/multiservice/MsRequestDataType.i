@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_cpp") "amlip_cpp/types/InterfaceDataType.hpp";
+%import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
 // Define type
 typedef uint32_t eprosima::amlip::types::TaskId;

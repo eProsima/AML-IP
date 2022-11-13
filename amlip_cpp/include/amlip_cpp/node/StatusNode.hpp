@@ -46,7 +46,7 @@ class StatusFunctor
 {
 public:
 
-    virtual ~StatusFunctor();
+    virtual ~StatusFunctor() = default;
     virtual bool operator () (
             const types::StatusDataType& status) const = 0;
 };
@@ -81,7 +81,11 @@ public:
      * @pre Should only be called once per instance before calling \c stop_processing
      */
     void process_status_async(
-            const StatusFunctor& callback_functor);
+            const StatusFunctor& callback_functor)
+    {
+        // TODO
+        static_cast<void>(callback_functor);
+    }
 
     /**
      * Stop the internal thread that is running created in \c process_status_async

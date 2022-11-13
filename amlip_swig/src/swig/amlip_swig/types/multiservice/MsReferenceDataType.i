@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_cpp") "amlip_cpp/types/multiservice/MsRequestDataType.hpp";
+%import(module="amlip_swig") "amlip_cpp/types/multiservice/MsRequestDataType.hpp";
 
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
