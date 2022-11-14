@@ -13,14 +13,14 @@
 # limitations under the License.
 """AML-IP Status Node API specification."""
 
-from amlip_swig import StatusAmlipNode as cpp_StatusAmlipNode
-from amlip_swig import StatusAmlipNodeFunctor
+from amlip_swig import StatusNode as cpp_StatusNode
+from amlip_swig import StatusNodeFunctor
 
-from amlip_node_py.types.AmlipId import AmlipId
+from amlip_py.types.StatusDataType import StatusDataType
 
 
-class CustomStatusAmlipNodeFunctor(StatusAmlipNodeFunctor):
-    """Custom StatusAmlipNodeFunctor."""
+class CustomStatusNodeFunctor(StatusNodeFunctor):
+    """Custom StatusNodeFunctor."""
 
     def __init__(self, callback):
         """Construct new object with lambda as callback."""
@@ -33,7 +33,7 @@ class CustomStatusAmlipNodeFunctor(StatusAmlipNodeFunctor):
         return True
 
 
-class StatusAmlipNode(cpp_StatusAmlipNode):
+class StatusNode(cpp_StatusNode):
     """
     AML-IP Status Node.
 
@@ -43,7 +43,7 @@ class StatusAmlipNode(cpp_StatusAmlipNode):
 
     def __init__(self, lambda_callback=None):
         """
-        Create a new StatusAmlipNode.
+        Create a new StatusNode.
 
         :param lambda_callback: Callback to be called when a new Status is received.
         If lambda is given, use it whenever a new status is read.
@@ -51,13 +51,13 @@ class StatusAmlipNode(cpp_StatusAmlipNode):
         """
         # Object attribute to store functor.
         # This cannot be removed while the callback could be called.
-        self.custom_lambda_ = CustomStatusAmlipNodeFunctor(lambda_callback)
+        self.custom_lambda_ = CustomStatusNodeFunctor(lambda_callback)
 
         # It is different a None than not passing an argument, so this if is needed
         if lambda_callback is None:
             super().__init__()
         else:
-            # custom_lambda_ = CustomStatusAmlipNodeFunctor(lambda_callback)
+            # custom_lambda_ = CustomStatusNodeFunctor(lambda_callback)
             super().__init__(self.custom_lambda_)
 
     def spin(self) -> None:
@@ -67,12 +67,12 @@ class StatusAmlipNode(cpp_StatusAmlipNode):
         Let this entity Reader read messages published in Status topic
         and show every of them in stdout till method stop is called.
         """
-        return cpp_StatusAmlipNode.spin(self)
+        return cpp_StatusNode.spin(self)
 
     def stop(self) -> None:
         """Stop this entity if it is spinning. Does nothing otherwise."""
-        return cpp_StatusAmlipNode.stop(self)
+        return cpp_StatusNode.stop(self)
 
-    def get_id(self) -> AmlipId:
+    def get_id(self) -> StatusDataType:
         """Get id of the node."""
-        return AmlipId(cpp_StatusAmlipNode.id(self))
+        return StatusDataType(cpp_StatusNode.id(self))
