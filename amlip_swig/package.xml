@@ -28,10 +28,4 @@
     <build_type>cmake</build_type>
   </export>
 
-  <!--
-    TODO: check if some export is required
-    Without it colcon shows a warning:
-    Manually-specified variables were not used by the project: CATKIN_INSTALL_INTO_PREFIX_ROOT
-  -->
-
 </package>

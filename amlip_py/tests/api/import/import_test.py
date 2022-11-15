@@ -11,34 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""AML-IP Job data type API specification."""
 
+# Types
+import amlip_py.types.AmlipIdDataType
+import amlip_py.types.StatusDataType
+import amlip_py.types.JobDataType
+import amlip_py.types.SolutionDataType
 
-from amlip_swig import JobDataType as cpp_JobDataType
-
-
-class JobDataType(cpp_JobDataType):
-    """TODO"""
-
-    def __init__(
-            self,
-            message: str):
-        """TODO"""
-        super().__init__(message)
-
-    def __str__(
-            self) -> str:
-        """TODO"""
-        return cpp_JobDataType.to_string(self)
-
-
-    def to_string(
-            self) -> str:
-        """TODO"""
-        return cpp_JobDataType.to_string(self)
-
-
-    def to_vector(
-            self) -> bytes:
-        """TODO"""
-        return cpp_JobDataType.to_vector(self)
+# Nodes
+import amlip_py.node.StatusNode

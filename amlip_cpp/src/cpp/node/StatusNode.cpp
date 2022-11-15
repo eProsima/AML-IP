@@ -74,6 +74,26 @@ void StatusNode::process_status_async(
     }
 }
 
+void StatusNode::process_status_async(
+        const StatusListener& callback_functor)
+{
+    if (processing_)
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Status node " << this << " is already processing data.");
+    }
+    else
+    {
+        processing_ = true;
+        process_thread_ = std::thread(
+            &StatusNode::process_routine_,
+            this,
+            [&callback_functor](const types::StatusDataType& status){ callback_functor.status_received(status); });
+
+        change_status_(types::StateKind::running);
+    }
+}
+
 void StatusNode::stop_processing()
 {
     if (processing_)

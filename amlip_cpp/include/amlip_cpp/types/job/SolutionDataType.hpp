@@ -19,6 +19,9 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
 
+#include <string>
+#include <vector>
+
 #include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
@@ -39,6 +42,12 @@ public:
     //! Use parent constructors
     using GenericDataType::GenericDataType;
 
+    // TODO: This methods are required for SWIG, check if there is some way to avoid it
+    SolutionDataType(
+        const std::vector<ByteType>& bytes);
+
+    SolutionDataType(
+        const std::string& bytes);
 };
 
 } /* namespace types */

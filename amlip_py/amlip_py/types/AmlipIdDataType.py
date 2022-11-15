@@ -13,10 +13,11 @@
 # limitations under the License.
 """AML-IP AmlipIdDataType data type API specification."""
 
-from amlip_swig import AmlipIdDataType as cpp_AmlipId
+
+from amlip_swig import AmlipIdDataType as cpp_AmlipIdDataType
 
 
-class AmlipIdDataType(cpp_AmlipId):
+class AmlipIdDataType(cpp_AmlipIdDataType):
     """
     TODO
     """
@@ -24,11 +25,13 @@ class AmlipIdDataType(cpp_AmlipId):
     def __init__(self, name: str):
         super().__init__(name)
 
+
     def get_name(self) -> str:
-        return cpp_AmlipId.name()
+        return cpp_AmlipIdDataType.name()
+
 
     def is_defined(self) -> bool:
-        return cpp_AmlipId.is_defined(self)
+        return cpp_AmlipIdDataType.is_defined(self)
 
     # TODO check if this is needed or it is taken from parent
     # def __str__(self) -> str:

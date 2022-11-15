@@ -15,45 +15,53 @@
 
 from enum import Enum
 
-from amlip_swig import Status as cpp_Status
-from amlip_swig import UNDETERMINED, DISCOVERY, AGENT, MAIN, COMPUTATIONAL, EDGE, STATUS
-from amlip_swig import UNKNOWN, RUNNING, DISABLED
-
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
+
+from amlip_swig import NodeKind_agent, NodeKind_computing, NodeKind_discovery, NodeKind_main
+from amlip_swig import NodeKind_meta, NodeKind_status, NodeKind_undetermined
+from amlip_swig import StateKind_dropped, StateKind_running, StateKind_stopped, StateKind_unknown
+from amlip_swig import StatusDataType as cpp_StatusDataType
 
 
 class NodeKind(Enum):
-    UNDETERMINED = UNDETERMINED
-    DISCOVERY = DISCOVERY
-    AGENT = AGENT
-    MAIN = MAIN
-    COMPUTATIONAL = COMPUTATIONAL
-    EDGE = EDGE
-    STATUS = STATUS
+    """TODO"""
+    UNDETERMINED = NodeKind_undetermined
+    DISCOVERY = NodeKind_discovery
+    AGENT = NodeKind_agent
+    MAIN = NodeKind_main
+    COMPUTATIONAL = NodeKind_computing
+    EDGE = NodeKind_status
+    STATUS = NodeKind_meta
 
 
 class StatusKind(Enum):
-    UNKNOWN = UNKNOWN
-    RUNNING = RUNNING
-    DISABLED = DISABLED
+    """TODO"""
+    UNKNOWN = StateKind_unknown
+    RUNNING = StateKind_running
+    STOPPED = StateKind_stopped
+    DROPPED = StateKind_dropped
 
 
-class Status(cpp_Status):
+class StatusDataType(cpp_StatusDataType):
     """
     TODO
     """
 
     def __init__(self, *args):
+        """TODO"""
         super().__init__(*args)
 
     def get_id(self) -> AmlipIdDataType:
-        return cpp_Status.id(self)
+        """TODO"""
+        return cpp_StatusDataType.id(self)
 
     def get_node_kind(self) -> NodeKind:
-        return cpp_Status.node_kind(self)
+        """TODO"""
+        return cpp_StatusDataType.node_kind(self)
 
     def get_status_kind(self) -> StatusKind:
-        return cpp_Status.status_kind(self)
+        """TODO"""
+        return cpp_StatusDataType.status_kind(self)
 
     # TODO check if this is needed or it is taken from parent
     # def __str__(self) -> str:

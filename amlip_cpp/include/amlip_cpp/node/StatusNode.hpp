@@ -42,12 +42,13 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-class StatusFunctor
+class StatusListener
 {
 public:
 
-    virtual ~StatusFunctor() = default;
-    virtual bool operator () (
+    virtual ~StatusListener() = default;
+
+    virtual void status_received (
             const types::StatusDataType& status) const = 0;
 };
 
@@ -81,11 +82,7 @@ public:
      * @pre Should only be called once per instance before calling \c stop_processing
      */
     void process_status_async(
-            const StatusFunctor& callback_functor)
-    {
-        // TODO
-        static_cast<void>(callback_functor);
-    }
+            const StatusListener& callback_functor);
 
     /**
      * Stop the internal thread that is running created in \c process_status_async

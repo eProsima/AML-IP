@@ -36,7 +36,7 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Computing Node execution. Creating Node...");
 
