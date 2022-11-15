@@ -42,12 +42,13 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-class JobFunctor
+class JobListener
 {
 public:
 
-    virtual ~JobFunctor() = default;
-    virtual types::SolutionDataType operator () (
+    virtual ~JobListener() = default;
+
+    virtual types::SolutionDataType process_job (
             const types::JobDataType& job) const = 0;
 };
 
@@ -71,12 +72,7 @@ public:
             const std::function<types::SolutionDataType(const types::JobDataType&)>& callback);
 
     types::MsReferenceDataType process_job(
-            const JobFunctor& callback_functor)
-    {
-        // TODO
-        static_cast<void>(callback_functor);
-        return types::MsReferenceDataType();
-    }
+            const JobListener& callback_functor);
 
 protected:
 

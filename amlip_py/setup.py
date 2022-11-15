@@ -3,19 +3,16 @@ from setuptools import setup
 
 package_name = 'amlip_py'
 
-description = 'AML-IP AML Tool'
+description = 'AML-IP Python API'
 long_description = description
-# with open('README.md', 'r') as f:
-#     long_description = f.read()
+with open('README.md', 'r') as f:
+    long_description = f.read()
 
 file_packages = [
     package_name,
     package_name + '/node',
     package_name + '/types',
 ]
-
-# TODO remove
-variable = 'this variable is veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery long for python'
 
 setup(
     name=package_name,

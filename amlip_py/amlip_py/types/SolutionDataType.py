@@ -11,16 +11,34 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""AML-IP Job data type API specification."""
+"""AML-IP Solution data type API specification."""
+
 
 from amlip_swig import SolutionDataType as cpp_SolutionDataType
 
 
 class SolutionDataType(cpp_SolutionDataType):
-    """
-    TODO
-    """
+    """TODO"""
 
-    # TODO set argument type
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(
+            self,
+            message: str):
+        """TODO"""
+        super().__init__(message)
+
+    def __str__(
+            self) -> str:
+        """TODO"""
+        return cpp_SolutionDataType.to_string(self)
+
+
+    def to_string(
+            self) -> str:
+        """TODO"""
+        return cpp_SolutionDataType.to_string(self)
+
+
+    def to_vector(
+            self) -> bytes:
+        """TODO"""
+        return cpp_SolutionDataType.to_vector(self)

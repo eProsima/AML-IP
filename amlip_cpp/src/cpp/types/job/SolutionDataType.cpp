@@ -12,20 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-////////////////////////////////////////////////////////
-// Binding for class ComputingNode
-////////////////////////////////////////////////////////
+/*!
+ * @file SolutionDataType.cpp
+ */
 
-// Import parent class
-%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
+#include <amlip_cpp/types/job/SolutionDataType.hpp>
 
-// Generate directors for the virtual methods in the listener
-// IMPORTANT: this statement must be before including the hpp
-%feature("director") eprosima::amlip::node::JobListener;
+namespace eprosima {
+namespace amlip {
+namespace types {
 
-%{
-#include <amlip_cpp/node/ComputingNode.hpp>
-%}
+SolutionDataType::SolutionDataType(
+        const std::vector<ByteType>& bytes)
+    : GenericDataType(bytes)
+{
+    // Do nothing
+}
 
-// Include the class interfaces
-%include <amlip_cpp/node/ComputingNode.hpp>
+SolutionDataType::SolutionDataType(
+        const std::string& bytes)
+    : GenericDataType(bytes)
+{
+    // Do nothing
+}
+
+} /* namespace types */
+} /* namespace amlip */
+} /* namespace eprosima */

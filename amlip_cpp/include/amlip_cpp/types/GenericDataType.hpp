@@ -21,6 +21,8 @@
 #define AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
 
 #include <atomic>
+#include <string>
+#include <vector>
 
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
@@ -34,6 +36,8 @@ class Cdr;
 namespace eprosima {
 namespace amlip {
 namespace types {
+
+using ByteType = uint8_t;
 
 /*!
  * @brief This class represents the structure GenericDataType, which allows to send any type of data as a void*.
@@ -56,6 +60,12 @@ public:
      * @brief Default constructor.
      */
     GenericDataType();
+
+    GenericDataType(
+        const std::vector<ByteType>& bytes);
+
+    GenericDataType(
+        const std::string& bytes);
 
     /*!
      * @brief Default destructor.
@@ -83,7 +93,7 @@ public:
      * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
      */
     GenericDataType& operator =(
-            const GenericDataType&) = delete;
+            const GenericDataType&);
 
     /*!
      * @brief Move assignment.
@@ -203,6 +213,10 @@ public:
      */
     static bool construct_sample(
             void* memory);
+
+    std::string to_string() const noexcept;
+
+    std::vector<ByteType> to_vector() const noexcept;
 
 protected:
 

@@ -55,6 +55,15 @@ types::MsReferenceDataType ComputingNode::process_job(
     return job_server_->process_task_sync(callback);
 }
 
+types::MsReferenceDataType ComputingNode::process_job(
+        const JobListener& listener)
+{
+    return job_server_->process_task_sync(
+        [&listener]
+        (const types::JobDataType& job)
+        { return listener.process_job(job); });
+}
+
 std::ostream& operator <<(
         std::ostream& os,
         const ComputingNode& node)

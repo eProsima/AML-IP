@@ -19,6 +19,9 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_JOBDATATYPE_HPP
 
+#include <string>
+#include <vector>
+
 #include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
@@ -37,6 +40,12 @@ public:
     //! Use parent constructors
     using GenericDataType::GenericDataType;
 
+    // TODO: This methods are required for SWIG, check if there is some way to avoid it
+    JobDataType(
+        const std::vector<ByteType>& bytes);
+
+    JobDataType(
+        const std::string& bytes);
 };
 
 } /* namespace types */

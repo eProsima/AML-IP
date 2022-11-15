@@ -57,6 +57,7 @@ public:
 
     ~MainNode();
 
+    // TODO: give user support so it can get the info of the request (e.g. who has answered).
     types::SolutionDataType request_job_solution(
             const types::JobDataType& data);
 

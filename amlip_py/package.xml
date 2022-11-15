@@ -15,7 +15,6 @@
   <url type="bugtracker">https://github.com/eProsima/AML-IP/issues</url>
   <url type="repository">https://github.com/eProsima/AML-IP</url>
 
-
   <depend>amlip_swig</depend>
 
   <test_depend>python3-pytest</test_depend>
