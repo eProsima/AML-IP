@@ -16,7 +16,7 @@
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.JobDataType import JobDataType
-from amlip_py.types.SolutionDataType import SolutionDataType
+from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 from amlip_swig import ComputingNode as cpp_ComputingNode
 from amlip_swig import JobListener as cpp_JobListener
@@ -32,7 +32,7 @@ class JobListener(cpp_JobListener):
 
     def process_job(
             self,
-            job: JobDataType) -> SolutionDataType:
+            job: JobDataType) -> JobSolutionDataType:
         """
         Raise exception.
 
@@ -57,7 +57,7 @@ class JobLambda(JobListener):
 
     def process_job(
             self,
-            job: JobDataType) -> SolutionDataType:
+            job: JobDataType) -> JobSolutionDataType:
         """Call internal lambda."""
         return self.callback_(job)
 

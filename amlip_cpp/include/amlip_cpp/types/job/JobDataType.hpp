@@ -28,10 +28,13 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-/*!
+/**
  * @brief AML Job Task Data Type
  *
- * This class may be reimplemented according with AML team designs.
+ * This class implements the Job DataType, the information of training data and a model state.
+ * So far this class is a generic void* and size to a bunch of bytes.
+ *
+ * @note This class may be reimplemented according with AML team designs.
  */
 class JobDataType : public GenericDataType
 {
@@ -40,10 +43,10 @@ public:
     //! Use parent constructors
     using GenericDataType::GenericDataType;
 
-    // TODO: This methods are required for SWIG, check if there is some way to avoid it
+    // TODO: This methods are included already in GenericDataType,
+    // but they are required for SWIG, check if there is some way to avoid it
     JobDataType(
         const std::vector<ByteType>& bytes);
-
     JobDataType(
         const std::string& bytes);
 };

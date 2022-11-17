@@ -41,7 +41,7 @@ int main(
 
     {
         // Create Main Node
-        eprosima::amlip::node::MainNode main_node("TestMainNode");
+        eprosima::amlip::node::MainNode main_node("CppMainNode_Manual");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << main_node << ". Creating job...");
 
@@ -55,9 +55,10 @@ int main(
         logUser(AMLIPCPP_MANUAL_TEST, "Job data created with string: " << data_str << ". Sending request...");
 
         // Send job request
-        eprosima::amlip::types::SolutionDataType solution = main_node.request_job_solution(job_data);
+        eprosima::amlip::types::AmlipIdDataType server_id;
+        eprosima::amlip::types::JobSolutionDataType solution = main_node.request_job_solution(job_data, server_id);
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Solution received. Deserializing to string...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Solution received from server: " << server_id << ". Deserializing to string...");
 
         // Convert solution to string
         std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());

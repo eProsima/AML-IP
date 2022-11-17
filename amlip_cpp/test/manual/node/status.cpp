@@ -39,7 +39,7 @@ int main(
 
     {
         // Create Status Node
-        eprosima::amlip::node::StatusNode status_node("TestStatusNode");
+        eprosima::amlip::node::StatusNode status_node("CppStatusNode_Lambda_Manual");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
 

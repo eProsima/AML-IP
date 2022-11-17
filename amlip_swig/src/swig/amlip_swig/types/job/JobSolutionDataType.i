@@ -13,35 +13,19 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class StatusDataType
+// Binding for class JobSolutionDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
-
-// Include the class interfaces
-// %include <amlip_cpp/types/id/StatusDataType.hpp>
+%import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
 
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
 
-// Ignore overloaded methods that have no application on Python
-// Otherwise they will issue a warning
-%ignore eprosima::amlip::types::StatusDataType::StatusDataType(StatusDataType&&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const StatusDataType&);
-
-// Declare the to string method
-%extend eprosima::amlip::types::StatusDataType {
-    std::string __str__() const
-    {
-        return $self->to_string();
-    }
-}
-
 %{
-#include <amlip_cpp/types/status/StatusDataType.hpp>
+#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 %}
 
-// Include needed headers
-%include <amlip_cpp/types/status/StatusDataType.hpp>
+// Include the class interfaces
+%include <amlip_cpp/types/job/JobSolutionDataType.hpp>

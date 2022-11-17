@@ -12,30 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/*!
- * @file SolutionDataType.cpp
- */
+////////////////////////////////////////////////////////
+// Binding for class StateKind
+////////////////////////////////////////////////////////
 
-#include <amlip_cpp/types/job/SolutionDataType.hpp>
+// Ignore overloaded methods that have no application on Python
+// Otherwise they will issue a warning
+%ignore eprosima::amlip::types::operator <<(std::ostream &,const StateKind&);
+%ignore eprosima::amlip::types::to_string(const StateKind&);
 
-namespace eprosima {
-namespace amlip {
-namespace types {
+%{
+#include <amlip_cpp/types/status/StateKind.hpp>
 
-SolutionDataType::SolutionDataType(
-        const std::vector<ByteType>& bytes)
-    : GenericDataType(bytes)
-{
-    // Do nothing
-}
+// enum class are required to be added with a using
+using StateKind = eprosima::amlip::types::StateKind;
+%}
 
-SolutionDataType::SolutionDataType(
-        const std::string& bytes)
-    : GenericDataType(bytes)
-{
-    // Do nothing
-}
-
-} /* namespace types */
-} /* namespace amlip */
-} /* namespace eprosima */
+%include <amlip_cpp/types/status/StateKind.hpp>

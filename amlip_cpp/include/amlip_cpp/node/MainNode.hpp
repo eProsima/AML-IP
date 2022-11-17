@@ -23,7 +23,7 @@
 
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
-#include <amlip_cpp/types/job/SolutionDataType.hpp>
+#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 
 // Forward declaration of dds classes
 namespace eprosima {
@@ -42,7 +42,13 @@ namespace amlip {
 namespace node {
 
 /**
- * @brief TODO
+ * @brief This is a specialization of AML-IP Node that sends Job data and waits for the Solution.
+ *
+ * Main Nodes are the ones in charge of sending training data (Job) and collecting the solution to those (Solution).
+ * Using \c request_job_solution it will send a Job to a Computing Node that is available, and will wait for
+ * the Solution retrieved by such Node.
+ *
+ * @todo implement an asynchronous request_job_solution method.
  *
  * @warning Not Thread Safe (yet) (TODO)
  */
@@ -50,20 +56,61 @@ class MainNode : public ParentNode
 {
 public:
 
+    /**
+     * @brief Construct a new Main Node object.
+     *
+     * @param name name of the Node (it is advisable to be unique, or at least representative).
+     */
     MainNode(
             const char* name);
+
+    //! Same as previous ctor but with a string argument.
     MainNode(
             const std::string& name);
 
+    /**
+     * @brief Destroy the Main Node object and its internal DDS entities.
+     *
+     * @pre This could not be called while processing job.
+     */
     ~MainNode();
 
-    // TODO: give user support so it can get the info of the request (e.g. who has answered).
-    types::SolutionDataType request_job_solution(
+    /**
+     * @brief Send a Job to any Computing Node available and wait for the solution.
+     *
+     * @param data [in] Job to send.
+     *
+     * @attention this method is synchronous and will not finished until the job has been solved.
+     * (wait for new cool features to call it asynchronously).
+     *
+     * @return Solution of the Job
+     */
+    types::JobSolutionDataType request_job_solution(
             const types::JobDataType& data);
+
+    /**
+     * @brief Send a Job to any Computing Node available and wait for the solution, getting the Id of the solver.
+     *
+     * @param data [in] Job to send.
+     * @param server [out] Id of the Node that has answered the Job.
+     *
+     * @attention this method is synchronous and will not finished until the job has been solved.
+     * (wait for new cool features to call it asynchronously).
+     *
+     * @return Solution of the Job
+     */
+    types::JobSolutionDataType request_job_solution(
+            const types::JobDataType& data,
+            types::AmlipIdDataType& server);
 
 protected:
 
-    std::shared_ptr<dds::MultiServiceClient<types::JobDataType, types::SolutionDataType>> job_client_;
+    /**
+     * @brief Reference to the MultiService Client that sends jobs.
+     *
+     * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
+     */
+    std::shared_ptr<dds::MultiServiceClient<types::JobDataType, types::JobSolutionDataType>> job_client_;
 };
 
 } /* namespace node */

@@ -70,9 +70,11 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/InterfaceDataType.i"
 %include "amlip_swig/types/GenericDataType.i"
 %include "amlip_swig/types/id/AmlipIdDataType.i"
+%include "amlip_swig/types/status/NodeKind.i"
+%include "amlip_swig/types/status/StateKind.i"
 %include "amlip_swig/types/status/StatusDataType.i"
 %include "amlip_swig/types/job/JobDataType.i"
-%include "amlip_swig/types/job/SolutionDataType.i"
+%include "amlip_swig/types/job/JobSolutionDataType.i"
 %include "amlip_swig/types/multiservice/MsRequestDataType.i"
 %include "amlip_swig/types/multiservice/MsReferenceDataType.i"
 // node

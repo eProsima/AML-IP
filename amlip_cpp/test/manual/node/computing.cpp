@@ -42,12 +42,13 @@ int main(
 
     {
         // Create Computing Node
-        eprosima::amlip::node::ComputingNode computing_node("TestComputingNode");
+        eprosima::amlip::node::ComputingNode computing_node("CppComputingNode_Manual");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << computing_node << ". Answering job request...");
 
         // Answer job request
-        eprosima::amlip::types::MsReferenceDataType reference = computing_node.process_job(
+        eprosima::amlip::types::AmlipIdDataType client_id;
+        computing_node.process_job(
             [](const eprosima::amlip::types::JobDataType& data)
             {
                 // Convert data to string
@@ -69,14 +70,15 @@ int main(
                 std::memcpy(ptr_data, data_str.c_str(), data_str.size());
 
                 // Sending result as solution
-                return eprosima::amlip::types::SolutionDataType(
+                return eprosima::amlip::types::JobSolutionDataType(
                     static_cast<void*>(ptr_data), data_str.size(), true);
-            });
+            },
+            client_id);
 
         // Let a bit of time for the solution to be sent
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Answered job task: " << reference << ". Destroying entities...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Answered job task from client: " << client_id << ". Destroying entities...");
     }
 
     logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Computing Node execution.");

@@ -346,7 +346,7 @@ std::ostream& operator <<(
     os << "ID{" << id.name() << "|";
     for (uint8_t v : id.id())
     {
-        os << static_cast<unsigned>(v);
+        os << std::hex << static_cast<unsigned>(v) << ".";
     }
     os << "}";
     return os;

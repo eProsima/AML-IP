@@ -41,9 +41,9 @@ namespace amlip {
 namespace types {
 
 //! Number of octets conforming the alphanumerical identifier \c name_
-constexpr const uint32_t NAME_SIZE = 12;
+constexpr const uint32_t NAME_SIZE = 28;
 //! Number of octets conforming the random numerical identifier \c rand_id_
-constexpr const uint32_t RAND_SIZE = 1;
+constexpr const uint32_t RAND_SIZE = 4;
 
 /*!
  * @brief This class represents the structure AmlipIdDataType, which implements \c InterfaceDataType and hence serves

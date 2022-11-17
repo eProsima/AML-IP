@@ -64,6 +64,21 @@ public:
     Solution send_request_sync(
             const Data& data);
 
+    /**
+     * @brief
+     *
+     * @param data [in] Data to send in request
+     * @param server [out] Id of the server that has answered the data
+     *
+     * @return Solution
+     *
+     * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
+     * Thus, using multiple threads will cause desynchronization of messages received and locks.
+     */
+    Solution send_request_sync(
+            const Data& data,
+            types::AmlipIdDataType& server);
+
 protected:
 
     types::TaskId new_task_id_();

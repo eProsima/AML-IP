@@ -14,10 +14,10 @@
 """AML-IP Solution data type API specification."""
 
 
-from amlip_swig import SolutionDataType as cpp_SolutionDataType
+from amlip_swig import JobSolutionDataType as cpp_JobSolutionDataType
 
 
-class SolutionDataType(cpp_SolutionDataType):
+class JobSolutionDataType(cpp_JobSolutionDataType):
     """TODO"""
 
     def __init__(
@@ -29,16 +29,16 @@ class SolutionDataType(cpp_SolutionDataType):
     def __str__(
             self) -> str:
         """TODO"""
-        return cpp_SolutionDataType.to_string(self)
+        return cpp_JobSolutionDataType.to_string(self)
 
 
     def to_string(
             self) -> str:
         """TODO"""
-        return cpp_SolutionDataType.to_string(self)
+        return cpp_JobSolutionDataType.to_string(self)
 
 
     def to_vector(
             self) -> bytes:
         """TODO"""
-        return cpp_SolutionDataType.to_vector(self)
+        return cpp_JobSolutionDataType.to_vector(self)

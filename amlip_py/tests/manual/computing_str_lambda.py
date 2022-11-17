@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from amlip_py.node.ComputingNode import ComputingNode
-from amlip_py.types.SolutionDataType import SolutionDataType
+from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
 
     # Launch node
     print(f'Node created: {computing_node.get_id()}. Processing job...')
-    computing_node.process_job(callback=lambda job: SolutionDataType(job.to_string().lower()))
+    computing_node.process_job(callback=lambda job: JobSolutionDataType(job.to_string().lower()))
 
     print(f'Solution sent. '
           'Finishing Manual Test Computing Node Py execution.')

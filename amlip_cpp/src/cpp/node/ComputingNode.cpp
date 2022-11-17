@@ -32,7 +32,7 @@ namespace node {
 ComputingNode::ComputingNode(
         const char* name)
     : ParentNode(name, types::NodeKind::computing)
-    , job_server_(participant_->create_multiservice_server<types::JobDataType, types::SolutionDataType>(
+    , job_server_(participant_->create_multiservice_server<types::JobDataType, types::JobSolutionDataType>(
                 network::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_COMPUTING, "Created new Computing Node: " << *this << ".");
@@ -49,19 +49,41 @@ ComputingNode::~ComputingNode()
     logDebug(AMLIPCPP_NODE_COMPUTING, "Destroying Computing Node: " << *this << ".");
 }
 
-types::MsReferenceDataType ComputingNode::process_job(
-        const std::function<types::SolutionDataType(const types::JobDataType&)>& callback)
+void ComputingNode::process_job(
+        const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback)
 {
-    return job_server_->process_task_sync(callback);
+    types::AmlipIdDataType _;
+    process_job(callback, _);
 }
 
-types::MsReferenceDataType ComputingNode::process_job(
+void ComputingNode::process_job(
+        const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback,
+        types::AmlipIdDataType& client_id)
+{
+    change_status_(types::StateKind::running);
+    auto reference = job_server_->process_task_sync(callback);
+    client_id = reference.client_id();
+    change_status_(types::StateKind::stopped);
+}
+
+void ComputingNode::process_job(
         const JobListener& listener)
 {
-    return job_server_->process_task_sync(
+    process_job(
         [&listener]
         (const types::JobDataType& job)
         { return listener.process_job(job); });
+}
+
+void ComputingNode::process_job(
+        const JobListener& listener,
+        types::AmlipIdDataType& client_id)
+{
+    process_job(
+        [&listener]
+        (const types::JobDataType& job)
+        { return listener.process_job(job); },
+        client_id);
 }
 
 std::ostream& operator <<(

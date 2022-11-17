@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*!
- * @file SolutionDataType.hpp
+ * @file JobSolutionDataType.hpp
  */
 
 #ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
@@ -31,22 +31,23 @@ namespace types {
 /*!
  * @brief AML Solution Task Data Type
  *
- * This class may be reimplemented according with AML team designs.
+ * This class implements the Solution DataType, the information of already trained data from a Job.
+ * So far this class is a generic void* and size to a bunch of bytes.
  *
- * TODO: change name to JobSolutionDataType
+ * @note This class may be reimplemented according with AML team designs.
  */
-class SolutionDataType : public GenericDataType
+class JobSolutionDataType : public GenericDataType
 {
 public:
 
     //! Use parent constructors
     using GenericDataType::GenericDataType;
 
-    // TODO: This methods are required for SWIG, check if there is some way to avoid it
-    SolutionDataType(
+    // TODO: This methods are included already in GenericDataType,
+    // but they are required for SWIG, check if there is some way to avoid it
+    JobSolutionDataType(
         const std::vector<ByteType>& bytes);
-
-    SolutionDataType(
+    JobSolutionDataType(
         const std::string& bytes);
 };
 

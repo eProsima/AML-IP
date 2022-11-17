@@ -16,7 +16,7 @@
 import amlip_py.types.AmlipIdDataType
 import amlip_py.types.StatusDataType
 import amlip_py.types.JobDataType
-import amlip_py.types.SolutionDataType
+import amlip_py.types.JobSolutionDataType
 
 # Nodes
 import amlip_py.node.StatusNode
