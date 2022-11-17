@@ -26,7 +26,7 @@
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(AmlipIdDataType&&);
-%ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(std::array< uint8_t,24 > &&,std::array< uint8_t,8 > &&);
+%ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(std::array< uint8_t,28> &&,std::array< uint8_t,4 > &&);
 %ignore eprosima::amlip::types::operator <<(std::ostream &,const AmlipIdDataType&);
 
 // Declare the to string method

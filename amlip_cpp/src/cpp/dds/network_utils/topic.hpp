@@ -26,17 +26,33 @@
 
 namespace eprosima {
 namespace amlip {
-namespace network {
+namespace dds {
+namespace utils {
 
+/////////////////
+// STATUS TOPIC
 constexpr const char* STATUS_TOPIC_NAME = "status";
-
-constexpr const char* JOB_TOPIC_NAME = "job";
 
 eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept;
 
 eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
 
-} /* namespace network */
+/////////////////
+// JOB TOPIC
+constexpr const char* JOB_TOPIC_NAME = "job";
+
+/////////////////
+// MANGLING
+constexpr const char* TYPE_NAME_MANGLING = "amlip::";
+
+constexpr const char* TOPIC_NAME_MANGLING = "amlip/";
+
+std::string type_name_mangling(const std::string& type_name) noexcept;
+
+std::string topic_name_mangling(const std::string& type_name) noexcept;
+
+} /* namespace utils */
+} /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
 

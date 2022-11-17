@@ -20,7 +20,7 @@
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
 #include <dds/Participant.hpp>
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>
 
 namespace eprosima {
@@ -31,8 +31,8 @@ StatusNode::StatusNode(
         const char* name)
     : ParentNode(name, types::NodeKind::status)
     , status_reader_(participant_->create_reader<types::StatusDataType>(
-                network::STATUS_TOPIC_NAME,
-                network::status_reader_qos()))
+                dds::utils::STATUS_TOPIC_NAME,
+                dds::utils::status_reader_qos()))
     , processing_(false)
 {
     logInfo(AMLIPCPP_NODE_STATUS, "Created new Status Node: " << *this << ".");

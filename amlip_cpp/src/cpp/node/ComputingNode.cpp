@@ -23,7 +23,7 @@
 
 #include <dds/multiservice/MultiServiceServer.hpp>
 #include <dds/Participant.hpp>
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -33,7 +33,7 @@ ComputingNode::ComputingNode(
         const char* name)
     : ParentNode(name, types::NodeKind::computing)
     , job_server_(participant_->create_multiservice_server<types::JobDataType, types::JobSolutionDataType>(
-                network::JOB_TOPIC_NAME))
+                dds::utils::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_COMPUTING, "Created new Computing Node: " << *this << ".");
 }

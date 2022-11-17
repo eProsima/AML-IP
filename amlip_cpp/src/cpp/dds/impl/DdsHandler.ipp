@@ -25,6 +25,7 @@
 #include <cpp_utils/macros/macros.hpp>
 
 #include <amlip_cpp/types/InterfaceDataType.hpp>
+#include <dds/network_utils/topic.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -42,7 +43,9 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
         // Create type support if not existing and register DdsHandler
         eprosima::fastdds::dds::TypeSupport type_support(new types::AmlipGenericTopicDataType<T>());
 
-        eprosima::fastrtps::types::ReturnCode_t ret = participant_->register_type(type_support);
+        eprosima::fastrtps::types::ReturnCode_t ret = participant_->register_type(
+            type_support,
+            utils::type_name_mangling(T::type_name()));
 
         if (!ret)
         {
@@ -107,8 +110,8 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_
     // Create topic
     eprosima::utils::OwnerPtr<eprosima::fastdds::dds::Topic> topic(
         participant_->create_topic(
-            topic_name,
-            T::type_name(),
+            utils::topic_name_mangling(topic_name),
+            utils::type_name_mangling(T::type_name()),
             eprosima::fastdds::dds::TOPIC_QOS_DEFAULT),
         [this](eprosima::fastdds::dds::Topic* topic)
         {

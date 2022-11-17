@@ -16,11 +16,12 @@
  * @file topic.cpp
  */
 
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 
 namespace eprosima {
 namespace amlip {
-namespace network {
+namespace dds {
+namespace utils {
 
 eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept
 {
@@ -50,6 +51,17 @@ eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept
     return qos;
 }
 
-} /* namespace network */
+std::string type_name_mangling(const std::string& type_name) noexcept
+{
+    return std::string(TYPE_NAME_MANGLING) + type_name;
+}
+
+std::string topic_name_mangling(const std::string& topic_name) noexcept
+{
+    return std::string(TOPIC_NAME_MANGLING) + topic_name;
+}
+
+} /* namespace utils */
+} /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */

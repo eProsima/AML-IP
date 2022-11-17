@@ -21,7 +21,7 @@
 
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/Participant.hpp>
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/MainNode.hpp>
 
 namespace eprosima {
@@ -32,7 +32,7 @@ MainNode::MainNode(
         const char* name)
     : ParentNode(name, types::NodeKind::main)
     , job_client_(participant_->create_multiservice_client<types::JobDataType, types::JobSolutionDataType>(
-                network::JOB_TOPIC_NAME))
+                dds::utils::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_MAIN, "Created new Main Node: " << *this << ".");
 }

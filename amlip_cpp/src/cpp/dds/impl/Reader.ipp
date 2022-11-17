@@ -119,8 +119,9 @@ T Reader<T>::read()
     else
     {
         // TODO
-        throw eprosima::utils::InconsistencyException(
-                  "Try to read data from a reader that does not have it.");
+        throw eprosima::utils::InconsistencyException(STR_ENTRY
+                << "Try to read data from a reader that does not have it."
+                << *this);
     }
 }
 

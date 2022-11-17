@@ -30,6 +30,7 @@ using namespace eprosima::fastcdr::exception;
 
 #include <algorithm>
 #include <array>
+#include <iomanip>
 #include <random>
 #include <string>
 #include <utility>
@@ -344,11 +345,13 @@ std::ostream& operator <<(
         const AmlipIdDataType& id)
 {
     os << "ID{" << id.name() << "|";
+    // Set to print bytes in hexadecimal of size 2 filling with 0
+    os << std::hex << std::setfill('0') << std::setw(2);
     for (uint8_t v : id.id())
     {
-        os << std::hex << static_cast<unsigned>(v) << ".";
+        os << static_cast<unsigned>(v) << ".";
     }
-    os << "}";
+    os << std::dec << "}";
     return os;
 }
 
