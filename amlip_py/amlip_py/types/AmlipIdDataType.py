@@ -18,21 +18,21 @@ from amlip_swig import AmlipIdDataType as cpp_AmlipIdDataType
 
 
 class AmlipIdDataType(cpp_AmlipIdDataType):
-    """
-    TODO
-    """
+    """Object that represents a Unique Id for each AML-IP Node."""
 
-    def __init__(self, name: str):
-        super().__init__(name)
-
+    def __init__(
+            self,
+            name: str = None):
+        """Construct a new Id with name if given."""
+        if name:
+            super().__init__(name)
+        else:
+            super().__init__()
 
     def get_name(self) -> str:
+        """Get name referenced to this Id."""
         return cpp_AmlipIdDataType.name()
 
-
     def is_defined(self) -> bool:
+        """Wether the Id is defined."""
         return cpp_AmlipIdDataType.is_defined(self)
-
-    # TODO check if this is needed or it is taken from parent
-    # def __str__(self) -> str:
-    #     return super().__str__()

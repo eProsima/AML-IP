@@ -50,9 +50,9 @@ public:
      * @brief Default constructor.
      */
     StatusDataType(
-            AmlipIdDataType id,
-            NodeKind node_kind,
-            StateKind state);
+            const AmlipIdDataType& id,
+            const NodeKind& node_kind,
+            const StateKind& state);
 
     virtual ~StatusDataType() = default;
 

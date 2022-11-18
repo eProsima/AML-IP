@@ -60,7 +60,7 @@ types::JobSolutionDataType MainNode::request_job_solution(
         types::AmlipIdDataType& id)
 {
     change_status_(types::StateKind::running);
-    types::JobSolutionDataType solution = job_client_->send_request_sync(data);
+    types::JobSolutionDataType solution = job_client_->send_request_sync(data, id);
     change_status_(types::StateKind::stopped);
     return solution;
 }

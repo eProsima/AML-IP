@@ -87,7 +87,7 @@ class ComputingNode(cpp_ComputingNode):
     def process_job(
             self,
             callback=None,
-            listener: JobListener = None):
+            listener: JobListener = None) -> AmlipIdDataType:
         """
         Start processing the Job data arrived by using a lambda.
 
@@ -109,23 +109,28 @@ class ComputingNode(cpp_ComputingNode):
             Object that specializes process_job method to execute in message reception.
             [Default = None]
 
+        Return
+        ------
+        AmlipIdDataType : Id of the client sending this request
         """
         # If both arguments are set or neither of them, fail
         if (listener and callback):
             raise ValueError(
                 'Method process_job expects a listener object or a callback, both given.')
 
-        # In case one and only one argument given, store it internally as a StatusListener
-        # so this object is not destroyed while used.
-        elif listener:
-            return cpp_ComputingNode.process_job(self, listener)
-
-        elif callback:
-            return cpp_ComputingNode.process_job(self, JobLambda(callback))
-
-        else:
+        elif (not listener and not callback):
             raise ValueError(
                 'Method process_job expects a listener object or a callback, none given.')
+
+        client_id = AmlipIdDataType()
+        # In case one and only one argument given, store it internally as a StatusListener
+        # so this object is not destroyed while used.
+        if listener:
+            cpp_ComputingNode.process_job(self, listener, client_id)
+        elif callback:
+            cpp_ComputingNode.process_job(self, JobLambda(callback), client_id)
+
+        return client_id
 
     def get_id(
             self) -> AmlipIdDataType:

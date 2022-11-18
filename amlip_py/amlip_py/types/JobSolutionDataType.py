@@ -18,27 +18,33 @@ from amlip_swig import JobSolutionDataType as cpp_JobSolutionDataType
 
 
 class JobSolutionDataType(cpp_JobSolutionDataType):
-    """TODO"""
+    """
+    Object that represents a Job sent from a Main Node to a Computing one.
+
+    TODO
+    ----
+    This class does only support string conversion.
+    """
 
     def __init__(
             self,
             message: str):
-        """TODO"""
+        """TODO"""        """
+        Construct a new Job with name.
+
+        Parameters
+        ----------
+        message: str
+            Data to send to Computing Node serialized in a string of basic chars.
+        """
         super().__init__(message)
 
     def __str__(
             self) -> str:
-        """TODO"""
+        """Serialize Job into a string."""
         return cpp_JobSolutionDataType.to_string(self)
-
 
     def to_string(
             self) -> str:
-        """TODO"""
+        """Serialize Job into a string."""
         return cpp_JobSolutionDataType.to_string(self)
-
-
-    def to_vector(
-            self) -> bytes:
-        """TODO"""
-        return cpp_JobSolutionDataType.to_vector(self)

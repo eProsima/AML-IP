@@ -29,9 +29,9 @@ namespace types {
 const char* StatusDataType::DATA_TYPE_NAME_ = "status";
 
 StatusDataType::StatusDataType(
-        AmlipIdDataType id,
-        NodeKind node_kind,
-        StateKind state)
+        const AmlipIdDataType& id,
+        const NodeKind& node_kind,
+        const StateKind& state)
     : id_(id)
     , node_kind_(node_kind)
     , state_(state)

@@ -24,7 +24,8 @@ from amlip_swig import StatusDataType as cpp_StatusDataType
 
 
 class NodeKind(Enum):
-    """TODO"""
+    """Enumeration to represent the different Node Kinds of each Node."""
+
     UNDETERMINED = NodeKind_undetermined
     DISCOVERY = NodeKind_discovery
     AGENT = NodeKind_agent
@@ -34,8 +35,9 @@ class NodeKind(Enum):
     STATUS = NodeKind_meta
 
 
-class StatusKind(Enum):
-    """TODO"""
+class StateKind(Enum):
+    """Enumeration to represent the different State of each Node."""
+
     UNKNOWN = StateKind_unknown
     RUNNING = StateKind_running
     STOPPED = StateKind_stopped
@@ -44,25 +46,52 @@ class StatusKind(Enum):
 
 class StatusDataType(cpp_StatusDataType):
     """
-    TODO
+    Object that represents the Status of a node.
+
+    A Status is formed by:
+    - Node kind
+    - Node State
+    - Node Id
     """
 
-    def __init__(self, *args):
-        """TODO"""
-        super().__init__(*args)
+    def __init__(
+            self,
+            id: AmlipIdDataType = None,
+            node_kind: NodeKind = None,
+            state: StateKind = None):
+        """
+        Construct a new Status object.
+
+        By default it is created a non defined object.
+        If callee sets the 3 arguments, it creates a defined State with such values
+
+        Parameters
+        ----------
+        id: AmlipIdDataType
+            Id of the new Status
+            [Default = None]
+
+        node_kind: NodeKind = None
+            Node Kind of the new Status
+            [Default = None]
+
+        state: StateKind = None)
+            State of the new Status
+            [Default = None]
+        """
+        if not id or not node_kind or not state:
+            super().__init__()
+        else:
+            super().__init__(id, node_kind, state)
 
     def get_id(self) -> AmlipIdDataType:
-        """TODO"""
+        """Get Id associated with this Status."""
         return cpp_StatusDataType.id(self)
 
     def get_node_kind(self) -> NodeKind:
-        """TODO"""
+        """Get Node Kind associated with this Status."""
         return cpp_StatusDataType.node_kind(self)
 
-    def get_status_kind(self) -> StatusKind:
-        """TODO"""
+    def get_status_kind(self) -> StateKind:
+        """Get Status Kind associated with this Status."""
         return cpp_StatusDataType.status_kind(self)
-
-    # TODO check if this is needed or it is taken from parent
-    # def __str__(self) -> str:
-    #     return super().__str__()

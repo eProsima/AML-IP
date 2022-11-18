@@ -48,13 +48,13 @@ enum class NodeKind
 
 const std::array<std::string, 7> NAMES_NodeKind =
 {
-    "undetermined",
-    "discovery",
-    "agent",
-    "main",
-    "computing",
-    "status",
-    "meta"
+    "undetermined",  //! Not defined node kind
+    "discovery",  //! Discovery Node [WAN]
+    "agent",  //! Agent Node [WAN]
+    "main",  //! Main Node [WorkloadDistribution]
+    "computing",  //! Computing Node [WorkloadDistribution]
+    "status",  //! Status Node
+    "meta"  //! MetaNode [ToDo]
 };
 
 inline const std::string& to_string(

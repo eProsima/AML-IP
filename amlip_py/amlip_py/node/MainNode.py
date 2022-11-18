@@ -16,7 +16,6 @@
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.JobDataType import JobDataType
-from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 from amlip_swig import MainNode as cpp_MainNode
 
@@ -45,7 +44,7 @@ class MainNode(cpp_MainNode):
 
     def request_job_solution(
             self,
-            data: JobDataType) -> JobSolutionDataType:
+            data: JobDataType):
         """
         Send a job to a ComputingNode to be executed, and wait for the response.
 
@@ -56,9 +55,13 @@ class MainNode(cpp_MainNode):
 
         Return
         ------
-        Solution to the job given
+        Tuple[JobSolutionDataType, AmlipIdDataType]
+        1. Solution to the job given
+        2. Id of the server
         """
-        return cpp_MainNode.request_job_solution(self, data)
+        server_id = AmlipIdDataType()
+        solution = cpp_MainNode.request_job_solution(self, data, server_id)
+        return solution, server_id
 
     def get_id(
             self) -> AmlipIdDataType:

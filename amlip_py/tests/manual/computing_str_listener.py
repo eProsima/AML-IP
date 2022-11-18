@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import time
+
 from amlip_py.node.ComputingNode import ComputingNode, JobLambda
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
@@ -32,9 +34,12 @@ def main():
 
     # Launch node
     print(f'Listener created. Processing job...')
-    computing_node.process_job(listener=job_listener)
+    client_id = computing_node.process_job(listener=job_listener)
 
-    print(f'Solution sent. '
+    # Wait a bit so message arrive to its destiny
+    time.sleep(0.25)
+
+    print(f'Solution sent to client {client_id}. '
           'Finishing Manual Test Computing Node Py execution.')
 
 

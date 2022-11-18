@@ -37,10 +37,10 @@ namespace types {
 
 enum class StateKind
 {
-    unknown,
-    running,
-    stopped,
-    dropped
+    unknown,  //! Not defined state kind
+    running,  //! Node is running (executing some action)
+    stopped,  //! Node is stopped
+    dropped   //! Node has been removed from the network
 };
 
 const std::array<std::string, 4> NAMES_StateKind =

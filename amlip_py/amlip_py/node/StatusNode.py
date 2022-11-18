@@ -55,7 +55,6 @@ class StatusLambda(StatusListener):
         self.callback_ = callback
         super().__init__()
 
-
     def status_received(
             self,
             status: StatusDataType):
@@ -93,7 +92,6 @@ class StatusNode(cpp_StatusNode):
         #####
         # Parent class constructor
         super().__init__(name)
-
 
     def process_status_async(
             self,
@@ -139,7 +137,6 @@ class StatusNode(cpp_StatusNode):
         else:
             raise ValueError(
                 'Method process_status_async expects a listener object or a callback, none given.')
-
 
     def stop_processing(
             self) -> None:
