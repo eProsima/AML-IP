@@ -43,6 +43,7 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
         // Create type support if not existing and register DdsHandler
         eprosima::fastdds::dds::TypeSupport type_support(new types::AmlipGenericTopicDataType<T>());
 
+        // TODO: make mangling more independent from code
         eprosima::fastrtps::types::ReturnCode_t ret = participant_->register_type(
             type_support,
             utils::type_name_mangling(T::type_name()));
@@ -108,6 +109,7 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_
     }
 
     // Create topic
+    // TODO: make mangling more independent from code
     eprosima::utils::OwnerPtr<eprosima::fastdds::dds::Topic> topic(
         participant_->create_topic(
             utils::topic_name_mangling(topic_name),
@@ -132,7 +134,7 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::Topic> DdsHandler::get_topic_
     auto topic_lessee = topic.lease();
     topics_[topic_idx] = std::move(topic);
 
-    logInfo(AMLIPCPP_DDSHANDLER, "Registered Topic " << topic_name << " with type :" << T::type_name() << ".");
+    logInfo(AMLIPCPP_DDSHANDLER, "Registered Topic " << topic_name << " with type: " << T::type_name() << ".");
 
     return topic_lessee;
 }

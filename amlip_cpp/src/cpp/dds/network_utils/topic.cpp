@@ -17,6 +17,7 @@
  */
 
 #include <dds/network_utils/topic.hpp>
+#include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -25,21 +26,23 @@ namespace utils {
 
 eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept
 {
-    eprosima::fastdds::dds::DataWriterQos qos;
+    eprosima::fastdds::dds::DataWriterQos qos = default_datawriter_qos();
 
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
-    qos.history().depth = 1;
+    qos.history().depth = 2;
 
     // Not needed to use REALLOC policy
+    qos.endpoint().history_memory_policy =
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_MEMORY_MODE;
 
     return qos;
 }
 
 eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept
 {
-    eprosima::fastdds::dds::DataReaderQos qos;
+    eprosima::fastdds::dds::DataReaderQos qos = default_datareader_qos();
 
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
@@ -47,6 +50,8 @@ eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept
     // TODO: add key to StatusType and use KEEP_LAST 1 as the key will allow to handle it
 
     // Not needed to use REALLOC policy
+    qos.endpoint().history_memory_policy =
+            eprosima::fastrtps::rtps::MemoryManagementPolicy_t::PREALLOCATED_MEMORY_MODE;
 
     return qos;
 }

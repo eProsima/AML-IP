@@ -33,34 +33,34 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
-    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
+    logWarning(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
 
     {
         // Create Status Node
         eprosima::amlip::node::StatusNode status_node("CppStatusNode_Lambda_Manual");
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
+        logWarning(AMLIPCPP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
 
         // Create callback that only prints by stdout the status that arrives
         status_node.process_status_async(
             [&status_node](const eprosima::amlip::types::StatusDataType& data)
             {
-                logUser(
+                logWarning(
                     AMLIPCPP_MANUAL_TEST,
                     "Status: " << data << " received by :" << status_node.id() << ".");
             });
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
+        logWarning(AMLIPCPP_MANUAL_TEST, "Already processing status data. Waiting SIGINT (C^)...");
 
         eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
         sigint_handler.wait_for_event();
 
-        logUser(AMLIPCPP_MANUAL_TEST, "SIGINT received. Destroying entities...");
+        logWarning(AMLIPCPP_MANUAL_TEST, "SIGINT received. Destroying entities...");
     }
 
-    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
+    logWarning(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Status Node execution.");
 
     return 0;
 }

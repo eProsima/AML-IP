@@ -60,6 +60,8 @@ StatusNode::~StatusNode()
 void StatusNode::process_status_async(
         const std::function<void(const types::StatusDataType&)>& callback)
 {
+    logInfo(AMLIPCPP_NODE_STATUS, "Start processing Status messages by callback in : " << *this << ".");
+
     if (processing_)
     {
         throw utils::InconsistencyException(
@@ -77,6 +79,8 @@ void StatusNode::process_status_async(
 void StatusNode::process_status_async(
         const StatusListener& callback_functor)
 {
+    logInfo(AMLIPCPP_NODE_STATUS, "Start processing Status messages by listener in : " << *this << ".");
+
     if (processing_)
     {
         throw utils::InconsistencyException(

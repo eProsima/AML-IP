@@ -21,6 +21,7 @@
 
 #include <cpp_utils/exception/InconsistencyException.hpp>
 #include <cpp_utils/Log.hpp>
+#include <cpp_utils/ReturnCode.hpp>
 
 #include <dds/network_utils/dds_qos.hpp>
 
@@ -34,6 +35,7 @@ Reader<T>::Reader(
         eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataReaderQos qos /* = Reader::default_datareader_qos() */)
     : topic_(topic)
+    , reader_data_waiter_(false, true)
 {
     auto dds_handler_locked = dds_handler.lock_with_exception();
 
@@ -98,30 +100,50 @@ T Reader<T>::read()
 
     // TODO: This creates a new data, ergo it is copying the data arrived. Check and refactor this
 
-    eprosima::fastrtps::types::ReturnCode_t return_code = datareader_locked_->take_next_sample(&data, &info);
-    if (return_code == eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK)
+    eprosima::utils::ReturnCode return_code = datareader_locked_->take_next_sample(&data, &info);
+    if (return_code == eprosima::utils::ReturnCode::RETCODE_OK)
     {
         // Set number of data still available
-        if (datareader_locked_->get_unread_count() <= 0)
+        auto data_unread = datareader_locked_->get_unread_count();
+        if (data_unread <= 0)
         {
+            logDebug(
+                AMLIPCPP_DDS_READER,
+                "There are no more messages in: " << *this << ".");
+
             // TODO: there is a race condition here as get_unread_count is not guarded by any mutex here
             // and so a call to is_data_available could be skipped here.
             reader_data_waiter_.close();
         }
+        else
+        {
+            logDebug(
+                AMLIPCPP_DDS_READER,
+                "There are still " << data_unread << " messages in Reader: " << *this << ".");
+
+        }
 
         logDebug(
             AMLIPCPP_DDS_READER,
-            "Reader: " << *this << " received message: " << data << ".");
+            "Reader: " << *this
+            << " received message: " << data
+            << " from: " << info.sample_identity.writer_guid()
+            << ".");
 
         // Return data (this does a move)
         return data;
+    }
+    else if (return_code == eprosima::utils::ReturnCode::RETCODE_NO_DATA)
+    {
+        // TODO
+        throw eprosima::utils::InconsistencyException(STR_ENTRY
+                << "Try to read data from a reader that does not have it." << *this << ".");
     }
     else
     {
         // TODO
         throw eprosima::utils::InconsistencyException(STR_ENTRY
-                << "Try to read data from a reader that does not have it."
-                << *this);
+                << "Error " << return_code << " while reading message in " << *this << ".");
     }
 }
 
@@ -135,7 +157,15 @@ template <typename T>
 void Reader<T>::on_data_available(
         eprosima::fastdds::dds::DataReader* reader)
 {
-    logDebug(AMLIPCPP_READER, "Reader " << *this << " has received a data.");
+    eprosima::fastdds::dds::SampleInfo info;
+    reader->get_first_untaken_info(&info);
+
+    logDebug(
+        AMLIPCPP_DDS_READER,
+        "Reader " << *this <<
+        " has received a data from: " << info.sample_identity.writer_guid() <<
+        " and has " << reader->get_unread_count() <<
+        " messages unread yet.");
 
     reader_data_waiter_.open();
 }
@@ -148,12 +178,12 @@ void Reader<T>::on_subscription_matched(
     if (info.current_count_change > 0)
     {
         logDebug(
-            AMLIPCPP_READER, "Reader " << *this << " matched with Writer: " << info.last_publication_handle << ".");
+            AMLIPCPP_DDS_READER, "Reader " << *this << " matched with Writer: " << info.last_publication_handle << ".");
     }
     else if (info.current_count_change < 0)
     {
         logDebug(
-            AMLIPCPP_READER, "Reader " << *this << " unmatched with Writer: "  << info.last_publication_handle << ".");
+            AMLIPCPP_DDS_READER, "Reader " << *this << " unmatched with Writer: "  << info.last_publication_handle << ".");
     }
 }
 

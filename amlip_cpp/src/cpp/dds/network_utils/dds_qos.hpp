@@ -30,7 +30,10 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
-fastdds::dds::DomainParticipantQos default_domain_participant_qos();
+constexpr const char* DEFAULT_PARTICIPANT_NAME = "AMLIP_default_participant";
+
+fastdds::dds::DomainParticipantQos default_domain_participant_qos(
+        const char* name = DEFAULT_PARTICIPANT_NAME);
 
 fastdds::dds::PublisherQos default_publisher_qos();
 
