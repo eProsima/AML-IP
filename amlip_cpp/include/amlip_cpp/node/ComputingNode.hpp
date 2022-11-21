@@ -47,7 +47,7 @@ namespace node {
  * This class is supposed to be implemented by a User and be given to a \c ComputingNode in order to process a Job.
  * When a Job is received, \c process_job is called and it is expected to return a Solution for such job.
  */
-class AMLIP_CPP_DllAPI  JobListener
+class AMLIP_CPP_DllAPI JobListener
 {
 public:
 
