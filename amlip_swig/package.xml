@@ -25,6 +25,13 @@
   <test_depend>python3-pytest</test_depend>
 
   <export>
-    <build_type>ament_cmake</build_type>
+    <build_type>cmake</build_type>
   </export>
+
+  <!--
+    TODO: check if some export is required
+    Without it colcon shows a warning:
+    Manually-specified variables were not used by the project: CATKIN_INSTALL_INTO_PREFIX_ROOT
+  -->
+
 </package>

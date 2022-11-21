@@ -1,6 +1,0 @@
-{
-    "name": "amlip_swig",
-    "type": "cmake",
-    "build-dependencies": ["cmake_utils","cpp_utils","amlip_cpp"]
-}
-amlip_swig/colcon.pkg
