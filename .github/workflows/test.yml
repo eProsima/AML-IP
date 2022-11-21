@@ -300,7 +300,7 @@ jobs:
           cat src/AML-IP/.github/workflows/asan_colcon.meta
           source /home/runner/work/eprosima/install/setup.bash
           colcon build \
-            --packages-up-to-regex amlip \
+            --packages-up-to-regex amlip_cpp \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/asan_colcon.meta
 
@@ -308,7 +308,7 @@ jobs:
         run: |
           source install/setup.bash && \
           colcon test \
-            --packages-select-regex amlip \
+            --packages-select amlip_cpp \
             --event-handlers=console_direct+ \
             --return-code-on-test-failure \
             --ctest-args \
