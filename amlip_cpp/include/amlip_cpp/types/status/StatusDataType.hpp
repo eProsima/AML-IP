@@ -46,7 +46,44 @@ namespace types {
 //     , status
 //     , meta
 // );
-static_assert( COUNT_ARGUMENTS(undetermined , discovery , agent , main , computing , status , meta), "Empty Enumerations are not allowed."); enum class NodeKind {undetermined , discovery , agent , main , computing , status , meta }; const std::array<std::string, COUNT_ARGUMENTS(undetermined , discovery , agent , main , computing , status , meta)> names_NodeKind = { APPLY_MACRO_FOR_EACH(STRINGIFY_WITH_COMMA, undetermined , discovery , agent , main , computing , status , meta) }; inline const std::string& to_string(const NodeKind& e) { return names_NodeKind[static_cast<int>(e)]; } inline NodeKind from_string_NodeKind(const std::string& s) { for (int i = 0; i < COUNT_ARGUMENTS(undetermined , discovery , agent , main , computing , status , meta); i++) if (names_NodeKind[i] == s)return static_cast<NodeKind>(i); throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " << STRINGIFY(NodeKind) << "."); } inline std::ostream& operator <<(std::ostream& os, const NodeKind& e) { os << to_string(e); return os; } constexpr const unsigned int N_VALUES_NodeKind = COUNT_ARGUMENTS(undetermined , discovery , agent , main , computing , status , meta);
+static_assert( COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing, status,
+        meta), "Empty Enumerations are not allowed."); enum class NodeKind
+{
+    undetermined, discovery, agent, main, computing, status, meta
+};
+const std::array<std::string,
+        COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing, status,
+        meta)> names_NodeKind = { APPLY_MACRO_FOR_EACH(STRINGIFY_WITH_COMMA, undetermined, discovery, agent,
+                                          main, computing, status, meta) };
+inline const std::string& to_string(
+        const NodeKind& e)
+{
+    return names_NodeKind[static_cast<int>(e)];
+}
+
+inline NodeKind from_string_NodeKind(
+        const std::string& s)
+{
+    for (int i = 0; i < COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing, status, meta); i++)
+    {
+        if (names_NodeKind[i] == s)
+        {
+            return static_cast<NodeKind>(i);
+        }
+    }
+    throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " <<
+                        STRINGIFY(NodeKind) << ".");
+}
+
+inline std::ostream& operator <<(
+        std::ostream& os,
+        const NodeKind& e)
+{
+    os << to_string(e); return os;
+}
+
+constexpr const unsigned int N_VALUES_NodeKind = COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing,
+                status, meta);
 
 /*!
  * @brief This class represents the enumeration StateKind defined by the user in the IDL file.
@@ -59,7 +96,43 @@ static_assert( COUNT_ARGUMENTS(undetermined , discovery , agent , main , computi
 //     , stopped
 //     , dropped
 // );
-static_assert( COUNT_ARGUMENTS(unknown , running , stopped , dropped), "Empty Enumerations are not allowed."); enum class StateKind {unknown , running , stopped , dropped }; const std::array<std::string, COUNT_ARGUMENTS(unknown , running , stopped , dropped)> names_StateKind = { APPLY_MACRO_FOR_EACH(STRINGIFY_WITH_COMMA, unknown , running , stopped , dropped) }; inline const std::string& to_string(const StateKind& e) { return names_StateKind[static_cast<int>(e)]; } inline StateKind from_string_StateKind(const std::string& s) { for (int i = 0; i < COUNT_ARGUMENTS(unknown , running , stopped , dropped); i++) if (names_StateKind[i] == s)return static_cast<StateKind>(i); throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " << STRINGIFY(StateKind) << "."); } inline std::ostream& operator <<(std::ostream& os, const StateKind& e) { os << to_string(e); return os; } constexpr const unsigned int N_VALUES_StateKind = COUNT_ARGUMENTS(unknown , running , stopped , dropped);
+static_assert( COUNT_ARGUMENTS(unknown, running, stopped, dropped), "Empty Enumerations are not allowed.");
+enum class StateKind
+{
+    unknown, running, stopped, dropped
+};
+const std::array<std::string,
+        COUNT_ARGUMENTS(unknown, running, stopped, dropped)> names_StateKind = { APPLY_MACRO_FOR_EACH(
+                                                                                     STRINGIFY_WITH_COMMA, unknown,
+                                                                                     running, stopped, dropped) };
+inline const std::string& to_string(
+        const StateKind& e)
+{
+    return names_StateKind[static_cast<int>(e)];
+}
+
+inline StateKind from_string_StateKind(
+        const std::string& s)
+{
+    for (int i = 0; i < COUNT_ARGUMENTS(unknown, running, stopped, dropped); i++)
+    {
+        if (names_StateKind[i] == s)
+        {
+            return static_cast<StateKind>(i);
+        }
+    }
+    throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " <<
+                        STRINGIFY(StateKind) << ".");
+}
+
+inline std::ostream& operator <<(
+        std::ostream& os,
+        const StateKind& e)
+{
+    os << to_string(e); return os;
+}
+
+constexpr const unsigned int N_VALUES_StateKind = COUNT_ARGUMENTS(unknown, running, stopped, dropped);
 
 /*!
  * @brief This class represents the structure StatusDataType defined by the user in the IDL file.
