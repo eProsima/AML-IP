@@ -72,7 +72,7 @@ inline NodeKind from_string_NodeKind(
         }
     }
     throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " <<
-                        STRINGIFY(NodeKind) << ".");
+                  STRINGIFY(NodeKind) << ".");
 }
 
 inline std::ostream& operator <<(
@@ -122,7 +122,7 @@ inline StateKind from_string_StateKind(
         }
     }
     throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " <<
-                        STRINGIFY(StateKind) << ".");
+                  STRINGIFY(StateKind) << ".");
 }
 
 inline std::ostream& operator <<(
