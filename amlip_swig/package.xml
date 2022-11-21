@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>amlip_cpp</name>
+  <name>amlip_swig</name>
   <version>0.0.0</version>
   <description>
-     *eprosima AML-IP* C++ API Module is a C++ API to implement AML-IP Nodes.
+    eprosima AML IP SWIG
   </description>
   <maintainer email="RaulSanchezMateos@eprosima.com">Raul Sánchez-Mateos</maintainer>
   <maintainer email="javierparis@eprosima.com">Javier París</maintainer>
@@ -16,18 +16,22 @@
   <url type="repository">https://github.com/eProsima/AML-IP</url>
 
   <buildtool_depend>cmake</buildtool_depend>
+  <!-- <buildtool_depend>ament_cmake_python</buildtool_depend> -->
 
-  <depend>fastcdr</depend>
-  <depend>fastrtps</depend>
   <depend>cmake_utils</depend>
   <depend>cpp_utils</depend>
+  <depend>amlip_cpp</depend>
 
-  <doc_depend>doxygen</doc_depend>
-
-  <test_depend>googletest-distribution</test_depend>
+  <test_depend>python3-pytest</test_depend>
 
   <export>
     <build_type>cmake</build_type>
   </export>
+
+  <!--
+    TODO: check if some export is required
+    Without it colcon shows a warning:
+    Manually-specified variables were not used by the project: CATKIN_INSTALL_INTO_PREFIX_ROOT
+  -->
 
 </package>

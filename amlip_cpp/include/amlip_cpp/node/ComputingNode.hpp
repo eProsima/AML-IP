@@ -46,7 +46,7 @@ class JobFunctor
 {
 public:
 
-    virtual ~JobFunctor();
+    virtual ~JobFunctor() = default;
     virtual types::SolutionDataType operator () (
             const types::JobDataType& job) const = 0;
 };
@@ -71,7 +71,12 @@ public:
             const std::function<types::SolutionDataType(const types::JobDataType&)>& callback);
 
     types::MsReferenceDataType process_job(
-            const JobFunctor& callback_functor);
+            const JobFunctor& callback_functor)
+    {
+        // TODO
+        static_cast<void>(callback_functor);
+        return types::MsReferenceDataType();
+    }
 
 protected:
 
