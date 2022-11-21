@@ -16,6 +16,8 @@
  * @file JobSolutionDataType.cpp
  */
 
+#include <iostream>
+
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 
 namespace eprosima {

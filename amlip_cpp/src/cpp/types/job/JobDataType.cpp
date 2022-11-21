@@ -1,3 +1,4 @@
+
 // Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +16,8 @@
 /*!
  * @file JobDataType.cpp
  */
+
+#include <iostream>
 
 #include <amlip_cpp/types/job/JobDataType.hpp>
 

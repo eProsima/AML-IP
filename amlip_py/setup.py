@@ -22,7 +22,7 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name, ['package.xml', 'README.md']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -31,6 +31,6 @@ setup(
     description=description,
     license='Apache License, Version 2.0',
     tests_require=['pytest'],
-    test_suite='tests',
+    test_suite='test',
     entry_points={},
 )

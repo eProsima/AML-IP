@@ -280,7 +280,7 @@ bool GenericDataType::construct_sample(
 
 std::string GenericDataType::to_string() const noexcept
 {
-    return std::string(static_cast<char*>(data_));
+    return std::string(static_cast<char*>(data_), data_size_);
 }
 
 std::vector<ByteType> GenericDataType::to_vector() const noexcept
