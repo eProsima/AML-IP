@@ -48,7 +48,7 @@ namespace node {
  * This class is supposed to be implemented by a User and be given to a \c ComputingNode in order to process a Job.
  * When a Job is received, \c process_job is called and it is expected to return a Solution for such job.
  */
-class JobListener
+class AMLIP_CPP_DllAPI  JobListener
 {
 public:
 
@@ -86,11 +86,11 @@ public:
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
-    ComputingNode(
+    AMLIP_CPP_DllAPI ComputingNode(
             const char* name);
 
     //! Same as previous ctor but with a string argument.
-    ComputingNode(
+    AMLIP_CPP_DllAPI ComputingNode(
             const std::string& name);
 
     /**
@@ -98,7 +98,7 @@ public:
      *
      * @pre This could not be called while processing job.
      */
-    ~ComputingNode();
+    AMLIP_CPP_DllAPI ~ComputingNode();
 
     /**
      * @brief Waits for a Job to be received and give a solution by \c callback .
@@ -114,12 +114,12 @@ public:
      * @param client_id [out] Id of the client that sent the Job.
      */
 
-    void process_job(
+    AMLIP_CPP_DllAPI void process_job(
             const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback,
             types::AmlipIdDataType& client_id);
 
     //! Same as previous \c process_job without client_id return parameter.
-    void process_job(
+    AMLIP_CPP_DllAPI void process_job(
             const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback);
 
     /**
@@ -135,12 +135,12 @@ public:
      * @param listener [in] listener to call with a \c JobDataType and returns a \c JobSolutionDataType .
      * @param client_id [out] Id of the client that sent the Job.
      */
-    void process_job(
+    AMLIP_CPP_DllAPI void process_job(
             const JobListener& listener,
             types::AmlipIdDataType& client_id);
 
     //! Same as previous \c process_job without client_id return parameter.
-    void process_job(
+    AMLIP_CPP_DllAPI void process_job(
             const JobListener& listener);
 
 protected:

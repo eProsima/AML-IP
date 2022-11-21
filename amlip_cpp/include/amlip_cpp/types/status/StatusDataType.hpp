@@ -44,46 +44,46 @@ public:
     /*!
      * @brief Default constructor.
      */
-    StatusDataType();
+    AMLIP_CPP_DllAPI StatusDataType();
 
     /*!
      * @brief Default constructor.
      */
-    StatusDataType(
+    AMLIP_CPP_DllAPI StatusDataType(
             const AmlipIdDataType& id,
             const NodeKind& node_kind,
             const StateKind& state);
 
-    virtual ~StatusDataType() = default;
+    AMLIP_CPP_DllAPI virtual ~StatusDataType() = default;
 
     /*!
      * @brief Comparison operator.
      * @param x StatusDataType object to compare.
      */
-    bool operator ==(
+    AMLIP_CPP_DllAPI bool operator ==(
             const StatusDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x StatusDataType object to compare.
      */
-    bool operator !=(
+    AMLIP_CPP_DllAPI bool operator !=(
             const StatusDataType& x) const;
 
     //! Get id value
-    AmlipIdDataType id() const noexcept;
+    AMLIP_CPP_DllAPI AmlipIdDataType id() const noexcept;
 
     //! Get Node Kind value
-    NodeKind node_kind() const noexcept;
+    AMLIP_CPP_DllAPI NodeKind node_kind() const noexcept;
 
     //! Get State Kind value
-    StateKind state() const noexcept;
+    AMLIP_CPP_DllAPI StateKind state() const noexcept;
 
     //! Whether this object is correctly defined, thus no of its internal variables is not defined.
-    bool is_defined() const noexcept;
+    AMLIP_CPP_DllAPI bool is_defined() const noexcept;
 
     //! Overload parent \c to_string method
-    std::string to_string() const noexcept;
+    AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
     /////
     // InterfaceDataType methods
@@ -92,21 +92,21 @@ public:
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize(
+    AMLIP_CPP_DllAPI void serialize(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void deserialize(
+    AMLIP_CPP_DllAPI void deserialize(
             eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize_key(
+    AMLIP_CPP_DllAPI void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
@@ -115,7 +115,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -124,7 +124,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    static size_t get_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
             const StatusDataType& data,
             size_t current_alignment = 0);
 
@@ -134,23 +134,23 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_key_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
      */
-    static bool is_key_defined();
+    AMLIP_CPP_DllAPI static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
      */
-    static bool is_bounded();
+    AMLIP_CPP_DllAPI static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
      */
-    static bool is_plain();
+    AMLIP_CPP_DllAPI static bool is_plain();
 
     /**
      * @brief Construct an empty sample in the memory allocated
@@ -161,7 +161,7 @@ public:
      *
      * @return true if the construction was successful, false otherwise
      */
-    static bool construct_sample(
+    AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
 
     /**
@@ -169,7 +169,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static std::string type_name();
+    AMLIP_CPP_DllAPI static std::string type_name();
 
 protected:
 
@@ -187,7 +187,7 @@ protected:
 };
 
 //! \c StatusDataType to stream serializator
-std::ostream& operator <<(
+AMLIP_CPP_DllAPI std::ostream& operator <<(
         std::ostream& os,
         const StatusDataType& st);
 

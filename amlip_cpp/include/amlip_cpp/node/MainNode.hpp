@@ -61,11 +61,11 @@ public:
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
-    MainNode(
+    AMLIP_CPP_DllAPI MainNode(
             const char* name);
 
     //! Same as previous ctor but with a string argument.
-    MainNode(
+    AMLIP_CPP_DllAPI MainNode(
             const std::string& name);
 
     /**
@@ -73,7 +73,7 @@ public:
      *
      * @pre This could not be called while processing job.
      */
-    ~MainNode();
+    AMLIP_CPP_DllAPI ~MainNode();
 
     /**
      * @brief Send a Job to any Computing Node available and wait for the solution.
@@ -85,7 +85,7 @@ public:
      *
      * @return Solution of the Job
      */
-    types::JobSolutionDataType request_job_solution(
+    AMLIP_CPP_DllAPI types::JobSolutionDataType request_job_solution(
             const types::JobDataType& data);
 
     /**
@@ -99,7 +99,7 @@ public:
      *
      * @return Solution of the Job
      */
-    types::JobSolutionDataType request_job_solution(
+    AMLIP_CPP_DllAPI types::JobSolutionDataType request_job_solution(
             const types::JobDataType& data,
             types::AmlipIdDataType& server);
 

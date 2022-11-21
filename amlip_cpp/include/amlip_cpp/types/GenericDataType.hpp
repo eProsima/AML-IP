@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 
+#include <amlip_cpp/library/library_dll.h>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
@@ -51,7 +52,7 @@ public:
     /*!
      * @brief Default constructor with values.
      */
-    GenericDataType(
+    AMLIP_CPP_DllAPI GenericDataType(
             void* data,
             const uint32_t size,
             bool take_ownership = false);
@@ -59,18 +60,18 @@ public:
     /*!
      * @brief Default constructor.
      */
-    GenericDataType();
+    AMLIP_CPP_DllAPI GenericDataType();
 
-    GenericDataType(
+    AMLIP_CPP_DllAPI GenericDataType(
             const std::vector<ByteType>& bytes);
 
-    GenericDataType(
+    AMLIP_CPP_DllAPI GenericDataType(
             const std::string& bytes);
 
     /*!
      * @brief Default destructor.
      */
-    virtual ~GenericDataType();
+    AMLIP_CPP_DllAPI virtual ~GenericDataType();
 
     /*!
      * @brief Copy constructor.
@@ -78,28 +79,28 @@ public:
      * If \c x has no ownership, it copies the reference.
      * If \c x has ownership, it copies the data inside.
      */
-    GenericDataType(
+    AMLIP_CPP_DllAPI GenericDataType(
             const GenericDataType& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object GenericDataType that will be copied.
      */
-    GenericDataType(
+    AMLIP_CPP_DllAPI GenericDataType(
             GenericDataType&& x);
 
     /*!
      * @brief Copy assignment not allowed.
      * To be defined by end-user, as copying \c data_ pointer or its content may be preferred depending on the scenario.
      */
-    GenericDataType& operator =(
+    AMLIP_CPP_DllAPI GenericDataType& operator =(
             const GenericDataType&);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object GenericDataType that will be copied.
      */
-    GenericDataType& operator =(
+    AMLIP_CPP_DllAPI GenericDataType& operator =(
             GenericDataType&& x);
 
     /*!
@@ -108,7 +109,7 @@ public:
      *
      * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
      */
-    bool operator ==(
+    AMLIP_CPP_DllAPI bool operator ==(
             const GenericDataType& x) const;
 
     /*!
@@ -117,23 +118,23 @@ public:
      *
      * @note \c data_ attributes are compared as pointers only, i.e. the content pointed to is not compared.
      */
-    bool operator !=(
+    AMLIP_CPP_DllAPI bool operator !=(
             const GenericDataType& x) const;
 
     /*!
      * @brief Return value of attribute \c data_
      */
-    void* data() const;
+    AMLIP_CPP_DllAPI void* data() const;
 
     /*!
      * @brief Return value of attribute \c data__size_
      */
-    uint32_t data_size() const;
+    AMLIP_CPP_DllAPI uint32_t data_size() const;
 
     /*!
      * @brief This function returns the name of this specific data type
      */
-    static std::string type_name();
+    AMLIP_CPP_DllAPI static std::string type_name();
 
     /////
     // InterfaceDataType methods
@@ -142,21 +143,21 @@ public:
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize(
+    AMLIP_CPP_DllAPI void serialize(
             eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void deserialize(
+    AMLIP_CPP_DllAPI void deserialize(
             eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize_key(
+    AMLIP_CPP_DllAPI void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
@@ -165,7 +166,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -174,7 +175,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    static size_t get_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
             const GenericDataType& data,
             size_t current_alignment = 0);
 
@@ -184,23 +185,23 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_key_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
      */
-    static bool is_key_defined();
+    AMLIP_CPP_DllAPI static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
      */
-    static bool is_bounded();
+    AMLIP_CPP_DllAPI static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
      */
-    static bool is_plain();
+    AMLIP_CPP_DllAPI static bool is_plain();
 
     /**
      * @brief Construct an empty sample in the memory allocated
@@ -211,12 +212,12 @@ public:
      *
      * @return true if the construction was successful, false otherwise
      */
-    static bool construct_sample(
+    AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
 
-    std::string to_string() const noexcept;
+    AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
-    std::vector<ByteType> to_vector() const noexcept;
+    AMLIP_CPP_DllAPI std::vector<ByteType> to_vector() const noexcept;
 
 protected:
 

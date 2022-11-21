@@ -45,9 +45,9 @@ public:
 
     // TODO: This methods are included already in GenericDataType,
     // but they are required for SWIG, check if there is some way to avoid it
-    JobSolutionDataType(
+    AMLIP_CPP_DllAPI JobSolutionDataType(
             const std::vector<ByteType>& bytes);
-    JobSolutionDataType(
+    AMLIP_CPP_DllAPI JobSolutionDataType(
             const std::string& bytes);
 };
 

@@ -57,24 +57,24 @@ public:
     /*!
      * @brief Default constructor.
      */
-    AmlipIdDataType();
+    AMLIP_CPP_DllAPI AmlipIdDataType();
 
     /*!
      * @brief Constructor with name.
      */
-    AmlipIdDataType(
+    AMLIP_CPP_DllAPI AmlipIdDataType(
             const std::string& name);
 
     /*!
      * @brief Constructor with name given in char*.
      */
-    AmlipIdDataType(
+    AMLIP_CPP_DllAPI AmlipIdDataType(
             const char* name);
 
     /*!
      * @brief Constructor with name and random id given as arrays of octets.
      */
-    AmlipIdDataType(
+    AMLIP_CPP_DllAPI AmlipIdDataType(
             const std::array<uint8_t, NAME_SIZE>& name,
             const std::array<uint8_t, RAND_SIZE>& rand_id);
 
@@ -83,94 +83,94 @@ public:
      *
      * The parameters must be moved, as they will taken as part of the new object.
      */
-    AmlipIdDataType(
+    AMLIP_CPP_DllAPI AmlipIdDataType(
             std::array<uint8_t, NAME_SIZE>&& name,
             std::array<uint8_t, RAND_SIZE>&& rand_id);
 
     /*!
      * @brief Default destructor.
      */
-    virtual ~AmlipIdDataType();
+    AMLIP_CPP_DllAPI virtual ~AmlipIdDataType();
 
     /*!
      * @brief Copy constructor.
      * @param x Reference to the object AmlipIdDataType that will be copied.
      */
-    AmlipIdDataType(
+    AMLIP_CPP_DllAPI AmlipIdDataType(
             const AmlipIdDataType& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object AmlipIdDataType that will be copied.
      */
-    AmlipIdDataType(
+    AMLIP_CPP_DllAPI AmlipIdDataType(
             AmlipIdDataType&& x);
 
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object AmlipIdDataType that will be copied.
      */
-    AmlipIdDataType& operator =(
+    AMLIP_CPP_DllAPI AmlipIdDataType& operator =(
             const AmlipIdDataType& x);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object AmlipIdDataType that will be copied.
      */
-    AmlipIdDataType& operator =(
+    AMLIP_CPP_DllAPI AmlipIdDataType& operator =(
             AmlipIdDataType&& x);
 
     /*!
      * @brief Comparison operator.
      * @param x AmlipIdDataType object to compare.
      */
-    bool operator ==(
+    AMLIP_CPP_DllAPI bool operator ==(
             const AmlipIdDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x AmlipIdDataType object to compare.
      */
-    bool operator !=(
+    AMLIP_CPP_DllAPI bool operator !=(
             const AmlipIdDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x AmlipIdDataType object to compare.
      */
-    bool operator <(
+    AMLIP_CPP_DllAPI bool operator <(
             const AmlipIdDataType& x) const;
 
     /*!
      * @brief This function gets the value of member \c name_ as string
      * @return Value of member \c name_ as string
      */
-    std::string name() const;
+    AMLIP_CPP_DllAPI std::string name() const;
 
     /*!
      * @brief This function copies the value in member \c name_
      * @param name New value to be copied in member id \c name_
      */
-    void name(
+    AMLIP_CPP_DllAPI void name(
             const std::array<uint8_t, NAME_SIZE>& name);
 
     /*!
      * @brief This function gets the value in member \c name as array of octets
      * @return Value of member \c name_ as array of octets
      */
-    std::array<uint8_t, NAME_SIZE> base64_name() const;
+    AMLIP_CPP_DllAPI std::array<uint8_t, NAME_SIZE> base64_name() const;
 
     /*!
      * @brief This function gets the value in member \c rand_id as array of octets
      * @return Value of member \c rand_id_ as array of octets
      */
-    std::array<uint8_t, RAND_SIZE> id() const;
+    AMLIP_CPP_DllAPI std::array<uint8_t, RAND_SIZE> id() const;
 
     /*!
      * @brief This function copies the value in member \c rand_id_
      * @param id New value to be copied in member id \c rand_id_
      */
-    void id(
+    AMLIP_CPP_DllAPI void id(
             const std::array<uint8_t, RAND_SIZE>& id);
 
     /*!
@@ -178,44 +178,44 @@ public:
      *
      * @note This string is forced to be valid as a DDS name for entity or topic.
      */
-    std::string to_dds_string() const;
+    AMLIP_CPP_DllAPI std::string to_dds_string() const;
 
     /*!
      * @brief This function returns the name of this specific data type
      */
-    static std::string type_name();
+    AMLIP_CPP_DllAPI static std::string type_name();
 
     /*!
      * @brief This function returns true if the object is defined (i.e. constructed with a specific name)
      */
-    bool is_defined() const noexcept;
+    AMLIP_CPP_DllAPI bool is_defined() const noexcept;
 
     //! Override parent \c to_string method using << operator
-    std::string to_string() const noexcept;
+    AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object with random name and numerical id
      */
-    static AmlipIdDataType new_unique_id();
+    AMLIP_CPP_DllAPI static AmlipIdDataType new_unique_id();
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object with the given name and a random numerical id
      * @param name Value given as string to set in attribute \c name_
      */
-    static AmlipIdDataType new_unique_id(
+    AMLIP_CPP_DllAPI static AmlipIdDataType new_unique_id(
             const std::string& name);
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object with the given name and a random numerical id
      * @param name Value given as char* to set in attribute \c name_
      */
-    static AmlipIdDataType new_unique_id(
+    AMLIP_CPP_DllAPI static AmlipIdDataType new_unique_id(
             const char* name);
 
     /*!
      * @brief This function returns an \c AmlipIdDataType object corresponding to an undefined \c AmlipDataType
      */
-    static AmlipIdDataType undefined_id();
+    AMLIP_CPP_DllAPI static AmlipIdDataType undefined_id();
 
     /////
     // InterfaceDataType methods
@@ -224,21 +224,21 @@ public:
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize(
+    AMLIP_CPP_DllAPI void serialize(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void deserialize(
+    AMLIP_CPP_DllAPI void deserialize(
             eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize_key(
+    AMLIP_CPP_DllAPI void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
@@ -247,7 +247,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -256,7 +256,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    static size_t get_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
             const AmlipIdDataType& data,
             size_t current_alignment = 0);
 
@@ -266,23 +266,23 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_key_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
      */
-    static bool is_key_defined();
+    AMLIP_CPP_DllAPI static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
      */
-    static bool is_bounded();
+    AMLIP_CPP_DllAPI static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
      */
-    static bool is_plain();
+    AMLIP_CPP_DllAPI static bool is_plain();
 
     /**
      * @brief Construct an empty sample in the memory allocated
@@ -293,7 +293,7 @@ public:
      *
      * @return true if the construction was successful, false otherwise
      */
-    static bool construct_sample(
+    AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
 
 protected:
@@ -312,7 +312,7 @@ protected:
      * @param name Value to be converted given as char*
      * @return Converted value to a fixed-length array of octets
      */
-    static std::array<uint8_t, NAME_SIZE> char_name_to_array_(
+    AMLIP_CPP_DllAPI static std::array<uint8_t, NAME_SIZE> char_name_to_array_(
             const char* name);
 
     /*!
@@ -321,18 +321,18 @@ protected:
      * @param name Value to be converted given as string
      * @return Converted value to a fixed-length array of octets
      */
-    static std::array<uint8_t, NAME_SIZE> str_name_to_array_(
+    AMLIP_CPP_DllAPI static std::array<uint8_t, NAME_SIZE> str_name_to_array_(
             const std::string& name);
 
     /*!
      * @brief This function generates a random name as a fixed-length array of octets
      */
-    static std::array<uint8_t, NAME_SIZE> random_name_();
+    AMLIP_CPP_DllAPI static std::array<uint8_t, NAME_SIZE> random_name_();
 
     /*!
      * @brief This function generates a random numerical identifier as a fixed-length array of octets
      */
-    static std::array<uint8_t, RAND_SIZE> random_id_();
+    AMLIP_CPP_DllAPI static std::array<uint8_t, RAND_SIZE> random_id_();
 };
 
 //! \c AmlipIdDataType to stream serializator

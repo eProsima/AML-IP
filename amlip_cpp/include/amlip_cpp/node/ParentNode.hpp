@@ -62,7 +62,7 @@ class ParentNode
 public:
 
     //! Copy constructor not allowed
-    ParentNode(
+    AMLIP_CPP_DllAPI ParentNode(
             const ParentNode& x) = delete;
 
     /**
@@ -70,16 +70,16 @@ public:
      *
      * Clears internal variables and destroys DDS entities.
      */
-    virtual ~ParentNode();
+    AMLIP_CPP_DllAPI virtual ~ParentNode();
 
     //! Get this node Id
-    types::AmlipIdDataType id() const noexcept;
+    AMLIP_CPP_DllAPI types::AmlipIdDataType id() const noexcept;
 
     //! Get this node current state
-    types::StateKind current_state() const noexcept;
+    AMLIP_CPP_DllAPI types::StateKind current_state() const noexcept;
 
     //! Get this node kind
-    virtual types::NodeKind node_kind() const noexcept;
+    AMLIP_CPP_DllAPI virtual types::NodeKind node_kind() const noexcept;
 
 protected:
 
@@ -93,12 +93,12 @@ protected:
      *
      * @note protected so this class is abstract and cannot be constructed.
      */
-    ParentNode(
+    AMLIP_CPP_DllAPI ParentNode(
             const char* name,
             types::NodeKind node_kind);
 
     //! Same as previous constructor but with a string argument.
-    ParentNode(
+    AMLIP_CPP_DllAPI ParentNode(
             const std::string& name,
             types::NodeKind node_kind);
 
@@ -109,11 +109,11 @@ protected:
      *
      * @param new_state new current state.
      */
-    void change_status_(
+    AMLIP_CPP_DllAPI void change_status_(
             const types::StateKind& new_state) noexcept;
 
     //! Publish the current status in Status Writer.
-    void publish_status_() const noexcept;
+    AMLIP_CPP_DllAPI void publish_status_() const noexcept;
 
     //! Reference to the Participant and internal entities of DDS.
     std::unique_ptr<dds::Participant> participant_;
@@ -134,7 +134,7 @@ protected:
 };
 
 //! \c ParentNode to stream serializator
-std::ostream& operator <<(
+AMLIP_CPP_DllAPI std::ostream& operator <<(
         std::ostream& os,
         const ParentNode& node);
 

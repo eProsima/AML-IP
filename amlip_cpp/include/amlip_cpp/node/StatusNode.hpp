@@ -49,7 +49,7 @@ namespace node {
  * Status messages received from other Nodes in the network.
  * Every Status message call \c status_received with the message as argument.
  */
-class StatusListener
+class AMLIP_CPP_DllAPI StatusListener
 {
 public:
 
@@ -93,11 +93,11 @@ public:
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
-    StatusNode(
+    AMLIP_CPP_DllAPI StatusNode(
             const char* name);
 
     //! Same as previous ctor but with a string argument.
-    StatusNode(
+    AMLIP_CPP_DllAPI StatusNode(
             const std::string& name);
 
     /**
@@ -105,7 +105,7 @@ public:
      *
      * If it is processing data, it stops.
      */
-    ~StatusNode();
+    AMLIP_CPP_DllAPI ~StatusNode();
 
     /**
      * Execute in a new thread a passive listening in Status topic and execute the callback given with each message.
@@ -114,7 +114,7 @@ public:
      *
      * @warning this does not own the callback, so it must be kept alive as long as it could be called.
      */
-    void process_status_async(
+    AMLIP_CPP_DllAPI void process_status_async(
             const std::function<void(const types::StatusDataType&)>& callback);
 
     /**
@@ -127,13 +127,13 @@ public:
      *
      * @warning this does not own the Listener, so the Listener must be kept alive as long as it could be called.
      */
-    void process_status_async(
+    AMLIP_CPP_DllAPI void process_status_async(
             const StatusListener& callback_functor);
 
     /**
      * Stop the internal thread that is running created in \c process_status_async
      */
-    void stop_processing();
+    AMLIP_CPP_DllAPI void stop_processing();
 
 protected:
 
@@ -146,7 +146,7 @@ protected:
      *
      * @param callback function that will be called with each Status message received.
      */
-    void process_routine_(
+    AMLIP_CPP_DllAPI void process_routine_(
             const std::function<void(const types::StatusDataType&)>& callback);
 
     /**
