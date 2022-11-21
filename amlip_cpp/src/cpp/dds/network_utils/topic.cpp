@@ -56,12 +56,14 @@ eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept
     return qos;
 }
 
-std::string type_name_mangling(const std::string& type_name) noexcept
+std::string type_name_mangling(
+        const std::string& type_name) noexcept
 {
     return std::string(TYPE_NAME_MANGLING) + type_name;
 }
 
-std::string topic_name_mangling(const std::string& topic_name) noexcept
+std::string topic_name_mangling(
+        const std::string& topic_name) noexcept
 {
     return std::string(TOPIC_NAME_MANGLING) + topic_name;
 }

@@ -126,9 +126,9 @@ T Reader<T>::read()
         logDebug(
             AMLIPCPP_DDS_READER,
             "Reader: " << *this
-            << " received message: " << data
-            << " from: " << info.sample_identity.writer_guid()
-            << ".");
+                       << " received message: " << data
+                       << " from: " << info.sample_identity.writer_guid()
+                       << ".");
 
         // Return data (this does a move)
         return data;
@@ -137,13 +137,13 @@ T Reader<T>::read()
     {
         // TODO
         throw eprosima::utils::InconsistencyException(STR_ENTRY
-                << "Try to read data from a reader that does not have it." << *this << ".");
+                      << "Try to read data from a reader that does not have it." << *this << ".");
     }
     else
     {
         // TODO
         throw eprosima::utils::InconsistencyException(STR_ENTRY
-                << "Error " << return_code << " while reading message in " << *this << ".");
+                      << "Error " << return_code << " while reading message in " << *this << ".");
     }
 }
 
@@ -163,9 +163,9 @@ void Reader<T>::on_data_available(
     logDebug(
         AMLIPCPP_DDS_READER,
         "Reader " << *this <<
-        " has received a data from: " << info.sample_identity.writer_guid() <<
-        " and has " << reader->get_unread_count() <<
-        " messages unread yet.");
+            " has received a data from: " << info.sample_identity.writer_guid() <<
+            " and has " << reader->get_unread_count() <<
+            " messages unread yet.");
 
     reader_data_waiter_.open();
 }
@@ -183,7 +183,8 @@ void Reader<T>::on_subscription_matched(
     else if (info.current_count_change < 0)
     {
         logDebug(
-            AMLIPCPP_DDS_READER, "Reader " << *this << " unmatched with Writer: "  << info.last_publication_handle << ".");
+            AMLIPCPP_DDS_READER,
+            "Reader " << *this << " unmatched with Writer: "  << info.last_publication_handle << ".");
     }
 }
 

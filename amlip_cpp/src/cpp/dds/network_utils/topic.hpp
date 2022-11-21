@@ -47,9 +47,11 @@ constexpr const char* TYPE_NAME_MANGLING = "amlip::";
 
 constexpr const char* TOPIC_NAME_MANGLING = "amlip/";
 
-std::string type_name_mangling(const std::string& type_name) noexcept;
+std::string type_name_mangling(
+        const std::string& type_name) noexcept;
 
-std::string topic_name_mangling(const std::string& type_name) noexcept;
+std::string topic_name_mangling(
+        const std::string& type_name) noexcept;
 
 } /* namespace utils */
 } /* namespace dds */

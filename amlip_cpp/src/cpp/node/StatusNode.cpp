@@ -92,7 +92,10 @@ void StatusNode::process_status_async(
         process_thread_ = std::thread(
             &StatusNode::process_routine_,
             this,
-            [&callback_functor](const types::StatusDataType& status){ callback_functor.status_received(status); });
+            [&callback_functor](const types::StatusDataType& status)
+            {
+                callback_functor.status_received(status);
+            });
 
         change_status_(types::StateKind::running);
     }

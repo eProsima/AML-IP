@@ -46,9 +46,9 @@ public:
     // TODO: This methods are included already in GenericDataType,
     // but they are required for SWIG, check if there is some way to avoid it
     JobDataType(
-        const std::vector<ByteType>& bytes);
+            const std::vector<ByteType>& bytes);
     JobDataType(
-        const std::string& bytes);
+            const std::string& bytes);
 };
 
 } /* namespace types */

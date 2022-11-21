@@ -62,10 +62,10 @@ public:
     GenericDataType();
 
     GenericDataType(
-        const std::vector<ByteType>& bytes);
+            const std::vector<ByteType>& bytes);
 
     GenericDataType(
-        const std::string& bytes);
+            const std::string& bytes);
 
     /*!
      * @brief Default destructor.

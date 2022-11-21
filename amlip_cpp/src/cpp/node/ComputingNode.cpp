@@ -71,8 +71,10 @@ void ComputingNode::process_job(
 {
     process_job(
         [&listener]
-        (const types::JobDataType& job)
-        { return listener.process_job(job); });
+            (const types::JobDataType& job)
+        {
+            return listener.process_job(job);
+        });
 }
 
 void ComputingNode::process_job(
@@ -81,8 +83,10 @@ void ComputingNode::process_job(
 {
     process_job(
         [&listener]
-        (const types::JobDataType& job)
-        { return listener.process_job(job); },
+            (const types::JobDataType& job)
+        {
+            return listener.process_job(job);
+        },
         client_id);
 }
 

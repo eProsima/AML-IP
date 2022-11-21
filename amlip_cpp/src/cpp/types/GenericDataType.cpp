@@ -123,7 +123,7 @@ GenericDataType::GenericDataType(
 GenericDataType& GenericDataType::operator =(
         const GenericDataType& x)
 {
-    if(this->has_been_allocated_)
+    if (this->has_been_allocated_)
     {
         free(data_);
     }
@@ -151,7 +151,7 @@ GenericDataType& GenericDataType::operator =(
 GenericDataType& GenericDataType::operator =(
         GenericDataType&& x)
 {
-    if(this->has_been_allocated_)
+    if (this->has_been_allocated_)
     {
         free(data_);
     }
