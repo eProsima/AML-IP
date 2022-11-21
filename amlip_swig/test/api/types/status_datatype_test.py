@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Test Status Data Type import."""
 
 import amlip_swig
 from amlip_swig import NodeKind_discovery, StateKind_running
@@ -19,7 +20,7 @@ from amlip_swig import NodeKind_discovery, StateKind_running
 def test_status_creation():
     """Test creation of StatusDataType."""
     new_status = amlip_swig.StatusDataType()
-    assert(not new_status.id().is_defined())
+    assert (not new_status.id().is_defined())
 
 
 def test_status_internal_info():
@@ -30,6 +31,6 @@ def test_status_internal_info():
         StateKind_running
     )
 
-    assert(status.id().name() == 'TestName')
-    assert(status.node_kind() == NodeKind_discovery)
-    assert(status.state() == StateKind_running)
+    assert (status.id().name() == 'TestName')
+    assert (status.node_kind() == NodeKind_discovery)
+    assert (status.state() == StateKind_running)
