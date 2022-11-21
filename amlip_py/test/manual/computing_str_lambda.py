@@ -29,7 +29,7 @@ def main():
     print(f'Node created: {computing_node.get_id()}. Processing job...')
     computing_node.process_job(callback=lambda job: SolutionDataType(job.to_string().lower()))
 
-    print(f'Solution sent. '
+    print('Solution sent. '
           'Finishing Manual Test Computing Node Py execution.')
 
 

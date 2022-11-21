@@ -34,7 +34,7 @@ def main():
     print(f'Listener created. Processing job...')
     computing_node.process_job(listener=job_listener)
 
-    print(f'Solution sent. '
+    print('Solution sent. '
           'Finishing Manual Test Computing Node Py execution.')
 
 

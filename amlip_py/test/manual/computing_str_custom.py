@@ -40,10 +40,10 @@ def main():
     job_listener = CustomJobListener('MyListener')
 
     # Launch node
-    print(f'Listener created. Processing job...')
+    print('Listener created. Processing job...')
     computing_node.process_job(listener=job_listener)
 
-    print(f'Solution sent. '
+    print('Solution sent. '
           'Finishing Manual Test Computing Node Py execution.')
 
 

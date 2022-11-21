@@ -40,7 +40,7 @@ def main():
     signal.signal(signal.SIGINT, handler)
     signal.pause()
 
-    print(f'SIGINT received. Finishing Manual Test Status Node Py execution.')
+    print('SIGINT received. Finishing Manual Test Status Node Py execution.')
 
 
 # Call main in program execution
