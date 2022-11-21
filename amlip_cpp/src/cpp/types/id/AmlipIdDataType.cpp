@@ -30,10 +30,10 @@ using namespace eprosima::fastcdr::exception;
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <iomanip>
 #include <random>
 #include <string>
-#include <time.h>
 #include <utility>
 
 #include <cpp_utils/utils.hpp>
@@ -266,7 +266,9 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
     // make sure a random seed is properly set in the main scope
 
     // TODO: move this random seed to a random manager
-    srand(time(NULL));
+    srand(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::high_resolution_clock::now().time_since_epoch()).count());
 
     std::array<uint8_t, RAND_SIZE> rand_id;
     for (uint32_t i = 0; i < RAND_SIZE; i++)

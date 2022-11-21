@@ -24,7 +24,6 @@
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
-#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
 
 // Forward declaration of dds classes
 namespace eprosima {

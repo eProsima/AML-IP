@@ -87,7 +87,7 @@ TEST(DdsHandlerTest, create_datawriter)
     // Check DataWriter internal values
     auto datawriter_locked = datawriter.lock();
     ASSERT_TRUE(datawriter_locked);
-    ASSERT_EQ(datawriter_locked->get_topic()->get_name(), topic_name_);
+    ASSERT_EQ(datawriter_locked->get_topic()->get_name(), utils::topic_name_mangling(topic_name_));
     ASSERT_EQ(datawriter_locked->get_qos(), qos);
     ASSERT_EQ(datawriter_locked->get_listener(), &listener);
 }
@@ -118,7 +118,7 @@ TEST(DdsHandlerTest, create_datareader)
     // Check DataReader internal values
     auto datareader_locked = datareader.lock();
     ASSERT_TRUE(datareader_locked);
-    ASSERT_EQ(datareader_locked->get_topicdescription()->get_name(), topic_name_);
+    ASSERT_EQ(datareader_locked->get_topicdescription()->get_name(), utils::topic_name_mangling(topic_name_));
     ASSERT_EQ(datareader_locked->get_qos(), qos);
     ASSERT_EQ(datareader_locked->get_listener(), &listener);
 }

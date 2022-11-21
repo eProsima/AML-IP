@@ -25,8 +25,8 @@
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
 #include <types/multiservice/MsDataType.hpp>
-#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
-#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
+#include <types/multiservice/MsRequestDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

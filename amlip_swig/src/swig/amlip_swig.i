@@ -48,6 +48,10 @@
     catch (Swig::DirectorException &e) { SWIG_fail; }
 }
 
+// Macro delcarations
+// Any macro used on the header files will give an error if it is not redefined here
+#define AMLIP_CPP_DllAPI
+
 // SWIG helper modules
 %include "stdint.i"
 %include "std_array.i"
@@ -75,8 +79,6 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/status/StatusDataType.i"
 %include "amlip_swig/types/job/JobDataType.i"
 %include "amlip_swig/types/job/JobSolutionDataType.i"
-%include "amlip_swig/types/multiservice/MsRequestDataType.i"
-%include "amlip_swig/types/multiservice/MsReferenceDataType.i"
 // node
 %include "amlip_swig/node/ParentNode.i"
 %include "amlip_swig/node/StatusNode.i"

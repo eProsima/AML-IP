@@ -14,7 +14,6 @@
 """Test Status Data Type import."""
 
 import amlip_swig
-from amlip_swig import NodeKind_discovery, StateKind_running
 
 
 def test_status_creation():
@@ -27,10 +26,10 @@ def test_status_internal_info():
     """Test NodeKind object inside of StatusDataType."""
     status = amlip_swig.StatusDataType(
         amlip_swig.AmlipIdDataType('TestName'),
-        NodeKind_discovery,
-        StateKind_running
+        amlip_swig.NodeKind_discovery,
+        amlip_swig.StateKind_running
     )
 
     assert (status.id().name() == 'TestName')
-    assert (status.node_kind() == NodeKind_discovery)
-    assert (status.state() == StateKind_running)
+    assert (status.node_kind() == amlip_swig.NodeKind_discovery)
+    assert (status.state() == amlip_swig.StateKind_running)

@@ -25,7 +25,7 @@
 #include <string>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
+#include <types/multiservice/MsRequestDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
