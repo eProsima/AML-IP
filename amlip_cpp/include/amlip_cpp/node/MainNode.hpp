@@ -81,7 +81,6 @@ public:
      * @param data [in] Job to send.
      *
      * @attention this method is synchronous and will not finish until the job has been solved.
-     * (wait for new cool features to call it asynchronously).
      *
      * @todo asynchronous mode
      *
@@ -97,7 +96,6 @@ public:
      * @param server [out] Id of the Node that has answered the Job.
      *
      * @attention this method is synchronous and will not finish until the job has been solved.
-     * (wait for new cool features to call it asynchronously).
      *
      * @todo asynchronous mode
      *

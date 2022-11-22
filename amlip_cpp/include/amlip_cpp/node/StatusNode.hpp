@@ -68,10 +68,10 @@ public:
 /**
  * @brief This is a specialization of AML-IP Node that listens to Status messages.
  *
- * Status messages are sent by every Node publishing the id, kind and current state.
+ * Status messages are sent by every Node publishing their id, kind and current state.
  * Every message of it could be processed by this Node. The use of these messages are left for the user to implement.
  * Some ideas of what to do with them:
- * - Debug propose
+ * - Debug purpose
  * - Store data in a DataBase that represents the state of the network and its changes.
  *
  * This Node has currently a method \c process_status_async that activates the processing of status data.
@@ -79,7 +79,7 @@ public:
  * While this method is not called, messages will be stored in Reader.
  * Once called, each old message (except those that overflow the DDS internal history) are processed.
  *
- * @warning so fat this class is not thread-safe, so \c process_status_async can only be called once, and cannot
+ * @warning so far this class is not thread-safe, so \c process_status_async can only be called once, and cannot
  * be called again before calling \c stop_processing .
  *
  * @warning Not Thread Safe (yet) (TODO)

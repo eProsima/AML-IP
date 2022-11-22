@@ -102,12 +102,11 @@ public:
     /**
      * @brief Wait for a Job to be received and give a solution by \c callback .
      *
-     * This set the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
+     * This sets the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
      * Once the MultiService handshake has been done with a Main Node, it will send a Job data to this Node and it will
      * be resolved by \c callback , that must give the \c JobSolutionDataType for the job.
      *
      * @attention this method is synchronous and will not finish until the job has been solved.
-     * (wait for new cool features to call it asynchronously).
      *
      * @todo asynchronous mode
      *
@@ -131,7 +130,6 @@ public:
      * be resolved by calling \c process_job of \c listener , that must give the \c JobSolutionDataType for the job.
      *
      * @attention this method is synchronous and will not finish until the job has been solved.
-     * (wait for new cool features to call it asynchronously).
      *
      * @todo asynchronous mode
      *
