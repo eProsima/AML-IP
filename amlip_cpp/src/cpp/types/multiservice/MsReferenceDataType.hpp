@@ -60,7 +60,7 @@ public:
     /*!
      * @brief Default destructor.
      */
-    virtual ~AMLIP_CPP_DllAPI MsReferenceDataType();
+    AMLIP_CPP_DllAPI virtual ~MsReferenceDataType();
 
     /*!
      * @brief Copy constructor.
