@@ -110,7 +110,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     server = reference.server_id();
     logDebug(AMLIPCPP_MULTISERVICE_CLIENT,
             "Client " << own_id_ << " sending task: " << reference.task_id() <<
-            " to server: " << reference.server_id() << ".");
+            " to server: " << server << ".");
 
     // SEND TASK TARGET
     // Send the reference sent by the server
@@ -118,7 +118,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
 
     // SEND DATA
     types::MsDataType<Data> data_(reference, data);
-    task_data_writer_.write(reference.server_id(), data_);
+    task_data_writer_.write(server, data_);
 
     // WAIT FOR SOLUTION
     logDebug(AMLIPCPP_DDS_MSCLIENT, "Wait for solution of task: " << reference << ".");

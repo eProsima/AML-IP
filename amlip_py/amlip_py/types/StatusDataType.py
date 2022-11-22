@@ -30,7 +30,7 @@ class NodeKind(Enum):
     DISCOVERY = NodeKind_discovery
     AGENT = NodeKind_agent
     MAIN = NodeKind_main
-    COMPUTATIONAL = NodeKind_computing
+    COMPUTING = NodeKind_computing
     EDGE = NodeKind_status
     STATUS = NodeKind_meta
 

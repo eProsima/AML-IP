@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from amlip_py.node.ComputingNode import ComputingNode, JobListener
-from amlip_py.types.SolutionDataType import SolutionDataType
+from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 
 class CustomJobListener(JobListener):
@@ -22,8 +22,8 @@ class CustomJobListener(JobListener):
         self.name_ = name
         super().__init__()
 
-    def process_job(self, job) -> SolutionDataType:
-        return SolutionDataType(job.to_string().lower())
+    def process_job(self, job) -> JobSolutionDataType:
+        return JobSolutionDataType(job.to_string().lower())
 
 
 def main():

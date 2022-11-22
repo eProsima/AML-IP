@@ -46,9 +46,9 @@ namespace node {
  *
  * This class implement the generic behaviour of every node. This is:
  *
- * - Have a unique Id
- * - Have a state
- * - Have a Node Kind
+ * - Has a unique Id
+ * - Has a state
+ * - Has a Node Kind
  *
  * - Holds a dds::Participant with the DdsHandler and every internal entity.
  * - Holds a Status Writer that writes the Status when it changes

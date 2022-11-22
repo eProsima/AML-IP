@@ -43,7 +43,7 @@ namespace amlip {
 namespace node {
 
 /**
- * @brief Object that listen to new Status messages received from a \c StatusNode and execute a callback.
+ * @brief Object that listens to new Status messages received from a \c StatusNode and executes a callback.
  *
  * This class is supposed to be implemented by a User and be given to a \c StatusNode in order to process
  * Status messages received from other Nodes in the network.
@@ -66,10 +66,10 @@ public:
 };
 
 /**
- * @brief This is a specialization of AML-IP Node that Listen to Status messages.
+ * @brief This is a specialization of AML-IP Node that listens to Status messages.
  *
- * Status messages are sent by every Node, publishing the id, kind and current state of each of the nodes.
- * Every message of it could be processed by this Node. The use of this messages are left to the user.
+ * Status messages are sent by every Node publishing the id, kind and current state.
+ * Every message of it could be processed by this Node. The use of these messages are left for the user to implement.
  * Some ideas of what to do with them:
  * - Debug propose
  * - Store data in a DataBase that represents the state of the network and its changes.
@@ -150,7 +150,7 @@ protected:
             const std::function<void(const types::StatusDataType&)>& callback);
 
     /**
-     * @brief Thread that waits for new data available, and with each message, it reads it and pass it to callback.
+     * @brief Thread that waits for new data to be available. Each received message is read and passed to callback.
      *
      * @todo Move this to a thread pool
      */

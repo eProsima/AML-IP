@@ -79,7 +79,7 @@ public:
     //! Get State Kind value
     AMLIP_CPP_DllAPI StateKind state() const noexcept;
 
-    //! Whether this object is correctly defined, thus no of its internal variables is not defined.
+    //! Whether this object is correctly defined, thus none of its internal variables are undefined.
     AMLIP_CPP_DllAPI bool is_defined() const noexcept;
 
     //! Overload parent \c to_string method

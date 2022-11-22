@@ -66,7 +66,7 @@ public:
 };
 
 /**
- * @brief This is a specialization of AML-IP Node that waits for Job data and retrieve a Solution.
+ * @brief This is a specialization of AML-IP Node that waits for Job data and retrieves a Solution.
  *
  * Computing Nodes are the ones in charge of receiving training data from a Main Node
  * Using \c process_job will wait for a Main Node to send it the data for a Job, and will process this Job by
@@ -95,19 +95,21 @@ public:
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.
      *
-     * @pre This could not be called while processing job.
+     * @pre Cannot be destroyed while processing a job. Otherwise undefined behaviour.
      */
     AMLIP_CPP_DllAPI ~ComputingNode();
 
     /**
-     * @brief Waits for a Job to be received and give a solution by \c callback .
+     * @brief Wait for a Job to be received and give a solution by \c callback .
      *
      * This set the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
      * Once the MultiService handshake has been done with a Main Node, it will send a Job data to this Node and it will
      * be resolved by \c callback , that must give the \c JobSolutionDataType for the job.
      *
-     * @attention this method is synchronous and will not finished until the job has been solved.
+     * @attention this method is synchronous and will not finish until the job has been solved.
      * (wait for new cool features to call it asynchronously).
+     *
+     * @todo asynchronous mode
      *
      * @param callback [in] function that receives a \c JobDataType and returns a \c JobSolutionDataType .
      * @param client_id [out] Id of the client that sent the Job.
@@ -122,14 +124,16 @@ public:
             const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback);
 
     /**
-     * @brief Waits for a Job to be received and give a solution by \c listener \c process_job method .
+     * @brief Wait for a Job to be received and give a solution by \c listener \c process_job method .
      *
-     * This set the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
+     * This sets the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
      * Once the MultiService handshake has been done with a Main Node, it will send a Job data to this Node and it will
      * be resolved by calling \c process_job of \c listener , that must give the \c JobSolutionDataType for the job.
      *
-     * @attention this method is synchronous and will not finished until the job has been solved.
+     * @attention this method is synchronous and will not finish until the job has been solved.
      * (wait for new cool features to call it asynchronously).
+     *
+     * @todo asynchronous mode
      *
      * @param listener [in] listener to call with a \c JobDataType and returns a \c JobSolutionDataType .
      * @param client_id [out] Id of the client that sent the Job.

@@ -71,7 +71,7 @@ public:
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.
      *
-     * @pre This could not be called while processing job.
+     * @pre Cannot be destroyed while processing a job. Otherwise undefined behaviour.
      */
     AMLIP_CPP_DllAPI ~MainNode();
 
@@ -80,8 +80,10 @@ public:
      *
      * @param data [in] Job to send.
      *
-     * @attention this method is synchronous and will not finished until the job has been solved.
+     * @attention this method is synchronous and will not finish until the job has been solved.
      * (wait for new cool features to call it asynchronously).
+     *
+     * @todo asynchronous mode
      *
      * @return Solution of the Job
      */
@@ -94,8 +96,10 @@ public:
      * @param data [in] Job to send.
      * @param server [out] Id of the Node that has answered the Job.
      *
-     * @attention this method is synchronous and will not finished until the job has been solved.
+     * @attention this method is synchronous and will not finish until the job has been solved.
      * (wait for new cool features to call it asynchronously).
+     *
+     * @todo asynchronous mode
      *
      * @return Solution of the Job
      */

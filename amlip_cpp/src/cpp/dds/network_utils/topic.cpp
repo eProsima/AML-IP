@@ -31,7 +31,7 @@ eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
-    qos.history().depth = 2;
+    qos.history().depth = 1;
 
     // Not needed to use REALLOC policy
     qos.endpoint().history_memory_policy =

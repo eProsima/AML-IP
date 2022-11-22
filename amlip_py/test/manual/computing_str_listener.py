@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from amlip_py.node.ComputingNode import ComputingNode, JobLambda
-from amlip_py.types.SolutionDataType import SolutionDataType
+from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
     # Create listener
     print(f'Node created: {computing_node.get_id()}. Creating Listener...')
     job_listener = JobLambda(
-        lambda job: SolutionDataType(job.to_string().lower()))
+        lambda job: JobSolutionDataType(job.to_string().lower()))
 
     # Launch node
     print(f'Listener created. Processing job...')

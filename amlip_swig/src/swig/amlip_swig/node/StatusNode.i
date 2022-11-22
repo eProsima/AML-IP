@@ -26,17 +26,6 @@
 // Ignore the process_status_async function with std::function
 %ignore eprosima::amlip::node::StatusNode::process_status_async(const std::function<void(const types::StatusDataType&)>&);
 
-// Ignore operator () as it will be renamed with __call__ and is not accepted in python
-// %ignore eprosima::amlip::node::StatusListener::operator ()(const types::StatusDataType&) const;
-
-// // Declare the operator() method to use as __call__ in python
-// %extend eprosima::amlip::node::StatusListener {
-//     void eprosima::amlip::node::StatusListener::__call__(const eprosima::amlip::types::StatusDataType& status) const
-//     {
-//         (*$self).operator()(status);
-//     }
-// }
-
 %{
 #include <amlip_cpp/node/StatusNode.hpp>
 %}

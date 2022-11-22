@@ -349,13 +349,18 @@ std::ostream& operator <<(
         const AmlipIdDataType& id)
 {
     os << "ID{" << id.name() << "|";
+
     // Set to print bytes in hexadecimal of size 2 filling with 0
-    os << std::hex << std::setfill('0') << std::setw(2);
+    // Use a different stream as cout so no TSAN issues
+    // TODO do this from utils using container_to_stream to remove final '.'
+    std::ostream new_os;
+    new_os << std::hex << std::setfill('0') << std::setw(2);
     for (uint8_t v : id.id())
     {
-        os << static_cast<unsigned>(v) << ".";
+        new_os << static_cast<unsigned>(v) << ".";
     }
-    os << std::dec << "}";
+
+    os << new_os << "}";
     return os;
 }
 
