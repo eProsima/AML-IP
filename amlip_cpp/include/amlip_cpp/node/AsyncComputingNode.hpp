@@ -56,15 +56,13 @@ public:
     virtual ~JobListener() = default;
 
     /**
-     * @brief Method that will be called with the Job message received
+     * @brief Method that will be called with the Job message received to calculate an answer.
      *
      * @param job new Job message received.
+     * @param task_id Id of the Task received.
+     * @param client_id Id of the Client that sent this job.
      *
      * @return Solution to the \c job .
-     *
-     * @note ownership of ptrs arguments is done in such way that every data that enters the Node
-     * is shared. This is because this way it is less restrictive than other ownerships.
-     * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
     virtual std::shared_ptr<types::JobSolutionDataType> process_job (
             std::unique_ptr<types::JobDataType> job,
@@ -78,18 +76,10 @@ public:
  * Computing Nodes are the ones in charge of receiving training data from a Main Node
  * Using \c process_job will wait for a Main Node to send it the data for a Job, and will process this Job by
  * the Listener or callback given, and return the Solution calculated.
- *
- * @todo implement an asynchronous request_job_solution method.
- *
- * @warning Not Thread Safe (yet) (TODO)
  */
 class ComputingNode : public ParentNode
 {
 public:
-
-    AMLIP_CPP_DllAPI ComputingNode(
-            const char* name,
-            uint32_t domain_id);
 
     /**
      * @brief Construct a new Computing Node object.
@@ -97,11 +87,8 @@ public:
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
     AMLIP_CPP_DllAPI ComputingNode(
-            const char* name);
-
-    //! Same as previous ctor but with a string argument.
-    AMLIP_CPP_DllAPI ComputingNode(
-            const std::string& name);
+            const std::string& name,
+            std::shared_ptr<JobListener> listener);
 
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.
@@ -111,26 +98,21 @@ public:
     AMLIP_CPP_DllAPI ~ComputingNode();
 
     /**
-     * @brief Wait for a Job to be received and give a solution by \c listener \c process_job method .
+     * @brief Process Jobs asynchronously.
      *
-     * This sets the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
-     * Once the MultiService handshake has been done with a Main Node, it will send a Job data to this Node and it will
-     * be resolved by calling \c process_job of \c listener , that must give the \c JobSolutionDataType for the job.
+     * This uses an internal thread that execute the whole multiservice process.
+     * In order to calculate Jobs that are received, it uses \c process_job from Listener given.
      *
-     * @attention this method is synchronous and will not finish until the job has been solved.
-     *
-     * @todo asynchronous mode
-     *
-     * @param listener [in] listener to call with a \c JobDataType and returns a \c JobSolutionDataType .
-     * @param client_id [out] Id of the client that sent the Job.
+     * @throw if node is already running.
      */
-    AMLIP_CPP_DllAPI void process_job(
-            const JobListener& listener,
-            types::AmlipIdDataType& client_id);
+    void run();
 
-    //! Same as previous \c process_job without client_id return parameter.
-    AMLIP_CPP_DllAPI void process_job(
-            const JobListener& listener);
+    /**
+     * @brief Stop processing data.
+     *
+     * If not processing data, do nothing.
+     */
+    void stop();
 
 protected:
 

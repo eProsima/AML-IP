@@ -62,7 +62,7 @@ public:
      * @param status new Status message received.
      */
     virtual void status_received (
-            const types::StatusDataType& status) const = 0;
+            std::unique_ptr<types::StatusDataType> status) const = 0;
 };
 
 /**
@@ -98,11 +98,8 @@ public:
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
     AMLIP_CPP_DllAPI StatusNode(
-            const char* name);
-
-    //! Same as previous ctor but with a string argument.
-    AMLIP_CPP_DllAPI StatusNode(
-            const std::string& name);
+            const std::string& name,
+            const StatusListener& listener);
 
     /**
      * @brief Destroy the Status Node object
@@ -112,32 +109,20 @@ public:
     AMLIP_CPP_DllAPI ~StatusNode();
 
     /**
-     * Execute in a new thread a passive listening in Status topic and execute the callback given with each message.
+     * @brief Process Status data asynchronously.
      *
-     * @pre Should only be called once per instance before calling \c stop_processing
+     * This uses an internal thread that reads status data asynchronously and process them by listener callback.
      *
-     * @warning this does not own the callback, so it must be kept alive as long as it could be called.
+     * @throw if node is already running.
      */
-    AMLIP_CPP_DllAPI void process_status_async(
-            const std::function<void(const types::StatusDataType&)>& callback);
+    AMLIP_CPP_DllAPI void run();
 
     /**
-     * Execute in a new thread a passive listening in Status topic and execute method \c status_received
-     * of the given Listener with each message.
+     * @brief Stop processing data.
      *
-     * It calls \c process_routine_ with a new created function that calls the internal listener.
-     *
-     * @pre Should only be called once per instance before calling \c stop_processing
-     *
-     * @warning this does not own the Listener, so the Listener must be kept alive as long as it could be called.
+     * If not processing data, do nothing.
      */
-    AMLIP_CPP_DllAPI void process_status_async(
-            const StatusListener& callback_functor);
-
-    /**
-     * Stop the internal thread that is running created in \c process_status_async
-     */
-    AMLIP_CPP_DllAPI void stop_processing();
+    AMLIP_CPP_DllAPI void stop();
 
 protected:
 
@@ -150,8 +135,7 @@ protected:
      *
      * @param callback function that will be called with each Status message received.
      */
-    AMLIP_CPP_DllAPI void process_routine_(
-            const std::function<void(const types::StatusDataType&)>& callback);
+    void process_routine_();
 
     /**
      * @brief Thread that waits for new data to be available. Each received message is read and passed to callback.

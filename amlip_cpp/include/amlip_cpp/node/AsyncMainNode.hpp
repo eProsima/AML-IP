@@ -35,6 +35,7 @@ template <typename Task, typename Solution>
 class MultiServiceClient;
 
 } /* namespace dds */
+
 } /* namespace amlip */
 } /* namespace eprosima */
 
@@ -43,23 +44,40 @@ namespace amlip {
 namespace node {
 
 /**
+ * @brief Object that listens for answers to task sent by a Main Node.
+ *
+ * This class is supposed to be implemented by a User and be given to a \c JobSolutionDataType , answers
+ * from a Computing Node after sending a Task from this Main.
+ * Every Solution message call \c solution_received with the message as argument.
+ */
+class SolutionListener
+{
+    //! Default virtual dtor so it can be inherited.
+    virtual ~SolutionListener() = default;
+
+    /**
+     * @brief Method that will be called with each Solution received
+     *
+     * @param solution Solution to a task previously sent.
+     * @param task_id Id of the task which this solution answers.
+     * @param server_id Id of the ComputingNode answering.
+     */
+    virtual void solution_received(
+        std::unique_ptr<types::JobSolutionDataType> solution,
+        const TaskId& task_id,
+        const types::AmlipIdDataType& server_id) = 0;
+};
+
+/**
  * @brief This is a specialization of AML-IP Node that sends Job data and waits for the Solution.
  *
  * Main Nodes are the ones in charge of sending training data (Job) and collecting the solution to those (Solution).
  * Using \c request_job_solution it will send a Job to a Computing Node that is available, and will wait for
  * the Solution retrieved by such Node.
- *
- * @todo implement an asynchronous request_job_solution method.
- *
- * @warning Not Thread Safe (yet) (TODO)
  */
 class MainNode : public ParentNode
 {
 public:
-
-    AMLIP_CPP_DllAPI MainNode(
-            const char* name,
-            uint32_t domain_id);
 
     /**
      * @brief Construct a new Main Node object.
@@ -67,11 +85,8 @@ public:
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
     AMLIP_CPP_DllAPI MainNode(
-            const char* name);
-
-    //! Same as previous ctor but with a string argument.
-    AMLIP_CPP_DllAPI MainNode(
-            const std::string& name);
+            const std::string& name,
+            std::shared_ptr<SolutionListener> listener);
 
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.
@@ -81,27 +96,23 @@ public:
     AMLIP_CPP_DllAPI ~MainNode();
 
     /**
-     * @brief Send a Job to any Computing Node available and wait for the solution, getting the Id of the solver.
+     * @brief Send a Job to any Computing Node available asynchronously.
+     *
+     * This call will use internal threads to send task and receive solution.
+     * Thread calling this will be blocked as less as possible.
+     * The solution will be received once it is ready by the Listener given in method \c solution_received
+     * and related with this Job by \c TaskId returned.
      *
      * @param data [in] Job to send.
-     * @param server [out] Id of the Node that has answered the Job.
      *
-     * @attention this method is synchronous and will not finish until the job has been solved.
-     *
-     * @todo asynchronous mode
-     *
-     * @return Solution of the Job
+     * @return Task id of the job sent, so it is possible to relation it with the solution
+     * that will be received asynchronously by the Listener.
      *
      * @note ownership of ptrs arguments is done in such way that every data that enters the Node
      * is shared. This is because this way it is less restrictive than other ownerships.
      * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
-    AMLIP_CPP_DllAPI std::unique_ptr<types::JobSolutionDataType> request_job_solution(
-            std::shared_ptr<types::JobDataType> data,
-            types::AmlipIdDataType& server);
-
-    //! Same as \c request_job_solution without retrieving the server Id.
-    AMLIP_CPP_DllAPI std::unique_ptr<types::JobSolutionDataType> request_job_solution(
+    AMLIP_CPP_DllAPI TaskId request_job_solution(
             std::shared_ptr<types::JobDataType> data);
 
 protected:
