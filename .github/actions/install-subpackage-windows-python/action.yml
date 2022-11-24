@@ -1,0 +1,25 @@
+name: Install subpackage
+description: Install and setup subpackage for linking and building application in Windows
+inputs:
+  package_path:
+    description: 'Specifies the build type on single-configuration generators'
+    required: true
+  cmake_build_type:
+    description: 'Specifies the build type on single-configuration generators'
+    required: true
+    default: 'Release'
+  subpackage:
+    description: 'Specifies the name of the subpackage to install'
+    required: true
+  subpackage_dir:
+    description: 'Specifies the path of the subpackage to install'
+    required: true
+runs:
+  using: composite
+  steps:
+  - run: >
+      cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest;C:\Program Files;${{ github.workspace }}\..\eprosima\install' `
+        -DCMAKE_CXX_FLAGS="/WX /EHsc" -DBUILD_TESTS=ON -B build\${{ inputs.subpackage }} -A x64 -T host=x64 ${{ inputs.package_path }}/${{ inputs.subpackage_dir }};
+      cmake --build build\${{ inputs.subpackage }} --config ${{ inputs.cmake_build_type }} --target install;
+
+    shell: pwsh

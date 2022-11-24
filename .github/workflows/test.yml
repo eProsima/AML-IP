@@ -65,11 +65,33 @@ jobs:
           subpackage_dir: amlip_cpp
           cmake_build_type: ${{ matrix.cmake-config }}
 
+      - name: Install amlip_swig
+        uses: ./AML-IP/.github/actions/install-subpackage-windows
+        with:
+          package_path: AML-IP
+          subpackage: amlip_swig
+          subpackage_dir: amlip_swig
+          cmake_build_type: ${{ matrix.cmake-config }}
+
+      - name: Install amlip_py
+        uses: ./AML-IP/.github/actions/install-subpackage-windows-python
+        with:
+          package_path: AML-IP
+          subpackage: amlip_py
+          subpackage_dir: amlip_py
+          cmake_build_type: ${{ matrix.cmake-config }}
+
       - name: Run tests amlip_cpp
         uses: ./AML-IP/.github/actions/run-test-windows
         with:
           package_name: amlip_cpp
           cmake_build_type: ${{ matrix.cmake-config }}
+        if: always()
+
+      - name: Run python tests
+        shell: pwsh
+        run: |
+          python3 -m pytest ./AML-IP/
         if: always()
 
 
@@ -135,6 +157,18 @@ jobs:
         uses: ./src/AML-IP/.github/actions/run-test-ubuntu
         with:
           package_name: amlip_cpp
+        if: always()
+
+      - name: Run tests amlip_swig
+        uses: ./src/AML-IP/.github/actions/run-test-ubuntu
+        with:
+          package_name: amlip_swig
+        if: always()
+
+      - name: Run tests amlip_py
+        uses: ./src/AML-IP/.github/actions/run-test-ubuntu
+        with:
+          package_name: amlip_py
         if: always()
 
       - name: Generate coverage report
@@ -251,6 +285,9 @@ jobs:
             --return-code-on-test-failure \
             --ctest-args \
               --label-regex xfail \
+              --timeout 60 \
+            --pytest-args \
+              -m xfail \
               --timeout 60
 
   asan-test:
