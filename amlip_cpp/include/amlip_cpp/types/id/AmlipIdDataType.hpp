@@ -336,7 +336,7 @@ protected:
 };
 
 //! \c AmlipIdDataType to stream serializator
-std::ostream& operator <<(
+AMLIP_CPP_DllAPI std::ostream& operator <<(
         std::ostream& os,
         const AmlipIdDataType& id);
 

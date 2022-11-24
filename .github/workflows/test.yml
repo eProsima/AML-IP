@@ -280,14 +280,11 @@ jobs:
         run: |
           source install/setup.bash && \
           colcon test \
-            --packages-select-regex amlip \
+            --packages-select amlip_cpp \
             --event-handlers=console_direct+ \
             --return-code-on-test-failure \
             --ctest-args \
               --label-regex xfail \
-              --timeout 60 \
-            --pytest-args \
-              -m xfail \
               --timeout 60
 
   asan-test:

@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTE: This test cannot be used linking the library cause it uses things that are not exported (it uses internal API)
 set(TEST_SOURCES
     )
 all_library_sources("${TEST_SOURCES}")
@@ -57,6 +58,7 @@ foreach(TEST_NAME ${TEST_NAMES})
     target_compile_definitions(${EXECUTABLE_TEST_NAME}
         PRIVATE FASTDDS_ENFORCE_LOG_INFO
         PRIVATE HAVE_LOG_NO_INFO=0
+        PRIVATE AMLIP_CPP_SOURCE
         )
     endif()
 

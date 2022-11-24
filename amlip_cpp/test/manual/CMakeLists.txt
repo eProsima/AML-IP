@@ -13,5 +13,8 @@
 # limitations under the License.
 
 # Add subdirectory with tests
-add_subdirectory(dds)
-add_subdirectory(node)
+option (BUILD_MANUAL_TESTS OFF)
+if (${BUILD_MANUAL_TESTS})
+    add_subdirectory(dds)
+    add_subdirectory(node)
+endif()
