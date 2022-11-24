@@ -33,7 +33,7 @@ def main():
         lambda job: JobSolutionDataType(job.to_string().lower()))
 
     # Launch node
-    print(f'Listener created. Processing job...')
+    print('Listener created. Processing job...')
     client_id = computing_node.process_job(listener=job_listener)
 
     # Wait a bit so message arrive to its destiny

@@ -33,7 +33,7 @@ def main():
             f'Received status {status_received} by node {status_node.get_id()}'))
 
     # Expect for signal to arrive
-    print(f'Already processing status data. Waiting SIGINT (C^)...')
+    print('Already processing status data. Waiting SIGINT (C^)...')
 
     def handler(signum, frame):
         pass
