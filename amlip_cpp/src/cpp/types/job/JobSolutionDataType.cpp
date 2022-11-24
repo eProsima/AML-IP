@@ -26,9 +26,9 @@ namespace amlip {
 namespace types {
 
 JobSolutionDataType::JobSolutionDataType(
-            void* data,
-            const uint32_t size,
-            bool take_ownership /* = false */)
+        void* data,
+        const uint32_t size,
+        bool take_ownership /* = false */)
     : GenericDataType(data, size, take_ownership)
 {
     // Do nothing
