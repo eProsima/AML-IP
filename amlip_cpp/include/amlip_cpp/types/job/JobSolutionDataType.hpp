@@ -40,19 +40,25 @@ class JobSolutionDataType : public GenericDataType
 {
 public:
 
-    //! Use parent constructors
-    using GenericDataType::GenericDataType;
-
-    // TODO: This methods is included already in GenericDataType,
-    // but it is required for Windows, check if there is some way to avoid this.
+    // NOTE: This methods are included already in GenericDataType,
+    // but it is required for Windows and SWIG to work to have them declare here.
+    // All constructors and specially destructor must be declared here.
+    // TODO: Check if there is some way to avoid this.
     AMLIP_CPP_DllAPI JobSolutionDataType() = default;
 
-    // TODO: This methods are included already in GenericDataType,
-    // but they are required for SWIG, check if there is some way to avoid it
+    AMLIP_CPP_DllAPI JobSolutionDataType(
+            void* data,
+            const uint32_t size,
+            bool take_ownership = false);
+
     AMLIP_CPP_DllAPI JobSolutionDataType(
             const std::vector<ByteType>& bytes);
+
     AMLIP_CPP_DllAPI JobSolutionDataType(
             const std::string& bytes);
+
+    AMLIP_CPP_DllAPI virtual ~JobSolutionDataType() = default;
+
 };
 
 } /* namespace types */

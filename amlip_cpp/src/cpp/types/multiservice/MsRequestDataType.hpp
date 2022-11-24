@@ -49,89 +49,89 @@ public:
     /**
      * TODO
      */
-    AMLIP_CPP_DllAPI MsRequestDataType();
+    MsRequestDataType();
 
     /*!
      * @brief Constructor with name.
      */
-    AMLIP_CPP_DllAPI MsRequestDataType(
+    MsRequestDataType(
             const AmlipIdDataType client_id,
             const TaskId& task_id);
 
     /*!
      * @brief Default destructor.
      */
-    AMLIP_CPP_DllAPI virtual ~MsRequestDataType();
+    virtual ~MsRequestDataType();
 
     /*!
      * @brief Copy constructor.
      * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsRequestDataType(
+    MsRequestDataType(
             const MsRequestDataType& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsRequestDataType(
+    MsRequestDataType(
             MsRequestDataType&& x);
 
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsRequestDataType& operator =(
+    MsRequestDataType& operator =(
             const MsRequestDataType& x);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsRequestDataType& operator =(
+    MsRequestDataType& operator =(
             MsRequestDataType&& x);
 
     /*!
      * @brief Comparison operator.
      * @param x MsRequestDataType object to compare.
      */
-    AMLIP_CPP_DllAPI bool operator ==(
+    bool operator ==(
             const MsRequestDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x MsRequestDataType object to compare.
      */
-    AMLIP_CPP_DllAPI bool operator !=(
+    bool operator !=(
             const MsRequestDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x MsRequestDataType object to compare.
      */
-    AMLIP_CPP_DllAPI bool operator <(
+    bool operator <(
             const MsRequestDataType& x) const;
 
     /*!
      * TODO
      */
-    AMLIP_CPP_DllAPI AmlipIdDataType client_id() const;
+    AmlipIdDataType client_id() const;
 
     /*!
      * TODO
      */
-    AMLIP_CPP_DllAPI void client_id(
+    void client_id(
             const AmlipIdDataType& new_value);
 
     /*!
      * TODO
      */
-    AMLIP_CPP_DllAPI TaskId task_id() const;
+    TaskId task_id() const;
 
     /*!
      * TODO
      */
-    AMLIP_CPP_DllAPI void task_id(
+    void task_id(
             const TaskId& new_value);
 
     /////
@@ -141,21 +141,21 @@ public:
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    AMLIP_CPP_DllAPI void serialize(
+    void serialize(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    AMLIP_CPP_DllAPI void deserialize(
+    void deserialize(
             eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    AMLIP_CPP_DllAPI void serialize_key(
+    void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
@@ -164,7 +164,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
+    static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -173,7 +173,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
+    static size_t get_cdr_serialized_size(
             const MsRequestDataType& data,
             size_t current_alignment = 0);
 
@@ -183,23 +183,23 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
+    static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
      */
-    AMLIP_CPP_DllAPI static bool is_key_defined();
+    static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
      */
-    AMLIP_CPP_DllAPI static bool is_bounded();
+    static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
      */
-    AMLIP_CPP_DllAPI static bool is_plain();
+    static bool is_plain();
 
     /**
      * @brief Construct an empty sample in the memory allocated
@@ -210,7 +210,7 @@ public:
      *
      * @return true if the construction was successful, false otherwise
      */
-    AMLIP_CPP_DllAPI static bool construct_sample(
+    static bool construct_sample(
             void* memory);
 
     /**
@@ -218,7 +218,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    AMLIP_CPP_DllAPI static std::string type_name();
+    static std::string type_name();
 
 protected:
 
@@ -231,7 +231,7 @@ protected:
 };
 
 //! \c MsRequestDataType to stream serializator
-AMLIP_CPP_DllAPI std::ostream& operator <<(
+std::ostream& operator <<(
         std::ostream& os,
         const MsRequestDataType& request);
 

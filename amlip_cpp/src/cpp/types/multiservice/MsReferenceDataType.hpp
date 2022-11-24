@@ -47,12 +47,12 @@ public:
     /**
      * TODO
      */
-    AMLIP_CPP_DllAPI MsReferenceDataType();
+    MsReferenceDataType();
 
     /*!
      * @brief Constructor with name.
      */
-    AMLIP_CPP_DllAPI MsReferenceDataType(
+    MsReferenceDataType(
             const AmlipIdDataType client_id,
             const TaskId& task_id,
             const AmlipIdDataType& server_id);
@@ -60,66 +60,66 @@ public:
     /*!
      * @brief Default destructor.
      */
-    AMLIP_CPP_DllAPI virtual ~MsReferenceDataType();
+    virtual ~MsReferenceDataType();
 
     /*!
      * @brief Copy constructor.
      * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsReferenceDataType(
+    MsReferenceDataType(
             const MsReferenceDataType& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsReferenceDataType(
+    MsReferenceDataType(
             MsReferenceDataType&& x);
 
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsReferenceDataType& operator =(
+    MsReferenceDataType& operator =(
             const MsReferenceDataType& x);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object MsReferenceDataType that will be copied.
      */
-    AMLIP_CPP_DllAPI MsReferenceDataType& operator =(
+    MsReferenceDataType& operator =(
             MsReferenceDataType&& x);
 
     /*!
      * @brief Comparison operator.
      * @param x MsReferenceDataType object to compare.
      */
-    AMLIP_CPP_DllAPI bool operator ==(
+    bool operator ==(
             const MsReferenceDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x MsReferenceDataType object to compare.
      */
-    AMLIP_CPP_DllAPI bool operator !=(
+    bool operator !=(
             const MsReferenceDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x MsReferenceDataType object to compare.
      */
-    AMLIP_CPP_DllAPI bool operator <(
+    bool operator <(
             const MsReferenceDataType& x) const;
 
     /*!
      * TODO
      */
-    AMLIP_CPP_DllAPI AmlipIdDataType server_id() const;
+    AmlipIdDataType server_id() const;
 
     /*!
      * TODO
      */
-    AMLIP_CPP_DllAPI void server_id(
+    void server_id(
             const AmlipIdDataType& new_value);
 
     /////
@@ -129,21 +129,21 @@ public:
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    AMLIP_CPP_DllAPI void serialize(
+    void serialize(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    AMLIP_CPP_DllAPI void deserialize(
+    void deserialize(
             eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    AMLIP_CPP_DllAPI void serialize_key(
+    void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
@@ -152,7 +152,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
+    static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -161,7 +161,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
+    static size_t get_cdr_serialized_size(
             const MsReferenceDataType& data,
             size_t current_alignment = 0);
 
@@ -171,23 +171,23 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
+    static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
      */
-    AMLIP_CPP_DllAPI static bool is_key_defined();
+    static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
      */
-    AMLIP_CPP_DllAPI static bool is_bounded();
+    static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
      */
-    AMLIP_CPP_DllAPI static bool is_plain();
+    static bool is_plain();
 
     /**
      * @brief Construct an empty sample in the memory allocated
@@ -198,7 +198,7 @@ public:
      *
      * @return true if the construction was successful, false otherwise
      */
-    AMLIP_CPP_DllAPI static bool construct_sample(
+    static bool construct_sample(
             void* memory);
 
     /**
@@ -206,7 +206,7 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    AMLIP_CPP_DllAPI static std::string type_name();
+    static std::string type_name();
 
 protected:
 
@@ -216,7 +216,7 @@ protected:
 };
 
 //! \c MsReferenceDataType to stream serializator
-AMLIP_CPP_DllAPI std::ostream& operator <<(
+std::ostream& operator <<(
         std::ostream& os,
         const MsReferenceDataType& reference);
 

@@ -16,6 +16,7 @@
  * @file JobSolutionDataType.cpp
  */
 
+#include <cassert>
 #include <iostream>
 
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
@@ -23,6 +24,15 @@
 namespace eprosima {
 namespace amlip {
 namespace types {
+
+JobSolutionDataType::JobSolutionDataType(
+            void* data,
+            const uint32_t size,
+            bool take_ownership /* = false */)
+    : GenericDataType(data, size, take_ownership)
+{
+    // Do nothing
+}
 
 JobSolutionDataType::JobSolutionDataType(
         const std::vector<ByteType>& bytes)

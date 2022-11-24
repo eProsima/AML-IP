@@ -25,6 +25,15 @@ namespace amlip {
 namespace types {
 
 JobDataType::JobDataType(
+            void* data,
+            const uint32_t size,
+            bool take_ownership /* = false */)
+    : GenericDataType(data, size, take_ownership)
+{
+    // Do nothing
+}
+
+JobDataType::JobDataType(
         const std::vector<ByteType>& bytes)
     : GenericDataType(bytes)
 {
