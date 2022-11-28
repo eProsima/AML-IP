@@ -42,6 +42,28 @@ jobs:
         with:
           cmake_build_type: ${{ matrix.cmake-config }}
 
+      - name: Install Python packages
+        uses: ./AML-IP/.github/actions/install-python-packages-windows
+
+      - name: Install python tests dependencies
+        shell: pwsh
+        run: |
+          cd  (ni -Type Directory -Path "$Env:TMP\$(New-Guid)")
+          $cr = "`n"
+          'cmake_minimum_required(VERSION 3.5)' + $cr  +
+          'project(dummy VERSION 1.0.0 LANGUAGES CXX)' + $cr +
+          'find_package (Python3 COMPONENTS Interpreter Development REQUIRED)' + $cr +
+          'message(STATUS "cmake detected python=>>>>>${Python3_EXECUTABLE}<<<<<<")' |
+          Out-File CMakeLists.txt
+          (cmake .) *>&1 | % {
+            if($_ -Match "cmake detected python=>>>>>(?<exec>.*)<<<<<<")
+            {
+               $python_exec = $Matches.exec
+               return
+            }
+          }
+          & $python_exec -m pip install -U pytest pywin32
+
       - name: Get build eProsima dependencies Job Id
         shell: pwsh
         run: |
@@ -76,10 +98,7 @@ jobs:
       - name: Install amlip_py
         uses: ./AML-IP/.github/actions/install-subpackage-windows-python
         with:
-          package_path: AML-IP
-          subpackage: amlip_py
-          subpackage_dir: amlip_py
-          cmake_build_type: ${{ matrix.cmake-config }}
+          package_path: AML-IP/amlip_py
 
       - name: Run tests amlip_cpp
         uses: ./AML-IP/.github/actions/run-test-windows
@@ -88,10 +107,20 @@ jobs:
           cmake_build_type: ${{ matrix.cmake-config }}
         if: always()
 
-      - name: Run python tests
+      - name: Run tests amlip_swig
         shell: pwsh
         run: |
-          python3 -m pytest ./AML-IP/
+          $Env:PATH += ";C:/Program Files/amlip_swig/Lib/site-packages/";
+          ctest -C ${{ matrix.cmake-config }} --test-dir build\amlip_swig -V --timeout 60 --label-exclude xfail
+        if: always()
+      # TODO It requires to locate amlip_swig
+
+      - name: Run test amlip_py
+        shell: pwsh
+        run: |
+          $Env:PATH += ";C:/Program Files/amlip_swig/Lib/site-packages/";
+          python -m pip install pytest;
+          python -m pytest ./AML-IP/amlip_py/test
         if: always()
 
 

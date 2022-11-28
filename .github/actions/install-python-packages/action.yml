@@ -20,5 +20,6 @@ runs:
           vcstool \
           flake8==5.0.4 \
           flake8-quotes \
+          pytest \
           pytest-timeout
       shell: bash

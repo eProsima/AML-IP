@@ -21,3 +21,11 @@ add_test(
     WORKING_DIRECTORY
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+if (WIN32)
+    set_property(
+        TEST
+            api_tests
+        APPEND PROPERTY ENVIRONMENT
+            "PATH=$<TARGET_FILE_DIR:amlip_swig>")
+endif()

@@ -4,13 +4,11 @@ inputs:
   package_name:
     description: 'Specifies the package build name to run the tests'
     required: true
-  cmake_build_type:
-    description: 'Specifies the build type on single-configuration generators'
-    required: true
-    default: 'Release'
 runs:
   using: composite
   steps:
   - run: >
-      python3 -m pytest ${{ inputs.cmake_build_type }}
+      python -m pip install pytest;
+      python -m pytest ${{ inputs.package_name }}
     shell: pwsh
+      # TODO check if pytest install neeeded

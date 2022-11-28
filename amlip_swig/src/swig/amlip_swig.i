@@ -43,10 +43,13 @@
   }
 }
 
-%exception {
-    try { $action }
-    catch (Swig::DirectorException &e) { SWIG_fail; }
-}
+// If using windows in debug, it would try to use python_d, which would not be found.
+%begin %{
+#ifdef _MSC_VER
+#define SWIG_PYTHON_INTERPRETER_NO_DEBUG
+#endif
+#include <exception>
+%}
 
 // Macro delcarations
 // Any macro used on the header files will give an error if it is not redefined here
