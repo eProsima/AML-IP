@@ -76,6 +76,12 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
         // read request
         types::MsRequestDataType request = request_availability_reader_.read();
 
+        // If this task is already known to have been targeted, skip it
+        if (already_processed_requests_.find(request) != already_processed_requests_.end())
+        {
+            continue;
+        }
+
         logDebug(AMLIPCPP_DDS_MSSERVER, "Request received: " << request << ". Sending available reply.");
 
         // ANSWER AVAILABLE
@@ -96,6 +102,9 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
             // Read data
             task_target = task_target_reader_.read();
+
+            // Add it as already processed requests so it is not possible to wait for it again
+            already_processed_requests_.insert(task_target.request());
 
             // Check if it is the reference we are expecting
             if (task_target.client_id() != reference.client_id() ||

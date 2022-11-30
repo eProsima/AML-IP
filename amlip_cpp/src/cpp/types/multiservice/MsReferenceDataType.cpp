@@ -211,6 +211,11 @@ std::string MsReferenceDataType::type_name()
     return DATA_TYPE_NAME_;
 }
 
+MsRequestDataType MsReferenceDataType::request() const
+{
+    return MsRequestDataType(*this);
+}
+
 std::ostream& operator <<(
         std::ostream& os,
         const MsReferenceDataType& reference)
