@@ -83,6 +83,11 @@ public:
 
 protected:
 
+    AMLIP_CPP_DllAPI ParentNode(
+            const char* name,
+            types::NodeKind node_kind,
+            types::StateKind initial_state);
+
     /**
      * @brief Construct a new Parent Node object.
      *
