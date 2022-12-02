@@ -12,22 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-###############################################################################
-# Set settings for project amlip_swig for SWIG code
-###############################################################################
+#####################################
+# NODE MAIN & COMPUTING TESTS
+#####################################
 
-set(MODULE_NAME
-    amlip_swig)
+set(TEST_NAME MainComputingNodeTest)
 
-set(MODULE_SUMMARY
-    "SWIG library to create python bindings from amlip_cpp.")
-
-set(MODULE_FIND_PACKAGES
-        amlip_cpp
-        cpp_utils
-        ddsrouter_core
+set(TEST_SOURCES
+        mainComputingNodeTest.cpp
     )
 
-set(MODULE_DEPENDENCIES
-        ${MODULE_FIND_PACKAGES}
+set(TEST_LIST
+        one_main_one_computing
+        n_main_one_computing
+        one_main_n_computing
+    )
+
+set(TEST_NEEDED_SOURCES
+    )
+
+add_blackbox_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_NEEDED_SOURCES}"
     )

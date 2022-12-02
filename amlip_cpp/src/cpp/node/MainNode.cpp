@@ -29,12 +29,19 @@ namespace amlip {
 namespace node {
 
 MainNode::MainNode(
-        const char* name)
-    : ParentNode(name, types::NodeKind::main)
+        const char* name,
+        uint32_t domain_id)
+    : ParentNode(name, types::NodeKind::main, types::StateKind::stopped, domain_id)
     , job_client_(participant_->create_multiservice_client<types::JobDataType, types::JobSolutionDataType>(
                 dds::utils::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_MAIN, "Created new Main Node: " << *this << ".");
+}
+
+MainNode::MainNode(
+        const char* name)
+    : MainNode(name, dds::Participant::default_domain_id())
+{
 }
 
 MainNode::MainNode(

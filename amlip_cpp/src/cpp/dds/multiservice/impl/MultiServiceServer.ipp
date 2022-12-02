@@ -84,6 +84,12 @@ types::MsReferenceDataType MultiServiceServer<Data, Solution>::process_task_sync
 
         logDebug(AMLIPCPP_DDS_MSSERVER, "Request received: " << request << ". Sending available reply.");
 
+        // If this task is already known to have been targeted, skip it
+        if (already_processed_requests_.find(request) != already_processed_requests_.end())
+        {
+            continue;
+        }
+
         // ANSWER AVAILABLE
         // Create data
         types::MsReferenceDataType reference(

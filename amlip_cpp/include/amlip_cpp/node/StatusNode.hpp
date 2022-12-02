@@ -88,6 +88,10 @@ class StatusNode : public ParentNode
 {
 public:
 
+    AMLIP_CPP_DllAPI StatusNode(
+            const char* name,
+            uint32_t domain_id);
+
     /**
      * @brief Construct a new Status Node object.
      *

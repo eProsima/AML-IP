@@ -39,13 +39,19 @@ public:
 
     ClientNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& coonnection_addresses);
+            const std::set<ddsrouter::core::types::Address>& connection_addresses,
+            const uint32_t domain_id);
+
+    ClientNode(
+            const char* name,
+            const std::set<ddsrouter::core::types::Address>& connection_addresses);
 
 protected:
 
     static ddsrouter::core::configuration::DDSRouterConfiguration get_router_configuration_(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& coonnection_addresses);
+            const std::set<ddsrouter::core::types::Address>& connection_addresses,
+            const uint32_t domain_id);
 
 };
 

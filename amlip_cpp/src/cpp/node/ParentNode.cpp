@@ -27,10 +27,11 @@ namespace amlip {
 namespace node {
 
 ParentNode::ParentNode(
-        const char* name,
-        types::NodeKind node_kind,
-        types::StateKind initial_state)
-    : participant_(std::make_unique<dds::Participant>(name))
+            const char* name,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id)
+    : participant_(std::make_unique<dds::Participant>(name, dds::Participant::default_participant_qos(), domain_id))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,
                 dds::utils::status_writer_qos()))
@@ -39,6 +40,14 @@ ParentNode::ParentNode(
 {
     logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
     publish_status_();
+}
+
+ParentNode::ParentNode(
+        const char* name,
+        types::NodeKind node_kind,
+        types::StateKind initial_state)
+    : ParentNode(name, node_kind, initial_state, dds::Participant::default_domain_id())
+{
 }
 
 ParentNode::ParentNode(

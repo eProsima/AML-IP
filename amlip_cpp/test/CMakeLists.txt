@@ -14,5 +14,6 @@
 
 # Add subdirectory with tests
 add_subdirectory(blackbox)
+add_subdirectory(integration)
 add_subdirectory(manual)
 add_subdirectory(unittest)

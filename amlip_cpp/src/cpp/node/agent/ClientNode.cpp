@@ -32,15 +32,24 @@ namespace agent {
 
 ClientNode::ClientNode(
         const char* name,
-        const std::set<ddsrouter::core::types::Address>& connection_addresses)
-    : AgentNode(name, get_router_configuration_(name, connection_addresses))
+        const std::set<ddsrouter::core::types::Address>& connection_addresses,
+        const uint32_t domain_id)
+    : AgentNode(name, get_router_configuration_(name, connection_addresses, domain_id))
 {
     logInfo(AMLIPCPP_NODE_CLIENT, "Created new Agent Client Node: " << *this << ".");
 }
 
-ddsrouter::core::configuration::DDSRouterConfiguration ClientNode::get_router_configuration_(
+ClientNode::ClientNode(
         const char* name,
         const std::set<ddsrouter::core::types::Address>& connection_addresses)
+    : ClientNode(name, connection_addresses, dds::Participant::default_domain_id())
+{
+}
+
+ddsrouter::core::configuration::DDSRouterConfiguration ClientNode::get_router_configuration_(
+        const char* name,
+        const std::set<ddsrouter::core::types::Address>& connection_addresses,
+        const uint32_t domain_id)
 {
     ddsrouter::core::configuration::DDSRouterConfiguration configuration = AgentNode::default_router_configuration();
 
@@ -50,8 +59,7 @@ ddsrouter::core::configuration::DDSRouterConfiguration ClientNode::get_router_co
             std::string("local_") + name,
             ddsrouter::core::types::ParticipantKind::simple_rtps,
             false,
-            // dds::Participant::default_domain_id()));  TODO uncomment
-            1u));
+            domain_id));
 
     // Create WAN Participant as client
     configuration.participants_configurations.insert(
