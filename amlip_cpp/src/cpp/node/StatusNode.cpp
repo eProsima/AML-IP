@@ -146,14 +146,6 @@ void StatusNode::process_routine_(
     }
 }
 
-std::ostream& operator <<(
-        std::ostream& os,
-        const StatusNode& node)
-{
-    os << "STATUS_NODE{" << node.id() << "}";
-    return os;
-}
-
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */

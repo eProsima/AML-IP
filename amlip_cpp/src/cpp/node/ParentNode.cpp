@@ -111,7 +111,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const ParentNode& node)
 {
-    os << "NODE{" << node.id() << ";" << node.current_state() << "}";
+    os << "NODE{" << node.id() << ";" << node.node_kind() << ";" << node.current_state() << "}";
     return os;
 }
 

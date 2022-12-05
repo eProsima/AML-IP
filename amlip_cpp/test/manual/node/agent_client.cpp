@@ -24,7 +24,7 @@
 #include <cpp_utils/Log.hpp>
 #include <ddsrouter_core/types/address/Address.hpp>
 
-#include <amlip_cpp/node/agent/ClientNode.hpp>
+#include <amlip_cpp/node/wan/ClientNode.hpp>
 
 int main(
         int argc,

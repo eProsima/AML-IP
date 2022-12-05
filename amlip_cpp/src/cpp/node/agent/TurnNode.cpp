@@ -20,7 +20,7 @@
 #include <ddsrouter_core/configuration/participant/InitialPeersParticipantConfiguration.hpp>
 #include <ddsrouter_core/types/participant/ParticipantKind.hpp>
 
-#include <amlip_cpp/node/agent/TurnNode.hpp>
+#include <amlip_cpp/node/wan/TurnNode.hpp>
 
 #include <dds/Participant.hpp>
 

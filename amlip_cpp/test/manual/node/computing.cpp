@@ -23,7 +23,7 @@
 #include <cpp_utils/Log.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <amlip_cpp/node/ComputingNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 
 /*
  * The job in this example will be a string serialized to bytes.

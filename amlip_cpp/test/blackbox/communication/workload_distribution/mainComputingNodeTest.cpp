@@ -18,8 +18,8 @@
 #include <algorithm>
 #include <thread>
 
-#include <amlip_cpp/node/MainNode.hpp>
-#include <amlip_cpp/node/ComputingNode.hpp>
+#include <amlip_cpp/node/workload_distribution/MainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 
 namespace eprosima {
 namespace amlip {

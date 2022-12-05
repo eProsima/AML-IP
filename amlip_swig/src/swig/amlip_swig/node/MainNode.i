@@ -20,8 +20,8 @@
 %import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
 %{
-#include <amlip_cpp/node/MainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/MainNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/node/MainNode.hpp>
+%include <amlip_cpp/node/workload_distribution/MainNode.hpp>

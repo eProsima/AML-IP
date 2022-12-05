@@ -23,7 +23,7 @@
 #include <ddsrouter_core/types/topic/filter/WildcardDdsFilterTopic.hpp>
 #include <ddsrouter_core/configuration/participant/EchoParticipantConfiguration.hpp>  // TODO remove
 
-#include <amlip_cpp/node/agent/AgentNode.hpp>
+#include <amlip_cpp/node/wan/AgentNode.hpp>
 
 #include <dds/network_utils/topic.hpp>
 
