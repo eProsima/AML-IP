@@ -84,6 +84,26 @@ std::shared_ptr<MultiServiceServer<Data, Solution>> Participant::create_multiser
         dds_handler_.lease());
 }
 
+template <typename Data, typename Solution>
+std::shared_ptr<AsyncMultiServiceClient<Data, Solution>> Participant::create_async_multiservice_client(
+        const std::string& topic_name)
+{
+    return std::make_shared<AsyncMultiServiceClient<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
+template <typename Data, typename Solution>
+std::shared_ptr<AsyncMultiServiceServer<Data, Solution>> Participant::create_async_multiservice_server(
+        const std::string& topic_name)
+{
+    return std::make_shared<AsyncMultiServiceServer<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
