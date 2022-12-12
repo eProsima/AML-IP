@@ -2,12 +2,28 @@
 
 .. _release_notes:
 
-.. include:: forthcoming_version.rst
+.. comment the include of forthcoming when new info is added
 
-.. todo:
+..
+    .. include:: forthcoming_version.rst
 
-    Add these when previous versions are avaialble
+##############
+Version v0.0.0
+##############
 
-    #################
-    Previous Versions
-    #################
+This is the first release of eProsima *AML-IP*.
+
+This release includes support for *workload distribution* scenario of the AML-IP.
+
+This release includes the following **Nodes**:
+
+* :ref:`<node_status>`
+* :ref:`<node_computing>`
+* :ref:`<node_main>`
+
+This release includes the following **features**:
+
+* This same Documentation
+* API Code Documentation
+* C++ API
+* Python API
