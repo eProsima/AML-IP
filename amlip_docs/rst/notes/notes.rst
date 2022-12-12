@@ -17,9 +17,9 @@ This release includes support for *workload distribution* scenario of the AML-IP
 
 This release includes the following **Nodes**:
 
-* :ref:`<node_status>`
-* :ref:`<node_computing>`
-* :ref:`<node_main>`
+* :ref:`Status <user_manual_nodes_status>`
+* :ref:`Main <user_manual_nodes_main>`
+* :ref:`Computing <user_manual_nodes_computing>`
 
 This release includes the following **features**:
 

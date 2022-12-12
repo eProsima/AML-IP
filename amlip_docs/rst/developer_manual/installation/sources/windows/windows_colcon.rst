@@ -42,15 +42,7 @@ Build packages
 
     .. code-block:: bash
 
-        colcon build
-
-.. note::
-
-    Not all the sub-packages of all the dependencies are required.
-    In order to build only the packages required, use the colcon_ option :code:`--packages-up-to <package-to-build>`.
-    *e.g. the |amlip| C++ library is completely built using :code:`--packages-up-to amlip_cpp`*
-    For more details about the colcon_ available arguments, please refer to `packages selection <https://colcon.readthedocs.io/en/released/reference/package-selection-arguments.html>`_
-    page of the colcon_ manual.
+        colcon build --packages-up-to amlip_cpp
 
 .. note::
 

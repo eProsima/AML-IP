@@ -2,6 +2,7 @@ allowlist
 allowlisting
 Asio
 blocklist
+centric
 Chocolatey
 CMake
 Colcon
@@ -22,12 +23,14 @@ Gtest
 guid
 IPv
 kubernetes
+learnt
 localhost
 metatraffic
 microcontroller
 middleware
 multicast
 mutex
+parallelize
 PowerShell
 Redistributable
 Requiredness

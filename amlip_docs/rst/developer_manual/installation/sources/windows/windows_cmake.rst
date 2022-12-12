@@ -99,29 +99,14 @@ Local installation
 
     .. code-block:: bash
 
-        # amlip_core
+        # amlip_cpp
         cd <path\to\user\workspace>\AML-IP
-        mkdir build\amlip_core
-        cd build\amlip_core
-        cmake <path\to\user\workspace>\AML-IP\src\amlip\amlip_core ^
+        mkdir build\amlip_cpp
+        cd build\amlip_cpp
+        cmake <path\to\user\workspace>\AML-IP\src\amlip\amlip_cpp ^
             -DCMAKE_INSTALL_PREFIX=<path\to\user\workspace>\AML-IP\install -DCMAKE_PREFIX_PATH=<path\to\user\workspace>\AML-IP\install
         cmake --build . --config Release --target install
 
-        # amlip_yaml
-        cd <path\to\user\workspace>\AML-IP
-        mkdir build\amlip_yaml
-        cd build\amlip_yaml
-        cmake <path\to\user\workspace>\AML-IP\src\amlip\amlip_yaml -DCMAKE_INSTALL_PREFIX=<path\to\user\workspace>\AML-IP\install ^
-            -DCMAKE_PREFIX_PATH=<path\to\user\workspace>\AML-IP\install
-        cmake --build . --config Release --target install
-
-        # amlip_tool
-        cd <path\to\user\workspace>\AML-IP
-        mkdir build\amlip_tool
-        cd build\amlip_tool
-        cmake <path\to\user\workspace>\AML-IP\src\amlip\tools\amlip_tool -DCMAKE_INSTALL_PREFIX=<path\to\user\workspace>\AML-IP\install ^
-            -DCMAKE_PREFIX_PATH=<path\to\user\workspace>\AML-IP\install
-        cmake --build . --config Release --target install
 
 .. note::
 

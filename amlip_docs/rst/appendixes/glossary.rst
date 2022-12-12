@@ -8,8 +8,17 @@ Glossary
 
 .. glossary::
 
+    AML
+        **Algebraic Machine Learning**
+
+    AML-IP
+        **Algebraic Machine Learning - Integrating Platform**
+
     LAN
         **Local Area Network**
+
+    ML
+        **Machine Learning**
 
     NAT
         **Network Address Translation**:
