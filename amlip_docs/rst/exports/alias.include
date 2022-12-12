@@ -9,4 +9,9 @@
 .. |efastdds| replace:: *eProsima Fast DDS*
 .. |eamlip| replace:: *eProsima AML-IP*
 
+.. |amlip_cpp| replace:: :code:`amlip_cpp`
+.. |amlip_swig| replace:: :code:`amlip_swig`
+.. |amlip_py| replace:: :code:`amlip_py`
+.. |amlip_docs| replace:: :code:`amlip_docs`
+
 .. |k8s| replace:: *K8s*

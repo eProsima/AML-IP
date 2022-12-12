@@ -28,6 +28,7 @@ microcontroller
 middleware
 multicast
 mutex
+PowerShell
 Redistributable
 Requiredness
 runtime

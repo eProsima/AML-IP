@@ -56,8 +56,8 @@
    :numbered: 5
    :hidden:
 
-   /rst/developer_manual/installation/sources/linux
-   /rst/developer_manual/installation/sources/windows
+   /rst/developer_manual/installation/sources/linux/linux
+   /rst/developer_manual/installation/sources/windows/windows
    /rst/developer_manual/installation/configuration/cmake_options
 
 
