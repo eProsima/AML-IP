@@ -114,9 +114,13 @@ GenericDataType::GenericDataType(
 GenericDataType::GenericDataType(
         GenericDataType&& x)
 {
-    data_ = std::move(x.data_);
-    data_size_ = std::move(x.data_size_);
+    this->data_ = x.data_;
+    this->data_size_ = x.data_size_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
+
+    // Restore x
+    x.data_ = nullptr;
+    x.data_size_ = 0;
     x.has_been_allocated_.store(false);
 }
 
@@ -156,8 +160,14 @@ GenericDataType& GenericDataType::operator =(
         free(data_);
     }
 
-    data_ = std::move(x.data_);
-    data_size_ = std::move(x.data_size_);
+    this->data_ = x.data_;
+    this->data_size_ = x.data_size_;
+    this->has_been_allocated_.store(x.has_been_allocated_.load());
+
+    // Restore x
+    x.data_ = nullptr;
+    x.data_size_ = 0;
+    x.has_been_allocated_.store(false);
 
     return *this;
 }
