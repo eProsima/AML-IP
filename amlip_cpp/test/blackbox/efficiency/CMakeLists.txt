@@ -13,5 +13,4 @@
 # limitations under the License.
 
 # Add test subdirectories
-add_subdirectory(communication)
-add_subdirectory(efficiency)
+add_subdirectory(workload_distribution)

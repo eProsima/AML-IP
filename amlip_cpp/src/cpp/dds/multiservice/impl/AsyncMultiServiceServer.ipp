@@ -210,7 +210,6 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
         task_data_reader_.wait_data_available();
         types::MsDataType<Data> ms_data = task_data_reader_.read();
 
-
         // PROCESS DATA AND SEND SOLUTION
 
         // Process solution from callback

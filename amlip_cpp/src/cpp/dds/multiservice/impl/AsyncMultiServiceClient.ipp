@@ -86,7 +86,6 @@ AsyncMultiServiceClient<Data, Solution>::~AsyncMultiServiceClient()
         "Async MultiService Client " << *this << " destroyed.");
 }
 
-
 template <typename Data, typename Solution>
 void AsyncMultiServiceClient<Data, Solution>::run(std::shared_ptr<SolutionListener<Solution>> solution_listener)
 {

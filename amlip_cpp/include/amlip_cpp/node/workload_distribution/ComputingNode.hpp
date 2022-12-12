@@ -22,7 +22,6 @@
 #include <functional>
 
 #include <amlip_cpp/node/ParentNode.hpp>
-#include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 
@@ -61,15 +60,9 @@ public:
      * @param job new Job message received.
      *
      * @return Solution to the \c job .
-     *
-     * @note ownership of ptrs arguments is done in such way that every data that enters the Node
-     * is shared. This is because this way it is less restrictive than other ownerships.
-     * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
-    virtual std::shared_ptr<types::JobSolutionDataType> process_job (
-            std::unique_ptr<types::JobDataType> job,
-            const types::TaskId& task_id,
-            const types::AmlipIdDataType& client_id) const = 0;
+    virtual types::JobSolutionDataType process_job (
+            const types::JobDataType& job) const = 0;
 };
 
 /**
@@ -109,6 +102,29 @@ public:
      * @pre Cannot be destroyed while processing a job. Otherwise undefined behaviour.
      */
     AMLIP_CPP_DllAPI ~ComputingNode();
+
+    /**
+     * @brief Wait for a Job to be received and give a solution by \c callback .
+     *
+     * This sets the status of this Node as available to receive Jobs, and waits for a Main Node to ask for a Computing.
+     * Once the MultiService handshake has been done with a Main Node, it will send a Job data to this Node and it will
+     * be resolved by \c callback , that must give the \c JobSolutionDataType for the job.
+     *
+     * @attention this method is synchronous and will not finish until the job has been solved.
+     *
+     * @todo asynchronous mode
+     *
+     * @param callback [in] function that receives a \c JobDataType and returns a \c JobSolutionDataType .
+     * @param client_id [out] Id of the client that sent the Job.
+     */
+
+    AMLIP_CPP_DllAPI void process_job(
+            const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback,
+            types::AmlipIdDataType& client_id);
+
+    //! Same as previous \c process_job without client_id return parameter.
+    AMLIP_CPP_DllAPI void process_job(
+            const std::function<types::JobSolutionDataType(const types::JobDataType&)>& callback);
 
     /**
      * @brief Wait for a Job to be received and give a solution by \c listener \c process_job method .

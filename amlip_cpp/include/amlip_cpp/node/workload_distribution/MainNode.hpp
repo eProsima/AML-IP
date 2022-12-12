@@ -22,7 +22,6 @@
 #include <functional>
 
 #include <amlip_cpp/node/ParentNode.hpp>
-#include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 
@@ -81,6 +80,20 @@ public:
     AMLIP_CPP_DllAPI ~MainNode();
 
     /**
+     * @brief Send a Job to any Computing Node available and wait for the solution.
+     *
+     * @param data [in] Job to send.
+     *
+     * @attention this method is synchronous and will not finish until the job has been solved.
+     *
+     * @todo asynchronous mode
+     *
+     * @return Solution of the Job
+     */
+    AMLIP_CPP_DllAPI types::JobSolutionDataType request_job_solution(
+            const types::JobDataType& data);
+
+    /**
      * @brief Send a Job to any Computing Node available and wait for the solution, getting the Id of the solver.
      *
      * @param data [in] Job to send.
@@ -91,18 +104,10 @@ public:
      * @todo asynchronous mode
      *
      * @return Solution of the Job
-     *
-     * @note ownership of ptrs arguments is done in such way that every data that enters the Node
-     * is shared. This is because this way it is less restrictive than other ownerships.
-     * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
-    AMLIP_CPP_DllAPI std::unique_ptr<types::JobSolutionDataType> request_job_solution(
-            std::shared_ptr<types::JobDataType> data,
+    AMLIP_CPP_DllAPI types::JobSolutionDataType request_job_solution(
+            const types::JobDataType& data,
             types::AmlipIdDataType& server);
-
-    //! Same as \c request_job_solution without retrieving the server Id.
-    AMLIP_CPP_DllAPI std::unique_ptr<types::JobSolutionDataType> request_job_solution(
-            std::shared_ptr<types::JobDataType> data);
 
 protected:
 

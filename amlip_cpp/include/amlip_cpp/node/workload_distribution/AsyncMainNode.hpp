@@ -13,13 +13,13 @@
 // limitations under the License.
 
 /**
- * @file MainNode.hpp
+ * @file AsyncMainNode.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_NODE_MAINNODE_HPP
-#define AMLIPCPP__SRC_CPP_NODE_MAINNODE_HPP
+#ifndef AMLIPCPP__SRC_CPP_NODE_WORKLOADDISTRIBUTION_ASYNCMAINNODE_HPP
+#define AMLIPCPP__SRC_CPP_NODE_WORKLOADDISTRIBUTION_ASYNCMAINNODE_HPP
 
-#include <functional>
+#include <memory>
 
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/types/id/TaskId.hpp>
@@ -32,7 +32,7 @@ namespace amlip {
 namespace dds {
 
 template <typename Task, typename Solution>
-class MultiServiceClient;
+class AsyncMultiServiceClient;
 
 } /* namespace dds */
 
@@ -52,6 +52,8 @@ namespace node {
  */
 class SolutionListener
 {
+public:
+
     //! Default virtual dtor so it can be inherited.
     virtual ~SolutionListener() = default;
 
@@ -64,7 +66,7 @@ class SolutionListener
      */
     virtual void solution_received(
         std::unique_ptr<types::JobSolutionDataType> solution,
-        const TaskId& task_id,
+        const types::TaskId& task_id,
         const types::AmlipIdDataType& server_id) = 0;
 };
 
@@ -75,7 +77,7 @@ class SolutionListener
  * Using \c request_job_solution it will send a Job to a Computing Node that is available, and will wait for
  * the Solution retrieved by such Node.
  */
-class MainNode : public ParentNode
+class AsyncMainNode : public ParentNode
 {
 public:
 
@@ -84,8 +86,13 @@ public:
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
-    AMLIP_CPP_DllAPI MainNode(
-            const std::string& name,
+    AMLIP_CPP_DllAPI AsyncMainNode(
+            const char* name,
+            std::shared_ptr<SolutionListener> listener,
+            uint32_t domain_id);
+
+    AMLIP_CPP_DllAPI AsyncMainNode(
+            const char* name,
             std::shared_ptr<SolutionListener> listener);
 
     /**
@@ -93,7 +100,7 @@ public:
      *
      * @pre Cannot be destroyed while processing a job. Otherwise undefined behaviour.
      */
-    AMLIP_CPP_DllAPI ~MainNode();
+    AMLIP_CPP_DllAPI ~AsyncMainNode();
 
     /**
      * @brief Send a Job to any Computing Node available asynchronously.
@@ -112,7 +119,7 @@ public:
      * is shared. This is because this way it is less restrictive than other ownerships.
      * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
-    AMLIP_CPP_DllAPI TaskId request_job_solution(
+    AMLIP_CPP_DllAPI types::TaskId request_job_solution(
             std::shared_ptr<types::JobDataType> data);
 
 protected:
@@ -122,11 +129,13 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::MultiServiceClient<types::JobDataType, types::JobSolutionDataType>> job_client_;
+    std::shared_ptr<dds::AsyncMultiServiceClient<types::JobDataType, types::JobSolutionDataType>> job_client_;
+
+    std::shared_ptr<SolutionListener> listener_;
 };
 
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_NODE_MAINNODE_HPP */
+#endif /* AMLIPCPP__SRC_CPP_NODE_WORKLOADDISTRIBUTION_ASYNCMAINNODE_HPP */

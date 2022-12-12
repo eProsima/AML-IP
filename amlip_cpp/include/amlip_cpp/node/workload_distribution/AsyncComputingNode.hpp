@@ -13,11 +13,11 @@
 // limitations under the License.
 
 /**
- * @file ComputingNode.hpp
+ * @file AsyncComputingNode.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_NODE_COMPUTINGNODE_HPP
-#define AMLIPCPP__SRC_CPP_NODE_COMPUTINGNODE_HPP
+#ifndef AMLIPCPP__SRC_CPP_NODE_WORKLOADDISTRIBUTION_ASYNCCOMPUTINGNODE_HPP
+#define AMLIPCPP__SRC_CPP_NODE_WORKLOADDISTRIBUTION_ASYNCCOMPUTINGNODE_HPP
 
 #include <functional>
 
@@ -32,7 +32,7 @@ namespace amlip {
 namespace dds {
 
 template <typename Task, typename Solution>
-class MultiServiceServer;
+class AsyncMultiServiceServer;
 
 } /* namespace dds */
 } /* namespace amlip */
@@ -64,10 +64,10 @@ public:
      *
      * @return Solution to the \c job .
      */
-    virtual std::shared_ptr<types::JobSolutionDataType> process_job (
+    virtual types::JobSolutionDataType process_job (
             std::unique_ptr<types::JobDataType> job,
             const types::TaskId& task_id,
-            const types::AmlipIdDataType& client_id) const = 0;
+            const types::AmlipIdDataType& client_id) = 0;
 };
 
 /**
@@ -77,7 +77,7 @@ public:
  * Using \c process_job will wait for a Main Node to send it the data for a Job, and will process this Job by
  * the Listener or callback given, and return the Solution calculated.
  */
-class ComputingNode : public ParentNode
+class AsyncComputingNode : public ParentNode
 {
 public:
 
@@ -86,8 +86,13 @@ public:
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
-    AMLIP_CPP_DllAPI ComputingNode(
-            const std::string& name,
+    AMLIP_CPP_DllAPI AsyncComputingNode(
+            const char* name,
+            std::shared_ptr<JobListener> listener,
+            uint32_t domain_id);
+
+    AMLIP_CPP_DllAPI AsyncComputingNode(
+            const char* name,
             std::shared_ptr<JobListener> listener);
 
     /**
@@ -95,7 +100,7 @@ public:
      *
      * @pre Cannot be destroyed while processing a job. Otherwise undefined behaviour.
      */
-    AMLIP_CPP_DllAPI ~ComputingNode();
+    AMLIP_CPP_DllAPI ~AsyncComputingNode();
 
     /**
      * @brief Process Jobs asynchronously.
@@ -121,11 +126,13 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::MultiServiceServer<types::JobDataType, types::JobSolutionDataType>> job_server_;
+    std::shared_ptr<dds::AsyncMultiServiceServer<types::JobDataType, types::JobSolutionDataType>> job_server_;
+
+    std::shared_ptr<JobListener> listener_;
 };
 
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_NODE_COMPUTINGNODE_HPP */
+#endif /* AMLIPCPP__SRC_CPP_NODE_WORKLOADDISTRIBUTION_ASYNCCOMPUTINGNODE_HPP */

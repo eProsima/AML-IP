@@ -25,6 +25,7 @@
 #include <string>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
@@ -36,8 +37,6 @@ class Cdr;
 namespace eprosima {
 namespace amlip {
 namespace types {
-
-using TaskId = uint32_t;
 
 /*!
  * TODO
