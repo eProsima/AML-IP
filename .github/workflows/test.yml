@@ -199,9 +199,6 @@ jobs:
       - name: Install apt packages
         uses: ./src/AML-IP/.github/actions/install-apt-packages
 
-      - name: Install GTest
-        uses: ./src/AML-IP/.github/actions/install-gtest-linux
-
       - name: Install Python packages
         uses: ./src/AML-IP/.github/actions/install-python-packages
 
@@ -229,11 +226,12 @@ jobs:
 
       - name: Build workspace
         run: |
-          cat src/AML-IP/.github/workflows/test_colcon.meta
+          cat src/AML-IP/.github/workflows/docs_colcon.meta
           source /home/runner/work/eprosima/install/setup.bash
           colcon build \
-            --packages-up-to-regex amlip_docs \
-            --event-handlers=console_direct+
+            --packages-select amlip_docs \
+            --event-handlers=console_direct+ \
+            --metas src/AML-IP/.github/workflows/docs_colcon.meta
 
       - name: Run tests amlip_docs
         uses: ./src/AML-IP/.github/actions/run-test-ubuntu
@@ -309,7 +307,8 @@ jobs:
           colcon build \
             --packages-up-to-regex amlip \
             --event-handlers=console_direct+ \
-            --metas src/AML-IP/.github/workflows/test_colcon.meta
+            --metas src/AML-IP/.github/workflows/test_colcon.meta \
+            --packages-skip amlip_docs
 
       - name: Run tests
         run: |
