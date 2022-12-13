@@ -1,5 +1,6 @@
 .. |FastDDSDocs| replace:: `Fast DDS Documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/>`__
 .. |DDSSpecification| replace:: `DDS specification <https://www.omg.org/spec/DDS/1.4/About-DDS/>`__
+.. |githubpage| replace:: `AML-IP Github repository <https://github.com/eProsima/AML-IP>`__
 
 .. |ddsrouter| replace:: *DDS Router*
 .. |fastdds| replace:: *Fast DDS*
@@ -16,3 +17,9 @@
 
 .. |k8s| replace:: *K8s*
 .. |aml| replace:: *AML*
+
+.. |git| replace:: `git <https://git-scm.com/>`__
+.. |github| replace:: `github <https://github.com/>`__
+.. |cpp| replace:: `C++ <https://isocpp.org/std/the-standard/>`__
+.. |python| replace:: `Python <https://peps.python.org/>`__
+.. |swig| replace:: `SWIG <https://www.swig.org/>`__

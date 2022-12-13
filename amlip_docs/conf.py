@@ -174,6 +174,7 @@ project_binary_docs_dir = os.path.abspath(
 # ones.
 extensions = [
     'sphinx.ext.todo',
+    'sphinx_tabs.tabs'
 ]
 
 try:

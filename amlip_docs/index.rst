@@ -45,8 +45,10 @@
    :numbered: 5
    :hidden:
 
-   /rst/user_manual/scenarios/scenarios
-   /rst/user_manual/nodes/nodes
+   Scenarios </rst/user_manual/scenarios/scenarios>
+   Nodes </rst/user_manual/nodes/nodes>
+   /rst/user_manual/dds/dds
+   /rst/user_manual/user_manual_glossary
 
 
 .. _index_developer_manual:

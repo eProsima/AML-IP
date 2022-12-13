@@ -24,7 +24,7 @@ This makes |aml| a great candidate in the future of ML,
 as it is far less sensitive to statistical characteristics of the training data,
 and can integrate unstructured and complex abstract information apart from the training data.
 
-The |aml| algorithm has several characteristics that makes it a great player in distributed learning.
+|aml| algorithm has several characteristics that makes it a great player in distributed learning.
 First, |aml| can be trained in parallel from different remote machines,
 and can merge the training information without losing information.
 It can also be shared and merged with other already trained models and share their learnt information without
@@ -34,7 +34,7 @@ revealing the training data-set.
 AML-IP
 ======
 
-The |eamlip| is a framework based on different libraries and graphical and non-graphical tools that allow
+|eamlip| is a framework based on different libraries and graphical and non-graphical tools that allow
 to create a network of nodes focused no different tasks of the |aml| environment.
 Every running part of the |amlip| is considered a **Node**.
 This is an **independent** and **distributed** software that could perform a specific **action**.
@@ -49,3 +49,63 @@ These nodes are separated in different scenarios, that are explained more in det
 :ref:`following section <user_manual_scenarios>`.
 
 .. figure:: /rst/figures/aml_overview.png
+
+
+Usage
+=====
+
+|amlip| is a complex framework that consist in different parts.
+It consist in different application tools that run independently and out-of-the-box.
+But it also features some libraries that allow to instantiate |amlip| entities or :term:`Nodes <Node>` which
+behavior and functionality must be specified by the user.
+These libraries are presented in 2 main programming languages:
+
+C++
+---
+
+This is the main programming language for the |amlip| and every implementation is based on it.
+|cpp| has been chosen because
+
+There is a public :term:`API` found in :code:`AML-IP/amlip_cpp/include` with all the installed headers
+that can be used from a user side.
+The API, implementation and testing of this part of the code can be found mainly under sub-package :code:`amlip_cpp`.
+
+Python
+------
+
+This is the programming language though to be used by a final user.
+|python| has been chosen for this propose as it is easier to work with and state-of-the-art :term:`ML` projects
+are nowadays based on Python.
+
+Nodes and classes that the user needs to instantiate in order to implement their own code are parsed from
+|cpp| by using |swig| tool, giving the user a |python| API.
+The API, implementation and testing of this part of the code can be found mainly under sub-package :code:`amlip_py`.
+
+.. note::
+
+    |amlip| is a work in progress, and these interactions and usage can change along the process.
+
+
+Architecture and Infrastructure
+===============================
+
+|amlip| is a software project based on different programming languages.
+It is a **public** **open-source** project focused to be used by the :term:`ML` and scientific community.
+The whole project is stored in a |git| repository hosted by |github|, and can be found in the
+following url: |githubpage|.
+The code project is divided in sub-packages that can be built, installed and tested independently.
+
+|amlip| is a software project that does not rely on any specific hardware or :term:`OS`,
+and does not require any physical infrastructure.
+The storage and CI is hosted by |github|.
+
+
+Testing and CI
+==============
+
+|amlip| project is exhaustively tested with unit, integration, manual and blackbox tests that can be found
+within the code.
+As an open-source project, every person can and is welcome to contribute to the project by implementing, fixing,
+suggesting or issuing.
+Every new contribution to the project must be peer reviewed by a project member before being accepted and
+merged in the main repository, and must fulfill all the tests and required :term:`CI`.

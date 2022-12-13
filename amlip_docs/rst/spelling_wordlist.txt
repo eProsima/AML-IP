@@ -1,6 +1,7 @@
 allowlist
 allowlisting
 Asio
+blackbox
 blocklist
 centric
 Chocolatey
@@ -32,10 +33,12 @@ multicast
 mutex
 parallelize
 PowerShell
+QoS
 Redistributable
 Requiredness
 runtime
 scalable
+url
 Vulcanexus
 wget
 yaml
