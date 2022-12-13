@@ -45,6 +45,9 @@ Glossary
         **Object Management Group**
         `<https://www.omg.org/>`_.
 
+    OOP
+        **Object Oriented Programming**
+
     OS
         **Operative System**
 

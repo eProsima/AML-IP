@@ -34,6 +34,7 @@ using namespace eprosima::fastcdr::exception;
 #include <iomanip>
 #include <random>
 #include <string>
+#include <sstream>
 #include <utility>
 
 #include <cpp_utils/utils.hpp>
@@ -206,11 +207,11 @@ std::string AmlipIdDataType::to_string() const noexcept
     new_os << name();
 
     // Set to print bytes in hexadecimal of size 2 filling with 0
-    // Use a different stream as cout so no TSAN issues
-    new_os << std::hex << std::setfill('0') << std::setw(2);
+    new_os << std::hex << std::setfill('0');
+    // TODO: use a common function that takes an array and format id without the final .
     for (uint8_t v : id())
     {
-        new_os << static_cast<unsigned>(v) << ".";
+        new_os << "." << std::setw(2) << static_cast<unsigned>(v);
     }
     return new_os.str();
 }

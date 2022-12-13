@@ -7,8 +7,8 @@
 Linux installation from sources
 ###############################
 
-AML-IP Sub-packages
-===================
+Sub-packages
+============
 
 The |amlip| is constituted of several sub-packages.
 Depending on the use of those packages, some or all of them must be built.

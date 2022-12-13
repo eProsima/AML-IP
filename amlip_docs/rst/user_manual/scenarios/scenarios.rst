@@ -17,5 +17,5 @@ In order to know more about the *Node* concept and their kinds, refer to :ref:`u
 .. toctree::
     :maxdepth: 1
 
-    status
+    monitor_state
     workload_distribution

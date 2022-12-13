@@ -15,7 +15,12 @@ This is the first release of eProsima *AML-IP*.
 
 This release includes support for *workload distribution* scenario of the AML-IP.
 
-This release includes the following **Nodes**:
+This release supports the following :term:`Scenarios <Scenario>`:
+
+* :ref:`Monitor State <user_manual_scenarios_status>`
+* :ref:`Workload Distribution <user_manual_scenarios_workload_distribution>`
+
+This release includes the following :term:`Nodes <Node>`:
 
 * :ref:`Status <user_manual_nodes_status>`
 * :ref:`Main <user_manual_nodes_main>`

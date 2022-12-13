@@ -1,14 +1,14 @@
 .. include:: ../../exports/alias.include
 
-.. _user_manual_scenarios_status:
-
 .. |status| replace:: *Status*
 
-###############
-Status Scenario
-###############
+.. _user_manual_scenarios_status:
 
-This :term:`Scenario` performs the action of knowing, analyzing and debugging an |aml| network.
+##############################
+Monitor Network State Scenario
+##############################
+
+This :term:`Scenario` performs the action of monitoring: knowing, analyzing and debugging an |aml| network.
 Each of the |amlip| :term:`Node` :term:`Publish` its current |status| information and updates it along its lifetime.
 This scenario support :term:`subscription <Subscribe>` to this :term:`Topic` in order to receive such status
 information, that can be processed, stored, read, etc.

@@ -32,3 +32,16 @@ Topics
 All the |amlip| Topics in the DDS |amlip| network have a previous name mangling.
 So an |amlip| topic named , :code:`some_topic` would actually be named :code:`amlip::some_topic` in the underneath
 DDS network.
+
+
+.. _user_manual_dds_multiservice:
+
+MultiService
+------------
+
+A new communication protocol based on DDS has been designed in order to fulfill the necessity of distributing
+a task in a network.
+The idea is a Service protocol based on Client-Server communication where multiple servers could be available at
+the same time in the same network.
+This protocol creates an auto-regulated orchestration method where a task could be distributed to **one and only one**
+server that is publicly available, and each server receives no more than one task at a time.

@@ -26,6 +26,13 @@ AML-IP nomenclature
         More information in :ref:`User Manual section <user_manual_nodes>`.
 
 
+AML nomenclature
+================
+
+    Atomization
+        Specific state of an |aml| model.
+
+
 DDS nomenclature
 ================
 
