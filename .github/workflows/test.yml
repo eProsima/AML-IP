@@ -189,8 +189,6 @@ jobs:
 
   ubuntu-test-documentation:
     runs-on: ubuntu-latest
-    environment:
-      name: codecov
 
     steps:
       - name: Sync eProsima/AML-IP repository
@@ -266,8 +264,6 @@ jobs:
 
   ubuntu-build-test-flaky:
     runs-on: ubuntu-latest
-    environment:
-      name: codecov
 
     steps:
       - name: Sync eProsima/AML-IP repository
@@ -328,8 +324,6 @@ jobs:
 
   asan-test:
     runs-on: ubuntu-latest
-    environment:
-      name: codecov
 
     steps:
       - name: Sync eProsima/AML-IP repository
