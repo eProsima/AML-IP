@@ -26,113 +26,12 @@
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
+#include <amlip_cpp/types/status/NodeKind.hpp>
+#include <amlip_cpp/types/status/StateKind.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
-
-// TODO do this in a more elegant way
-/*!
- * @brief This class represents the enumeration NodeKind defined by the user in the IDL file.
- * @ingroup STATUS
- */
-// ENUMERATION_BUILDER(
-//     NodeKind
-//     , undetermined
-//     , discovery
-//     , agent
-//     , main
-//     , computing
-//     , status
-//     , meta
-// );
-static_assert( COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing, status,
-        meta), "Empty Enumerations are not allowed."); enum class NodeKind
-{
-    undetermined, discovery, agent, main, computing, status, meta
-};
-const std::array<std::string,
-        COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing, status,
-        meta)> names_NodeKind = { APPLY_MACRO_FOR_EACH(STRINGIFY_WITH_COMMA, undetermined, discovery, agent,
-                                          main, computing, status, meta) };
-inline const std::string& to_string(
-        const NodeKind& e)
-{
-    return names_NodeKind[static_cast<int>(e)];
-}
-
-inline NodeKind from_string_NodeKind(
-        const std::string& s)
-{
-    for (int i = 0; i < COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing, status, meta); i++)
-    {
-        if (names_NodeKind[i] == s)
-        {
-            return static_cast<NodeKind>(i);
-        }
-    }
-    throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " <<
-                  STRINGIFY(NodeKind) << ".");
-}
-
-inline std::ostream& operator <<(
-        std::ostream& os,
-        const NodeKind& e)
-{
-    os << to_string(e); return os;
-}
-
-constexpr const unsigned int N_VALUES_NodeKind = COUNT_ARGUMENTS(undetermined, discovery, agent, main, computing,
-                status, meta);
-
-/*!
- * @brief This class represents the enumeration StateKind defined by the user in the IDL file.
- * @ingroup STATUS
- */
-// ENUMERATION_BUILDER(
-//     StateKind
-//     , unknown
-//     , running
-//     , stopped
-//     , dropped
-// );
-static_assert( COUNT_ARGUMENTS(unknown, running, stopped, dropped), "Empty Enumerations are not allowed.");
-enum class StateKind
-{
-    unknown, running, stopped, dropped
-};
-const std::array<std::string,
-        COUNT_ARGUMENTS(unknown, running, stopped, dropped)> names_StateKind = { APPLY_MACRO_FOR_EACH(
-                                                                                     STRINGIFY_WITH_COMMA, unknown,
-                                                                                     running, stopped, dropped) };
-inline const std::string& to_string(
-        const StateKind& e)
-{
-    return names_StateKind[static_cast<int>(e)];
-}
-
-inline StateKind from_string_StateKind(
-        const std::string& s)
-{
-    for (int i = 0; i < COUNT_ARGUMENTS(unknown, running, stopped, dropped); i++)
-    {
-        if (names_StateKind[i] == s)
-        {
-            return static_cast<StateKind>(i);
-        }
-    }
-    throw eprosima::utils::InitializationException( STR_ENTRY << "Not correct name " << s << " for Enum " <<
-                  STRINGIFY(StateKind) << ".");
-}
-
-inline std::ostream& operator <<(
-        std::ostream& os,
-        const StateKind& e)
-{
-    os << to_string(e); return os;
-}
-
-constexpr const unsigned int N_VALUES_StateKind = COUNT_ARGUMENTS(unknown, running, stopped, dropped);
 
 /*!
  * @brief This class represents the structure StatusDataType defined by the user in the IDL file.
@@ -145,42 +44,46 @@ public:
     /*!
      * @brief Default constructor.
      */
-    StatusDataType();
+    AMLIP_CPP_DllAPI StatusDataType();
 
     /*!
      * @brief Default constructor.
      */
-    StatusDataType(
-            AmlipIdDataType id,
-            NodeKind node_kind,
-            StateKind state);
+    AMLIP_CPP_DllAPI StatusDataType(
+            const AmlipIdDataType& id,
+            const NodeKind& node_kind,
+            const StateKind& state);
 
-    virtual ~StatusDataType() = default;
+    AMLIP_CPP_DllAPI virtual ~StatusDataType() = default;
 
     /*!
      * @brief Comparison operator.
      * @param x StatusDataType object to compare.
      */
-    bool operator ==(
+    AMLIP_CPP_DllAPI bool operator ==(
             const StatusDataType& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x StatusDataType object to compare.
      */
-    bool operator !=(
+    AMLIP_CPP_DllAPI bool operator !=(
             const StatusDataType& x) const;
 
-    AmlipIdDataType id() const noexcept;
+    //! Get id value
+    AMLIP_CPP_DllAPI AmlipIdDataType id() const noexcept;
 
-    NodeKind node_kind() const noexcept;
+    //! Get Node Kind value
+    AMLIP_CPP_DllAPI NodeKind node_kind() const noexcept;
 
-    StateKind state() const noexcept;
+    //! Get State Kind value
+    AMLIP_CPP_DllAPI StateKind state() const noexcept;
 
-    bool is_defined() const noexcept;
+    //! Whether this object is correctly defined, thus none of its internal variables are undefined.
+    AMLIP_CPP_DllAPI bool is_defined() const noexcept;
 
     //! Overload parent \c to_string method
-    std::string to_string() const noexcept;
+    AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
     /////
     // InterfaceDataType methods
@@ -189,21 +92,21 @@ public:
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize(
+    AMLIP_CPP_DllAPI void serialize(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void deserialize(
+    AMLIP_CPP_DllAPI void deserialize(
             eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
-    void serialize_key(
+    AMLIP_CPP_DllAPI void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
@@ -212,7 +115,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
@@ -221,7 +124,7 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Serialized size.
      */
-    static size_t get_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
             const StatusDataType& data,
             size_t current_alignment = 0);
 
@@ -231,23 +134,23 @@ public:
      * @param current_alignment Buffer alignment.
      * @return Maximum serialized size.
      */
-    static size_t get_key_max_cdr_serialized_size(
+    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
      */
-    static bool is_key_defined();
+    AMLIP_CPP_DllAPI static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
      */
-    static bool is_bounded();
+    AMLIP_CPP_DllAPI static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
      */
-    static bool is_plain();
+    AMLIP_CPP_DllAPI static bool is_plain();
 
     /**
      * @brief Construct an empty sample in the memory allocated
@@ -258,7 +161,7 @@ public:
      *
      * @return true if the construction was successful, false otherwise
      */
-    static bool construct_sample(
+    AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
 
     /**
@@ -266,21 +169,25 @@ public:
      *
      * @warning this method must be overriden in child class.
      */
-    static std::string type_name();
+    AMLIP_CPP_DllAPI static std::string type_name();
 
 protected:
 
+    //! Internal variable Id
     AmlipIdDataType id_;
 
+    //! Internal variable Node Kind
     NodeKind node_kind_;
 
+    //! Internal variable State Kind
     StateKind state_;
 
+    //! Name of the DDSDataType for topics that uses this Data Type
     static const char* DATA_TYPE_NAME_; // "status"
 };
 
 //! \c StatusDataType to stream serializator
-std::ostream& operator <<(
+AMLIP_CPP_DllAPI std::ostream& operator <<(
         std::ostream& os,
         const StatusDataType& st);
 

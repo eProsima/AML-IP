@@ -3,19 +3,16 @@ from setuptools import setup
 
 package_name = 'amlip_py'
 
-description = 'AML-IP AML Tool'
+description = 'AML-IP Python API'
 long_description = description
-# with open('README.md', 'r') as f:
-#     long_description = f.read()
+with open('README.md', 'r') as f:
+    long_description = f.read()
 
 file_packages = [
     package_name,
     package_name + '/node',
     package_name + '/types',
 ]
-
-# TODO remove
-variable = 'this variable is veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery long for python'
 
 setup(
     name=package_name,
@@ -25,7 +22,7 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name, ['package.xml', 'README.md']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -34,6 +31,6 @@ setup(
     description=description,
     license='Apache License, Version 2.0',
     tests_require=['pytest'],
-    test_suite='tests',
+    test_suite='test',
     entry_points={},
 )

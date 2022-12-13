@@ -30,8 +30,6 @@
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::StatusDataType::StatusDataType(StatusDataType&&);
 %ignore eprosima::amlip::types::operator <<(std::ostream &,const StatusDataType&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const NodeKind&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const StateKind&);
 
 // Declare the to string method
 %extend eprosima::amlip::types::StatusDataType {
@@ -43,10 +41,6 @@
 
 %{
 #include <amlip_cpp/types/status/StatusDataType.hpp>
-
-// enum class are required to be added with a using
-using NodeKind = eprosima::amlip::types::NodeKind;
-using StateKind = eprosima::amlip::types::StateKind;
 %}
 
 // Include needed headers

@@ -67,6 +67,15 @@ template <typename Data, typename Solution>
 Solution MultiServiceClient<Data, Solution>::send_request_sync(
         const Data& data)
 {
+    types::AmlipIdDataType _;
+    return send_request_sync(data, _);
+}
+
+template <typename Data, typename Solution>
+Solution MultiServiceClient<Data, Solution>::send_request_sync(
+        const Data& data,
+        types::AmlipIdDataType& server)
+{
     // SEND REQUEST AVAILABILITY
     // Get new task id
     types::TaskId this_task_id = new_task_id_();
@@ -98,9 +107,10 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     }
 
     // From here, reference has the target of the server that is going to process the data
+    server = reference.server_id();
     logDebug(AMLIPCPP_MULTISERVICE_CLIENT,
             "Client " << own_id_ << " sending task: " << reference.task_id() <<
-            " to server: " << reference.server_id() << ".");
+            " to server: " << server << ".");
 
     // SEND TASK TARGET
     // Send the reference sent by the server
@@ -108,7 +118,7 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
 
     // SEND DATA
     types::MsDataType<Data> data_(reference, data);
-    task_data_writer_.write(reference.server_id(), data_);
+    task_data_writer_.write(server, data_);
 
     // WAIT FOR SOLUTION
     logDebug(AMLIPCPP_DDS_MSCLIENT, "Wait for solution of task: " << reference << ".");

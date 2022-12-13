@@ -25,8 +25,8 @@
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
 #include <types/multiservice/MsDataType.hpp>
-#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
-#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
+#include <types/multiservice/MsRequestDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -63,6 +63,21 @@ public:
      */
     Solution send_request_sync(
             const Data& data);
+
+    /**
+     * @brief
+     *
+     * @param data [in] Data to send in request
+     * @param server [out] Id of the server that has answered the data
+     *
+     * @return Solution
+     *
+     * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
+     * Thus, using multiple threads will cause desynchronization of messages received and locks.
+     */
+    Solution send_request_sync(
+            const Data& data,
+            types::AmlipIdDataType& server);
 
 protected:
 

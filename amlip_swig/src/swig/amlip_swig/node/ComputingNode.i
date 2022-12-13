@@ -21,18 +21,7 @@
 
 // Generate directors for the virtual methods in the listener
 // IMPORTANT: this statement must be before including the hpp
-%feature("director") eprosima::amlip::node::JobFunctor;
-
-// Ignore operator () as it will be renamed with __call__ and is not accepted in python
-%ignore eprosima::amlip::node::JobFunctor::operator ()(const types::JobDataType&) const;
-
-// Declare the operator() method to use as __call__ in python
-%extend eprosima::amlip::node::JobFunctor {
-    eprosima::amlip::types::SolutionDataType eprosima::amlip::node::JobFunctor::__call__(const eprosima::amlip::types::JobDataType& job) const
-    {
-        return (*$self).operator()(job);
-    }
-}
+%feature("director") eprosima::amlip::node::JobListener;
 
 %{
 #include <amlip_cpp/node/ComputingNode.hpp>

@@ -72,6 +72,7 @@ jobs:
           cmake_build_type: ${{ matrix.cmake-config }}
         if: always()
 
+    # NOTE: Windows does not support Python API
 
   ubuntu-build-test:
     runs-on: ubuntu-latest
@@ -135,6 +136,18 @@ jobs:
         uses: ./src/AML-IP/.github/actions/run-test-ubuntu
         with:
           package_name: amlip_cpp
+        if: always()
+
+      - name: Run tests amlip_swig
+        uses: ./src/AML-IP/.github/actions/run-test-ubuntu
+        with:
+          package_name: amlip_swig
+        if: always()
+
+      - name: Run tests amlip_py
+        uses: ./src/AML-IP/.github/actions/run-test-ubuntu
+        with:
+          package_name: amlip_py
         if: always()
 
       - name: Generate coverage report
@@ -246,7 +259,7 @@ jobs:
         run: |
           source install/setup.bash && \
           colcon test \
-            --packages-select-regex amlip \
+            --packages-select amlip_cpp \
             --event-handlers=console_direct+ \
             --return-code-on-test-failure \
             --ctest-args \
@@ -300,7 +313,7 @@ jobs:
           cat src/AML-IP/.github/workflows/asan_colcon.meta
           source /home/runner/work/eprosima/install/setup.bash
           colcon build \
-            --packages-up-to-regex amlip \
+            --packages-up-to-regex amlip_cpp \
             --event-handlers=console_direct+ \
             --metas src/AML-IP/.github/workflows/asan_colcon.meta
 
@@ -308,7 +321,7 @@ jobs:
         run: |
           source install/setup.bash && \
           colcon test \
-            --packages-select-regex amlip \
+            --packages-select amlip_cpp \
             --event-handlers=console_direct+ \
             --return-code-on-test-failure \
             --ctest-args \

@@ -19,7 +19,7 @@
 #include <cpp_utils/Log.hpp>
 
 #include <dds/Participant.hpp>
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/ParentNode.hpp>
 
 namespace eprosima {
@@ -31,8 +31,8 @@ ParentNode::ParentNode(
         types::NodeKind node_kind)
     : participant_(std::make_unique<dds::Participant>(name))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
-                network::STATUS_TOPIC_NAME,
-                network::status_writer_qos()))
+                dds::utils::STATUS_TOPIC_NAME,
+                dds::utils::status_writer_qos()))
     , current_state_(types::StateKind::stopped)
     , node_kind_(node_kind)
 {

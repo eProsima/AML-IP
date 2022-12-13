@@ -16,6 +16,8 @@
  * @file dds_qos.cpp
  */
 
+#include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
+
 #include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
@@ -23,9 +25,21 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
-fastdds::dds::DomainParticipantQos default_domain_participant_qos()
+fastdds::dds::DomainParticipantQos default_domain_participant_qos(
+        const char* name /* = DEFAULT_PARTICIPANT_NAME */ )
 {
-    eprosima::fastdds::dds::DomainParticipantQos qos = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
+    fastdds::dds::DomainParticipantQos qos = eprosima::fastdds::dds::PARTICIPANT_QOS_DEFAULT;
+
+    qos.name(name);
+
+    // TODO: Fix illegal memory access issues when using native interprocess communication in Windows
+    // (https://github.com/eProsima/Fast-DDS/pull/2263)
+    // TODO: Fix errors in first and last messages of DataSharing
+    // Disable Shared Memory transport because of reasons
+    qos.transport().use_builtin_transports = false;
+    auto udp_transport = std::make_shared<fastdds::rtps::UDPv4TransportDescriptor>();
+    qos.transport().user_transports.push_back(udp_transport);
+
     return qos;
 }
 

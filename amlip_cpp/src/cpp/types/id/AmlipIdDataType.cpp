@@ -30,11 +30,14 @@ using namespace eprosima::fastcdr::exception;
 
 #include <algorithm>
 #include <array>
+#include <chrono>
+#include <iomanip>
 #include <random>
 #include <string>
 #include <utility>
 
 #include <cpp_utils/utils.hpp>
+#include <cpp_utils/math/random/TSafeRandomManager.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
@@ -182,9 +185,8 @@ void AmlipIdDataType::id(
 
 std::string AmlipIdDataType::to_dds_string() const
 {
-    // NOTE: this uses only the first numeric value, as there is only one.
-    // In case this changes, this should change
-    return name() + "_" + std::to_string(rand_id_[0]);
+    // NOTE: this uses to_string method as it will not use any invalid character for DDS
+    return to_string();
 }
 
 std::string AmlipIdDataType::type_name()
@@ -199,7 +201,18 @@ bool AmlipIdDataType::is_defined() const noexcept
 
 std::string AmlipIdDataType::to_string() const noexcept
 {
-    return utils::generic_to_string(*this);
+    // WARNING: If this method changes, it may change as well operator << and to_dds_string
+    std::stringstream new_os;
+    new_os << name();
+
+    // Set to print bytes in hexadecimal of size 2 filling with 0
+    // Use a different stream as cout so no TSAN issues
+    new_os << std::hex << std::setfill('0') << std::setw(2);
+    for (uint8_t v : id())
+    {
+        new_os << static_cast<unsigned>(v) << ".";
+    }
+    return new_os.str();
 }
 
 AmlipIdDataType AmlipIdDataType::new_unique_id()
@@ -261,15 +274,12 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name_()
 
 std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
 {
-    // make sure a random seed is properly set in the main scope
-
-    // TODO: move this random seed to a random manager
-
+    auto random_manager = utils::GlobalRandomManager::get_instance();
     std::array<uint8_t, RAND_SIZE> rand_id;
     for (uint32_t i = 0; i < RAND_SIZE; i++)
     {
         // generate a random number between 0 and 255
-        uint8_t num = static_cast<uint8_t>(rand() % 256);
+        uint8_t num = static_cast<uint8_t>(random_manager->pure_rand() % 256);
         rand_id[i] = num;
     }
 
@@ -343,12 +353,8 @@ std::ostream& operator <<(
         std::ostream& os,
         const AmlipIdDataType& id)
 {
-    os << "ID{" << id.name() << "|";
-    for (uint8_t v : id.id())
-    {
-        os << static_cast<unsigned>(v);
-    }
-    os << "}";
+    // TODO do this from utils using container_to_stream to remove final '.'
+    os << "ID{" << id.to_string() << "}";
     return os;
 }
 

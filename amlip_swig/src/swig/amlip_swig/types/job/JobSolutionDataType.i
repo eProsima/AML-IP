@@ -13,27 +13,21 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class MsRequestDataType
+// Binding for class JobSolutionDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
-
-// Define type
-typedef uint32_t eprosima::amlip::types::TaskId;
+%import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
 
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
 
-// Ignore overloaded methods that have no application on Python
-// Otherwise they will issue a warning
-%ignore eprosima::amlip::types::MsRequestDataType::MsRequestDataType(MsRequestDataType&&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const MsRequestDataType&);
+%ignore eprosima::amlip::types::JobSolutionDataType::JobSolutionDataType();
 
 %{
-#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
+#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
+%include <amlip_cpp/types/job/JobSolutionDataType.hpp>

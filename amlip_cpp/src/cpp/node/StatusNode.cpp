@@ -20,7 +20,7 @@
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
 #include <dds/Participant.hpp>
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>
 
 namespace eprosima {
@@ -31,8 +31,8 @@ StatusNode::StatusNode(
         const char* name)
     : ParentNode(name, types::NodeKind::status)
     , status_reader_(participant_->create_reader<types::StatusDataType>(
-                network::STATUS_TOPIC_NAME,
-                network::status_reader_qos()))
+                dds::utils::STATUS_TOPIC_NAME,
+                dds::utils::status_reader_qos()))
     , processing_(false)
 {
     logInfo(AMLIPCPP_NODE_STATUS, "Created new Status Node: " << *this << ".");
@@ -60,6 +60,8 @@ StatusNode::~StatusNode()
 void StatusNode::process_status_async(
         const std::function<void(const types::StatusDataType&)>& callback)
 {
+    logInfo(AMLIPCPP_NODE_STATUS, "Start processing Status messages by callback in : " << *this << ".");
+
     if (processing_)
     {
         throw utils::InconsistencyException(
@@ -69,6 +71,31 @@ void StatusNode::process_status_async(
     {
         processing_ = true;
         process_thread_ = std::thread(&StatusNode::process_routine_, this, callback);
+
+        change_status_(types::StateKind::running);
+    }
+}
+
+void StatusNode::process_status_async(
+        const StatusListener& callback_functor)
+{
+    logInfo(AMLIPCPP_NODE_STATUS, "Start processing Status messages by listener in : " << *this << ".");
+
+    if (processing_)
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Status node " << this << " is already processing data.");
+    }
+    else
+    {
+        processing_ = true;
+        process_thread_ = std::thread(
+            &StatusNode::process_routine_,
+            this,
+            [&callback_functor](const types::StatusDataType& status)
+            {
+                callback_functor.status_received(status);
+            });
 
         change_status_(types::StateKind::running);
     }

@@ -21,18 +21,10 @@
 
 // Generate directors for the virtual methods in the listener
 // IMPORTANT: this statement must be before including the hpp
-%feature("director") eprosima::amlip::node::StatusFunctor;
+%feature("director") eprosima::amlip::node::StatusListener;
 
-// Ignore operator () as it will be renamed with __call__ and is not accepted in python
-%ignore eprosima::amlip::node::StatusFunctor::operator ()(const types::StatusDataType&) const;
-
-// Declare the operator() method to use as __call__ in python
-%extend eprosima::amlip::node::StatusFunctor {
-    bool eprosima::amlip::node::StatusFunctor::__call__(const eprosima::amlip::types::StatusDataType& status) const
-    {
-        return (*$self).operator()(status);
-    }
-}
+// Ignore the process_status_async function with std::function
+%ignore eprosima::amlip::node::StatusNode::process_status_async(const std::function<void(const types::StatusDataType&)>&);
 
 %{
 #include <amlip_cpp/node/StatusNode.hpp>

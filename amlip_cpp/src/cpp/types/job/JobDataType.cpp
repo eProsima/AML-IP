@@ -13,36 +13,40 @@
 // limitations under the License.
 
 /*!
- * @file SolutionDataType.hpp
+ * @file JobDataType.cpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
-#define AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
+#include <iostream>
 
-#include <amlip_cpp/types/GenericDataType.hpp>
+#include <amlip_cpp/types/job/JobDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-/*!
- * @brief AML Solution Task Data Type
- *
- * This class may be reimplemented according with AML team designs.
- *
- * TODO: change name to JobSolutionDataType
- */
-class SolutionDataType : public GenericDataType
+JobDataType::JobDataType(
+        void* data,
+        const uint32_t size,
+        bool take_ownership /* = false */)
+    : GenericDataType(data, size, take_ownership)
 {
-public:
+    // Do nothing
+}
 
-    //! Use parent constructors
-    using GenericDataType::GenericDataType;
+JobDataType::JobDataType(
+        const std::vector<ByteType>& bytes)
+    : GenericDataType(bytes)
+{
+    // Do nothing
+}
 
-};
+JobDataType::JobDataType(
+        const std::string& bytes)
+    : GenericDataType(bytes)
+{
+    // Do nothing
+}
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
-
-#endif // AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP

@@ -12,10 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(TEST_SOURCES
-    )
-all_library_sources("${TEST_SOURCES}")
-
 set(TEST_NAMES
         "status"
         "main"
@@ -27,14 +23,9 @@ foreach(TEST_NAME ${TEST_NAMES})
     set(EXECUTABLE_TEST_NAME
         "amlip_test_${TEST_NAME}")
 
-    set(${TEST_NAME}_TEST_SOURCES
-            "${TEST_NAME}.cpp"
-            "${TEST_SOURCES}"
-        )
-
     add_executable(
             ${EXECUTABLE_TEST_NAME}
-            ${${TEST_NAME}_TEST_SOURCES}
+            "${TEST_NAME}.cpp"
         )
 
     target_include_directories(${EXECUTABLE_TEST_NAME} PRIVATE
@@ -48,6 +39,7 @@ foreach(TEST_NAME ${TEST_NAMES})
     target_link_libraries(
             ${EXECUTABLE_TEST_NAME}
             ${MODULE_DEPENDENCIES}
+            amlip_cpp
         )
 
     if(LOG_INFO)

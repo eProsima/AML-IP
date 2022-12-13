@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,24 +13,19 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class MsReferenceDataType
+// Binding for class NodeKind
 ////////////////////////////////////////////////////////
-
-// Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/multiservice/MsRequestDataType.hpp";
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
 
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
-%ignore eprosima::amlip::types::MsReferenceDataType::MsReferenceDataType(MsReferenceDataType&&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const MsReferenceDataType&);
+%ignore eprosima::amlip::types::operator <<(std::ostream &,const NodeKind&);
+%ignore eprosima::amlip::types::to_string(const NodeKind&);
 
 %{
-#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
+#include <amlip_cpp/types/status/NodeKind.hpp>
+
+// enum class are required to be added with a using
+using NodeKind = eprosima::amlip::types::NodeKind;
 %}
 
-// Include the class interfaces
-%include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
+%include <amlip_cpp/types/status/NodeKind.hpp>

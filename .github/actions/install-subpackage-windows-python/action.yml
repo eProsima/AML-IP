@@ -1,0 +1,12 @@
+name: Install subpackage
+description: Install and setup subpackage for linking and building application in Windows
+inputs:
+  package_path:
+    description: 'Specifies the build type on single-configuration generators'
+    required: true
+runs:
+  using: composite
+  steps:
+  - run: >
+      python -m pip install -e ${{ inputs.package_path }}
+    shell: pwsh

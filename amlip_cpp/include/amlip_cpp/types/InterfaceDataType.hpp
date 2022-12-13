@@ -19,6 +19,8 @@
 #ifndef AMLIPCPP_TYPES_INTERFACEDATATYPE_HPP
 #define AMLIPCPP_TYPES_INTERFACEDATATYPE_HPP
 
+#include <amlip_cpp/library/library_dll.h>
+
 namespace eprosima {
 namespace fastcdr {
 // Forward declaration of the CDR class
@@ -41,7 +43,7 @@ namespace types {
  * @warning This interface requires to override some methods, including static ones.
  * Every class inheriting from it must override every method initialized in this file.
  */
-class InterfaceDataType
+class AMLIP_CPP_DllAPI InterfaceDataType
 {
 public:
 

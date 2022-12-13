@@ -35,10 +35,10 @@ In order to install this package independently, use the following command:
 colcon build --packages-select amlip_docs
 ```
 
-In order to compile and execute the package **tests**, a specific CMake option is required: `BUILD_DOCUMENTATION_TESTS`.
+In order to compile and execute the package **tests**, a specific CMake option is required: `BUILD_DOCS_TESTS`.
 
 ```bash
-colcon build --packages-select amlip_docs --cmake-args -DBUILD_DOCUMENTATION_TESTS
+colcon build --packages-select amlip_docs --cmake-args -DBUILD_DOCS_TESTS
 colcon test --packages-select amlip_docs --event-handler console_direct+
 ```
 
@@ -47,7 +47,7 @@ colcon test --packages-select amlip_docs --event-handler console_direct+
 ## CMake options
 
 * `BUILD_TESTS`
-* `BUILD_DOCUMENTATION_TESTS`
+* `BUILD_DOCS_TESTS`
 
 ---
 

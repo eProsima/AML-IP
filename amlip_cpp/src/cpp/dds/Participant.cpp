@@ -17,7 +17,6 @@
  */
 
 #include <cpp_utils/Log.hpp>
-#include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
 
 #include <dds/Participant.hpp>
 #include <dds/network_utils/dds_qos.hpp>
@@ -40,14 +39,6 @@ Participant::Participant(
 
     // Set Participant name
     qos.name(id.name());
-
-    // TODO: Fix illegal memory access issues when using native interprocess communication in Windows (https://github.com/eProsima/Fast-DDS/pull/2263)
-#if defined(_WIN32) || defined(_WIN64)
-    // Disable Shared Memory transport
-    qos.transport().use_builtin_transports = false;
-    auto udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
-    qos.transport().user_transports.push_back(udp_transport);
-#endif // if defined(_WIN32) || defined(_WIN64)
 
     // Create DDS Handler
     dds_handler_.reset(

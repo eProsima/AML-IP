@@ -21,7 +21,7 @@
 
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/Participant.hpp>
-#include <network/topic.hpp>
+#include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/MainNode.hpp>
 
 namespace eprosima {
@@ -31,8 +31,8 @@ namespace node {
 MainNode::MainNode(
         const char* name)
     : ParentNode(name, types::NodeKind::main)
-    , job_client_(participant_->create_multiservice_client<types::JobDataType, types::SolutionDataType>(
-                network::JOB_TOPIC_NAME))
+    , job_client_(participant_->create_multiservice_client<types::JobDataType, types::JobSolutionDataType>(
+                dds::utils::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_MAIN, "Created new Main Node: " << *this << ".");
 }
@@ -48,11 +48,19 @@ MainNode::~MainNode()
     logDebug(AMLIPCPP_NODE_MAIN, "Destroying Main Node: " << *this << ".");
 }
 
-types::SolutionDataType MainNode::request_job_solution(
+types::JobSolutionDataType MainNode::request_job_solution(
         const types::JobDataType& data)
 {
+    types::AmlipIdDataType _;
+    return request_job_solution(data, _);
+}
+
+types::JobSolutionDataType MainNode::request_job_solution(
+        const types::JobDataType& data,
+        types::AmlipIdDataType& id)
+{
     change_status_(types::StateKind::running);
-    types::SolutionDataType solution = job_client_->send_request_sync(data);
+    types::JobSolutionDataType solution = job_client_->send_request_sync(data, id);
     change_status_(types::StateKind::stopped);
     return solution;
 }

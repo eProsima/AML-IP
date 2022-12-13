@@ -18,6 +18,8 @@ runs:
           sphinxcontrib-imagehelper==1.1.1 \
           sphinxcontrib.spelling==5.0.0 \
           vcstool \
-          flake8 \
-          flake8-quotes
+          flake8==5.0.4 \
+          flake8-quotes \
+          pytest \
+          pytest-timeout
       shell: bash

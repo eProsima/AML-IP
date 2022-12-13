@@ -33,13 +33,13 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Status Node execution. Creating Node...");
 
     {
         // Create Status Node
-        eprosima::amlip::node::StatusNode status_node("TestStatusNode");
+        eprosima::amlip::node::StatusNode status_node("CppStatusNode_Lambda_Manual");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << status_node << ". Processing data asynchronously...");
 

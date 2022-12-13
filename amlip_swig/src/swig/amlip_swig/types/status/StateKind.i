@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,19 +13,19 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class SolutionDataType
+// Binding for class StateKind
 ////////////////////////////////////////////////////////
 
-// Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
+// Ignore overloaded methods that have no application on Python
+// Otherwise they will issue a warning
+%ignore eprosima::amlip::types::operator <<(std::ostream &,const StateKind&);
+%ignore eprosima::amlip::types::to_string(const StateKind&);
 
 %{
-#include <amlip_cpp/types/job/SolutionDataType.hpp>
+#include <amlip_cpp/types/status/StateKind.hpp>
+
+// enum class are required to be added with a using
+using StateKind = eprosima::amlip::types::StateKind;
 %}
 
-// Include the class interfaces
-%include <amlip_cpp/types/job/SolutionDataType.hpp>
+%include <amlip_cpp/types/status/StateKind.hpp>

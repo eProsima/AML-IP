@@ -35,28 +35,30 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AAMLIPCPP_MLIPCPP_MANUAL_TEST, "Starting Manual Test Main Node execution. Creating Node...");
 
     {
         // Create Main Node
-        eprosima::amlip::node::MainNode main_node("TestMainNode");
+        eprosima::amlip::node::MainNode main_node("CppMainNode_Manual");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << main_node << ". Creating job...");
 
         // Create job data
         std::string data_str = "<Job Data In String>";
         // The cast to char* is needed to avoid const in ptr
-        eprosima::amlip::types::JobDataType job_data(static_cast<void*>(const_cast<char*>(data_str.c_str())),
-                data_str.size());
+        eprosima::amlip::types::JobDataType job_data(static_cast<void*>(
+                    const_cast<char*>(data_str.c_str())),
+                data_str.size() + 1);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Job data created with string: " << data_str << ". Sending request...");
 
         // Send job request
-        eprosima::amlip::types::SolutionDataType solution = main_node.request_job_solution(job_data);
+        eprosima::amlip::types::AmlipIdDataType server_id;
+        eprosima::amlip::types::JobSolutionDataType solution = main_node.request_job_solution(job_data, server_id);
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Solution received. Deserializing to string...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Solution received from server: " << server_id << ". Deserializing to string...");
 
         // Convert solution to string
         std::string solution_str(static_cast<char*>(solution.data()), solution.data_size());

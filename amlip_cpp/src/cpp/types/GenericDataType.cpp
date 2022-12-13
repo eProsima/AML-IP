@@ -33,6 +33,8 @@ using namespace eprosima::fastcdr::exception;
 #include <stdlib.h>
 
 #include <cpp_utils/Log.hpp>
+#include <cpp_utils/types/cast.hpp>
+#include <cpp_utils/utils.hpp>
 
 #include <amlip_cpp/types/GenericDataType.hpp>
 
@@ -56,6 +58,26 @@ GenericDataType::GenericDataType(
 GenericDataType::GenericDataType()
     : GenericDataType(nullptr, 0)
 {
+}
+
+GenericDataType::GenericDataType(
+        const std::vector<ByteType>& bytes)
+    : GenericDataType(
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size()),
+        bytes.size(),
+        true)
+{
+    // Do nothing
+}
+
+GenericDataType::GenericDataType(
+        const std::string& bytes)
+    : GenericDataType(
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.c_str()), bytes.length()),
+        bytes.length(),
+        true)
+{
+    // Do nothing
 }
 
 GenericDataType::~GenericDataType()
@@ -92,17 +114,60 @@ GenericDataType::GenericDataType(
 GenericDataType::GenericDataType(
         GenericDataType&& x)
 {
-    data_ = std::move(x.data_);
-    data_size_ = std::move(x.data_size_);
+    this->data_ = x.data_;
+    this->data_size_ = x.data_size_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
+
+    // Restore x
+    x.data_ = nullptr;
+    x.data_size_ = 0;
     x.has_been_allocated_.store(false);
+}
+
+GenericDataType& GenericDataType::operator =(
+        const GenericDataType& x)
+{
+    if (this->has_been_allocated_)
+    {
+        free(data_);
+    }
+
+    if (x.has_been_allocated_)
+    {
+        logWarning(
+            AMLIPCPP_TYPES_GENERIC,
+            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
+        data_size_ = x.data_size_;
+        data_ = malloc(data_size_ * sizeof(uint8_t));
+        std::memcpy(data_, x.data_, data_size_);
+        has_been_allocated_.store(true);
+    }
+    else
+    {
+        data_ = x.data_;
+        data_size_ = x.data_size_;
+        has_been_allocated_.store(false);
+    }
+
+    return *this;
 }
 
 GenericDataType& GenericDataType::operator =(
         GenericDataType&& x)
 {
-    data_ = std::move(x.data_);
-    data_size_ = std::move(x.data_size_);
+    if (this->has_been_allocated_)
+    {
+        free(data_);
+    }
+
+    this->data_ = x.data_;
+    this->data_size_ = x.data_size_;
+    this->has_been_allocated_.store(x.has_been_allocated_.load());
+
+    // Restore x
+    x.data_ = nullptr;
+    x.data_size_ = 0;
+    x.has_been_allocated_.store(false);
 
     return *this;
 }
@@ -221,6 +286,17 @@ bool GenericDataType::construct_sample(
         void* memory)
 {
     return false;
+}
+
+std::string GenericDataType::to_string() const noexcept
+{
+    return std::string(static_cast<char*>(data_), data_size_);
+}
+
+std::vector<ByteType> GenericDataType::to_vector() const noexcept
+{
+    ByteType* buffer = static_cast<ByteType*>(data_);
+    return std::vector<ByteType>(buffer, buffer + data_size_);
 }
 
 } /* namespace types */
