@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>amlip_demo</name>
+  <name>amlip_demo_nodes</name>
   <version>0.0.0</version>
   <description>
     eprosima AML IP Demo
@@ -14,6 +14,8 @@
   <url type="website">https://www.eprosima.com/</url>
   <url type="bugtracker">https://github.com/eProsima/AML-IP/issues</url>
   <url type="repository">https://github.com/eProsima/AML-IP</url>
+
+  <buildtool_depend>cmake_python</buildtool_depend>
 
   <depend>amlip_cpp</depend>
   <depend>amlip_py</depend>

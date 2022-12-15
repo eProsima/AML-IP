@@ -12,15 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Required CMake minimum version
 cmake_minimum_required(VERSION 3.15)
 
-project(amlip_demo)
+# Project name
+project(amlip_demo_nodes)
 
-find_package(amlip_cpp)
+# Find dependencies
 find_package(cpp_utils)
+find_package(amlip_cpp)
 
+# C++ nodes
 add_executable(computing_node computing_node.cpp)
-
 target_link_libraries(computing_node amlip_cpp cpp_utils)
+install(
+    TARGETS
+        computing_node
+    DESTINATION
+        bin/
+)
 
-file(COPY main_node.py DESTINATION ${PROJECT_BINARY_DIR})
+# Python nodes
+install(
+    PROGRAMS
+        main_node.py
+    DESTINATION
+        bin/
+)
