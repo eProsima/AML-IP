@@ -13,16 +13,16 @@ It relies on the underlying :term:`RTPS` wire protocol.
 :term:`Nodes <Node>`.
 :term:`DDS` protocol support :term:`publications <Publish>` and
 :term:`subscriptions <Subscribe>` in different :term:`Topics <Topic>` in order to create a distributed network
-of entities where communication takes place :term:`P2P`, avoiding centralized systems and creating an
+of entities where communication takes place peer-to-peer, avoiding centralized systems and creating an
 homogeneous and stand-alone network.
-:term:`DDS` relies on :term:`QoS` to configure different characteristics for each of the channels of communication,
+:term:`DDS` relies on :term:`QoS` to configure different characteristics for each of the communication channels,
 allowing to create really dynamic and complex networks.
 
 Fast DDS
 ========
 
 |amlip| uses |efastdds|, a C++ open-source library that implements :term:`DDS` specification.
-This :term:`DDS` vendor has all the features and characteristics needed to power |amlip| communications.
+|efastdds| has all the features and characteristics needed to power |amlip| communications.
 A whole documentation for the |fastdds| project can be found here: |FastDDSDocs|.
 
 

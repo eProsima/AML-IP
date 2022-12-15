@@ -10,7 +10,7 @@ Status Node
 
 This kind of node :term:`Subscribe` to |status| :term:`Topic`.
 Thus it receives every |status| data from all the other :term:`Nodes <Node>` in the network.
-This node is executed with a *function* associated that will be executed with each message received.
+This node runs a *function* that will be executed with each message received.
 This is the main agent of :ref:`user_manual_scenarios_status`.
 
 Example of Usage
@@ -19,7 +19,7 @@ Example of Usage
 This node kind does require **few interaction** with the user once it is running.
 User must start and stop this node as desired using methods :code:`process_status_async` and :code:`stop_processing`.
 Also, user must yield a callback (function) that will be executed with every |status| message received.
-By destroying the node every internal entity is correctly destroyed (if running, it stops automatically).
+By destroying the node it stops if running, and every internal entity is correctly destroyed.
 
 Steps
 -----
@@ -41,6 +41,8 @@ Steps
             node.process_status_async(
                 []( const eprosima::amlip::types::StatusDataType& status ){ std::cout << status << std::endl; });
 
+            // Do other cool things here
+
             // Stop processing data
             node.stop_processing()
 
@@ -54,6 +56,8 @@ Steps
             # Process arrival data by printing it in stdout (defined by lambda)
             node.process_status_async(
                 callback=lambda status: print(f'{status}'))
+
+            # Do other cool things here
 
             # Stop processing data
             node.stop_processing()

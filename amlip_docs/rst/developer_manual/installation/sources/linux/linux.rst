@@ -145,7 +145,7 @@ These are the eProsima libraries required for building |amlip|:
 - ``cpp_utils``, an eProsima utilities library for C++.
 - ``ddsrouter_core``, the eProsima DDS Router library C++.
 
-If it already exists in the system an installation of these libraries there is no need to build them again,
+If they are already available in the system there is no need to build them again,
 just source them when building the |amlip|.
 If using CMake_, add the already libraries installation paths to :code:`LD_LIBRARY_PATH`.
 If using colcon_, use the following command to source them:

@@ -8,7 +8,7 @@
     .. include:: forthcoming_version.rst
 
 ##############
-Version v0.0.0
+Version v0.1.0
 ##############
 
 This is the first release of eProsima *AML-IP*.

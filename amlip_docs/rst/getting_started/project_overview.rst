@@ -10,7 +10,7 @@ Project Overview
 through local or remote networks.
 It is designed to allow non-experts users to create and manage a cluster of AML nodes
 to exploit the distributed and concurrent learning capabilities of AML.
-Thus, AML-IP is a communication framework that makes the transport protocols abstracted from the user,
+Thus, AML-IP is a communication framework that abstracts the transport protocols from the user,
 creating a platform that communicates each node without requiring the user to be concerned about communication issues.
 It also allows the creation of complex distributed networks with one or multiple users working on the same problem.
 
@@ -54,8 +54,8 @@ These nodes are separated in different scenarios, that are explained more in det
 Usage
 =====
 
-|amlip| is a complex framework that consist in different parts.
-It consist in different application tools that run independently and out-of-the-box.
+|amlip| is a complex framework composed of different parts.
+It consist in different tools that run independently and out-of-the-box.
 But it also features some libraries that allow to instantiate |amlip| entities or :term:`Nodes <Node>` which
 behavior and functionality must be specified by the user.
 These libraries are presented in 2 main programming languages:
@@ -74,12 +74,16 @@ Python
 ------
 
 This is the programming language though to be used by a final user.
-|python| has been chosen for this propose as it is easier to work with and state-of-the-art :term:`ML` projects
-are nowadays based on Python.
+|python| has been chosen for as it is easier to work with state-of-the-art :term:`ML` projects.
 
 Nodes and classes that the user needs to instantiate in order to implement their own code are parsed from
 |cpp| by using |swig| tool, giving the user a |python| API.
 The API, implementation and testing of this part of the code can be found mainly under sub-package :code:`amlip_py`.
+
+.. warning::
+
+    |amlip| does not support Python API for Windows due to some issues.
+    `<https://bugs.python.org/issue46276>`_.
 
 .. note::
 
@@ -91,8 +95,7 @@ Architecture and Infrastructure
 
 |amlip| is a software project based on different programming languages.
 It is a **public** **open-source** project focused to be used by the :term:`ML` and scientific community.
-The whole project is stored in a |git| repository hosted by |github|, and can be found in the
-following url: |githubpage|.
+The whole project is hosted on a |github| repository, and can be found in the following url: |githubpage|.
 The code project is divided in sub-packages that can be built, installed and tested independently.
 
 |amlip| is a software project that does not rely on any specific hardware or :term:`OS`,
@@ -104,7 +107,7 @@ Testing and CI
 ==============
 
 |amlip| project is exhaustively tested with unit, integration, manual and blackbox tests that can be found
-within the code.
+within the source code.
 As an open-source project, every person can and is welcome to contribute to the project by implementing, fixing,
 suggesting or issuing.
 Every new contribution to the project must be peer reviewed by a project member before being accepted and
