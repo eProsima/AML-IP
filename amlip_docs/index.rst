@@ -37,6 +37,17 @@
    /rst/getting_started/project_overview
 
 
+.. _index_demo:
+
+.. toctree::
+   :caption: Demo Examples
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   /rst/demo/workload_distribution
+
+
 .. _index_user_manual:
 
 .. toctree::

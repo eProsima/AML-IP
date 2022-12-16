@@ -98,3 +98,22 @@ To source the installation of the previously built |amlip| (in order to use its 
 
 .. _colcon: https://colcon.readthedocs.io/en/released/
 .. _CMake: https://cmake.org
+
+
+.. _developer_manual_installation_sources_linux_colcon_demos:
+
+Build demos
+===========
+
+There is a demo sub-package that can be installed along with the project.
+In order to install this package use one of these 2 commands:
+
+.. code-block:: bash
+
+    # To build all sub-packages
+    colcon build
+
+.. code-block:: bash
+
+    # To only build demo package and its dependencies
+    colcon build --packages-up-to amlip_demo_nodes
