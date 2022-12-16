@@ -25,7 +25,7 @@ creating a platform that communicates each node without requiring the user to be
 It also allows the creation of complex distributed networks with one or multiple users working on the same problem.
 
 This framework is developed as part of the `ALMA project <https://alma-ai.eu/>`_,
-which has received funding from de European Union's Horizon 2020 research and innovation programme
+which has received funding from the European Union's Horizon 2020 research and innovation programme
 under grant agreement No 952091.
 The aim of the EU-funded ALMA project is to leverage AML properties to develop a new generation of interactive,
 human-centric machine learning systems.
