@@ -7,13 +7,12 @@
 CMake options
 #############
 
-|eamlip| provides numerous CMake options for changing the behavior and configuration of
-|amlip|.
+|eamlip| provides numerous CMake options for changing the behavior and configuration of |amlip| packages built with CMake.
 These options allow the developer to enable/disable certain |amlip| settings by defining these options to
-``ON``/``OFF`` at the CMake execution, or set the required path to certain dependencies.
+``ON``/``OFF`` or a string value at the CMake execution.
 
 .. warning::
-    These options are only for advance developers who installed |eamlip| from sources.
+    These options are only for advanced developers who installed |eamlip| from sources.
 
 .. list-table::
     :header-rows: 1
@@ -91,7 +90,8 @@ These options allow the developer to enable/disable certain |amlip| settings by 
         - ``OFF``
 
     *   - :class:`BUILD_MANUAL_TESTS`
-        - Build the |amlip| manual tests.
+        - Build the |amlip| manual tests only if |br|
+          :class:`BUILD_TESTS` is set to ``ON``.
         - ``OFF`` |br|
           ``ON``
         - ``OFF``

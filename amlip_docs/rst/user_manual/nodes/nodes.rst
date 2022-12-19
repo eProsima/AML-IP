@@ -7,7 +7,7 @@ AML-IP Node
 ###########
 
 An |amlip| network is divided in independent stand-alone individuals named :term:`Nodes <Node>`.
-A Node, understood as a software piece that perform one or multiple :term:`Actions <Action>` in a auto-managing way,
+A Node, understood as a software piece that performs one or multiple :term:`Actions <Action>` in a auto-managing way,
 does not require external orchestration neither a central point of computation.
 These actions can be local actions such as calculations, data process, algorithm executions, etc.,
 or communication actions as send messages, receive data, wait for data or specific status, etc.
@@ -46,7 +46,7 @@ Node Kind
 ---------
 
 Each Node belongs to a specific *Kind*.
-The kind of the node identifies it, and makes it behaves and perform different actions.
+The kind of the node identifies it, and makes it behave and perform different actions.
 There are no restrictions in the number of nodes of the same kind running in the same network.
 The kind of the nodes follows the :term:`OOP` ideas, where every Node Kind represents a *class* and can
 inherit from other Node *classes* (e.g. every Node Kind inherits from :code:`ParentNode`);

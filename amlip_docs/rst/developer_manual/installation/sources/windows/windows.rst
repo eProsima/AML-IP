@@ -12,7 +12,7 @@ Sub-packages
 
 The |amlip| is constituted of several sub-packages.
 Depending on the use of those packages, some or all of them must be built.
-These are the packages of |amlip| and their dependency between each other:
+These are the packages of |amlip| and the dependencies between them:
 
 .. list-table::
     :header-rows: 1
@@ -31,13 +31,12 @@ These are the packages of |amlip| and their dependency between each other:
 
 .. warning::
 
-    |amlip| does not support Python API for Windows due to some issues.
-    `<https://bugs.python.org/issue46276>`_.
+    |amlip| does not support Python API for Windows due to `<some issues https://bugs.python.org/issue46276>`_.
 
 Dependencies
 ============
 
-The installation of *eProsima Fast DDS* in a Windows environment from sources requires the following tools to be
+The installation of |eamlip| in a Windows environment from sources requires the following tools to be
 installed in the system:
 
 * :ref:`windows_sources_visual_studio`
@@ -68,7 +67,7 @@ open Visual Studio and go to :code:`Tools` -> :code:`Get Tools and Features` and
 Chocolatey
 ^^^^^^^^^^
 
-Chocolatey is a Windows package manager. It is needed to install some of *eProsima Fast DDS*'s dependencies.
+Chocolatey is a Windows package manager. It is needed to install some of |eamlip|'s dependencies.
 Download and install it directly from the `website <https://chocolatey.org/>`_.
 
 
@@ -77,7 +76,7 @@ Download and install it directly from the `website <https://chocolatey.org/>`_.
 CMake, pip3, wget and git
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-These packages provide the tools required to install *eProsima Fast DDS* and its dependencies from command line.
+These packages provide the tools required to install |eamlip| and its dependencies from command line.
 Download and install CMake_, pip3_, wget_ and git_ by following the instructions detailed in the respective
 websites.
 Once installed, add the path to the executables to the :code:`PATH` from the

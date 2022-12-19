@@ -15,6 +15,8 @@ dependencies are provided in this page.
 Installation
 ============
 
+This section explains how to install |amlip| using colcon_.
+
 Download eProsima dependencies
 ------------------------------
 

@@ -8,7 +8,7 @@
 Main Node
 #########
 
-This kind of Node perform the active (client) action of :ref:`user_manual_scenarios_workload_distribution`.
+This kind of Node performs the active (client) action of :ref:`user_manual_scenarios_workload_distribution`.
 This node is able to send different *Jobs* serialized as :ref:`user_manual_scenarios_workload_distribution_job` and it
 receives a Solution once the task has been executed as :ref:`user_manual_scenarios_workload_distribution_solution`.
 
@@ -23,9 +23,8 @@ Example of Usage
 ================
 
 This node kind does require **active** interaction with the user to perform its action.
-User can use method :code:`request_job_solution` to send a new *Job*.
-The thread calling this method will wait until the whole process has finished and the *Solution* has arrived from
-the *Computing Node* in charge of this *Job*.
+Users can use method :code:`request_job_solution` to send a new *Job*.
+The thread calling this method will wait until the whole process has finished and the *Solution* has arrived from the *Computing Node* in charge of this *Job*.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps

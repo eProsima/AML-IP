@@ -2,9 +2,9 @@
 
 .. _user_manual_scenarios_workload_distribution:
 
-###############################
-Workload Distribution Scenarios
-###############################
+##############################
+Workload Distribution Scenario
+##############################
 
 This :term:`Scenario` performs the action of distributing a high computational effort *Task* in remote
 nodes, in order to parallelize the task and do not block any other important actions that may require
@@ -24,13 +24,13 @@ Job Data Type
 =============
 
 The **Job** Data Type represents a partial data-set and a model state.
-Internally, *Jobs* sent from a *Main Node* to a *Computing Node* are treated as bytes array of arbitrary size.
+Internally, *Jobs* sent from a *Main Node* to a *Computing Node* are treated as byte array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 From Python API, the only way to interact with it is by `str` type.
 
 .. note::
 
-    More specific Data Type will be implemented in future releases for efficiency improvements.
+    A more specific Data Type will be implemented in future releases for efficiency improvements.
 
 
 .. _user_manual_scenarios_workload_distribution_solution:
@@ -45,4 +45,4 @@ From Python API, the only way to interact with it is by `str` type.
 
 .. note::
 
-    More specific Data Type will be implemented in future releases for efficiency improvements.
+    A more specific Data Type will be implemented in future releases for efficiency improvements.

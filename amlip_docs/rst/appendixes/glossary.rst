@@ -49,7 +49,7 @@ Glossary
         **Object Oriented Programming**
 
     OS
-        **Operative System**
+        **Operating System**
 
     P2P
         **Peer to Peer**

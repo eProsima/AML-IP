@@ -33,8 +33,8 @@ using namespace eprosima::fastcdr::exception;
 #include <chrono>
 #include <iomanip>
 #include <random>
-#include <string>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include <cpp_utils/utils.hpp>

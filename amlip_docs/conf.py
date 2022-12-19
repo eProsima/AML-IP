@@ -177,6 +177,9 @@ extensions = [
     'sphinx_tabs.tabs'
 ]
 
+sphinx_tabs_disable_css_loading = False
+sphinx_tabs_disable_tab_closing = True
+
 try:
     import sphinxcontrib.spelling  # noqa: F401
     extensions.append('sphinxcontrib.spelling')

@@ -8,10 +8,8 @@
 Computing Node
 ##############
 
-This kind of Node perform the passive (server) action of :ref:`user_manual_scenarios_workload_distribution`.
-This node is able to wait for a *Job* serialized as :ref:`user_manual_scenarios_workload_distribution_job`,
-and once received it performs a calculation (implemented by the user) and retrieve the solution as
-:ref:`user_manual_scenarios_workload_distribution_solution`.
+This kind of Node performs the passive (server) action of :ref:`user_manual_scenarios_workload_distribution`.
+This node waits for a *Job* serialized as :ref:`user_manual_scenarios_workload_distribution_job`, and once received it performs a calculation (implemented by the user) whose output is the solution as :ref:`user_manual_scenarios_workload_distribution_solution`.
 
 .. warning::
 
@@ -32,7 +30,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Main Node creating an object of such class with a name.
+* Instantiate the Computing Node creating an object of such class with a name.
 * Create a new :code:`JobDataType` from an array of bytes.
 * Send a new *Job* synchronously and wait for the solution by calling :code:`request_job_solution`.
 
@@ -42,8 +40,8 @@ Steps
 
         .. code-block:: cpp
 
-            // Create a new Main Node
-            auto node = eprosima::amlip::MainNode("My_Main_Node");
+            // Create a new Computing Node
+            auto node = eprosima::amlip::ComputingNode("My_Computing_Node");
 
             // Create a callback to process a job and return a solution
             auto process_solution = []( const eprosima::amlip::types::JobDataType& ){

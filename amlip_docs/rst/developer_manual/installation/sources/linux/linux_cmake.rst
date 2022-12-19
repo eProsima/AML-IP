@@ -110,9 +110,11 @@ Local installation
         # amlip_py
         cd ~/AML-IP
         mkdir build/amlip_py
-        cd build/amlip_py
-        cmake ~/AML-IP/src/amlip/tools/amlip_py -DCMAKE_INSTALL_PREFIX=~/AML-IP/install -DCMAKE_PREFIX_PATH=~/AML-IP/install
-        cmake --build . --target install
+        mkdir install/amlip_py
+        python3 ~/AML-IP/src/amlip/amlip_py/setup.py egg_info build/amlip_py \
+            build --build-base build/amlip_py/build \
+            install --prefix install/amlip_py --record build/amlip_py/install.log \
+            --single-version-externally-managed
 
 .. note::
 

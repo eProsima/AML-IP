@@ -15,6 +15,8 @@ dependencies are provided in this page.
 Installation
 ============
 
+This section explains how to install |amlip| using colcon_.
+
 Download eProsima dependencies
 ------------------------------
 
@@ -47,7 +49,7 @@ Build packages
 
     Not all the sub-packages of all the dependencies are required.
     In order to build only the packages required, use the colcon_ option :code:`--packages-up-to <package-to-build>`.
-    *e.g. the |amlip| C++ library is completely built using :code:`--packages-up-to amlip_cpp`*
+    *e.g. the* |amlip| *C++ library is completely built using* :code:`--packages-up-to amlip_cpp`
     For more details about the colcon_ available arguments, please refer to `packages selection <https://colcon.readthedocs.io/en/released/reference/package-selection-arguments.html>`_
     page of the colcon_ manual.
 
@@ -64,7 +66,7 @@ Run Tests
 ---------
 
 Tests are not automatically built within the |amlip| project.
-Use CMake_ option `BUILD_TEST` when building the project in order to activate tests.
+Use CMake_ option `BUILD_TESTS` when building the project in order to activate tests.
 This could also be done by a `colcon.meta file <https://colcon.readthedocs.io/en/released/user/configuration.html#meta-files>`_
 to only activate tests in the desired packages.
 
@@ -72,7 +74,7 @@ to only activate tests in the desired packages.
 
     .. code-block:: bash
 
-        colcon build --packages-select amlip_cpp --cmake-args "-DBUILD_TEST=ON"
+        colcon build --packages-select-regex amlip --cmake-args "-DBUILD_TESTS=ON"
 
 
 #.  Run tests. Use :code:`--packages-select <package-name>` to only execute tests of a specific package:
@@ -85,8 +87,7 @@ to only activate tests in the desired packages.
 Source installation
 ===================
 
-To source the installation of the |amlip| previously built in order to link it to another built or to use
-its tools, use the following command:
+To source the installation of the previously built |amlip| (in order to use its tools or link against it), use the following command:
 
 .. code-block:: bash
 

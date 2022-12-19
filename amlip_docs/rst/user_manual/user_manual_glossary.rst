@@ -16,12 +16,12 @@ AML-IP nomenclature
         Each of the steps in which any calculation or communication process is divided.
 
     Scenario
-        Set of :term:`Actions <Action>` that perform a whole,
+        Set of :term:`Actions <Action>` that performs a whole,
         independent and self-contained behavior inside an |aml| network.
         More information in :ref:`User Manual section <user_manual_scenarios>`.
 
     Node
-        Independent and stand-alone piece of software that perform different :term:`Actions <Action>`.
+        Independent and stand-alone piece of software that performs different :term:`Actions <Action>`.
         Each Node belongs to one and only one :term:`Scenario`.
         More information in :ref:`User Manual section <user_manual_nodes>`.
 
