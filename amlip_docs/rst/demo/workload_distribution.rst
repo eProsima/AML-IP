@@ -70,6 +70,7 @@ Run demo
 The demo that is presented here follows the schema of the figure below:
 
 .. figure:: /rst/figures/workload_distribution_basic_demo.png
+    :scale: 60 %
 
 Run Main Node
 -------------
@@ -92,6 +93,7 @@ The expected output is the following:
 
     Main Node AMLMainNode.aa.a5.47.fe ready.
     Main Node AMLMainNode.aa.a5.47.fe sending task <first_job>.
+    # ... Waits for Computing Node
     Main Node received solution from AMLComputingNode.d1.c3.86.0a for job <first_job> => <FIRST_JOB>.
     Main Node AMLMainNode.aa.a5.47.fe sending task <second job>.
     Main Node received solution from AMLComputingNode.d1.c3.86.0a for job <second job> => <SECOND JOB>.
@@ -118,6 +120,7 @@ This execution expects an output similar to the one shown below:
 .. code-block:: bash
 
     Computing Node ID{AMLComputingNode.d1.c3.86.0a} computing 2 tasks.
+    # ... Waits for Main Node
      Received Job: <first_job>. Processing...
      Answering Solution: <FIRST_JOB>.
     Computing Node ID{AMLComputingNode.d1.c3.86.0a} answered task. 1 remaining.
