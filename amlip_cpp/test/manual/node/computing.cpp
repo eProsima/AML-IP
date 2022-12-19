@@ -36,7 +36,8 @@ int main(
     srand (time(NULL));
 
     // Activate log
-    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetCategoryFilter(std::regex("(AMLIPCPP)"));
 
     logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Computing Node execution. Creating Node...");
 
@@ -56,14 +57,14 @@ int main(
 
                 logUser(
                     AMLIPCPP_MANUAL_TEST,
-                    "Job data: " << data_str << " received.");
+                    "Job data: " << data_str.substr(0, 10) << " received.");
 
                 // Mangling string converting it to upper case
                 std::transform(data_str.begin(), data_str.end(), data_str.begin(), ::toupper);
 
                 logUser(
                     AMLIPCPP_MANUAL_TEST,
-                    "Job solution: " << data_str << ".");
+                    "Job solution: " << data_str.substr(0, 10) << ".");
 
                 // Create and allocate ptr that will be then released by the Generic Data Type
                 char* ptr_data = static_cast<char*>(malloc(data_str.size()));
@@ -76,7 +77,8 @@ int main(
             client_id);
 
         // Let a bit of time for the solution to be sent
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        std::this_thread::sleep_for(std::chrono::seconds(10));
 
         logUser(AMLIPCPP_MANUAL_TEST, "Answered job task from client: " << client_id << ". Destroying entities...");
     }

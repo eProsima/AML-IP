@@ -90,6 +90,22 @@ public:
             const types::JobDataType& data);
 
     /**
+     * @brief Send a Job to any Computing Node available, given as pointer to buffer, and wait for the solution.
+     *
+     * @param data [in] Job to send, given as pointer to buffer.
+     * @param size [in] Buffer size.
+     *
+     * @attention this method is synchronous and will not finish until the job has been solved.
+     *
+     * @todo asynchronous mode
+     *
+     * @return Solution of the Job
+     */
+    AMLIP_CPP_DllAPI types::JobSolutionDataType request_job_solution(
+            char* data,
+            size_t size);
+
+    /**
      * @brief Send a Job to any Computing Node available and wait for the solution, getting the Id of the solver.
      *
      * @param data [in] Job to send.

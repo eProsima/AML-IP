@@ -53,11 +53,20 @@ GenericDataType::GenericDataType(
     , data_size_(size)
     , has_been_allocated_(take_ownership)
 {
+    if (take_ownership)
+    {
+        std::cout << "(WITH OWNERSHIP) CONSTRUCTOR 1" << std::endl;
+    }
+    else
+    {
+        std::cout << "(WITHOUT OWNERSHIP) CONSTRUCTOR 1" << std::endl;
+    }
 }
 
 GenericDataType::GenericDataType()
     : GenericDataType(nullptr, 0)
 {
+    std::cout << "CONSTRUCTOR 2" << std::endl;
 }
 
 GenericDataType::GenericDataType(
@@ -68,6 +77,7 @@ GenericDataType::GenericDataType(
         true)
 {
     // Do nothing
+    std::cout << "CONSTRUCTOR 3 (!!!!!!!!!!!! COPYING BUFFER !!!!!!!!!!!!)" << std::endl;
 }
 
 GenericDataType::GenericDataType(
@@ -78,13 +88,16 @@ GenericDataType::GenericDataType(
         true)
 {
     // Do nothing
+    std::cout << "CONSTRUCTOR 4 (!!!!!!!!!!!! COPYING BUFFER !!!!!!!!!!!!)" << std::endl;
 }
 
 GenericDataType::~GenericDataType()
 {
+    std::cout << "DESTROYING GENERICDATATYPE" << std::endl;
     // In case the data has been allocated from this class, we free it.
     if (has_been_allocated_)
     {
+        std::cout << "(DESTRUCTOR) MEMORY FREE" << std::endl;
         logDebug(AMLIPCPP_TYPES_GENERIC, "Releasing data allocated.");
         free(data_);
     }
@@ -93,8 +106,10 @@ GenericDataType::~GenericDataType()
 GenericDataType::GenericDataType(
         const GenericDataType& x)
 {
+    std::cout << "COPYING GENERICDATATYPE" << std::endl;
     if (x.has_been_allocated_)
     {
+        std::cout << "(COPYING GENERICDATATYPE) ALLOCATED (!!!!!!!!!!!! COPYING BUFFER !!!!!!!!!!!!)" << std::endl;
         logWarning(
             AMLIPCPP_TYPES_GENERIC,
             "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
@@ -105,6 +120,7 @@ GenericDataType::GenericDataType(
     }
     else
     {
+        std::cout << "(COPYING GENERICDATATYPE) NOT ALLOCATED" << std::endl;
         data_ = x.data_;
         data_size_ = x.data_size_;
         has_been_allocated_.store(false);
@@ -114,6 +130,7 @@ GenericDataType::GenericDataType(
 GenericDataType::GenericDataType(
         GenericDataType&& x)
 {
+    std::cout << "MOVING GENERICDATATYPE" << std::endl;
     data_ = std::move(x.data_);
     data_size_ = std::move(x.data_size_);
     this->has_been_allocated_.store(x.has_been_allocated_.load());
@@ -123,13 +140,16 @@ GenericDataType::GenericDataType(
 GenericDataType& GenericDataType::operator =(
         const GenericDataType& x)
 {
+    std::cout << "COPY OPERATOR" << std::endl;
     if (this->has_been_allocated_)
     {
+        std::cout << "(COPY OPERATOR) MEMORY FREE" << std::endl;
         free(data_);
     }
 
     if (x.has_been_allocated_)
     {
+        std::cout << "(COPY OPERATOR) ALLOCATED (!!!!!!!!!!!! COPYING BUFFER !!!!!!!!!!!!)" << std::endl;
         logWarning(
             AMLIPCPP_TYPES_GENERIC,
             "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
@@ -140,6 +160,7 @@ GenericDataType& GenericDataType::operator =(
     }
     else
     {
+        std::cout << "(COPY OPERATOR) NOT ALLOCATED" << std::endl;
         data_ = x.data_;
         data_size_ = x.data_size_;
         has_been_allocated_.store(false);
@@ -151,13 +172,17 @@ GenericDataType& GenericDataType::operator =(
 GenericDataType& GenericDataType::operator =(
         GenericDataType&& x)
 {
+    std::cout << "MOVE OPERATOR" << std::endl;
     if (this->has_been_allocated_)
     {
+        std::cout << "(MOVE OPERATOR) MEMORY FREE" << std::endl;
         free(data_);
     }
 
     data_ = std::move(x.data_);
     data_size_ = std::move(x.data_size_);
+    has_been_allocated_.store(x.has_been_allocated_.load());
+    x.has_been_allocated_.store(false);
 
     return *this;
 }
@@ -202,10 +227,13 @@ void GenericDataType::deserialize(
     // If data has been already allocated (it has been already deserialized), we free it
     if (has_been_allocated_)
     {
+        std::cout << "(DESERIALIZE) MEMORY FREE" << std::endl;
         free(data_);
     }
 
     dcdr >> data_size_;
+
+    std::cout << "DESERIALIZING (!!!!!!!!!!!! ALLOCATING BUFFER !!!!!!!!!!!!)" << std::endl;
 
     // Store enough space to deserialize the data
     data_ = malloc(data_size_ * sizeof(uint8_t));

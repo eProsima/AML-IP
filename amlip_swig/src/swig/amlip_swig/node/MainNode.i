@@ -23,5 +23,17 @@
 #include <amlip_cpp/node/MainNode.hpp>
 %}
 
+%include "typemaps.i"
+
+%typemap(in) (char* data, size_t size) {
+    Py_ssize_t len;
+    if (PyBytes_AsStringAndSize($input, &$1, &len) == -1)
+        return NULL;
+    $2 = (size_t)len;
+}
+
+%ignore request_job_solution(const types::JobDataType &);
+%ignore request_job_solution(const types::JobDataType &, types::AmlipIdDataType &);
+
 // Include the class interfaces
 %include <amlip_cpp/node/MainNode.hpp>

@@ -127,18 +127,20 @@ Solution MultiServiceClient<Data, Solution>::send_request_sync(
     {
         task_solution_reader_.wait_data_available();
 
-        // Get task reference
-        types::MsDataType<Solution> ms_solution = task_solution_reader_.read();
+        // // Get task reference
+        // types::MsDataType<Solution> ms_solution = task_solution_reader_.read();
 
-        // NOTE: it does not check the server, it can be assumed is the one we are waiting for
-        if (ms_solution.task_id() == this_task_id &&
-                ms_solution.client_id() == own_id_)
-        {
-            logDebug(AMLIPCPP_DDS_MSCLIENT, "Solution found for task: " << reference << ".");
+        // // NOTE: it does not check the server, it can be assumed is the one we are waiting for
+        // if (ms_solution.task_id() == this_task_id &&
+        //         ms_solution.client_id() == own_id_)
+        // {
+        //     logDebug(AMLIPCPP_DDS_MSCLIENT, "Solution found for task: " << reference << ".");
 
-            // Return the data so it is not copied but moved
-            return ms_solution.data();
-        }
+        //     // Return the data so it is not copied but moved
+        //     return ms_solution.data();
+        // }
+
+        return task_solution_reader_.read().data();
     }
 }
 

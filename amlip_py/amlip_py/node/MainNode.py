@@ -42,26 +42,27 @@ class MainNode(cpp_MainNode):
         # Parent class constructor
         super().__init__(name)
 
-    def request_job_solution(
-            self,
-            data: JobDataType):
-        """
-        Send a job to a ComputingNode to be executed, and wait for the response.
+    # def request_job_solution(
+    #         self,
+    #         data: JobDataType):
+    #     """
+    #     Send a job to a ComputingNode to be executed, and wait for the response.
 
-        Parameters
-        ----------
-        data : StringJobDataType
-            Job that will be send to process by a computing node.
+    #     Parameters
+    #     ----------
+    #     data : StringJobDataType
+    #         Job that will be send to process by a computing node.
 
-        Return
-        ------
-        Tuple[JobSolutionDataType, AmlipIdDataType]
-        1. Solution to the job given
-        2. Id of the server
-        """
-        server_id = AmlipIdDataType()
-        solution = cpp_MainNode.request_job_solution(self, data, server_id)
-        return solution, server_id
+    #     Return
+    #     ------
+    #     Tuple[JobSolutionDataType, AmlipIdDataType]
+    #     1. Solution to the job given
+    #     2. Id of the server
+    #     """
+    #     server_id = AmlipIdDataType()
+    #     # solution = cpp_MainNode.request_job_solution(self, data, server_id)
+    #     solution = cpp_MainNode.request_job_solution(self, data)
+    #     return solution, server_id
 
     def get_id(
             self) -> AmlipIdDataType:

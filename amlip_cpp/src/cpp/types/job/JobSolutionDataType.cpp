@@ -24,6 +24,12 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
+JobSolutionDataType::JobSolutionDataType()
+    : GenericDataType()
+{
+    // Do nothing
+}
+
 JobSolutionDataType::JobSolutionDataType(
         const std::vector<ByteType>& bytes)
     : GenericDataType(bytes)
@@ -35,7 +41,12 @@ JobSolutionDataType::JobSolutionDataType(
         const std::string& bytes)
     : GenericDataType(bytes)
 {
+    std::cout << "Creating solution data type: " << bytes << std::endl;
     // Do nothing
+}
+
+JobSolutionDataType::~JobSolutionDataType()
+{
 }
 
 } /* namespace types */

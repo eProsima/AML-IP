@@ -45,7 +45,7 @@ public:
 
     // TODO: This methods is included already in GenericDataType,
     // but it is required for Windows, check if there is some way to avoid this.
-    AMLIP_CPP_DllAPI JobDataType() = default;
+    AMLIP_CPP_DllAPI JobDataType();
 
     // TODO: These methods are included already in GenericDataType,
     // but they are required for SWIG, check if there is some way to avoid this.
@@ -53,6 +53,8 @@ public:
             const std::vector<ByteType>& bytes);
     AMLIP_CPP_DllAPI JobDataType(
             const std::string& bytes);
+
+    AMLIP_CPP_DllAPI virtual ~JobDataType();
 };
 
 } /* namespace types */

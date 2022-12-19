@@ -27,15 +27,22 @@ def main():
 
     # Create job data
     print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String>'
-    job_data = JobDataType(data_str)
+    # data_str = '<Job Data In Py String>'
+    # data_str = '<Job Data In Py String>'.encode('utf-8')
+    data_str = b'<Job Data In Py String>'
+    # job_data = JobDataType(data_str)
 
     # Sending job
-    print(f'Job data created with string: {job_data}. Sending request...')
-    solution, server_id = main_node.request_job_solution(job_data)
+    # print(f'Job data created with string: {job_data}. Sending request...')
+    print(f'Job data created with string: {data_str}. Sending request...')
+    # solution, server_id = main_node.request_job_solution(job_data)
+    # solution = main_node.request_job_solution(job_data)
+    # solution, server_id = main_node.request_job_solution(data_str)
+    solution = main_node.request_job_solution(data_str)
+    # solution, server_id = main_node.request_job_solution(data_str, len(data_str))
 
     # Deserializing solution
-    print(f'Solution received from server {server_id}. Deserializing to string...')
+    # print(f'Solution received from server {server_id}. Deserializing to string...')
     solution_str = solution.to_string()
 
     print(f'Solution deserialized is: {solution_str}. '

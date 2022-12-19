@@ -17,12 +17,19 @@
  */
 
 #include <iostream>
+// #include <boost/python.hpp>
 
 #include <amlip_cpp/types/job/JobDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
+
+JobDataType::JobDataType()
+    : GenericDataType()
+{
+    // Do nothing
+}
 
 JobDataType::JobDataType(
         const std::vector<ByteType>& bytes)
@@ -36,6 +43,10 @@ JobDataType::JobDataType(
     : GenericDataType(bytes)
 {
     // Do nothing
+}
+
+JobDataType::~JobDataType()
+{
 }
 
 } /* namespace types */

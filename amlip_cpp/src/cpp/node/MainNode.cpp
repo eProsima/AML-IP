@@ -51,8 +51,22 @@ MainNode::~MainNode()
 types::JobSolutionDataType MainNode::request_job_solution(
         const types::JobDataType& data)
 {
+    std::cout << "BEFORE CREATING ID" << std::endl;
     types::AmlipIdDataType _;
+    std::cout << "AFTER CREATING ID" << std::endl;
+
     return request_job_solution(data, _);
+}
+
+types::JobSolutionDataType MainNode::request_job_solution(
+        char* data,
+        size_t size)
+{
+    std::cout << "BEFORE CREATING JOB" << std::endl;
+    types::JobDataType job(data, size, false);
+    std::cout << "AFTER CREATING JOB" << std::endl;
+
+    return request_job_solution(job);
 }
 
 types::JobSolutionDataType MainNode::request_job_solution(
@@ -60,7 +74,9 @@ types::JobSolutionDataType MainNode::request_job_solution(
         types::AmlipIdDataType& id)
 {
     change_status_(types::StateKind::running);
+    std::cout << "BEFORE SENDING REQUEST" << std::endl;
     types::JobSolutionDataType solution = job_client_->send_request_sync(data, id);
+    std::cout << "AFTER RECEIVING SOLUTION" << std::endl;
     change_status_(types::StateKind::stopped);
     return solution;
 }
