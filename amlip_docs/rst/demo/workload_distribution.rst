@@ -69,7 +69,7 @@ Run demo
 The demo that is presented here follows the schema of the figure below:
 
 .. figure:: /rst/figures/workload_distribution_basic_demo.png
-    :scale: 60 %
+    :width: 50%
 
 Run Main Node
 -------------
