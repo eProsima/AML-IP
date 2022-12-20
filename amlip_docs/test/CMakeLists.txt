@@ -30,7 +30,8 @@ if(DOC8)
     add_test(
         NAME documentation.doc8
         COMMAND ${DOC8}
-        --max-line-length 120 ${PROJECT_SOURCE_DOCS_DIR})
+        --ignore D001  # Ignore line too long
+        ${PROJECT_SOURCE_DOCS_DIR})
 else()
     message(FATAL_ERROR "Could not find doc8")
 endif()

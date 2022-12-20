@@ -1,0 +1,12 @@
+{
+    "names":
+    {
+        "amlip_docs":
+        {
+            "cmake-args":
+            [
+                "-DBUILD_DOCS_TESTS=ON"
+            ]
+        }
+    }
+}

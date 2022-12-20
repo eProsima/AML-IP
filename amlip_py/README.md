@@ -6,5 +6,6 @@
 
 ## Windows support
 
-> :warning: **This project is not supported for Windows.**
+> :warning: **At this stage, this project is not supported for Windows.**
+
 However, it could be used together with `amlip_swig` and used for some Windows platforms under user responsibility.

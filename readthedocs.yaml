@@ -7,7 +7,7 @@ version: 2
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
-  configuration: amlip_docs/docs/conf.py
+  configuration: amlip_docs/conf.py
 
 # Build documentation with MkDocs
 #mkdocs:

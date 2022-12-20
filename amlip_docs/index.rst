@@ -45,6 +45,9 @@
    :numbered: 5
    :hidden:
 
+   Scenarios </rst/user_manual/scenarios/scenarios>
+   Nodes </rst/user_manual/nodes/nodes>
+   /rst/user_manual/dds/dds
    /rst/user_manual/user_manual_glossary
 
 
@@ -56,8 +59,8 @@
    :numbered: 5
    :hidden:
 
-   /rst/developer_manual/installation/sources/linux
-   /rst/developer_manual/installation/sources/windows
+   /rst/developer_manual/installation/sources/linux/linux
+   /rst/developer_manual/installation/sources/windows/windows
    /rst/developer_manual/installation/configuration/cmake_options
 
 

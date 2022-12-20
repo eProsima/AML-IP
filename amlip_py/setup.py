@@ -1,11 +1,12 @@
 """Setup file to create amlip_py library."""
 from setuptools import setup
+import os
 
 package_name = 'amlip_py'
 
 description = 'AML-IP Python API'
 long_description = description
-with open('README.md', 'r') as f:
+with open(f'{os.path.dirname(os.path.realpath(__file__))}/README.md', 'r') as f:
     long_description = f.read()
 
 file_packages = [

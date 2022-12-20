@@ -15,6 +15,7 @@ runs:
           gcovr==5.0 \
           sphinx_rtd_theme==0.4.3 \
           sphinx==3.0.3 \
+          sphinx-tabs==3.2.0 \
           sphinxcontrib-imagehelper==1.1.1 \
           sphinxcontrib.spelling==5.0.0 \
           vcstool \
@@ -22,4 +23,5 @@ runs:
           flake8-quotes \
           pytest \
           pytest-timeout
+
       shell: bash
