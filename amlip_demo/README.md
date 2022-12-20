@@ -62,7 +62,7 @@ Its implementation can be seen in `computing_node.cpp` file.
 
 ```sh
 mkdir src
-wget https://raw.githubusercontent.com/eProsima/AML-IP/feature/aml-demos/amlip.repos
+wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
 vcs import src < amlip.repos
 colcon build --packages-up-to amlip_demo_nodes
 source install/setup.bash

@@ -11,7 +11,7 @@ This demonstrator shows how to implement 2 kind of nodes:
 With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the
 behavior of a simulated |amlip| network running.
 They are implemented one in Python and one in C++ to demonstrate as well how to instantiate each kind of node
-with different :term:`APIs <API>`, and to probe the communication between the 2 implementations.
+with different :term:`APIs <API>`, and to prove the communication between the 2 implementations.
 
 Simulation
 ==========
@@ -53,8 +53,7 @@ It does not use real *AML Jobs*, but strings.
 It does not have a real *AML Engine* but instead the calculation is an *upper-case* conversion of the string received.
 It is implemented in |cpp| using :code:`amlip_cpp` API.
 
-To run it, one integer argument is required. This will be the number of jobs this Node will answer
-before finish execution and be destroyed.
+To run it, one integer argument is required. This will be the number of jobs this Node will answer to before finishing its execution and being destroyed.
 
 
 Installation

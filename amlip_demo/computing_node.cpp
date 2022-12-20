@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @file main.cpp
+ * @file computing_node.cpp
  *
  */
 
@@ -38,7 +38,7 @@ types::JobSolutionDataType routine_process_task(const types::JobDataType& job)
     std::string job_str = job.to_string();
     std::cout << " Received Job: <" << job_str << ">. Processing..." << std::endl;
 
-    // Wait for a random time between 2 and 7 seconods
+    // Wait for a random time between 2 and 7 seconds
     auto time_to_wait = (rand() % 5) + 2;
     std::this_thread::sleep_for(std::chrono::seconds(time_to_wait));
 
@@ -57,9 +57,6 @@ int main(
     // initialize the random number generator
     srand(std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()).count());
-
-    // TODO remove
-    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     // Get argument to know how many tasks to answer
     int received = 1;
