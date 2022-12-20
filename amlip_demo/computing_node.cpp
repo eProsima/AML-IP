@@ -32,7 +32,8 @@
 using namespace eprosima::amlip;
 
 // Routine to process a Task and return a Solution
-types::JobSolutionDataType routine_process_task(const types::JobDataType& job)
+types::JobSolutionDataType routine_process_task(
+        const types::JobDataType& job)
 {
     // Get string from job
     std::string job_str = job.to_string();
@@ -43,7 +44,10 @@ types::JobSolutionDataType routine_process_task(const types::JobDataType& job)
     std::this_thread::sleep_for(std::chrono::seconds(time_to_wait));
 
     // Get solution by converting string to uppercase
-    std::transform(job_str.begin(), job_str.end(), job_str.begin(), [](unsigned char c) { return std::toupper(c); });
+    std::transform(job_str.begin(), job_str.end(), job_str.begin(), [](unsigned char c)
+            {
+                return std::toupper(c);
+            });
     std::cout << " Answering Solution: <" << job_str << ">." << std::endl;
     types::JobSolutionDataType solution(job_str);
 
@@ -56,7 +60,7 @@ int main(
 {
     // initialize the random number generator
     srand(std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+                std::chrono::high_resolution_clock::now().time_since_epoch()).count());
 
     // Get argument to know how many tasks to answer
     int received = 1;

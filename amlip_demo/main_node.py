@@ -21,7 +21,7 @@ from amlip_py.types.JobDataType import JobDataType
 def main():
     # Create Node
     node = MainNode('AMLMainNode')
-    print (f'Main Node {node.id()} ready.')
+    print(f'Main Node {node.id()} ready.')
 
     has_input_args = (len(sys.argv) > 1)
     input_args = sys.argv[1:]
@@ -29,7 +29,7 @@ def main():
     # Iterate while user does not introduce empty string
     while True:
 
-        job_str = ""
+        job_str = ''
 
         if has_input_args:
             # Get string from argument input
@@ -45,13 +45,13 @@ def main():
                 break
 
         # Send task and awaits for the solution
-        print (f'Main Node {node.id()} sending task <{job_str}>.')
+        print(f'Main Node {node.id()} sending task <{job_str}>.')
         solution, server_id = node.request_job_solution(JobDataType(job_str))
-        print (f'Main Node received solution from {server_id}'
-            f' for job <{job_str}> => <{solution.to_string()}>.')
+        print(f'Main Node received solution from {server_id}'
+              f' for job <{job_str}> => <{solution.to_string()}>.')
 
     # Closing
-    print (f'Main Node {node.id()} closing.')
+    print(f'Main Node {node.id()} closing.')
 
 
 # Call main in program execution
