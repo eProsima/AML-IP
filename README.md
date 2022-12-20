@@ -2,7 +2,8 @@
 
 **Algebraic Machine Learning - Integrating Platform** project.
 
-<a href="http://www.eprosima.com"><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSd0PDlVz1U_7MgdTe0FRIWD0Jc9_YH-gGi0ZpLkr-qgCI6ZEoJZ5GBqQ" align="left" hspace="8" vspace="2" width="100" height="100" ></a>
+<a href="http://www.eprosima.com"><img src=".figures/logo.png" height="120" align="left" hspace="8" vspace="2" />
+<a href="https://alma-ai.eu/"><img src=".figures/alma_logo.png" height="120" style="background-color:white;" align="left" hspace="18" vspace="2" />
 
 [![License](https://img.shields.io/github/license/eProsima/AML-IP.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Releases](https://img.shields.io/github/v/release/eProsima/AML-IP?sort=semver)](https://github.com/eProsima/AML-IP/releases)
@@ -19,7 +20,6 @@ It is designed to allow non-experts users to create and manage a cluster of AML 
 to exploit the distributed and concurrent learning capabilities of AML.
 Thus, AML-IP is a communication framework that makes the transport protocols abstracted from the user,
 creating a platform that communicates each node without requiring the user to be concerned about communication issues.
-It also allows the creation of complex distributed networks with one or multiple users working on the same problem.
 
 ---
 
@@ -36,7 +36,7 @@ You can access the documentation online, which is hosted on [Read the Docs](http
 
 ## Installation Guide
 
-The instructions for installing *AML-IP* application from sources and its required dependencies are provided in the [documentation installation guide](https://aml-ip.readthedocs.io/en/latest/rst/installation/linux.html) for `Linux` ow `Windows`.
+The instructions for installing *AML-IP* application from sources and its required dependencies are provided in the [documentation installation guide](https://aml-ip.readthedocs.io/en/latest/rst/installation/linux.html) for `Linux` or `Windows`.
 
 ---
 
@@ -73,7 +73,7 @@ This repository is divided in sub-packages with different targets:
 * `amlip_swig` Binding from `amlip_cpp` to a Python API.
 * `amlip_py` Python API.
 * `amlip_docs` Documentation with sphinx.
-* `amlip_demo` Demonstrators and examples of *AML-IP*.
+* `amlip_demo_nodes` Demonstrators and examples of *AML-IP*.
 
 ### Dependencies
 
