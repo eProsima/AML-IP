@@ -109,12 +109,8 @@ Local installation
 
         # amlip_py
         cd ~/AML-IP
-        mkdir build/amlip_py
         mkdir install/amlip_py
-        python3 ~/AML-IP/src/amlip/amlip_py/setup.py egg_info build/amlip_py \
-            build --build-base build/amlip_py/build \
-            install --prefix install/amlip_py --record build/amlip_py/install.log \
-            --single-version-externally-managed
+        pip3 install --editable ~/AML-IP/src/amlip/amlip_py/ --target install/amlip_py
 
 .. note::
 

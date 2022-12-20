@@ -37,6 +37,8 @@ These are the packages of |amlip| and the dependencies between them:
         - Sphinx documentation project.
         -
 
+.. _developer_manual_installation_sources_linux_dependencies:
+
 Dependencies
 ============
 

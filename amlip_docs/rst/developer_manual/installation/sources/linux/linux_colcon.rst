@@ -15,7 +15,7 @@ dependencies are provided in this page.
 Installation
 ============
 
-This section explains how to install |amlip| using colcon_.
+Follow the instructions below to build |eamlip|, after making sure all required dependencies are installed in your system (:ref:`developer_manual_installation_sources_linux_dependencies`).
 
 Download eProsima dependencies
 ------------------------------

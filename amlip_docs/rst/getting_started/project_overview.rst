@@ -80,8 +80,7 @@ The API, implementation and testing of this part of the code can be found mainly
 
 .. warning::
 
-    |amlip| does not support Python API for Windows due to some issues.
-    `<https://bugs.python.org/issue46276>`_.
+    |amlip| does not support Python API for Windows due to `<some issues https://bugs.python.org/issue46276>`_.
 
 .. note::
 

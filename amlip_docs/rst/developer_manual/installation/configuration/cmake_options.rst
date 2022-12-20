@@ -116,3 +116,7 @@ These options allow the developer to enable/disable certain |amlip| settings by 
         - ``OFF`` |br|
           ``ON``
         - ``OFF``
+
+.. todo:
+
+    In future versions we should clarify which CMake options we use and define them here more accurately.

@@ -24,7 +24,7 @@ Job Data Type
 =============
 
 The **Job** Data Type represents a partial data-set and a model state.
-Internally, *Jobs* sent from a *Main Node* to a *Computing Node* are treated as byte array of arbitrary size.
+Internally, *Jobs* sent from a *Main Node* to a *Computing Node* are treated as byte arrays of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 From Python API, the only way to interact with it is by `str` type.
 

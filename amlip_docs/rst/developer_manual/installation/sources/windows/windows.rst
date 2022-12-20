@@ -194,12 +194,15 @@ Installation methods
 
 There are two main possibilities to build |amlip| from sources in Windows.
 One of them uses CMake_ and the other colcon_, an auto-build framework.
-**colcon_ version is advice for non advance users as it is easier and neater.**
+
+.. note::
+
+    **Colcon version is advised for non advanced users as it is easier and neater.**
 
 .. toctree::
     :maxdepth: 1
 
-    colcon <windows_colcon>
+    Colcon <windows_colcon>
     CMake <windows_cmake>
 
 .. External links
