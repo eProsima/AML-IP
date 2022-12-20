@@ -24,6 +24,10 @@ This release includes the following :term:`Nodes <Node>`:
 * :ref:`Main <user_manual_nodes_main>`
 * :ref:`Computing <user_manual_nodes_computing>`
 
+This release includes the following **demos**:
+
+* :ref:`demo_workload_distribution`
+
 This release includes the following **features**:
 
 * This same Documentation

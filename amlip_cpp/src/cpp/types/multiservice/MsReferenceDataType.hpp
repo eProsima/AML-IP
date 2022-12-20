@@ -208,6 +208,9 @@ public:
      */
     static std::string type_name();
 
+    //! Return the Request related with this reference
+    MsRequestDataType request() const;
+
 protected:
 
     AmlipIdDataType server_id_;

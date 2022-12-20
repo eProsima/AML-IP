@@ -82,6 +82,8 @@ protected:
     types::AmlipIdDataType own_id_;
 
     std::string topic_;
+
+    std::set<types::MsRequestDataType> already_processed_requests_;
 };
 
 //! \c MultiServiceServer to stream serializator

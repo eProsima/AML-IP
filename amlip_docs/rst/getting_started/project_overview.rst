@@ -62,8 +62,10 @@ C++
 ---
 
 This is the main programming language in |amlip|.
-|cpp| has been chosen because it is a very versatile and complete language that allows to easily implement complex concepts maintaining high performance.
-Also |fastdds| is mainly built in |cpp| and using the same programming language allows to easily interact without losing performance with the middleware layer.
+|cpp| has been chosen because it is a very versatile and complete language that allows to easily implement complex
+concepts maintaining high performance.
+Also |fastdds| is mainly built in |cpp| and using the same programming language allows to easily interact without
+losing performance with the middleware layer.
 
 There is a public :term:`API` found in :code:`AML-IP/amlip_cpp/include` with all the installed headers that can be used from the user side.
 The API, implementation and testing of this part of the code can be found mainly under sub-package :code:`amlip_cpp`.
