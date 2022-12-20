@@ -31,7 +31,7 @@ These are the packages of |amlip| and the dependencies between them:
 
 .. warning::
 
-    |amlip| does not support Python API for Windows due to `<some issues https://bugs.python.org/issue46276>`_.
+    |amlip| does not support Python API for Windows due to `some issues <https://bugs.python.org/issue46276>`_.
 
 Dependencies
 ============

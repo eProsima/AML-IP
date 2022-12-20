@@ -35,7 +35,6 @@ facilitate trust and reliability and integrate complex ethical constraints into 
 Furthermore, they are expected to promote distributed, collaborative learning.
 
 .. figure:: /rst/figures/aml_overview.png
-    :scale: 50 %
 
 ########
 Overview
