@@ -44,6 +44,7 @@ installed in the system:
 * :ref:`windows_sources_cmake_pip3_wget_git`
 * :ref:`windows_sources_asiotinyxml2`
 * :ref:`windows_sources_openssl`
+* :ref:`windows_sources_yamlcpp`
 * :ref:`windows_sources_colcon_install` [optional]
 * :ref:`windows_sources_gtest` [for test only]
 * :ref:`windows_sources_eprosima_dependencies`
@@ -120,6 +121,21 @@ For example:
 .. code-block:: bash
 
    OPENSSL_ROOT_DIR=C:\Program Files\OpenSSL-Win64
+
+
+.. _windows_sources_yamlcpp:
+
+yaml-cpp
+^^^^^^^^
+
+yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec, and is used by *DDS Router* application to parse the provided configuration files.
+From an administrative shell with *PowerShell*, execute the following commands in order to download and install yaml-cpp_ for Windows:
+
+.. code-block:: bash
+
+   git clone --branch yaml-cpp-0.7.0 https://github.com/jbeder/yaml-cpp
+   cmake -DCMAKE_INSTALL_PREFIX='C:\Program Files\yamlcpp' -B build\yamlcpp yaml-cpp
+   cmake --build build\yamlcpp --target install    # If building in Debug mode, add --config Debug
 
 
 .. _windows_sources_colcon_install:
@@ -215,3 +231,4 @@ One of them uses CMake_ and the other colcon_, an auto-build framework.
 .. _OpenSSL: https://www.openssl.org/
 .. _Gtest: https://github.com/google/googletest
 .. _vcstool: https://pypi.org/project/vcstool/
+.. _yaml-cpp: https://github.com/jbeder/yaml-cpp
