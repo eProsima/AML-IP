@@ -43,6 +43,10 @@ eprosima::fastrtps::types::ReturnCode_t DdsHandler::register_type_() noexcept
         // Create type support if not existing and register DdsHandler
         eprosima::fastdds::dds::TypeSupport type_support(new types::AmlipGenericTopicDataType<T>());
 
+        // Deactivate dynamic types
+        type_support->auto_fill_type_information(false);
+        type_support->auto_fill_type_object(false);
+
         // TODO: make mangling more independent from code
         eprosima::fastrtps::types::ReturnCode_t ret = participant_->register_type(
             type_support,

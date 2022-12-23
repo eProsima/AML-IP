@@ -40,6 +40,10 @@ fastdds::dds::DomainParticipantQos default_domain_participant_qos(
     auto udp_transport = std::make_shared<fastdds::rtps::UDPv4TransportDescriptor>();
     qos.transport().user_transports.push_back(udp_transport);
 
+    // Deactivate type lookup service
+    qos.wire_protocol().builtin.typelookup_config.use_client = false;
+    qos.wire_protocol().builtin.typelookup_config.use_server = false;
+
     return qos;
 }
 
