@@ -47,6 +47,8 @@ These are the dependencies required in the system before building |amlip| from s
 * :ref:`cmake_gcc_pip_wget_git_sl_installation`
 * :ref:`asiotinyxml2_installation`
 * :ref:`openssl_installation`
+* :ref:`yamlcpp_installation`
+* :ref:`swig_installation`
 * :ref:`colcon_installation` [optional]
 * :ref:`gtest_installation` [for test only]
 * :ref:`eprosima_dependencies`
@@ -94,6 +96,35 @@ For example, on Ubuntu use the command:
 .. code-block:: bash
 
    sudo apt install libssl-dev
+
+
+.. _yamlcpp_installation:
+
+yaml-cpp
+^^^^^^^^
+
+yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec, and is used by *DDS Router* application to parse the provided configuration files.
+Install yaml-cpp_ using the package manager of the appropriate Linux distribution.
+For example, on Ubuntu use the command:
+
+.. code-block:: bash
+
+   sudo apt install libyaml-cpp-dev
+
+
+.. _swig_installation:
+
+SWIG
+^^^^
+
+SWIG is a software development tool that connects programs written in C and C++ with a variety of high-level programming languages.
+In this project, it is used to wrap |amlip_cpp| C++ API to generate a Python library.
+Install SWIG_ using the package manager of the appropriate Linux distribution.
+For example, on Ubuntu use the command:
+
+.. code-block:: bash
+
+   sudo apt install swig
 
 
 .. _colcon_installation:
@@ -183,3 +214,5 @@ One of them uses CMake_ and the other colcon_, an auto-build framework.
 .. _OpenSSL: https://www.openssl.org/
 .. _Gtest: https://github.com/google/googletest
 .. _vcstool: https://pypi.org/project/vcstool/
+.. _SWIG: https://www.swig.org/
+.. _yaml-cpp: https://github.com/jbeder/yaml-cpp
