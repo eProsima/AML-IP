@@ -39,6 +39,7 @@ int main(
 
         // Create Writer to send id (it must be transient local and reliable)
         eprosima::fastdds::dds::DataWriterQos qos;
+        qos = Writer<eprosima::amlip::types::AmlipIdDataType>::default_datawriter_qos();
         qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
         qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
         qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;

@@ -41,6 +41,7 @@ int main(
 
         // Create Reader to get id of the target
         eprosima::fastdds::dds::DataReaderQos qos;
+        qos = eprosima::amlip::dds::Reader<eprosima::amlip::types::AmlipIdDataType>::default_datareader_qos();
         qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
         qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
         qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;

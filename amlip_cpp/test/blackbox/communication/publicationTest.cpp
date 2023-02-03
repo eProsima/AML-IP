@@ -29,6 +29,8 @@ eprosima::fastdds::dds::DataWriterQos writer_qos()
 {
     eprosima::fastdds::dds::DataWriterQos qos;
 
+    qos = Writer<types::AmlipIdDataType>::default_datawriter_qos();
+
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_ALL_HISTORY_QOS;
@@ -39,6 +41,8 @@ eprosima::fastdds::dds::DataWriterQos writer_qos()
 eprosima::fastdds::dds::DataReaderQos reader_qos()
 {
     eprosima::fastdds::dds::DataReaderQos qos;
+
+    qos = Reader<types::AmlipIdDataType>::default_datareader_qos();
 
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
