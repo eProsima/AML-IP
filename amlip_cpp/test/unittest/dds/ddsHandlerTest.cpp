@@ -71,6 +71,9 @@ TEST(DdsHandlerTest, create_datawriter)
     std::string topic_name_ = "__TopicTest";
     // Set DataWriter QoS
     eprosima::fastdds::dds::DataWriterQos qos;
+
+    qos = Writer<types::AmlipIdDataType>::default_datawriter_qos();
+
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.ownership().kind = eprosima::fastdds::dds::OwnershipQosPolicyKind::EXCLUSIVE_OWNERSHIP_QOS;
@@ -102,6 +105,9 @@ TEST(DdsHandlerTest, create_datareader)
     std::string topic_name_ = "__TopicTest";
     // Set DataReader QoS
     eprosima::fastdds::dds::DataReaderQos qos;
+
+    qos = Reader<types::AmlipIdDataType>::default_datareader_qos();
+
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.ownership().kind = eprosima::fastdds::dds::OwnershipQosPolicyKind::EXCLUSIVE_OWNERSHIP_QOS;
