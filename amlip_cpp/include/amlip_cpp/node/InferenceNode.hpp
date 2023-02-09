@@ -66,13 +66,13 @@ public:
 };
 
 /**
- * @brief This is a specialization of AML-IP Node that waits for Inference data and retrieves a Solution.
+ * @brief This is a specialization of AML-IP Node that waits for data and retrieves an Inference.
  *
- * Inference Nodes are the ones in charge of receiving training data from a Main Node
- * Using \c process_inference will wait for a Main Node to send it the data for a Inference, and will process this Inference by
- * the Listener or callback given, and return the Solution calculated.
+ * Inference Nodes are the ones in charge of receiving data from a Edge Node
+ * Using \c process_inference will wait for a Edge Node to send it the data for an Inference, and will process this data by
+ * the Listener or callback given, and return the Inference calculated.
  *
- * @todo implement an asynchronous request_inference_solution method.
+ * @todo implement an asynchronous request_inference method.
  *
  * @warning Not Thread Safe (yet) (TODO)
  */
@@ -93,18 +93,18 @@ public:
             const std::string& name);
 
     /**
-     * @brief Destroy the Main Node object and its internal DDS entities.
+     * @brief Destroy the Inference Node object and its internal DDS entities.
      *
-     * @pre Cannot be destroyed while processing a inference. Otherwise undefined behaviour.
+     * @pre Cannot be destroyed while processing an inference. Otherwise undefined behaviour.
      */
     AMLIP_CPP_DllAPI ~InferenceNode();
 
     /**
-     * @brief Wait for a Inference to be received and give a solution by \c callback .
+     * @brief Wait for data to be received and give a inference by \c callback .
      *
-     * This sets the status of this Node as available to receive Inferences, and waits for a Main Node to ask for a Inference.
-     * Once the MultiService handshake has been done with a Main Node, it will send a Inference data to this Node and it will
-     * be resolved by \c callback , that must give the \c InferenceSolutionDataType for the inference.
+     * This sets the status of this Node as available to receive data, and waits for a Edge Node to ask for an inference.
+     * Once the MultiService handshake has been done with a Edge Node, it will send a data to this Node and it will
+     * be inferred by \c callback , that must give the \c InferenceSolutionDataType for the data.
      *
      * @attention this method is synchronous and will not finish until the inference has been solved.
      *
@@ -123,11 +123,11 @@ public:
             const std::function<types::InferenceSolutionDataType(const types::InferenceDataType&)>& callback);
 
     /**
-     * @brief Wait for a Inference to be received and give a solution by \c listener \c process_inference method .
+     * @brief Wait for data to be received and give a inference by \c listener \c process_inference method .
      *
-     * This sets the status of this Node as available to receive Inferences, and waits for a Main Node to ask for a Inference.
-     * Once the MultiService handshake has been done with a Main Node, it will send a Inference data to this Node and it will
-     * be resolved by calling \c process_inference of \c listener , that must give the \c InferenceSolutionDataType for the inference.
+     * This sets the status of this Node as available to receive Inferences, and waits for a Edge Node to ask for an inference.
+     * Once the MultiService handshake has been done with a Edge Node, it will send data to this Node and it will
+     * be resolved by calling \c process_inference of \c listener , that must give the \c InferenceSolutionDataType for the data.
      *
      * @attention this method is synchronous and will not finish until the inference has been solved.
      *
