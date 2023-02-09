@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,10 +42,11 @@ enum class NodeKind
     main,
     computing,
     status,
-    meta
+    meta,
+    edge
 };
 
-const std::array<std::string, 7> NAMES_NodeKind =
+const std::array<std::string, 8> NAMES_NodeKind =
 {
     "undetermined",  //! Not defined node kind
     "discovery",  //! Discovery Node [WAN]
@@ -53,7 +54,8 @@ const std::array<std::string, 7> NAMES_NodeKind =
     "main",  //! Main Node [WorkloadDistribution]
     "computing",  //! Computing Node [WorkloadDistribution]
     "status",  //! Status Node
-    "meta"  //! MetaNode [ToDo]
+    "meta",  //! MetaNode [ToDo]
+    "edge"  //! EdgeNode
 };
 
 inline const std::string& to_string(
@@ -72,7 +74,7 @@ inline std::vector<std::string> string_vector_NodeKind()
 inline NodeKind from_string_NodeKind(
         const std::string& s)
 {
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
     {
         if (NAMES_NodeKind[i] == s)
         {
@@ -90,7 +92,7 @@ inline std::ostream& operator <<(
     return os;
 }
 
-constexpr const unsigned int N_VALUES_NodeKind = 7;
+constexpr const unsigned int N_VALUES_NodeKind = 8;
 
 } /* namespace types */
 } /* namespace amlip */
