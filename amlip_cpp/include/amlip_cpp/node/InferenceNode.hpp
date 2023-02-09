@@ -151,7 +151,8 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::MultiServiceServer<types::InferenceDataType, types::InferenceSolutionDataType>> inference_server_;
+    std::shared_ptr<dds::MultiServiceServer<types::InferenceDataType,
+            types::InferenceSolutionDataType>> inference_server_;
 };
 
 } /* namespace node */

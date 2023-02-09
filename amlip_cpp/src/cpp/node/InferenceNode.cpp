@@ -32,7 +32,8 @@ namespace node {
 InferenceNode::InferenceNode(
         const char* name)
     : ParentNode(name, types::NodeKind::inference)
-    , inference_server_(participant_->create_multiservice_server<types::InferenceDataType, types::InferenceSolutionDataType>(
+    , inference_server_(participant_->create_multiservice_server<types::InferenceDataType,
+            types::InferenceSolutionDataType>(
                 dds::utils::INFERENCE_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_INFERENCE, "Created new Inference Node: " << *this << ".");
