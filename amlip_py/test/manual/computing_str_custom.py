@@ -45,9 +45,6 @@ def main():
     print('Listener created. Processing job...')
     client_id = computing_node.process_job(listener=job_listener)
 
-    # Wait a bit so message arrive to its destiny
-    time.sleep(0.25)
-
     print(f'Solution sent to client {client_id}. '
           'Finishing Manual Test Computing Node Py execution.')
 

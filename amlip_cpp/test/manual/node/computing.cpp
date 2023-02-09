@@ -75,9 +75,6 @@ int main(
             },
             client_id);
 
-        // Let a bit of time for the solution to be sent
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
-
         logUser(AMLIPCPP_MANUAL_TEST, "Answered job task from client: " << client_id << ". Destroying entities...");
     }
 

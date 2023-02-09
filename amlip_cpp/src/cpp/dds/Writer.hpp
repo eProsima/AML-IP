@@ -158,6 +158,9 @@ protected:
             const Writer<U>& obj);
 };
 
+constexpr const unsigned int Wait_for_acknowledgments_time_s = 1;
+constexpr const unsigned int Wait_before_destroying_time_ms = 200;
+
 //! \c Writer to stream serializator
 template <typename T>
 std::ostream& operator <<(

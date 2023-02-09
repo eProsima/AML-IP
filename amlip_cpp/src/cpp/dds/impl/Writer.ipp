@@ -19,11 +19,14 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 #define AMLIPCPP__SRC_CPP_DDS_IMPL_WRITER_IPP
 
+#include <cpp_utils/time/time_utils.hpp>
+
 #include <dds/network_utils/dds_qos.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace dds {
+
 
 template <typename T>
 Writer<T>::Writer(
@@ -63,6 +66,19 @@ Writer<T>::~Writer()
     {
         datawriter_locked->set_listener(nullptr);
     }
+
+    // Wait for all data to be sent. Wait for 1 second 0 ns.
+    auto ret_code =
+        datawriter_locked->wait_for_acknowledgments(fastrtps::Duration_t(Wait_for_acknowledgments_time_s, 0));
+    if (ret_code == fastrtps::types::ReturnCode_t::ReturnCodeValue::RETCODE_ERROR)
+    {
+        logWarning(
+            AMLIPCPP_DDS_WRITER, "Writer " << *this << " is being destroyed before all messages have been sent.");
+    }
+
+    // TODO change this once it is fixed in fast
+    // Sleep for 200ms to let Readers to read the messages from this Writer before dying
+    eprosima::utils::sleep_for(Wait_before_destroying_time_ms);
 }
 
 template <typename T>

@@ -32,9 +32,6 @@ def main():
     client_id = computing_node.process_job(
         callback=lambda job: JobSolutionDataType(job.to_string().lower()))
 
-    # Wait a bit so message arrive to its destiny
-    time.sleep(0.25)
-
     print(f'Solution sent to client {client_id}. '
           'Finishing Manual Test Computing Node Py execution.')
 
