@@ -31,7 +31,8 @@ namespace node {
 EdgeNode::EdgeNode(
         const char* name)
     : ParentNode(name, types::NodeKind::edge)
-    , inference_client_(participant_->create_multiservice_client<types::InferenceDataType, types::InferenceSolutionDataType>(
+    , inference_client_(participant_->create_multiservice_client<types::InferenceDataType,
+            types::InferenceSolutionDataType>(
                 dds::utils::INFERENCE_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_EDGE, "Created new Edge Node: " << *this << ".");
