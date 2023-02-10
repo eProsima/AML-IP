@@ -27,7 +27,7 @@ class InferenceListener(cpp_InferenceListener):
     Inference Listener class.
 
     This object must execute process_inference method with each Inference message that is received
-    from node and must return the solution to the inference.
+    from node and must return the inferred data.
     """
 
     def process_inference(
