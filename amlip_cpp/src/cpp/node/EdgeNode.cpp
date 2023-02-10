@@ -49,14 +49,14 @@ EdgeNode::~EdgeNode()
     logDebug(AMLIPCPP_NODE_EDGE, "Destroying Edge Node: " << *this << ".");
 }
 
-types::InferenceSolutionDataType EdgeNode::request_inferred(
+types::InferenceSolutionDataType EdgeNode::request_inference(
         const types::InferenceDataType& data)
 {
     types::AmlipIdDataType _;
-    return request_inferred(data, _);
+    return request_inference(data, _);
 }
 
-types::InferenceSolutionDataType EdgeNode::request_inferred(
+types::InferenceSolutionDataType EdgeNode::request_inference(
         const types::InferenceDataType& data,
         types::AmlipIdDataType& id)
 {

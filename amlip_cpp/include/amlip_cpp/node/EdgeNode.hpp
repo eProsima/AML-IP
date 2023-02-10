@@ -86,7 +86,7 @@ public:
      *
      * @return Inference data
      */
-    AMLIP_CPP_DllAPI types::InferenceSolutionDataType request_inferred(
+    AMLIP_CPP_DllAPI types::InferenceSolutionDataType request_inference(
             const types::InferenceDataType& data);
 
     /**
@@ -101,7 +101,7 @@ public:
      *
      * @return Inference data
      */
-    AMLIP_CPP_DllAPI types::InferenceSolutionDataType request_inferred(
+    AMLIP_CPP_DllAPI types::InferenceSolutionDataType request_inference(
             const types::InferenceDataType& data,
             types::AmlipIdDataType& server);
 
