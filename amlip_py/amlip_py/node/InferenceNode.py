@@ -39,7 +39,8 @@ class InferenceListener(cpp_InferenceListener):
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('InferenceListener.Inference_received must be specialized before use.')
+        raise NotImplementedError(
+            'InferenceListener.Inference_received must be specialized before use.')
 
 
 class InferenceLambda(InferenceListener):
