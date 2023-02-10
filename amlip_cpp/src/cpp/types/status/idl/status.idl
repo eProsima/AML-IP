@@ -11,6 +11,7 @@ enum NodeKind
     MAIN,
     COMPUTING,
     EDGE,
+    INFERENCE,
     STATUS
 };
 

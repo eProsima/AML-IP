@@ -43,10 +43,11 @@ enum class NodeKind
     computing,
     status,
     meta,
-    edge
+    edge,
+    inference
 };
 
-const std::array<std::string, 8> NAMES_NodeKind =
+const std::array<std::string, 9> NAMES_NodeKind =
 {
     "undetermined",  //! Not defined node kind
     "discovery",  //! Discovery Node [WAN]
@@ -55,7 +56,8 @@ const std::array<std::string, 8> NAMES_NodeKind =
     "computing",  //! Computing Node [WorkloadDistribution]
     "status",  //! Status Node
     "meta",  //! MetaNode [ToDo]
-    "edge"  //! EdgeNode
+    "edge",  //! EdgeNode
+    "inference" //! InferenceNode
 };
 
 inline const std::string& to_string(
@@ -74,7 +76,7 @@ inline std::vector<std::string> string_vector_NodeKind()
 inline NodeKind from_string_NodeKind(
         const std::string& s)
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 9; i++)
     {
         if (NAMES_NodeKind[i] == s)
         {
@@ -92,7 +94,7 @@ inline std::ostream& operator <<(
     return os;
 }
 
-constexpr const unsigned int N_VALUES_NodeKind = 8;
+constexpr const unsigned int N_VALUES_NodeKind = 9;
 
 } /* namespace types */
 } /* namespace amlip */
