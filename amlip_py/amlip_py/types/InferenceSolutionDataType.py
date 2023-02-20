@@ -39,6 +39,18 @@ class InferenceSolutionDataType(cpp_InferenceSolutionDataType):
         """
         super().__init__(message)
 
+    def __init__(
+            self,
+            message: bytes):
+        """TODO"""        """
+        Construct a new Inference with name.
+        Parameters
+        ----------
+        message: bytes
+            Data to send to Inference Node serialized in bytes.
+        """
+        super().__init__(message)
+
     def __str__(
             self) -> str:
         """Serialize Inference into a string."""
