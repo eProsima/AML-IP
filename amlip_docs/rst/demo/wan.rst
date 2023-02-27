@@ -19,12 +19,12 @@ Simulation
 TensorFlow
 ----------
 
-TODO
+TensorFLow is an end-to-end machine learning platform with pre-trained models.
 
 Darknet
 -------
 
-TODO
+Darknet is an open source neural network framework written in C and CUDA with pre-trained models.
 
 Edge Node
 ---------

@@ -31,7 +31,8 @@ Steps
 -----
 
 * Instantiate the Inference Node creating an object of such class with a name.
-* TODO
+* Wait for the data by calling :code:`process_inference`.
+* Return the inference as an :code:`InferenceSolutionDataType`.
 
 .. tabs::
 
