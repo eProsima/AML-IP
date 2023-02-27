@@ -32,7 +32,7 @@ Steps
 
 * Instantiate the Edge Node creating an object of such class with a name.
 * Create a new :code:`InferenceDataType` from an array of bytes.
-* Send a data synchronously and wait for the solution by calling :code:`request_inference`.
+* Send a data synchronously and wait for the inference by calling :code:`request_inference`.
 
 .. tabs::
 
