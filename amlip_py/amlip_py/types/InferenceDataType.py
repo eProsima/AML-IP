@@ -20,7 +20,6 @@ from amlip_swig import InferenceDataType as cpp_InferenceDataType
 class InferenceDataType(cpp_InferenceDataType):
     """
     Object that represents an Inference sent from a Edge Node to a Inference one.
-
     """
 
     def __init__(
@@ -29,7 +28,6 @@ class InferenceDataType(cpp_InferenceDataType):
             message_bytes: bytes = None):
         """
         Construct a new Inference with name.
-
         Parameters
         ----------
         message: str
@@ -54,7 +52,13 @@ class InferenceDataType(cpp_InferenceDataType):
         message: bytes
             Data to send to Inference Node serialized in bytes.
         """
-        super().__init__(message)
+        if (message_str):
+            super().__init__(message_str)
+        elif (message_bytes):
+            super().__init__(message_bytes)
+        else:
+            super().__init__()
+
 
     def __str__(
             self) -> str:
