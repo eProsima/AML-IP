@@ -21,35 +21,28 @@ class InferenceSolutionDataType(cpp_InferenceSolutionDataType):
     """
     Object that represents an Inference sent from a Edge Node to a Inference one.
 
-    TODO
-    ----
-    This class does only support string conversion.
     """
 
     def __init__(
             self,
-            message: str):
-        """TODO"""        """
+            message_str: str = None,
+            message_bytes: bytes = None):
+        """
         Construct a new Inference with name.
 
         Parameters
         ----------
         message: str
             Data to send to Inference Node serialized in a string of basic chars.
-        """
-        super().__init__(message)
-
-    def __init__(
-            self,
-            message: bytes):
-        """TODO"""        """
-        Construct a new Inference with name.
-        Parameters
-        ----------
         message: bytes
             Data to send to Inference Node serialized in bytes.
         """
-        super().__init__(message)
+        if (message_str):
+            super().__init__(message_str)
+        elif (message_bytes):
+            super().__init__(message_bytes)
+        else:
+            super().__init__()
 
     def __str__(
             self) -> str:
