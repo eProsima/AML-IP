@@ -55,7 +55,8 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
     , own_id_(own_id)
     , topic_(topic)
     , last_task_id_used_(0)
-    , data_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<std::shared_ptr<Data>, types::TaskId>>>(0, false))
+    // , data_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<std::shared_ptr<Data>, types::TaskId>>>(0, false))
+    , data_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<Data, types::TaskId>>>(0, false))
     , running_(false)
     , waiter_for_request_(0, 0)
     , reply_reading_thread_(&AsyncMultiServiceClient::read_replies_, this)
@@ -78,7 +79,9 @@ AsyncMultiServiceClient<Data, Solution>::~AsyncMultiServiceClient()
     // NOTE: this could be done as well within the stop and run, but not this time
     should_stop_ = true;
     waiter_for_request_.blocking_disable();
+    reply_available_reader_.awake_waiting_threads();
     reply_reading_thread_.join();
+    task_solution_reader_.awake_waiting_threads();
     solution_reading_thread_.join();
 
     logDebug(
@@ -114,6 +117,7 @@ void AsyncMultiServiceClient<Data, Solution>::stop()
 
         // Stop tasking threads when they are going to take next task
         data_to_send_->blocking_disable();
+        server_to_send_->blocking_disable();
 
         // Wait for all those threads to stop
         send_task_request_thread_.join();
@@ -122,11 +126,13 @@ void AsyncMultiServiceClient<Data, Solution>::stop()
 
 template <typename Data, typename Solution>
 types::TaskId AsyncMultiServiceClient<Data, Solution>::send_request_async(
-        std::shared_ptr<Data> data)
+        // std::shared_ptr<Data> data)
+        const Data& data)
 {
     auto new_task_id = new_task_id_();
 
-    data_to_send_->produce(std::make_pair(std::move(data), new_task_id));
+    // data_to_send_->produce(std::make_pair(std::move(data), new_task_id));
+    data_to_send_->produce(std::make_pair(data, new_task_id));
 
     ++waiter_for_request_;
 
@@ -164,12 +170,14 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
     // Iterate while consume is correct
     while (true)
     {
-        std::shared_ptr<Data> data;
+        // std::shared_ptr<Data> data;
+        Data data;
         types::TaskId this_task_id;
         try
         {
             auto task = data_to_send_->consume();
-            data = std::move(task.first);
+            // data = std::move(task.first);
+            data = task.first;
             this_task_id = task.second;
         }
         catch(const eprosima::utils::DisabledException&)
@@ -192,7 +200,15 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
         // Wait for reply thread to notify a finding
         types::MsReferenceDataType reference;
         // Wait this thread till a server is chosen
-        reference = server_to_send_->consume();
+        try
+        {
+            reference = server_to_send_->consume();
+        }
+        catch(const eprosima::utils::DisabledException&)
+        {
+            // Consumer disable, end thread
+            break;
+        }
         // NOTE: This algorithm disconnects a task with its thread, but as long as there is only one thread
         // nothing happens.
 
@@ -207,7 +223,8 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
         task_target_writer_.publish(reference);
 
         // SEND DATA
-        types::MsDataType<Data> data_(reference, *data);
+        // types::MsDataType<Data> data_(reference, *data);
+        types::MsDataType<Data> data_(reference, data);
         task_data_writer_.write(server, data_);
 
         // WAIT FOR SOLUTION
@@ -230,9 +247,13 @@ void AsyncMultiServiceClient<Data, Solution>::read_replies_()
         }
 
         // Read messages until the one expected (targeted to this id) is listen
-        while (true)
+        while (!should_stop_)  // less probability but race condition still there -> change by mutex?
         {
             reply_available_reader_.wait_data_available();
+            if (should_stop_)
+            {
+                break;
+            }
 
             // Get task reference
             types::MsReferenceDataType reference = reply_available_reader_.read();
@@ -279,7 +300,8 @@ void AsyncMultiServiceClient<Data, Solution>::read_solution_()
 
         // Return the data so it is not copied but moved
         solution_listener_->solution_received(
-            std::make_unique<Solution>(ms_solution.data()),
+            // std::make_unique<Solution>(ms_solution.data()),
+            std::make_shared<Solution>(ms_solution.data()),
             ms_solution.task_id(),
             ms_solution.client_id(),
             ms_solution.server_id());

@@ -36,12 +36,15 @@ struct SolutionListenerCast : public dds::SolutionListener<types::JobSolutionDat
     }
 
     void solution_received (
-            std::unique_ptr<types::JobSolutionDataType> solution,
+            // std::unique_ptr<types::JobSolutionDataType> solution,
+            std::shared_ptr<types::JobSolutionDataType> solution,
             const types::TaskId& task_id,
             const types::AmlipIdDataType&,
             const types::AmlipIdDataType& server_id) override
     {
-        listener_->solution_received(std::move(solution), task_id, server_id);
+        // listener_->solution_received(std::move(solution), task_id, server_id);  // unique_ptr -> unsupported in SWIG
+        // listener_->solution_received(solution, task_id, server_id);  // shared_ptr -> supported but issue in SWIG
+        listener_->solution_received(*solution, task_id, server_id);  // reference
     }
 
     std::shared_ptr<node::SolutionListener> listener_;
@@ -73,7 +76,8 @@ AsyncMainNode::~AsyncMainNode()
 }
 
 types::TaskId AsyncMainNode::request_job_solution(
-        std::shared_ptr<types::JobDataType> data)
+        // std::shared_ptr<types::JobDataType> data)  // SWIG issue: cannot (a priori) pass PyObject* as shared_ptr
+        const types::JobDataType& data)
 {
     return job_client_->send_request_async(data);
 }

@@ -13,24 +13,23 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class GenericDataType
+// Binding for class MainNode
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
+%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const GenericDataType&);
+// Generate directors for the virtual methods in the listener
+// IMPORTANT: this statement must be before including the hpp
+%feature("director") eprosima::amlip::node::SolutionListener;
 
-// Ignore overloaded methods that have no application on Python
-// Otherwise they will issue a warning
-%ignore eprosima::amlip::types::GenericDataType::GenericDataType(GenericDataType&&);
+// %shared_ptr(eprosima::amlip::types::JobSolutionDataType);
+// %shared_ptr(eprosima::amlip::types::JobDataType);
+%shared_ptr(eprosima::amlip::node::SolutionListener);
 
 %{
-#include <amlip_cpp/types/GenericDataType.hpp>
+#include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/GenericDataType.hpp>
+%include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>

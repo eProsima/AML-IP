@@ -57,7 +57,8 @@ public:
      * @return Solution to the \c job .
      */
     virtual void solution_received(
-        std::unique_ptr<Solution> solution,
+        // std::unique_ptr<Solution> solution,
+        std::shared_ptr<Solution> solution,
         const types::TaskId& task_id,
         const types::AmlipIdDataType& client_id,
         const types::AmlipIdDataType& server_id) = 0;
@@ -97,7 +98,8 @@ public:
      * Thus, using multiple threads will cause desynchronization of messages received and locks.
      */
     types::TaskId send_request_async(
-            std::shared_ptr<Data> data);
+            // std::shared_ptr<Data> data);
+            const Data& data);
 
 protected:
 
@@ -128,8 +130,10 @@ protected:
 
     std::atomic<types::TaskId> last_task_id_used_;
 
+    // std::unique_ptr<eprosima::utils::event::ConsumerWaitHandler<
+    //     std::pair<std::shared_ptr<Data>, types::TaskId>>> data_to_send_;
     std::unique_ptr<eprosima::utils::event::ConsumerWaitHandler<
-        std::pair<std::shared_ptr<Data>, types::TaskId>>> data_to_send_;
+        std::pair<Data, types::TaskId>>> data_to_send_;
 
     // TODO: refactor this for a thread pool
     std::thread send_task_request_thread_;

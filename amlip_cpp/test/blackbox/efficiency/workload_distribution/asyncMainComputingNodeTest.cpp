@@ -24,6 +24,7 @@
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/types/Atomicable.hpp>
 #include <cpp_utils/wait/IntWaitHandler.hpp>
+#include <cpp_utils/logging/CustomStdLogConsumer.hpp>
 
 #include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
 #include <amlip_cpp/node/workload_distribution/AsyncComputingNode.hpp>
@@ -42,19 +43,26 @@ using SolutionsReceivedType =
     eprosima::utils::Atomicable<
         std::map<
             types::TaskId,
-            std::unique_ptr<types::JobSolutionDataType>>>;
+            types::JobSolutionDataType>>;
+            // std::shared_ptr<types::JobSolutionDataType>>>;
 
 class TestSolutionListener : public node::SolutionListener
 {
 public:
     void solution_received(
-        std::unique_ptr<types::JobSolutionDataType> solution,
+        // const std::unique_ptr<types::JobSolutionDataType>& solution,
+        // std::shared_ptr<types::JobSolutionDataType> solution,
+        const types::JobSolutionDataType& solution,
         const types::TaskId& task_id,
         const types::AmlipIdDataType& server_id) override
     {
+        // // Copy received solution
+        // types::JobSolutionDataType received_solution(*solution);
+
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);
-        solutions[task_id] = std::move(solution);
+        // solutions[task_id] = received_solution;
+        solutions[task_id] = solution;
 
         // Increase in 1 the number of solutions received
         ++waiter;
@@ -94,7 +102,8 @@ eprosima::utils::Duration_ms time_expected(unsigned int n_clients, unsigned int 
 void send_messages(
     std::vector<std::unique_ptr<node::AsyncMainNode>>& main_nodes, unsigned int n_messages)
 {
-    std::shared_ptr<types::JobDataType> job(std::make_shared<types::JobDataType>(MESSAGE_INTERNAL_TEST));
+    // std::shared_ptr<types::JobDataType> job(std::make_shared<types::JobDataType>(MESSAGE_INTERNAL_TEST));
+    types::JobDataType job(MESSAGE_INTERNAL_TEST);
     for (auto& main_node : main_nodes)
     {
         for (unsigned int i=0; i<n_messages; ++i)
@@ -148,6 +157,7 @@ eprosima::utils::Duration_ms execute_nodes(unsigned int n_clients, unsigned int 
 
     send_messages(mains_nodes, n_messages);
     wait_solutions(main_listeners, n_messages);
+    // send_messages(mains_nodes, 1);
 
     auto elapsed_time = timer.elapsed_ms();
 
@@ -206,6 +216,14 @@ int main(
         int argc,
         char** argv)
 {
+    // eprosima::utils::Log::ClearConsumers();
+
+    // // Activate log with verbosity, as this will avoid running log thread with not desired kind
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+
+    // eprosima::utils::Log::RegisterConsumer(
+    //     std::make_unique<eprosima::utils::CustomStdLogConsumer>("AMLIP", eprosima::utils::Log::Kind::Info));
+
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

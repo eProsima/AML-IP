@@ -42,22 +42,26 @@ using SolutionsReceivedType =
                 eprosima::amlip::types::TaskId,
                 eprosima::amlip::types::AmlipIdDataType>,
             std::pair<
-                std::unique_ptr<TestDataType>,
+                // std::unique_ptr<TestDataType>,
+                std::shared_ptr<TestDataType>,
                 eprosima::amlip::types::AmlipIdDataType>>>;
 
 class TestSolutionListener : public eprosima::amlip::dds::SolutionListener<TestDataType>
 {
 public:
     void solution_received(
-        std::unique_ptr<TestDataType> solution,
+        // std::unique_ptr<TestDataType> solution,
+        std::shared_ptr<TestDataType> solution,
         const eprosima::amlip::types::TaskId& task_id,
         const eprosima::amlip::types::AmlipIdDataType& client_id,
         const eprosima::amlip::types::AmlipIdDataType& server_id) override
     {
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);
-        solutions[{task_id, client_id}] = std::pair<std::unique_ptr<TestDataType>, eprosima::amlip::types::AmlipIdDataType>(
-            std::move(solution), server_id);
+        // solutions[{task_id, client_id}] = std::pair<std::unique_ptr<TestDataType>, eprosima::amlip::types::AmlipIdDataType>(
+        //     std::move(solution), server_id);
+        solutions[{task_id, client_id}] = std::pair<std::shared_ptr<TestDataType>, eprosima::amlip::types::AmlipIdDataType>(
+            solution, server_id);
 
         // Increase in 1 the number of solutions received
         ++waiter;
@@ -134,7 +138,8 @@ TEST(asyncMultiServiceTest, communicate_service_one_on_one)
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i);
 
         // Send task
-        client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        // client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        client->send_request_async(test::TestDataType(task_str));
     }
 
     // Check that no tasks have been answered but thread arrives to here
@@ -156,7 +161,8 @@ TEST(asyncMultiServiceTest, communicate_service_one_on_one)
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i + test::N_MESSAGES);
 
         // Send task
-        client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        // client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        client->send_request_async(test::TestDataType(task_str));
     }
 
     // Wait for all tasks answered
@@ -209,7 +215,8 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
         // Get new task
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i);
         // Send task
-        last_task_id = client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        // last_task_id = client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        last_task_id = client->send_request_async(test::TestDataType(task_str));
     }
 
     // Create Server Participants and Servers
@@ -249,7 +256,8 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
         // Get new task
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i + test::N_MESSAGES);
         // Send task
-        client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        // client->send_request_async(std::make_shared<test::TestDataType>(task_str));
+        client->send_request_async(test::TestDataType(task_str));
     }
 
     // Wait for all tasks answered
@@ -306,7 +314,8 @@ TEST(asyncMultiServiceTest, communicate_service_n_clients_one_server)
             std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j);
 
             // Send task
-            clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            // clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            clients[i]->send_request_async(test::TestDataType(task_str));
         }
     }
 
@@ -329,7 +338,8 @@ TEST(asyncMultiServiceTest, communicate_service_n_clients_one_server)
             std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j + test::N_MESSAGES);
 
             // Send task
-            clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            // clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            clients[i]->send_request_async(test::TestDataType(task_str));
         }
     }
 
@@ -389,7 +399,8 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
             std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j);
 
             // Send task
-            clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            // clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            clients[i]->send_request_async(test::TestDataType(task_str));
         }
     }
 
@@ -422,7 +433,8 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
             std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j + test::N_MESSAGES);
 
             // Send task
-            clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            // clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
+            clients[i]->send_request_async(test::TestDataType(task_str));
         }
     }
 

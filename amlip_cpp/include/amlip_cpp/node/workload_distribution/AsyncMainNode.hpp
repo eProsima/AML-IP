@@ -65,7 +65,9 @@ public:
      * @param server_id Id of the ComputingNode answering.
      */
     virtual void solution_received(
-        std::unique_ptr<types::JobSolutionDataType> solution,
+        // const std::unique_ptr<types::JobSolutionDataType>& solution, // unique_ptr -> unsupported in SWIG
+        // std::shared_ptr<types::JobSolutionDataType> solution, // shared_ptr -> supported but issue in SWIG
+        const types::JobSolutionDataType& solution, // reference
         const types::TaskId& task_id,
         const types::AmlipIdDataType& server_id) = 0;
 };
@@ -119,8 +121,10 @@ public:
      * is shared. This is because this way it is less restrictive than other ownerships.
      * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
+    // AMLIP_CPP_DllAPI types::TaskId request_job_solution(
+    //         std::shared_ptr<types::JobDataType> data);  // SWIG issue: cannot (a priori) pass PyObject* as shared_ptr
     AMLIP_CPP_DllAPI types::TaskId request_job_solution(
-            std::shared_ptr<types::JobDataType> data);
+            const types::JobDataType& data);
 
 protected:
 

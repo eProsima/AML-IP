@@ -203,14 +203,14 @@ std::string AmlipIdDataType::to_string() const noexcept
 {
     // WARNING: If this method changes, it may change as well operator << and to_dds_string
     std::stringstream new_os;
-    new_os << name();
+    new_os << name() << ".";
 
     // Set to print bytes in hexadecimal of size 2 filling with 0
     // Use a different stream as cout so no TSAN issues
     new_os << std::hex << std::setfill('0') << std::setw(2);
     for (uint8_t v : id())
     {
-        new_os << static_cast<unsigned>(v) << ".";
+        new_os << "." << static_cast<unsigned>(v);
     }
     return new_os.str();
 }

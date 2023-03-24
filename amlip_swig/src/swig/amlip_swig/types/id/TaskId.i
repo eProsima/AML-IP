@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,24 +13,12 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class GenericDataType
+// Binding for class TaskId
 ////////////////////////////////////////////////////////
 
-// Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const GenericDataType&);
-
-// Ignore overloaded methods that have no application on Python
-// Otherwise they will issue a warning
-%ignore eprosima::amlip::types::GenericDataType::GenericDataType(GenericDataType&&);
-
 %{
-#include <amlip_cpp/types/GenericDataType.hpp>
+#include <amlip_cpp/types/id/TaskId.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/GenericDataType.hpp>
+%include <amlip_cpp/types/id/TaskId.hpp>
