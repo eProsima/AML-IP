@@ -24,6 +24,9 @@ if(POLICY CMP0086)
   cmake_policy(SET CMP0086 NEW)
 endif()
 
+# Done this to set machine architecture and be able to call cmake_utils
+enable_language(CXX)
+
 ###############################################################################
 # Find package cmake_utils
 ###############################################################################
