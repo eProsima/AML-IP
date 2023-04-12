@@ -15,6 +15,9 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <cpp_utils/wait/BooleanWaitHandler.hpp>
+#include <cpp_utils/wait/IntWaitHandler.hpp>
+
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
@@ -23,8 +26,6 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 namespace test {
-
-uint32_t PROCESS_DATA_TIME_MS = 100u;
 
 class DummyNode : public ParentNode
 {
@@ -104,13 +105,22 @@ TEST(StatusNodeTest, process_status_parent)
     // Create Status Node
     node::StatusNode status_node("TestStatusNode");
 
+    // Create a waiter so the Parent Node is not destroyed before the status node has received first message
+    eprosima::utils::event::IntWaitHandler waiter(0, true);
+
     // Execute Status node and store the data that arrives
     types::AmlipIdDataType parent_id;
     std::vector<types::StatusDataType> data_arrived;
     status_node.process_status_async(
-        [&data_arrived](const types::StatusDataType& data)
+        [&data_arrived, &waiter, &parent_id](const types::StatusDataType& data)
         {
             data_arrived.push_back(data);
+
+            // Only open when data comes from target. Skip data coming from this participant.
+            if (data.id() == parent_id)
+            {
+                ++waiter;
+            }
         });
 
     {
@@ -119,11 +129,11 @@ TEST(StatusNodeTest, process_status_parent)
         parent_id = dummy_node.id();
 
         // Wait so status reader has time to process the data
-        std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
+        waiter.wait_greater_equal_than(1);
     }
 
     // Give time for dropped data to arrive
-    std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
+    waiter.wait_greater_equal_than(2);
 
     // Check the data that arrived
     bool parent_stopped = false;
@@ -158,15 +168,24 @@ TEST(StatusNodeTest, process_status_state)
 {
     // Create Status Node
     node::StatusNode status_node("TestStatusNode");
+    auto st_id = status_node.id();
+
+    // Create a waiter so the Parent Node is not destroyed before the status node has received first message
+    eprosima::utils::event::IntWaitHandler waiter(0, true);
 
     // Execute Status node and store the data that arrives
     types::AmlipIdDataType status_node_1_id;
     types::AmlipIdDataType status_node_2_id;
     std::vector<types::StatusDataType> data_arrived;
     status_node.process_status_async(
-        [&data_arrived](const types::StatusDataType& data)
+        [&data_arrived, &waiter, &st_id](const types::StatusDataType& data)
         {
             data_arrived.push_back(data);
+
+            if (data.id() != st_id)
+            {
+                ++waiter;
+            }
         });
 
     {
@@ -179,7 +198,7 @@ TEST(StatusNodeTest, process_status_state)
         status_node_2_id = status_node_2.id();
 
         // Wait so status reader has time to process the data
-        std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
+        waiter.wait_greater_equal_than(2);
 
         // Activate first Node
         status_node_1.process_status_async(
@@ -189,19 +208,19 @@ TEST(StatusNodeTest, process_status_state)
             });
 
         // Wait so status reader has time to process the data
-        std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
+        waiter.wait_greater_equal_than(3);
 
         // Deactivate first Node
         status_node_1.stop_processing();
 
         // Wait so status reader has time to process the data
-        std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
+        waiter.wait_greater_equal_than(4);
 
         // Both nodes will be destroyed here
     }
 
     // Give time for dropped data to arrive
-    std::this_thread::sleep_for(std::chrono::milliseconds(node::test::PROCESS_DATA_TIME_MS));
+    waiter.wait_greater_equal_than(6);
 
     // Check the data that arrived
     uint32_t node_1_stop = 0;
