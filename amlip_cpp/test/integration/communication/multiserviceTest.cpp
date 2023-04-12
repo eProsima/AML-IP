@@ -101,54 +101,60 @@ TEST(MultiServiceTest, communicate_service_n_to_n)
 {
 
     // Each Client Routine
-    auto client_lambda = [](int id, int tasks_to_send){
+    auto client_lambda = [](int id, int tasks_to_send)
+            {
 
-        // Create entities
-        Participant participant(std::string("ClientTestPart") + std::to_string(id));
-        auto client = participant.create_multiservice_client<test::TestDataType, test::TestDataType>("test_topic");
+                // Create entities
+                Participant participant(std::string("ClientTestPart") + std::to_string(id));
+                auto client = participant.create_multiservice_client<test::TestDataType, test::TestDataType>(
+                    "test_topic");
 
-        // Wait for N messages
-        while (tasks_to_send--)
-        {
-            // Get new task
-            std::string task_str = std::string("NEW_TASK_") + std::to_string(id) + std::string("_") + std::to_string(tasks_to_send);
-            std::string solution_expected = std::string("new_task_") + std::to_string(id) + std::string("_") + std::to_string(tasks_to_send);
-            test::TestDataType task(task_str);
+                // Wait for N messages
+                while (tasks_to_send--)
+                {
+                    // Get new task
+                    std::string task_str = std::string("NEW_TASK_") + std::to_string(id) + std::string("_") +
+                            std::to_string(tasks_to_send);
+                    std::string solution_expected = std::string("new_task_") + std::to_string(id) + std::string("_") +
+                            std::to_string(tasks_to_send);
+                    test::TestDataType task(task_str);
 
-            // Send task
-            auto solution = client->send_request_sync(task);
+                    // Send task
+                    auto solution = client->send_request_sync(task);
 
-            // Check solution
-            ASSERT_EQ(solution.to_string(), solution_expected);
-        }
-    };
+                    // Check solution
+                    ASSERT_EQ(solution.to_string(), solution_expected);
+                }
+            };
 
     // Each Server Routine
-    auto server_lambda = [](int id, int tasks_to_process){
+    auto server_lambda = [](int id, int tasks_to_process)
+            {
 
-        // Create entities
-        Participant participant(std::string("ServerTestPart") + std::to_string(id));
-        auto server = participant.create_multiservice_server<test::TestDataType, test::TestDataType>("test_topic");
+                // Create entities
+                Participant participant(std::string("ServerTestPart") + std::to_string(id));
+                auto server = participant.create_multiservice_server<test::TestDataType, test::TestDataType>(
+                    "test_topic");
 
-        // Create processing routine -> to lowercase
-        auto processing_routine = [](const test::TestDataType& task)
-        {
-            std::string result = task.to_string();
-            eprosima::utils::to_lowercase(result);
-            return test::TestDataType(result);
-        };
+                // Create processing routine -> to lowercase
+                auto processing_routine = [](const test::TestDataType& task)
+                        {
+                            std::string result = task.to_string();
+                            eprosima::utils::to_lowercase(result);
+                            return test::TestDataType(result);
+                        };
 
-        // Wait for N messages
-        while (tasks_to_process--)
-        {
-            // Process task and convert it to lowercase
-            server->process_task_sync(processing_routine);
-        }
-    };
+                // Wait for N messages
+                while (tasks_to_process--)
+                {
+                    // Process task and convert it to lowercase
+                    server->process_task_sync(processing_routine);
+                }
+            };
 
     // Generate all clients
     std::array<std::thread, test::N_CLIENTS> clients_threads;
-    for (unsigned int i=0; i< test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         clients_threads[i] = std::thread(client_lambda, i, test::N_MESSAGES);
     }
@@ -156,17 +162,17 @@ TEST(MultiServiceTest, communicate_service_n_to_n)
     // Generate all servers
     auto messages_per_server = test::N_MESSAGES * test::N_CLIENTS / test::N_SERVERS;
     std::array<std::thread, test::N_SERVERS> servers_threads;
-    for (unsigned int i=0; i< test::N_SERVERS; i++)
+    for (unsigned int i = 0; i < test::N_SERVERS; i++)
     {
         servers_threads[i] = std::thread(server_lambda, i, messages_per_server);
     }
 
     // Wait for all of them to finish
-    for (unsigned int i=0; i< test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         clients_threads[i].join();
     }
-    for (unsigned int i=0; i< test::N_SERVERS; i++)
+    for (unsigned int i = 0; i < test::N_SERVERS; i++)
     {
         servers_threads[i].join();
     }

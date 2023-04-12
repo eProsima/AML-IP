@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import time
-
 from amlip_py.node.ComputingNode import ComputingNode, JobLambda
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 

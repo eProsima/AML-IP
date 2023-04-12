@@ -36,10 +36,10 @@ int main(
     {
         // Create listening address
         auto listening_address = eprosima::ddsrouter::core::types::Address(
-                    12121,
-                    12121,
-                    "localhost",
-                    eprosima::ddsrouter::core::types::TransportProtocol::udp);
+            12121,
+            12121,
+            "localhost",
+            eprosima::ddsrouter::core::types::TransportProtocol::udp);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << listening_address << ". Creating Node...");
 

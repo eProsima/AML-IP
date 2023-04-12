@@ -69,7 +69,7 @@ Writer<T>::~Writer()
 
     // Wait for all data to be sent. Wait for 1 second 0 ns.
     auto ret_code =
-        datawriter_locked->wait_for_acknowledgments(fastrtps::Duration_t(Wait_for_acknowledgments_time_s, 0));
+            datawriter_locked->wait_for_acknowledgments(fastrtps::Duration_t(Wait_for_acknowledgments_time_s, 0));
     if (ret_code == fastrtps::types::ReturnCode_t::ReturnCodeValue::RETCODE_ERROR)
     {
         logWarning(

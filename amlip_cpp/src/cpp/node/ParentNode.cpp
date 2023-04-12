@@ -27,10 +27,10 @@ namespace amlip {
 namespace node {
 
 ParentNode::ParentNode(
-            const char* name,
-            types::NodeKind node_kind,
-            types::StateKind initial_state,
-            uint32_t domain_id)
+        const char* name,
+        types::NodeKind node_kind,
+        types::StateKind initial_state,
+        uint32_t domain_id)
     : participant_(std::make_unique<dds::Participant>(name, dds::Participant::default_participant_qos(), domain_id))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,

@@ -36,10 +36,10 @@ int main(
     {
         // Create connection address
         auto connection_address = eprosima::ddsrouter::core::types::Address(
-                    12121,
-                    12121,
-                    "localhost",
-                    eprosima::ddsrouter::core::types::TransportProtocol::udp);
+            12121,
+            12121,
+            "localhost",
+            eprosima::ddsrouter::core::types::TransportProtocol::udp);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Address to connect: " << connection_address << ". Creating Node...");
 

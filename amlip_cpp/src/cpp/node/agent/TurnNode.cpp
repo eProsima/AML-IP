@@ -63,7 +63,7 @@ ddsrouter::core::configuration::DDSRouterConfiguration TurnNode::get_router_conf
             listening_addresses,
             connection_addresses,
             ddsrouter::core::types::security::TlsConfiguration()
-        ));
+            ));
 
     return configuration;
 }

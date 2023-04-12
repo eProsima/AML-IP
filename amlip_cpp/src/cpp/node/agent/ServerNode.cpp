@@ -71,7 +71,7 @@ ddsrouter::core::configuration::DDSRouterConfiguration ServerNode::get_router_co
             listening_addresses,
             std::set<ddsrouter::core::types::Address>(),
             ddsrouter::core::types::security::TlsConfiguration()
-        ));
+            ));
 
     return configuration;
 }

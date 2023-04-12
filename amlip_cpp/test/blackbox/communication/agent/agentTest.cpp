@@ -36,7 +36,8 @@ namespace test {
 constexpr const uint32_t N_JOBS_TO_SEND = 40;
 constexpr const uint32_t N_CLIENTS = 3;
 
-eprosima::amlip::types::JobSolutionDataType process_routine(const eprosima::amlip::types::JobDataType& job)
+eprosima::amlip::types::JobSolutionDataType process_routine(
+        const eprosima::amlip::types::JobDataType& job)
 {
     std::string result = job.to_string();
     eprosima::utils::to_lowercase(result);
@@ -57,27 +58,29 @@ TEST(agentTest, client_server)
     std::atomic<unsigned int> n_jobs_solved(0u);
 
     // Create Main in its own Thread
-    auto main_node_routine = [&n_jobs_solved](){
-        node::MainNode main_node("TestMainNode", 10);
-        for (unsigned int i=0; i<test::N_JOBS_TO_SEND; i++)
-        {
-            std::string job_str = std::string("TEST_SEND") + std::to_string(i);
-            std::string solution_expected = std::string("test_send") + std::to_string(i);
-            types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
-            ASSERT_EQ(solution.to_string(), solution_expected);
-            n_jobs_solved++;
-        }
-    };
+    auto main_node_routine = [&n_jobs_solved]()
+            {
+                node::MainNode main_node("TestMainNode", 10);
+                for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
+                {
+                    std::string job_str = std::string("TEST_SEND") + std::to_string(i);
+                    std::string solution_expected = std::string("test_send") + std::to_string(i);
+                    types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
+                    ASSERT_EQ(solution.to_string(), solution_expected);
+                    n_jobs_solved++;
+                }
+            };
     std::thread main_thread(main_node_routine);
 
     // Create Computing in its own Thread
-    auto computing_node_routine = [](){
-        node::ComputingNode computing_node("TestComputingNode", 11);
-        for (unsigned int i=0; i<test::N_JOBS_TO_SEND; i++)
-        {
-            computing_node.process_job(test::process_routine);
-        }
-    };
+    auto computing_node_routine = []()
+            {
+                node::ComputingNode computing_node("TestComputingNode", 11);
+                for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
+                {
+                    computing_node.process_job(test::process_routine);
+                }
+            };
     std::thread computing_thread(computing_node_routine);
 
     auto address = eprosima::ddsrouter::core::types::Address(
@@ -121,27 +124,29 @@ TEST(agentTest, client_turn_client)
     std::atomic<unsigned int> n_jobs_solved(0u);
 
     // Create Main in its own Thread
-    auto main_node_routine = [&n_jobs_solved](){
-        node::MainNode main_node("TestMainNode", 10);
-        for (unsigned int i=0; i<test::N_JOBS_TO_SEND; i++)
-        {
-            std::string job_str = std::string("TEST_SEND") + std::to_string(i);
-            std::string solution_expected = std::string("test_send") + std::to_string(i);
-            types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
-            ASSERT_EQ(solution.to_string(), solution_expected);
-            n_jobs_solved++;
-        }
-    };
+    auto main_node_routine = [&n_jobs_solved]()
+            {
+                node::MainNode main_node("TestMainNode", 10);
+                for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
+                {
+                    std::string job_str = std::string("TEST_SEND") + std::to_string(i);
+                    std::string solution_expected = std::string("test_send") + std::to_string(i);
+                    types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
+                    ASSERT_EQ(solution.to_string(), solution_expected);
+                    n_jobs_solved++;
+                }
+            };
     std::thread main_thread(main_node_routine);
 
     // Create Computing in its own Thread
-    auto computing_node_routine = [](){
-        node::ComputingNode computing_node("TestComputingNode", 11);
-        for (unsigned int i=0; i<test::N_JOBS_TO_SEND; i++)
-        {
-            computing_node.process_job(test::process_routine);
-        }
-    };
+    auto computing_node_routine = []()
+            {
+                node::ComputingNode computing_node("TestComputingNode", 11);
+                for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
+                {
+                    computing_node.process_job(test::process_routine);
+                }
+            };
     std::thread computing_thread(computing_node_routine);
 
     auto address = eprosima::ddsrouter::core::types::Address(
@@ -189,26 +194,30 @@ TEST(agentTest, turn_n_clients)
     std::atomic<unsigned int> n_jobs_solved(0u);
 
     // Create each Main in its own Thread
-    auto main_node_routine = [&n_jobs_solved](const unsigned int domain_id){
-        node::MainNode main_node("TestMainNode", domain_id);
-        for (unsigned int i=0; i<test::N_JOBS_TO_SEND; i++)
-        {
-            std::string job_str = std::string("TEST_SEND_") + std::to_string(i) + std::string("_") + std::to_string(domain_id);
-            std::string solution_expected = std::string("test_send_") + std::to_string(i) + std::string("_") + std::to_string(domain_id);
-            types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
-            ASSERT_EQ(solution.to_string(), solution_expected);
-            n_jobs_solved++;
-        }
-    };
+    auto main_node_routine = [&n_jobs_solved](const unsigned int domain_id)
+            {
+                node::MainNode main_node("TestMainNode", domain_id);
+                for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
+                {
+                    std::string job_str = std::string("TEST_SEND_") + std::to_string(i) + std::string("_") +
+                            std::to_string(domain_id);
+                    std::string solution_expected = std::string("test_send_") + std::to_string(i) + std::string("_") +
+                            std::to_string(domain_id);
+                    types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
+                    ASSERT_EQ(solution.to_string(), solution_expected);
+                    n_jobs_solved++;
+                }
+            };
 
     // Create Computing in its own Thread
-    auto computing_node_routine = [](){
-        node::ComputingNode computing_node("TestComputingNode", 10);
-        for (unsigned int i=0; i<test::N_JOBS_TO_SEND*test::N_CLIENTS; i++)
-        {
-            computing_node.process_job(test::process_routine);
-        }
-    };
+    auto computing_node_routine = []()
+            {
+                node::ComputingNode computing_node("TestComputingNode", 10);
+                for (unsigned int i = 0; i < test::N_JOBS_TO_SEND* test::N_CLIENTS; i++)
+                {
+                    computing_node.process_job(test::process_routine);
+                }
+            };
     std::thread computing_thread(computing_node_routine);
 
     // Create a vector to store each main thread and its associated agent client and 1 for computing
@@ -218,21 +227,21 @@ TEST(agentTest, turn_n_clients)
     auto address = eprosima::ddsrouter::core::types::Address(
         16161, 16161, "localhost", eprosima::ddsrouter::core::types::TransportProtocol::udp);
 
-    for (unsigned int i=0u; i<test::N_CLIENTS; ++i)
+    for (unsigned int i = 0u; i < test::N_CLIENTS; ++i)
     {
         // Create Agent client node in domain i
         auto domain_id = i + 11u;
         main_threads[i] = std::thread(main_node_routine, domain_id);
         clients_nodes[i].reset(new node::agent::ClientNode(
-            std::string(std::string("TestAgentClientNode") + std::to_string(domain_id)).c_str(),
-            {address},
-            domain_id));
+                    std::string(std::string("TestAgentClientNode") + std::to_string(domain_id)).c_str(),
+                    {address},
+                    domain_id));
     }
     // Client node for computing
     clients_nodes[test::N_CLIENTS].reset(new node::agent::ClientNode(
-            "TestAgentClientNodeComputing",
-            {address},
-            10u));
+                "TestAgentClientNodeComputing",
+                {address},
+                10u));
 
     // No messages sent yet
     ASSERT_EQ(n_jobs_solved, 0u);
@@ -241,12 +250,12 @@ TEST(agentTest, turn_n_clients)
     node::agent::TurnNode turn_node("TestAgentTurn", {address});
 
     // Wait for all messages to be sent and received
-    for (unsigned int i=0u; i<test::N_CLIENTS; ++i)
+    for (unsigned int i = 0u; i < test::N_CLIENTS; ++i)
     {
         main_threads[i].join();
     }
     computing_thread.join();
-    ASSERT_EQ(n_jobs_solved, test::N_CLIENTS * test::N_JOBS_TO_SEND);
+    ASSERT_EQ(n_jobs_solved, test::N_CLIENTS* test::N_JOBS_TO_SEND);
 
     // Let all entities destroy themselves correctly
 }
