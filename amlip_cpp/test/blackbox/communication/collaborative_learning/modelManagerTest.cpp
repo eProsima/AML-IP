@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,17 +26,21 @@ uint32_t NUMBER_OF_MESSAGES = 10;
 class TestModelListener : public eprosima::amlip::node::ModelListener
 {
 public:
-    TestModelListener(std::function<void(const eprosima::amlip::types::ModelDataType&)> callback)
+
+    TestModelListener(
+            std::function<void(const eprosima::amlip::types::ModelDataType&)> callback)
         : callback_(callback)
     {
     }
 
-    void model_received (const eprosima::amlip::types::ModelDataType& model) const override
+    void model_received (
+            const eprosima::amlip::types::ModelDataType& model) const override
     {
         callback_(model);
     }
 
 protected:
+
     std::function<void(const eprosima::amlip::types::ModelDataType&)> callback_;
 };
 
@@ -65,17 +69,17 @@ TEST(modelManagerTest, ping_pong)
 
     // Both managers will read model, set counter and open wait handler
     auto manager_lambda = [&wait_handler, &models_received, &model_str](const types::ModelDataType& model)
-    {
-        models_received++;
-        ASSERT_EQ(model.to_string(), model_str);
-        wait_handler.open();
-    };
+            {
+                models_received++;
+                ASSERT_EQ(model.to_string(), model_str);
+                wait_handler.open();
+            };
 
     manager_1.start_receiving(std::make_shared<test::TestModelListener>(manager_lambda));
     manager_2.start_receiving(std::make_shared<test::TestModelListener>(manager_lambda));
 
     // Ping pong N times
-    for (unsigned int i=0u; i<test::NUMBER_OF_MESSAGES; i++)
+    for (unsigned int i = 0u; i < test::NUMBER_OF_MESSAGES; i++)
     {
         // Publish model from 1
         manager_1.publish_model(model);

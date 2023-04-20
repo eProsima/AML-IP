@@ -104,11 +104,13 @@ public:
      */
     AMLIP_CPP_DllAPI ~ModelManagerNode();
 
-    AMLIP_CPP_DllAPI void start_receiving(std::shared_ptr<ModelListener> listener);
+    AMLIP_CPP_DllAPI void start_receiving(
+            std::shared_ptr<ModelListener> listener);
 
     AMLIP_CPP_DllAPI void stop_receiving();
 
-    AMLIP_CPP_DllAPI void publish_model(types::ModelDataType& model);
+    AMLIP_CPP_DllAPI void publish_model(
+            types::ModelDataType& model);
 
 protected:
 

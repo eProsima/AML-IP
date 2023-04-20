@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -121,7 +121,8 @@ void ModelManagerNode::process_routine_(
     }
 }
 
-void ModelManagerNode::publish_model(types::ModelDataType& model)
+void ModelManagerNode::publish_model(
+        types::ModelDataType& model)
 {
     model_writer_->publish(model);
 }
