@@ -81,9 +81,6 @@ int main(
             node.process_job(routine_process_task);
 
             std::cout << "Computing Node " << node.id() << " answered task. " << received << " remaining." << std::endl;
-
-            // Let a bit of time for the solution to be sent
-            std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
 
         // Closing

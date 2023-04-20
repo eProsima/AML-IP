@@ -28,14 +28,21 @@ namespace amlip {
 namespace node {
 
 StatusNode::StatusNode(
-        const char* name)
-    : ParentNode(name, types::NodeKind::status)
+        const char* name,
+        uint32_t domain_id)
+    : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id)
     , status_reader_(participant_->create_reader<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,
                 dds::utils::status_reader_qos()))
     , processing_(false)
 {
     logInfo(AMLIPCPP_NODE_STATUS, "Created new Status Node: " << *this << ".");
+}
+
+StatusNode::StatusNode(
+        const char* name)
+    : StatusNode(name, dds::Participant::default_domain_id())
+{
 }
 
 StatusNode::StatusNode(

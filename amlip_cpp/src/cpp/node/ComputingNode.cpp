@@ -30,12 +30,20 @@ namespace amlip {
 namespace node {
 
 ComputingNode::ComputingNode(
-        const char* name)
-    : ParentNode(name, types::NodeKind::computing)
-    , job_server_(participant_->create_multiservice_server<types::JobDataType, types::JobSolutionDataType>(
-                dds::utils::JOB_TOPIC_NAME))
+        const char* name,
+        uint32_t domain_id)
+    : ParentNode(name, types::NodeKind::computing, types::StateKind::stopped, domain_id)
+    , job_server_(
+        participant_->create_multiservice_server<types::JobDataType,
+        types::JobSolutionDataType>(dds::utils::JOB_TOPIC_NAME))
 {
     logInfo(AMLIPCPP_NODE_COMPUTING, "Created new Computing Node: " << *this << ".");
+}
+
+ComputingNode::ComputingNode(
+        const char* name)
+    : ComputingNode(name, dds::Participant::default_domain_id())
+{
 }
 
 ComputingNode::ComputingNode(

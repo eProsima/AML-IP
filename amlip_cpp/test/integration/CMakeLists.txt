@@ -12,22 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-###############################################################################
-# Set settings for project amlip_swig for SWIG code
-###############################################################################
-
-set(MODULE_NAME
-    amlip_swig)
-
-set(MODULE_SUMMARY
-    "SWIG library to create python bindings from amlip_cpp.")
-
-set(MODULE_FIND_PACKAGES
-        amlip_cpp
-        cpp_utils
-        ddsrouter_core
-    )
-
-set(MODULE_DEPENDENCIES
-        ${MODULE_FIND_PACKAGES}
-    )
+# Add test subdirectories
+add_subdirectory(communication)

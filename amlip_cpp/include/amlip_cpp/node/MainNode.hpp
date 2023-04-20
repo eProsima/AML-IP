@@ -56,6 +56,10 @@ class MainNode : public ParentNode
 {
 public:
 
+    AMLIP_CPP_DllAPI MainNode(
+            const char* name,
+            uint32_t domain_id);
+
     /**
      * @brief Construct a new Main Node object.
      *

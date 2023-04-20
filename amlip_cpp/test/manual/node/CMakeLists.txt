@@ -16,6 +16,9 @@ set(TEST_NAMES
         "status"
         "main"
         "computing"
+        "agent_client"
+        "agent_server"
+        "agent_turn"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})

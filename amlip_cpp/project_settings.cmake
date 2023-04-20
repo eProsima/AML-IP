@@ -26,6 +26,7 @@ set(MODULE_FIND_PACKAGES
         fastcdr
         fastrtps
         cpp_utils
+        ddsrouter_core
     )
 
 set(MODULE_DEPENDENCIES

@@ -80,6 +80,10 @@ class ComputingNode : public ParentNode
 {
 public:
 
+    AMLIP_CPP_DllAPI ComputingNode(
+            const char* name,
+            uint32_t domain_id);
+
     /**
      * @brief Construct a new Computing Node object.
      *

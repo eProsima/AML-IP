@@ -21,6 +21,7 @@ project(amlip_demo_nodes)
 # Find dependencies
 find_package(cpp_utils)
 find_package(amlip_cpp)
+find_package(ddsrouter_core )
 
 # C++ nodes
 add_executable(computing_node computing_node.cpp)
