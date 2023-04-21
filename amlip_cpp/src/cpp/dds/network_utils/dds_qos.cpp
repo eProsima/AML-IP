@@ -44,6 +44,9 @@ fastdds::dds::DomainParticipantQos default_domain_participant_qos(
     qos.wire_protocol().builtin.typelookup_config.use_client = false;
     qos.wire_protocol().builtin.typelookup_config.use_server = false;
 
+    // Participant ignore local enpoints
+    qos.properties().properties().emplace_back("fastdds.ignore_local_endpoints", "true");
+
     return qos;
 }
 

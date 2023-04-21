@@ -115,12 +115,7 @@ TEST(StatusNodeTest, process_status_parent)
         [&data_arrived, &waiter, &parent_id](const types::StatusDataType& data)
         {
             data_arrived.push_back(data);
-
-            // Only open when data comes from target. Skip data coming from this participant.
-            if (data.id() == parent_id)
-            {
-                ++waiter;
-            }
+            ++waiter;
         });
 
     {
@@ -141,17 +136,14 @@ TEST(StatusNodeTest, process_status_parent)
 
     for (const types::StatusDataType& data : data_arrived)
     {
-        if (data.id() == parent_id)
+        ASSERT_EQ(types::NodeKind::undetermined, data.node_kind());
+        if (data.state() == types::StateKind::stopped)
         {
-            ASSERT_EQ(types::NodeKind::undetermined, data.node_kind());
-            if (data.state() == types::StateKind::stopped)
-            {
-                parent_stopped = true;
-            }
-            else if (data.state() == types::StateKind::dropped)
-            {
-                parent_dropped = true;
-            }
+            parent_stopped = true;
+        }
+        else if (data.state() == types::StateKind::dropped)
+        {
+            parent_dropped = true;
         }
     }
 
