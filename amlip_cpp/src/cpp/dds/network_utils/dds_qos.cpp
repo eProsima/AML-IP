@@ -25,6 +25,7 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
+
 fastdds::dds::DomainParticipantQos default_domain_participant_qos(
         const char* name /* = DEFAULT_PARTICIPANT_NAME */ )
 {
@@ -43,6 +44,14 @@ fastdds::dds::DomainParticipantQos default_domain_participant_qos(
     // Deactivate type lookup service
     qos.wire_protocol().builtin.typelookup_config.use_client = false;
     qos.wire_protocol().builtin.typelookup_config.use_server = false;
+
+    return qos;
+}
+
+fastdds::dds::DomainParticipantQos ignore_locals_domain_participant_qos(
+        const char* name /* = DEFAULT_PARTICIPANT_NAME */ )
+{
+    fastdds::dds::DomainParticipantQos qos = default_domain_participant_qos(name);
 
     // Participant ignore local enpoints
     qos.properties().properties().emplace_back("fastdds.ignore_local_endpoints", "true");

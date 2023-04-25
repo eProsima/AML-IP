@@ -21,6 +21,8 @@
 
 #include <memory>
 
+#include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
+
 #include <amlip_cpp/types/status/StatusDataType.hpp>
 
 // Forward declaration of dds classes
@@ -88,6 +90,13 @@ protected:
             types::NodeKind node_kind,
             types::StateKind initial_state,
             uint32_t domain_id);
+
+    AMLIP_CPP_DllAPI ParentNode(
+            const char* name,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id,
+            eprosima::fastdds::dds::DomainParticipantQos qos);
 
     AMLIP_CPP_DllAPI ParentNode(
             const char* name,

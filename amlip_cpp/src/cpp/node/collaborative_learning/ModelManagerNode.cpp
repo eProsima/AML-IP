@@ -21,6 +21,7 @@
 
 #include <dds/Participant.hpp>
 #include <dds/network_utils/topic.hpp>
+#include <dds/network_utils/dds_qos.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerNode.hpp>
 
 namespace eprosima {
@@ -30,7 +31,7 @@ namespace node {
 ModelManagerNode::ModelManagerNode(
         const char* name,
         uint32_t domain_id)
-    : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id)
+    : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(name))
     , model_reader_(participant_->create_reader<types::ModelDataType>(
                 dds::utils::MODEL_TOPIC_NAME,
                 dds::utils::model_reader_qos()))
@@ -39,6 +40,7 @@ ModelManagerNode::ModelManagerNode(
                 dds::utils::model_writer_qos()))
     , receiving_(false)
 {
+    // Participant ignore local enpoints
     logInfo(AMLIPCPP_NODE_MODELMANAGER, "Created new ModelManager Node: " << *this << ".");
 }
 

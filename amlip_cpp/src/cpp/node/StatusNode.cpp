@@ -30,7 +30,7 @@ namespace node {
 StatusNode::StatusNode(
         const char* name,
         uint32_t domain_id)
-    : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id)
+    : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(name))
     , status_reader_(participant_->create_reader<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,
                 dds::utils::status_reader_qos()))
