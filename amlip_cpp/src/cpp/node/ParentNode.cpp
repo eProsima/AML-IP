@@ -34,7 +34,8 @@ ParentNode::ParentNode(
         types::NodeKind node_kind,
         types::StateKind initial_state,
         uint32_t domain_id)
-    : participant_(std::make_unique<dds::Participant>(name, dds::utils::default_domain_participant_qos(name), domain_id))
+    : participant_(std::make_unique<dds::Participant>(name, dds::utils::default_domain_participant_qos(name),
+            domain_id))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,
                 dds::utils::status_writer_qos()))
