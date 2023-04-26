@@ -33,9 +33,9 @@ ParentNode::ParentNode(
         const char* name,
         types::NodeKind node_kind,
         types::StateKind initial_state,
-        uint32_t domain_id)
-    : participant_(std::make_unique<dds::Participant>(name, dds::utils::default_domain_participant_qos(name),
-            domain_id))
+        uint32_t domain_id,
+        eprosima::fastdds::dds::DomainParticipantQos qos)
+    : participant_(std::make_unique<dds::Participant>(name, qos, domain_id))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,
                 dds::utils::status_writer_qos()))
@@ -50,17 +50,9 @@ ParentNode::ParentNode(
         const char* name,
         types::NodeKind node_kind,
         types::StateKind initial_state,
-        uint32_t domain_id,
-        eprosima::fastdds::dds::DomainParticipantQos qos)
-    : participant_(std::make_unique<dds::Participant>(name, qos, domain_id))
-    , status_writer_(participant_->create_writer<types::StatusDataType>(
-                dds::utils::STATUS_TOPIC_NAME,
-                dds::utils::status_writer_qos()))
-    , current_state_(initial_state)
-    , node_kind_(node_kind)
+        uint32_t domain_id)
+    : ParentNode(name, node_kind, initial_state, domain_id, dds::utils::default_domain_participant_qos(name))
 {
-    logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
-    publish_status_();
 }
 
 ParentNode::ParentNode(

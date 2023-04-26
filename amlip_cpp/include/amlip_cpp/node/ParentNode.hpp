@@ -21,8 +21,6 @@
 
 #include <memory>
 
-#include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
-
 #include <amlip_cpp/types/status/StatusDataType.hpp>
 
 // Forward declaration of dds classes
@@ -37,6 +35,16 @@ class Writer;
 
 } /* namespace dds */
 } /* namespace amlip */
+} /* namespace eprosima */
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
+
+class DomainParticipantQos;
+
+} /* namespace dds */
+} /* namespace fastdds */
 } /* namespace eprosima */
 
 namespace eprosima {
