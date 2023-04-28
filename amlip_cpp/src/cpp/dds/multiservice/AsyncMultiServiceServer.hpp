@@ -109,6 +109,17 @@ protected:
 
     template <typename D, typename S>
     friend std::ostream& operator <<(std::ostream& , const AsyncMultiServiceServer<D, S>& );
+
+    /**
+     * @brief Time to wait for new tasks.
+     *
+     * Timeout is used so if no tasks arrive in such time, it starts loop again, and thus it can
+     * stop in case it must to.
+     *
+     * TODO
+     * @todo this should be configurable. Add it in future releases when service configuration is implemented
+     */
+    constexpr static const unsigned int WAIT_AVAILABILITY_TIMEOUT_ = 1000;
 };
 
 //! \c AsyncMultiServiceServer to stream serializator

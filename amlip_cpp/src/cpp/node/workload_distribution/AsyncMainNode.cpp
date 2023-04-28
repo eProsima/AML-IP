@@ -51,7 +51,7 @@ AsyncMainNode::AsyncMainNode(
         const char* name,
         std::shared_ptr<SolutionListener> listener,
         uint32_t domain_id)
-    : ParentNode(name, types::NodeKind::main, types::StateKind::stopped, domain_id)
+    : ParentNode(name, types::NodeKind::main, types::StateKind::running, domain_id)
     , job_client_(participant_->create_async_multiservice_client<types::JobDataType, types::JobSolutionDataType>(
                 dds::utils::JOB_TOPIC_NAME))
 {

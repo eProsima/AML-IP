@@ -15,7 +15,6 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <cpp_utils/Log.hpp>
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/types/Atomicable.hpp>
 #include <cpp_utils/wait/IntWaitHandler.hpp>
@@ -76,7 +75,7 @@ public:
             const eprosima::amlip::types::AmlipIdDataType& client_id,
             const eprosima::amlip::types::AmlipIdDataType& server_id) override
     {
-        // Increase in 1 the number of solutions received
+        // Increase in 1 the number of tasks received
         ++waiter;
 
         // Return solution as string to_lowercase
@@ -447,6 +446,5 @@ int main(
         char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
-    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     return RUN_ALL_TESTS();
 }

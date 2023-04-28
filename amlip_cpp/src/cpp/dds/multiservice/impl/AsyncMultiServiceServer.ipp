@@ -121,9 +121,7 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
         {
             // WAIT FOR REQUEST AVAILABILITY
             // Wait a minimum timeout
-            // TODO: this should not be done
-            uint32_t timeout = 1000;
-            auto reason = request_availability_reader_.wait_data_available(timeout);
+            auto reason = request_availability_reader_.wait_data_available(WAIT_AVAILABILITY_TIMEOUT_);
             if (reason != eprosima::utils::event::AwakeReason::condition_met)
             {
                 continue;

@@ -130,8 +130,6 @@ protected:
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
     std::shared_ptr<dds::AsyncMultiServiceClient<types::JobDataType, types::JobSolutionDataType>> job_client_;
-
-    std::shared_ptr<SolutionListener> listener_;
 };
 
 } /* namespace node */

@@ -18,6 +18,8 @@
 #include <atomic>
 #include <thread>
 
+#include <fastrtps/Domain.h>
+
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/Log.hpp>
 
@@ -267,6 +269,7 @@ int main(
         char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
+    eprosima::fastrtps::Domain::stopAll();
     // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     return RUN_ALL_TESTS();
 }
