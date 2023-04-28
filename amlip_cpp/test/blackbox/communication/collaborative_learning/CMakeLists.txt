@@ -12,7 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add test subdirectories
-add_subdirectory(agent)
-add_subdirectory(collaborative_learning)
-add_subdirectory(workload_distribution)
+#####################################
+# NODE MODEL MANAGER TESTS
+#####################################
+
+set(TEST_NAME modelManagerTest)
+
+set(TEST_SOURCES
+        modelManagerTest.cpp
+    )
+
+set(TEST_LIST
+        ping_pong
+    )
+
+set(TEST_NEEDED_SOURCES
+    )
+
+add_blackbox_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_NEEDED_SOURCES}"
+    )

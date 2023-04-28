@@ -21,7 +21,7 @@
 
 #include <ddsrouter_core/types/address/Address.hpp>
 
-#include <amlip_cpp/node/agent/AgentNode.hpp>
+#include <amlip_cpp/node/wan/AgentNode.hpp>
 
 namespace eprosima {
 namespace amlip {

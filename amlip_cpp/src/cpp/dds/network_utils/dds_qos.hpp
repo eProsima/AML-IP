@@ -35,6 +35,9 @@ constexpr const char* DEFAULT_PARTICIPANT_NAME = "AMLIP_default_participant";
 fastdds::dds::DomainParticipantQos default_domain_participant_qos(
         const char* name = DEFAULT_PARTICIPANT_NAME);
 
+fastdds::dds::DomainParticipantQos ignore_locals_domain_participant_qos(
+        const char* name = DEFAULT_PARTICIPANT_NAME);
+
 fastdds::dds::PublisherQos default_publisher_qos();
 
 fastdds::dds::DataWriterQos default_datawriter_qos();

@@ -13,15 +13,15 @@
 // limitations under the License.
 
 /**
- * @file TurnNode.hpp
+ * @file ClientNode.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP
-#define AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP
+#ifndef AMLIPCPP__SRC_CPP_NODE_AGENT_CLIENTNODE_HPP
+#define AMLIPCPP__SRC_CPP_NODE_AGENT_CLIENTNODE_HPP
 
 #include <ddsrouter_core/types/address/Address.hpp>
 
-#include <amlip_cpp/node/agent/AgentNode.hpp>
+#include <amlip_cpp/node/wan/AgentNode.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -33,25 +33,25 @@ namespace agent {
  *
  * @warning Not Thread Safe (yet) (TODO)
  */
-class TurnNode : public AgentNode
+class ClientNode : public AgentNode
 {
 public:
 
-    TurnNode(
+    ClientNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& listening_addresses,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses);
+            const std::set<ddsrouter::core::types::Address>& connection_addresses,
+            const uint32_t domain_id);
 
-    TurnNode(
+    ClientNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& listening_addresses);
+            const std::set<ddsrouter::core::types::Address>& connection_addresses);
 
 protected:
 
     static ddsrouter::core::configuration::DDSRouterConfiguration get_router_configuration_(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& listening_addresses,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses);
+            const std::set<ddsrouter::core::types::Address>& connection_addresses,
+            const uint32_t domain_id);
 
 };
 
@@ -60,4 +60,4 @@ protected:
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP */
+#endif /* AMLIPCPP__SRC_CPP_NODE_AGENT_CLIENTNODE_HPP */

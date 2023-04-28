@@ -24,8 +24,8 @@
 %feature("director") eprosima::amlip::node::JobListener;
 
 %{
-#include <amlip_cpp/node/ComputingNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/node/ComputingNode.hpp>
+%include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>

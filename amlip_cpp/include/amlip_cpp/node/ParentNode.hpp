@@ -38,6 +38,16 @@ class Writer;
 } /* namespace eprosima */
 
 namespace eprosima {
+namespace fastdds {
+namespace dds {
+
+class DomainParticipantQos;
+
+} /* namespace dds */
+} /* namespace fastdds */
+} /* namespace eprosima */
+
+namespace eprosima {
 namespace amlip {
 namespace node {
 
@@ -88,6 +98,13 @@ protected:
             types::NodeKind node_kind,
             types::StateKind initial_state,
             uint32_t domain_id);
+
+    AMLIP_CPP_DllAPI ParentNode(
+            const char* name,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id,
+            eprosima::fastdds::dds::DomainParticipantQos qos);
 
     AMLIP_CPP_DllAPI ParentNode(
             const char* name,

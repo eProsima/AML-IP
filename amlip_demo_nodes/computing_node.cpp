@@ -24,7 +24,7 @@
 
 #include <cpp_utils/Log.hpp>
 
-#include <amlip_cpp/node/ComputingNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>

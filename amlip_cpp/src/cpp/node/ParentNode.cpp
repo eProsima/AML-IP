@@ -22,6 +22,9 @@
 #include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/ParentNode.hpp>
 
+#include <dds/network_utils/dds_qos.hpp>
+#include <dds/Participant.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace node {
@@ -30,8 +33,9 @@ ParentNode::ParentNode(
         const char* name,
         types::NodeKind node_kind,
         types::StateKind initial_state,
-        uint32_t domain_id)
-    : participant_(std::make_unique<dds::Participant>(name, dds::Participant::default_participant_qos(), domain_id))
+        uint32_t domain_id,
+        eprosima::fastdds::dds::DomainParticipantQos qos)
+    : participant_(std::make_unique<dds::Participant>(name, qos, domain_id))
     , status_writer_(participant_->create_writer<types::StatusDataType>(
                 dds::utils::STATUS_TOPIC_NAME,
                 dds::utils::status_writer_qos()))
@@ -40,6 +44,15 @@ ParentNode::ParentNode(
 {
     logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
     publish_status_();
+}
+
+ParentNode::ParentNode(
+        const char* name,
+        types::NodeKind node_kind,
+        types::StateKind initial_state,
+        uint32_t domain_id)
+    : ParentNode(name, node_kind, initial_state, domain_id, dds::utils::default_domain_participant_qos(name))
+{
 }
 
 ParentNode::ParentNode(
@@ -111,7 +124,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const ParentNode& node)
 {
-    os << "NODE{" << node.id() << ";" << node.current_state() << "}";
+    os << "NODE{" << node.id() << ";" << node.node_kind() << ";" << node.current_state() << "}";
     return os;
 }
 

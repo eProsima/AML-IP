@@ -19,7 +19,7 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
-#include <amlip_cpp/node/ComputingNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 
 #include <dds/multiservice/MultiServiceServer.hpp>
 #include <dds/Participant.hpp>
@@ -96,14 +96,6 @@ void ComputingNode::process_job(
             return listener.process_job(job);
         },
         client_id);
-}
-
-std::ostream& operator <<(
-        std::ostream& os,
-        const ComputingNode& node)
-{
-    os << "COMPUTING_NODE{" << node.id() << "}";
-    return os;
 }
 
 } /* namespace node */

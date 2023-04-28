@@ -21,7 +21,7 @@
 #include <ddsrouter_core/configuration/participant/InitialPeersParticipantConfiguration.hpp>
 #include <ddsrouter_core/types/participant/ParticipantKind.hpp>
 
-#include <amlip_cpp/node/agent/ServerNode.hpp>
+#include <amlip_cpp/node/wan/ServerNode.hpp>
 
 #include <dds/Participant.hpp>
 

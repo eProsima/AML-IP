@@ -22,7 +22,7 @@
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/Participant.hpp>
 #include <dds/network_utils/topic.hpp>
-#include <amlip_cpp/node/MainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/MainNode.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -70,14 +70,6 @@ types::JobSolutionDataType MainNode::request_job_solution(
     types::JobSolutionDataType solution = job_client_->send_request_sync(data, id);
     change_status_(types::StateKind::stopped);
     return solution;
-}
-
-std::ostream& operator <<(
-        std::ostream& os,
-        const MainNode& node)
-{
-    os << "MAIN_NODE{" << node.id() << "}";
-    return os;
 }
 
 } /* namespace node */

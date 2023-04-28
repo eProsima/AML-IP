@@ -299,6 +299,14 @@ std::vector<ByteType> GenericDataType::to_vector() const noexcept
     return std::vector<ByteType>(buffer, buffer + data_size_);
 }
 
+std::ostream& operator <<(
+        std::ostream& os,
+        const GenericDataType& obj)
+{
+    os << "DATA{" << obj.to_string() << "}";
+    return os;
+}
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */

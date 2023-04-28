@@ -23,11 +23,11 @@
 
 #include <ddsrouter_core/types/address/Address.hpp>
 
-#include <amlip_cpp/node/MainNode.hpp>
-#include <amlip_cpp/node/ComputingNode.hpp>
-#include <amlip_cpp/node/agent/ClientNode.hpp>
-#include <amlip_cpp/node/agent/ServerNode.hpp>
-#include <amlip_cpp/node/agent/TurnNode.hpp>
+#include <amlip_cpp/node/workload_distribution/MainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
+#include <amlip_cpp/node/wan/ClientNode.hpp>
+#include <amlip_cpp/node/wan/ServerNode.hpp>
+#include <amlip_cpp/node/wan/TurnNode.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 

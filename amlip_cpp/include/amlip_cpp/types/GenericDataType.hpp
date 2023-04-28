@@ -232,6 +232,11 @@ protected:
     static const size_t DEFAULT_PREALLOCATED_SIZE_;
 };
 
+//! \c GenericDataType to stream serializator
+std::ostream& operator <<(
+        std::ostream& os,
+        const GenericDataType& obj);
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */

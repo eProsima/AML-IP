@@ -42,6 +42,14 @@ eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
 constexpr const char* JOB_TOPIC_NAME = "job";
 
 /////////////////
+// MODEL TOPIC
+constexpr const char* MODEL_TOPIC_NAME = "model";
+
+eprosima::fastdds::dds::DataWriterQos model_writer_qos() noexcept;
+
+eprosima::fastdds::dds::DataReaderQos model_reader_qos() noexcept;
+
+/////////////////
 // MANGLING
 constexpr const char* TYPE_NAME_MANGLING = "amlip::";
 

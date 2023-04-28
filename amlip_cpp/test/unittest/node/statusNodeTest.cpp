@@ -115,7 +115,6 @@ TEST(StatusNodeTest, process_status_parent)
         [&data_arrived, &waiter, &parent_id](const types::StatusDataType& data)
         {
             data_arrived.push_back(data);
-
             // Only open when data comes from target. Skip data coming from this participant.
             if (data.id() == parent_id)
             {
