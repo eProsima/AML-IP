@@ -51,6 +51,8 @@ using namespace eprosima::amlip;
 /**
  *     Domain [10]                       Domain [11]
  * Main  <->  AgentClient  <->  AgentServer  <->  ComputingNode
+ *
+ * NOTE: this test must have changed because creating participants in different threads is a PUM
  */
 TEST(agentTest, client_server)
 {
@@ -58,14 +60,14 @@ TEST(agentTest, client_server)
     std::atomic<unsigned int> n_jobs_solved(0u);
 
     // Create Main in its own Thread
-    auto main_node_routine = [&n_jobs_solved]()
+    node::MainNode main_node("TestMainNode", 10);
+    auto main_node_routine = [&n_jobs_solved, &main_node]()
             {
-                node::MainNode main_node("TestMainNode", 10);
                 for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
                 {
                     std::string job_str = std::string("TEST_SEND") + std::to_string(i);
                     std::string solution_expected = std::string("test_send") + std::to_string(i);
-                    types::JobSolutionDataType solution =  main_node.request_job_solution(types::JobDataType(job_str));
+                    types::JobSolutionDataType solution = main_node.request_job_solution(types::JobDataType(job_str));
                     ASSERT_EQ(solution.to_string(), solution_expected);
                     n_jobs_solved++;
                 }
@@ -73,9 +75,9 @@ TEST(agentTest, client_server)
     std::thread main_thread(main_node_routine);
 
     // Create Computing in its own Thread
-    auto computing_node_routine = []()
+    node::ComputingNode computing_node("TestComputingNode", 11);
+    auto computing_node_routine = [&computing_node]()
             {
-                node::ComputingNode computing_node("TestComputingNode", 11);
                 for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
                 {
                     computing_node.process_job(test::process_routine);
