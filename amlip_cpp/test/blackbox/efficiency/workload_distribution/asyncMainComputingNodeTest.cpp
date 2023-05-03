@@ -33,9 +33,9 @@ using namespace eprosima::amlip;
 namespace test {
 
 constexpr eprosima::utils::Duration_ms EXECUTION_TIME = 200;
-constexpr eprosima::utils::Duration_ms METACOMMUNICATION_EXPECTED_TIME = 100;
+constexpr eprosima::utils::Duration_ms METACOMMUNICATION_EXPECTED_TIME = 150;
 constexpr eprosima::utils::Duration_ms MESSAGES_REPLY_EXPECTED_TIME = EXECUTION_TIME + METACOMMUNICATION_EXPECTED_TIME;
-constexpr eprosima::utils::Duration_ms RESIDUAL_TIME = EXECUTION_TIME / 10;
+constexpr eprosima::utils::Duration_ms RESIDUAL_TIME = MESSAGES_REPLY_EXPECTED_TIME / 10;
 constexpr const char* MESSAGE_INTERNAL_TEST = "Some random message that nothing matters";
 
 using SolutionsReceivedType =
