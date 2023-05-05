@@ -57,10 +57,10 @@ public:
      * @return Solution to the \c job .
      */
     virtual void solution_received(
-        std::unique_ptr<Solution> solution,
-        const types::TaskId& task_id,
-        const types::AmlipIdDataType& client_id,
-        const types::AmlipIdDataType& server_id) = 0;
+            std::unique_ptr<Solution> solution,
+            const types::TaskId& task_id,
+            const types::AmlipIdDataType& client_id,
+            const types::AmlipIdDataType& server_id) = 0;
 };
 
 /**
@@ -83,7 +83,8 @@ public:
 
     ~AsyncMultiServiceClient();
 
-    void run(std::shared_ptr<SolutionListener<Solution>> solution_listener);
+    void run(
+            std::shared_ptr<SolutionListener<Solution>> solution_listener);
 
     void stop();
 
@@ -129,7 +130,7 @@ protected:
     std::atomic<types::TaskId> last_task_id_used_;
 
     std::unique_ptr<eprosima::utils::event::ConsumerWaitHandler<
-        std::pair<std::shared_ptr<Data>, types::TaskId>>> data_to_send_;
+                std::pair<std::shared_ptr<Data>, types::TaskId>>> data_to_send_;
 
     // TODO: refactor this for a thread pool
     std::thread send_task_request_thread_;
@@ -146,7 +147,7 @@ protected:
     std::thread reply_reading_thread_;
 
     std::unique_ptr<eprosima::utils::event::ConsumerWaitHandler<
-        types::MsReferenceDataType>> server_to_send_;
+                types::MsReferenceDataType>> server_to_send_;
 
     std::set<types::TaskId> already_chosen_tasks_;
 
@@ -158,7 +159,9 @@ protected:
     std::atomic<bool> should_stop_;
 
     template <typename D, typename S>
-    friend std::ostream& operator <<(std::ostream& , const AsyncMultiServiceClient<D, S>& );
+    friend std::ostream& operator <<(
+            std::ostream&,
+            const AsyncMultiServiceClient<D, S>& );
 };
 
 //! \c AsyncMultiServiceClient to stream serializator

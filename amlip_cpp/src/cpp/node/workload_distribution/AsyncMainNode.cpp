@@ -30,7 +30,8 @@ namespace node {
 
 struct SolutionListenerCast : public dds::SolutionListener<types::JobSolutionDataType>
 {
-    SolutionListenerCast(std::shared_ptr<node::SolutionListener> listener)
+    SolutionListenerCast(
+            std::shared_ptr<node::SolutionListener> listener)
         : listener_(listener)
     {
     }

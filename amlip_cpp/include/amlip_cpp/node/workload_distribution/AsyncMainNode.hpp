@@ -65,9 +65,9 @@ public:
      * @param server_id Id of the ComputingNode answering.
      */
     virtual void solution_received(
-        std::unique_ptr<types::JobSolutionDataType> solution,
-        const types::TaskId& task_id,
-        const types::AmlipIdDataType& server_id) = 0;
+            std::unique_ptr<types::JobSolutionDataType> solution,
+            const types::TaskId& task_id,
+            const types::AmlipIdDataType& server_id) = 0;
 };
 
 /**

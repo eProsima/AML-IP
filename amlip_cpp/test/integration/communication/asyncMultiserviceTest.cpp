@@ -35,27 +35,29 @@ class TestDataType : public eprosima::amlip::types::GenericDataType
 };
 
 using SolutionsReceivedType =
-    eprosima::utils::Atomicable<
-        std::map<
-            std::pair<
-                eprosima::amlip::types::TaskId,
-                eprosima::amlip::types::AmlipIdDataType>,
-            std::pair<
-                std::unique_ptr<TestDataType>,
-                eprosima::amlip::types::AmlipIdDataType>>>;
+        eprosima::utils::Atomicable<
+    std::map<
+        std::pair<
+            eprosima::amlip::types::TaskId,
+            eprosima::amlip::types::AmlipIdDataType>,
+        std::pair<
+            std::unique_ptr<TestDataType>,
+            eprosima::amlip::types::AmlipIdDataType>>>;
 
 class TestSolutionListener : public eprosima::amlip::dds::SolutionListener<TestDataType>
 {
 public:
+
     void solution_received(
-        std::unique_ptr<TestDataType> solution,
-        const eprosima::amlip::types::TaskId& task_id,
-        const eprosima::amlip::types::AmlipIdDataType& client_id,
-        const eprosima::amlip::types::AmlipIdDataType& server_id) override
+            std::unique_ptr<TestDataType> solution,
+            const eprosima::amlip::types::TaskId& task_id,
+            const eprosima::amlip::types::AmlipIdDataType& client_id,
+            const eprosima::amlip::types::AmlipIdDataType& server_id) override
     {
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);
-        solutions[{task_id, client_id}] = std::pair<std::unique_ptr<TestDataType>, eprosima::amlip::types::AmlipIdDataType>(
+        solutions[{task_id, client_id}] = std::pair<std::unique_ptr<TestDataType>,
+                        eprosima::amlip::types::AmlipIdDataType>(
             std::move(solution), server_id);
 
         // Increase in 1 the number of solutions received
@@ -69,6 +71,7 @@ public:
 class TestTaskListener : public eprosima::amlip::dds::TaskListener<TestDataType, TestDataType>
 {
 public:
+
     TestDataType process_task (
             std::unique_ptr<TestDataType> task,
             const eprosima::amlip::types::TaskId& task_id,
@@ -127,7 +130,7 @@ TEST(asyncMultiServiceTest, communicate_service_one_on_one)
     client->run(solution_listener);
 
     // Send N messages
-    for (unsigned int i=0; i<test::N_MESSAGES; i++)
+    for (unsigned int i = 0; i < test::N_MESSAGES; i++)
     {
         // Get new task
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i);
@@ -149,7 +152,7 @@ TEST(asyncMultiServiceTest, communicate_service_one_on_one)
     solution_listener->waiter.wait_equal(test::N_MESSAGES);
 
     // Send N again and now the server is already awaken
-    for (unsigned int i=0; i<test::N_MESSAGES; i++)
+    for (unsigned int i = 0; i < test::N_MESSAGES; i++)
     {
         // Get new task
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i + test::N_MESSAGES);
@@ -159,12 +162,12 @@ TEST(asyncMultiServiceTest, communicate_service_one_on_one)
     }
 
     // Wait for all tasks answered
-    solution_listener->waiter.wait_equal(test::N_MESSAGES * 2);
+    solution_listener->waiter.wait_equal(test::N_MESSAGES* 2);
 
     // Check messages received
     {
         std::lock_guard<test::SolutionsReceivedType> guard(solution_listener->solutions);
-        for (unsigned int i=0; i<test::N_MESSAGES * 2; i++)
+        for (unsigned int i = 0; i < test::N_MESSAGES* 2; i++)
         {
             std::string expected_str = std::string("new_task_") + std::to_string(i);
 
@@ -197,13 +200,13 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
     types::AmlipIdDataType participant_client_id = participant_client->id();
 
     auto client = participant_client->create_async_multiservice_client<test::TestDataType, test::TestDataType>(
-            "test_topic");
+        "test_topic");
     client->run(solution_listener);
 
     eprosima::amlip::types::TaskId last_task_id;
 
     // Send N messages
-    for (unsigned int i=0; i<test::N_MESSAGES; i++)
+    for (unsigned int i = 0; i < test::N_MESSAGES; i++)
     {
         // Get new task
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i);
@@ -217,10 +220,10 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
     std::array<
         std::shared_ptr<eprosima::amlip::dds::AsyncMultiServiceServer<test::TestDataType, test::TestDataType>>,
         test::N_SERVERS
-    > servers;
+        > servers;
 
     // Create servers and run them sending N messages each
-    for (unsigned int i=0; i<test::N_SERVERS; i++)
+    for (unsigned int i = 0; i < test::N_SERVERS; i++)
     {
         participant_servers[i] = std::make_unique<Participant>(std::string("ServerTestPart") + std::to_string(i));
         servers[i] = participant_servers[i]->create_async_multiservice_server<test::TestDataType, test::TestDataType>(
@@ -233,7 +236,7 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
 
     // Stop the server that has answered, in case the communication is not correct with the others
     auto last_task_server_id = solution_listener->solutions[{last_task_id, participant_client_id}].second;
-    for (unsigned int i=0; i<test::N_SERVERS; i++)
+    for (unsigned int i = 0; i < test::N_SERVERS; i++)
     {
         if (participant_servers[i]->id() == last_task_server_id)
         {
@@ -243,7 +246,7 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
     }
 
     // Send all messages again
-    for (unsigned int i=0; i<test::N_MESSAGES; i++)
+    for (unsigned int i = 0; i < test::N_MESSAGES; i++)
     {
         // Get new task
         std::string task_str = std::string("NEW_TASK_") + std::to_string(i + test::N_MESSAGES);
@@ -252,11 +255,11 @@ TEST(asyncMultiServiceTest, communicate_service_one_client_n_servers)
     }
 
     // Wait for all tasks answered
-    solution_listener->waiter.wait_equal(test::N_MESSAGES * 2);
+    solution_listener->waiter.wait_equal(test::N_MESSAGES* 2);
 
     std::lock_guard<test::SolutionsReceivedType> guard(solution_listener->solutions);
-    ASSERT_EQ(solution_listener->solutions.size(), test::N_MESSAGES * 2);
-    for (unsigned int i=0; i<test::N_MESSAGES * 2; i++)
+    ASSERT_EQ(solution_listener->solutions.size(), test::N_MESSAGES* 2);
+    for (unsigned int i = 0; i < test::N_MESSAGES* 2; i++)
     {
         std::string expected_str = std::string("new_task_") + std::to_string(i);
 
@@ -288,10 +291,10 @@ TEST(asyncMultiServiceTest, communicate_service_n_clients_one_server)
     std::array<
         std::shared_ptr<eprosima::amlip::dds::AsyncMultiServiceClient<test::TestDataType, test::TestDataType>>,
         test::N_CLIENTS
-    > clients;
+        > clients;
 
     // Create clients and run them sending N messages each
-    for (unsigned int i=0; i<test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         participant_clients[i] = std::make_unique<Participant>(std::string("ClientTestPart") + std::to_string(i));
         clients[i] = participant_clients[i]->create_async_multiservice_client<test::TestDataType, test::TestDataType>(
@@ -299,7 +302,7 @@ TEST(asyncMultiServiceTest, communicate_service_n_clients_one_server)
         clients[i]->run(solution_listener);
 
         // Send N messages
-        for (unsigned int j=0; j<test::N_MESSAGES; j++)
+        for (unsigned int j = 0; j < test::N_MESSAGES; j++)
         {
             // Get new task
             std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j);
@@ -312,20 +315,21 @@ TEST(asyncMultiServiceTest, communicate_service_n_clients_one_server)
     // Create Participants and Servers
     std::unique_ptr<Participant> participant_server = std::make_unique<Participant>("ServerTestPart");
     std::shared_ptr<eprosima::amlip::dds::AsyncMultiServiceServer<test::TestDataType, test::TestDataType>> server =
-        participant_server->create_async_multiservice_server<test::TestDataType, test::TestDataType>("test_topic");
+            participant_server->create_async_multiservice_server<test::TestDataType, test::TestDataType>("test_topic");
     server->run(task_listener);
 
     // Wait for all tasks answered
-    solution_listener->waiter.wait_equal(test::N_MESSAGES * test::N_CLIENTS);
+    solution_listener->waiter.wait_equal(test::N_MESSAGES* test::N_CLIENTS);
 
     // Send all messages again
-    for (unsigned int i=0; i<test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         // Send N messages
-        for (unsigned int j=0; j<test::N_MESSAGES; j++)
+        for (unsigned int j = 0; j < test::N_MESSAGES; j++)
         {
             // Get new task
-            std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j + test::N_MESSAGES);
+            std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(
+                j + test::N_MESSAGES);
 
             // Send task
             clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
@@ -333,12 +337,12 @@ TEST(asyncMultiServiceTest, communicate_service_n_clients_one_server)
     }
 
     // Wait for all tasks answered
-    solution_listener->waiter.wait_equal(test::N_MESSAGES * test::N_CLIENTS * 2);
+    solution_listener->waiter.wait_equal(test::N_MESSAGES* test::N_CLIENTS* 2);
 
-    for (unsigned int i=0; i<test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         std::lock_guard<test::SolutionsReceivedType> guard(solution_listener->solutions);
-        for (unsigned int j=0; j<test::N_MESSAGES * 2; j++)
+        for (unsigned int j = 0; j < test::N_MESSAGES* 2; j++)
         {
             std::string expected_str = std::string("new_task_") + std::to_string(i) + "_" + std::to_string(j);
 
@@ -371,10 +375,10 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
     std::array<
         std::shared_ptr<eprosima::amlip::dds::AsyncMultiServiceClient<test::TestDataType, test::TestDataType>>,
         test::N_CLIENTS
-    > clients;
+        > clients;
 
     // Create clients and run them sending N messages each
-    for (unsigned int i=0; i<test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         participant_clients[i] = std::make_unique<Participant>(std::string("ClientTestPart") + std::to_string(i));
         clients[i] = participant_clients[i]->create_async_multiservice_client<test::TestDataType, test::TestDataType>(
@@ -382,7 +386,7 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
         clients[i]->run(solution_listener);
 
         // Send N messages
-        for (unsigned int j=0; j<test::N_MESSAGES; j++)
+        for (unsigned int j = 0; j < test::N_MESSAGES; j++)
         {
             // Get new task
             std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j);
@@ -397,10 +401,10 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
     std::array<
         std::shared_ptr<eprosima::amlip::dds::AsyncMultiServiceServer<test::TestDataType, test::TestDataType>>,
         test::N_SERVERS
-    > servers;
+        > servers;
 
     // Create servers and run them sending N messages each
-    for (unsigned int i=0; i<test::N_SERVERS; i++)
+    for (unsigned int i = 0; i < test::N_SERVERS; i++)
     {
         participant_servers[i] = std::make_unique<Participant>(std::string("ServerTestPart") + std::to_string(i));
         servers[i] = participant_servers[i]->create_async_multiservice_server<test::TestDataType, test::TestDataType>(
@@ -409,16 +413,17 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
     }
 
     // Wait for all tasks answered
-    solution_listener->waiter.wait_equal(test::N_MESSAGES * test::N_CLIENTS);
+    solution_listener->waiter.wait_equal(test::N_MESSAGES* test::N_CLIENTS);
 
     // Send all messages again
-    for (unsigned int i=0; i<test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         // Send N messages
-        for (unsigned int j=0; j<test::N_MESSAGES; j++)
+        for (unsigned int j = 0; j < test::N_MESSAGES; j++)
         {
             // Get new task
-            std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(j + test::N_MESSAGES);
+            std::string task_str = std::string("NEW_TASK_") + std::to_string(i) + "_" + std::to_string(
+                j + test::N_MESSAGES);
 
             // Send task
             clients[i]->send_request_async(std::make_shared<test::TestDataType>(task_str));
@@ -426,12 +431,12 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
     }
 
     // Wait for all tasks answered
-    solution_listener->waiter.wait_equal(test::N_MESSAGES * test::N_CLIENTS * 2);
+    solution_listener->waiter.wait_equal(test::N_MESSAGES* test::N_CLIENTS* 2);
 
-    for (unsigned int i=0; i<test::N_CLIENTS; i++)
+    for (unsigned int i = 0; i < test::N_CLIENTS; i++)
     {
         std::lock_guard<test::SolutionsReceivedType> guard(solution_listener->solutions);
-        for (unsigned int j=0; j<test::N_MESSAGES * 2; j++)
+        for (unsigned int j = 0; j < test::N_MESSAGES* 2; j++)
         {
             std::string expected_str = std::string("new_task_") + std::to_string(i) + "_" + std::to_string(j);
 

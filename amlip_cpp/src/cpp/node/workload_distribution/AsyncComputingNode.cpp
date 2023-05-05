@@ -31,7 +31,8 @@ namespace node {
 
 struct TaskListenerCast : public dds::TaskListener<types::JobDataType, types::JobSolutionDataType>
 {
-    TaskListenerCast(std::shared_ptr<JobListener> listener)
+    TaskListenerCast(
+            std::shared_ptr<JobListener> listener)
         : listener_(listener)
     {
     }

@@ -55,7 +55,8 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
     , own_id_(own_id)
     , topic_(topic)
     , last_task_id_used_(0)
-    , data_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<std::shared_ptr<Data>, types::TaskId>>>(0, false))
+    , data_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<std::shared_ptr<Data>,
+            types::TaskId>>>(0, false))
     , running_(false)
     , waiter_for_request_(0, 0)
     , reply_reading_thread_(&AsyncMultiServiceClient::read_replies_, this)
@@ -87,7 +88,8 @@ AsyncMultiServiceClient<Data, Solution>::~AsyncMultiServiceClient()
 }
 
 template <typename Data, typename Solution>
-void AsyncMultiServiceClient<Data, Solution>::run(std::shared_ptr<SolutionListener<Solution>> solution_listener)
+void AsyncMultiServiceClient<Data, Solution>::run(
+        std::shared_ptr<SolutionListener<Solution>> solution_listener)
 {
     if (!running_.exchange(true))
     {
@@ -134,7 +136,8 @@ types::TaskId AsyncMultiServiceClient<Data, Solution>::send_request_async(
 }
 
 template <typename Data, typename Solution>
-eprosima::fastdds::dds::DataWriterQos AsyncMultiServiceClient<Data, Solution>::default_request_availability_writer_qos_()
+eprosima::fastdds::dds::DataWriterQos AsyncMultiServiceClient<Data,
+        Solution>::default_request_availability_writer_qos_()
 {
     eprosima::fastdds::dds::DataWriterQos qos = utils::default_datawriter_qos();
 
@@ -172,7 +175,7 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
             data = std::move(task.first);
             this_task_id = task.second;
         }
-        catch(const eprosima::utils::DisabledException&)
+        catch (const eprosima::utils::DisabledException&)
         {
             // Consumer disable, end thread
             break;
@@ -218,7 +221,7 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
 template <typename Data, typename Solution>
 void AsyncMultiServiceClient<Data, Solution>::read_replies_()
 {
-    while(!should_stop_)
+    while (!should_stop_)
     {
         // Only start waiting for data once a request have been sent
         // This way it avoids to wait forever when no required
@@ -262,7 +265,7 @@ void AsyncMultiServiceClient<Data, Solution>::read_replies_()
 template <typename Data, typename Solution>
 void AsyncMultiServiceClient<Data, Solution>::read_solution_()
 {
-    while(!should_stop_)
+    while (!should_stop_)
     {
         // TODO: this should not be done
         uint32_t timeout = 1000;

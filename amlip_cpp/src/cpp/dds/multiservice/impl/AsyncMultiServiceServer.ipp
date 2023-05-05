@@ -71,7 +71,8 @@ AsyncMultiServiceServer<Data, Solution>::~AsyncMultiServiceServer()
 }
 
 template <typename Data, typename Solution>
-void AsyncMultiServiceServer<Data, Solution>::run(std::shared_ptr<TaskListener<Data, Solution>> processing_listener)
+void AsyncMultiServiceServer<Data, Solution>::run(
+        std::shared_ptr<TaskListener<Data, Solution>> processing_listener)
 {
     // If it is not yet processing data, start thread to process it. Otherwise fails.
     if (!processing_.exchange(true))
@@ -112,7 +113,7 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
 {
     logDebug(AMLIPCPP_DDS_MSASYNCSERVER, "Processing tasks in : " << *this << ".");
 
-    while(processing_)
+    while (processing_)
     {
 
         types::MsReferenceDataType task_target;
@@ -170,7 +171,8 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
                         task_target.task_id() != reference.task_id())
                 {
                     // If not, continue waiting
-                    logDebug(AMLIPCPP_DDS_MSASYNCSERVER, "Request received but not valid: " << task_target << ". Keep waiting.");
+                    logDebug(AMLIPCPP_DDS_MSASYNCSERVER,
+                            "Request received but not valid: " << task_target << ". Keep waiting.");
                     continue;
                 }
                 else
@@ -216,7 +218,7 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
             task_target.task_id(),
             task_target.client_id(),
             task_target.server_id()
-        );
+            );
 
         // Create solution data
         types::MsDataType<Solution> ms_solution(
@@ -229,7 +231,8 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
 }
 
 template <typename Data, typename Solution>
-eprosima::fastdds::dds::DataReaderQos AsyncMultiServiceServer<Data, Solution>::default_request_availability_reader_qos_()
+eprosima::fastdds::dds::DataReaderQos AsyncMultiServiceServer<Data,
+        Solution>::default_request_availability_reader_qos_()
 {
     eprosima::fastdds::dds::DataReaderQos qos = utils::default_datareader_qos();
 

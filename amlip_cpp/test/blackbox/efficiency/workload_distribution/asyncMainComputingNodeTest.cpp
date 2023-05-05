@@ -39,18 +39,19 @@ constexpr eprosima::utils::Duration_ms RESIDUAL_TIME = MESSAGES_REPLY_EXPECTED_T
 constexpr const char* MESSAGE_INTERNAL_TEST = "Some random message that nothing matters";
 
 using SolutionsReceivedType =
-    eprosima::utils::Atomicable<
-        std::map<
-            types::TaskId,
-            std::unique_ptr<types::JobSolutionDataType>>>;
+        eprosima::utils::Atomicable<
+    std::map<
+        types::TaskId,
+        std::unique_ptr<types::JobSolutionDataType>>>;
 
 class TestSolutionListener : public node::SolutionListener
 {
 public:
+
     void solution_received(
-        std::unique_ptr<types::JobSolutionDataType> solution,
-        const types::TaskId& task_id,
-        const types::AmlipIdDataType& server_id) override
+            std::unique_ptr<types::JobSolutionDataType> solution,
+            const types::TaskId& task_id,
+            const types::AmlipIdDataType& server_id) override
     {
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);
@@ -67,6 +68,7 @@ public:
 class TestTaskListener : public node::JobListener
 {
 public:
+
     types::JobSolutionDataType process_job (
             std::unique_ptr<types::JobDataType> job,
             const types::TaskId& task_id,
@@ -76,9 +78,13 @@ public:
         eprosima::utils::sleep_for(EXECUTION_TIME);
         return types::JobSolutionDataType(job->to_string());
     }
+
 };
 
-eprosima::utils::Duration_ms time_expected(unsigned int n_clients, unsigned int n_servers, unsigned int n_messages)
+eprosima::utils::Duration_ms time_expected(
+        unsigned int n_clients,
+        unsigned int n_servers,
+        unsigned int n_messages)
 {
     auto total_messages = n_clients * n_messages;
     if (eprosima::utils::fast_module(total_messages, n_servers) == 0)
@@ -92,12 +98,13 @@ eprosima::utils::Duration_ms time_expected(unsigned int n_clients, unsigned int 
 }
 
 void send_messages(
-    std::vector<std::unique_ptr<node::AsyncMainNode>>& main_nodes, unsigned int n_messages)
+        std::vector<std::unique_ptr<node::AsyncMainNode>>& main_nodes,
+        unsigned int n_messages)
 {
     std::shared_ptr<types::JobDataType> job(std::make_shared<types::JobDataType>(MESSAGE_INTERNAL_TEST));
     for (auto& main_node : main_nodes)
     {
-        for (unsigned int i=0; i<n_messages; ++i)
+        for (unsigned int i = 0; i < n_messages; ++i)
         {
             main_node->request_job_solution(job);
         }
@@ -105,7 +112,8 @@ void send_messages(
 }
 
 void wait_solutions(
-    std::vector<std::shared_ptr<test::TestSolutionListener>>& main_listeners, unsigned int n_messages)
+        std::vector<std::shared_ptr<test::TestSolutionListener>>& main_listeners,
+        unsigned int n_messages)
 {
     for (auto& listener : main_listeners)
     {
@@ -113,13 +121,16 @@ void wait_solutions(
     }
 }
 
-eprosima::utils::Duration_ms execute_nodes(unsigned int n_clients, unsigned int n_servers, unsigned int n_messages)
+eprosima::utils::Duration_ms execute_nodes(
+        unsigned int n_clients,
+        unsigned int n_servers,
+        unsigned int n_messages)
 {
     //////
     // COMPUTING NODES RUNNING
     std::vector<std::shared_ptr<test::TestTaskListener>> computing_listeners;
     std::vector<std::unique_ptr<node::AsyncComputingNode>> computing_nodes;
-    for (unsigned int i=0; i<n_servers; i++)
+    for (unsigned int i = 0; i < n_servers; i++)
     {
         computing_listeners.emplace_back(std::make_shared<test::TestTaskListener>());
         computing_nodes.emplace_back(
@@ -133,7 +144,7 @@ eprosima::utils::Duration_ms execute_nodes(unsigned int n_clients, unsigned int 
     // MAIN NODES RUNNING
     std::vector<std::shared_ptr<test::TestSolutionListener>> main_listeners;
     std::vector<std::unique_ptr<node::AsyncMainNode>> mains_nodes;
-    for (unsigned int i=0; i<n_clients; i++)
+    for (unsigned int i = 0; i < n_clients; i++)
     {
         main_listeners.emplace_back(std::make_shared<test::TestSolutionListener>());
         mains_nodes.emplace_back(
@@ -154,7 +165,10 @@ eprosima::utils::Duration_ms execute_nodes(unsigned int n_clients, unsigned int 
     return elapsed_time;
 }
 
-void execute_test(unsigned int n_clients, unsigned int n_servers, unsigned int n_messages)
+void execute_test(
+        unsigned int n_clients,
+        unsigned int n_servers,
+        unsigned int n_messages)
 {
     auto time_elapsed = execute_nodes(n_clients, n_servers, n_messages);
     ASSERT_LT(time_elapsed, time_expected(n_clients, n_servers, n_messages) + RESIDUAL_TIME);

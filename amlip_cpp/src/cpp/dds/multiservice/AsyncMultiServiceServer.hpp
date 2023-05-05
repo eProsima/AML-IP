@@ -76,13 +76,15 @@ public:
 
     ~AsyncMultiServiceServer();
 
-    void run(std::shared_ptr<TaskListener<Data, Solution>> processing_listener);
+    void run(
+            std::shared_ptr<TaskListener<Data, Solution>> processing_listener);
 
     void stop();
 
 protected:
 
-    void processing_routine_async_(std::shared_ptr<TaskListener<Data, Solution>> processing_listener);
+    void processing_routine_async_(
+            std::shared_ptr<TaskListener<Data, Solution>> processing_listener);
 
     static eprosima::fastdds::dds::DataReaderQos default_request_availability_reader_qos_();
     static eprosima::fastdds::dds::DataReaderQos default_task_target_reader_qos_();
@@ -108,7 +110,9 @@ protected:
     std::set<types::MsRequestDataType> already_processed_requests_;
 
     template <typename D, typename S>
-    friend std::ostream& operator <<(std::ostream& , const AsyncMultiServiceServer<D, S>& );
+    friend std::ostream& operator <<(
+            std::ostream&,
+            const AsyncMultiServiceServer<D, S>& );
 
     /**
      * @brief Time to wait for new tasks.
