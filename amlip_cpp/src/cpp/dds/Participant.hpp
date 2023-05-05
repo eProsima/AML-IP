@@ -36,6 +36,8 @@
 #include <dds/Writer.hpp>
 #include <dds/multiservice/MultiServiceClient.hpp>
 #include <dds/multiservice/MultiServiceServer.hpp>
+#include <dds/multiservice/AsyncMultiServiceClient.hpp>
+#include <dds/multiservice/AsyncMultiServiceServer.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -113,6 +115,14 @@ public:
 
     template <typename Data, typename Solution>
     std::shared_ptr<MultiServiceServer<Data, Solution>> create_multiservice_server(
+            const std::string& topic_name);
+
+    template <typename Data, typename Solution>
+    std::shared_ptr<AsyncMultiServiceClient<Data, Solution>> create_async_multiservice_client(
+            const std::string& topic_name);
+
+    template <typename Data, typename Solution>
+    std::shared_ptr<AsyncMultiServiceServer<Data, Solution>> create_async_multiservice_server(
             const std::string& topic_name);
 
     /**

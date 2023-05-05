@@ -91,3 +91,30 @@ add_blackbox_executable(
         "${TEST_LIST}"
         "${TEST_NEEDED_SOURCES}"
     )
+
+##################################################
+# ASYNC MULTISERVICE COMMUNICATION TESTS
+##################################################
+
+set(TEST_NAME asyncMultiServiceTest)
+
+set(TEST_SOURCES
+        asyncMultiserviceTest.cpp
+    )
+
+set(TEST_LIST
+        communicate_service_one_on_one
+        communicate_service_one_client_n_servers
+        communicate_service_n_clients_one_server
+        communicate_service_n_to_n
+    )
+
+set(TEST_NEEDED_SOURCES
+    )
+
+add_blackbox_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_NEEDED_SOURCES}"
+    )

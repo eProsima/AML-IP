@@ -71,7 +71,7 @@ template <typename T>
 eprosima::utils::event::AwakeReason Reader<T>::wait_data_available(
         uint32_t timeout /* = 0 */)
 {
-    return reader_data_waiter_.wait();
+    return reader_data_waiter_.wait(timeout);
 }
 
 template <typename T>

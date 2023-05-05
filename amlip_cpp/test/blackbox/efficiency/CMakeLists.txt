@@ -12,11 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add subdirectory with labels for tests
-add_subdirectory(labels)
-
-# Add subdirectory with tests
-add_subdirectory(blackbox)
-add_subdirectory(integration)
-add_subdirectory(manual)
-add_subdirectory(unittest)
+# Add test subdirectories
+add_subdirectory(workload_distribution)

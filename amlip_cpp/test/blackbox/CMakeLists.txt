@@ -14,3 +14,4 @@
 
 # Add test subdirectories
 add_subdirectory(communication)
+add_subdirectory(efficiency)

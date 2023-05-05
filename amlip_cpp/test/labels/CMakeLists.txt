@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add subdirectory with labels for tests
-add_subdirectory(labels)
+# Set list of tests that can fail using ASAN
+set_test_label_file(${CMAKE_CURRENT_SOURCE_DIR}/XASAN.list "xasan")
 
-# Add subdirectory with tests
-add_subdirectory(blackbox)
-add_subdirectory(integration)
-add_subdirectory(manual)
-add_subdirectory(unittest)
+# Set list of tests that can fail in windows
+if (WIN32)
+    set_test_label_file(${CMAKE_CURRENT_SOURCE_DIR}/WINDOWS_XFAIL.list "xfail")
+endif()
