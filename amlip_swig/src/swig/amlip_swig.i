@@ -61,6 +61,7 @@
 %include "std_list.i"
 %include "std_string.i"
 %include "std_shared_ptr.i"
+%include <std_unique_ptr.i>
 %include "std_vector.i"
 
 // Definition of internal types
@@ -77,6 +78,7 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/InterfaceDataType.i"
 %include "amlip_swig/types/GenericDataType.i"
 %include "amlip_swig/types/id/AmlipIdDataType.i"
+%include "amlip_swig/types/id/TaskId.i"
 %include "amlip_swig/types/status/NodeKind.i"
 %include "amlip_swig/types/status/StateKind.i"
 %include "amlip_swig/types/status/StatusDataType.i"
@@ -87,3 +89,4 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/node/StatusNode.i"
 %include "amlip_swig/node/MainNode.i"
 %include "amlip_swig/node/ComputingNode.i"
+%include "amlip_swig/node/AsyncMainNode.i"

@@ -50,7 +50,7 @@ struct SolutionListenerCast : public dds::SolutionListener<types::JobSolutionDat
 
 AsyncMainNode::AsyncMainNode(
         const char* name,
-        std::shared_ptr<SolutionListener> listener,
+        const std::shared_ptr<SolutionListener>& listener,
         uint32_t domain_id)
     : ParentNode(name, types::NodeKind::main, types::StateKind::running, domain_id)
     , job_client_(participant_->create_async_multiservice_client<types::JobDataType, types::JobSolutionDataType>(
@@ -62,7 +62,7 @@ AsyncMainNode::AsyncMainNode(
 
 AsyncMainNode::AsyncMainNode(
         const char* name,
-        std::shared_ptr<SolutionListener> listener)
+        const std::shared_ptr<SolutionListener>& listener)
     : AsyncMainNode(name, listener, dds::Participant::default_domain_id())
 {
 }
@@ -74,9 +74,18 @@ AsyncMainNode::~AsyncMainNode()
 }
 
 types::TaskId AsyncMainNode::request_job_solution(
-        std::shared_ptr<types::JobDataType> data)
+        const std::shared_ptr<types::JobDataType>& data)
 {
     return job_client_->send_request_async(data);
+}
+
+types::TaskId AsyncMainNode::request_job_solution(
+        const types::JobDataType& data)
+{
+    logDevError(AMLIPCPP_NODE_ASYNCMAIN, "Copying request data.");
+    return request_job_solution(
+        std::make_shared<types::JobDataType>(data)
+    );
 }
 
 } /* namespace node */

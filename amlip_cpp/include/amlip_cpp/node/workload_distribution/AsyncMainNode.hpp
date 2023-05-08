@@ -65,9 +65,9 @@ public:
      * @param server_id Id of the ComputingNode answering.
      */
     virtual void solution_received(
-            std::unique_ptr<types::JobSolutionDataType> solution,
-            const types::TaskId& task_id,
-            const types::AmlipIdDataType& server_id) = 0;
+        std::unique_ptr<types::JobSolutionDataType>&& solution,
+        const types::TaskId& task_id,
+        const types::AmlipIdDataType& server_id) = 0;
 };
 
 /**
@@ -88,12 +88,12 @@ public:
      */
     AMLIP_CPP_DllAPI AsyncMainNode(
             const char* name,
-            std::shared_ptr<SolutionListener> listener,
+            const std::shared_ptr<SolutionListener>& listener,
             uint32_t domain_id);
 
     AMLIP_CPP_DllAPI AsyncMainNode(
             const char* name,
-            std::shared_ptr<SolutionListener> listener);
+            const std::shared_ptr<SolutionListener>& listener);
 
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.
@@ -120,7 +120,10 @@ public:
      * However internal node will not copy this data, so efficiency is not lost because of this design decision.
      */
     AMLIP_CPP_DllAPI types::TaskId request_job_solution(
-            std::shared_ptr<types::JobDataType> data);
+            const std::shared_ptr<types::JobDataType>& data);
+
+    AMLIP_CPP_DllAPI types::TaskId request_job_solution(
+            const types::JobDataType& data);
 
 protected:
 

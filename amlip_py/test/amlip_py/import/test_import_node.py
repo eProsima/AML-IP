@@ -22,6 +22,7 @@ import amlip_py.types.StatusDataType  # noqa: F401
 import amlip_py.node.ComputingNode  # noqa: F401,I100,I202
 import amlip_py.node.MainNode  # noqa: F401
 import amlip_py.node.StatusNode  # noqa: F401
+import amlip_py.node.AsyncMainNode  # noqa: F401
 
 
 def test_status_creation():
@@ -37,3 +38,8 @@ def test_main_creation():
 def test_computing_creation():
     """Test creation of ComputingNode."""
     _ = amlip_py.node.ComputingNode.ComputingNode
+
+
+def test_asyncmain_creation():
+    """Test creation of AsyncMainNode."""
+    _ = amlip_py.node.AsyncMainNode.AsyncMainNode

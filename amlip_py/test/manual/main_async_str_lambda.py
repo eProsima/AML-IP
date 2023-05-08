@@ -12,8 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from amlip_py.node.MainNode import MainNode
+import signal
+
+from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
+
+from amlip_py.node.AsyncMainNode import AsyncMainNode
 from amlip_py.types.JobDataType import JobDataType
+
+# Maximum time to wait for solution
+MAX_TIMEOUT = 10
+
+# Variable to wait to the solution
+waiter = BooleanWaitHandler(True, False)
+
+
+def solution_received(
+        solution,
+        task_id,
+        server_id):
+    print(f'Solution received from server: {server_id}\n with id: {task_id}\n solution: {solution}')
+    waiter.open()
 
 
 def main():
@@ -22,8 +40,8 @@ def main():
     # TODO
 
     # Create node
-    print('Starting Manual Test Main Node Py execution. Creating Node...')
-    main_node = MainNode('PyTestMainNode')
+    print('Starting Manual Test Async Main Node Py execution. Creating Node...')
+    main_node = AsyncMainNode('PyTestAsyncMainNode', callback=solution_received)
 
     # Create job data
     print(f'Node created: {main_node.get_id()}. Creating job...')
@@ -32,15 +50,14 @@ def main():
 
     # Sending job
     print(f'Job data created with string: {job_data}. Sending request...')
-    solution, server_id = main_node.request_job_solution(job_data)
-    print(f'------- {type(solution)}   {solution}')
+    task_id = main_node.request_job_solution(job_data)
 
-    # Deserializing solution
-    print(f'Solution received from server {server_id}. Deserializing to string...')
-    solution_str = solution.to_string()
+    print(f'Request sent with task id: {task_id}. Waiting solution...')
 
-    print(f'Solution deserialized is: {solution_str}. '
-          'Finishing Manual Test Main Node Py execution.')
+    # Wait to received solution
+    waiter.wait()
+
+    print('Finishing Manual Test Async Main Node Py execution.')
 
 
 # Call main in program execution

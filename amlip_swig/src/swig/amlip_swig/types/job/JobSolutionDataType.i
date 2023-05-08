@@ -19,6 +19,8 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
 
+%unique_ptr(eprosima::amlip::types::JobSolutionDataType);
+
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;

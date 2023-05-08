@@ -49,9 +49,9 @@ class TestSolutionListener : public node::SolutionListener
 public:
 
     void solution_received(
-            std::unique_ptr<types::JobSolutionDataType> solution,
-            const types::TaskId& task_id,
-            const types::AmlipIdDataType& server_id) override
+        std::unique_ptr<types::JobSolutionDataType>&& solution,
+        const types::TaskId& task_id,
+        const types::AmlipIdDataType& server_id) override
     {
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);
