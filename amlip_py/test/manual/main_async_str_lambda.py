@@ -12,15 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import signal
-
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.AsyncMainNode import AsyncMainNode
 from amlip_py.types.JobDataType import JobDataType
-
-# Maximum time to wait for solution
-MAX_TIMEOUT = 10
 
 # Variable to wait to the solution
 waiter = BooleanWaitHandler(True, False)
@@ -45,7 +40,7 @@ def main():
 
     # Create job data
     print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String>'
+    data_str = '<Job Data In Py String Async Lambda>'
     job_data = JobDataType(data_str)
 
     # Sending job

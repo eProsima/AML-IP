@@ -37,12 +37,12 @@ struct SolutionListenerCast : public dds::SolutionListener<types::JobSolutionDat
     }
 
     void solution_received (
-            std::unique_ptr<types::JobSolutionDataType> solution,
+            std::unique_ptr<types::JobSolutionDataType>&& solution,
             const types::TaskId& task_id,
             const types::AmlipIdDataType&,
             const types::AmlipIdDataType& server_id) override
     {
-        listener_->solution_received(std::move(solution), task_id, server_id);
+        listener_->solution_received(*solution, task_id, server_id);
     }
 
     std::shared_ptr<node::SolutionListener> listener_;

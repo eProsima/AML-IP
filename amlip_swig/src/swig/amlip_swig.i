@@ -61,7 +61,7 @@
 %include "std_list.i"
 %include "std_string.i"
 %include "std_shared_ptr.i"
-%include <std_unique_ptr.i>
+%include "std_unique_ptr.i"
 %include "std_vector.i"
 
 // Definition of internal types
@@ -90,3 +90,4 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/node/MainNode.i"
 %include "amlip_swig/node/ComputingNode.i"
 %include "amlip_swig/node/AsyncMainNode.i"
+%include "amlip_swig/node/AsyncComputingNode.i"

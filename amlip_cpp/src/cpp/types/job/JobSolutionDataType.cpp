@@ -48,6 +48,11 @@ JobSolutionDataType::JobSolutionDataType(
     // Do nothing
 }
 
+std::string JobSolutionDataType::to_string_() const noexcept
+{
+    return GenericDataType::to_string();
+}
+
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */

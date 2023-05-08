@@ -21,7 +21,9 @@
 
 // Generate directors for the virtual methods in the listener
 // IMPORTANT: this statement must be before including the hpp
-%feature("director") eprosima::amlip::node::JobListener;
+%feature("director") eprosima::amlip::node::JobReplier;
+
+%shared_ptr(eprosima::amlip::node::JobReplier);
 
 %{
 #include <amlip_cpp/node/workload_distribution/AsyncComputingNode.hpp>

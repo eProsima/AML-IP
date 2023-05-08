@@ -50,7 +50,7 @@ public:
      * @return Solution to the \c task .
      */
     virtual Solution process_task (
-            std::unique_ptr<Data> task,
+            std::unique_ptr<Data>&& task,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& client_id,
             const types::AmlipIdDataType& server_id) = 0;

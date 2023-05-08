@@ -31,27 +31,26 @@ namespace node {
 
 struct TaskListenerCast : public dds::TaskListener<types::JobDataType, types::JobSolutionDataType>
 {
-    TaskListenerCast(
-            std::shared_ptr<JobListener> listener)
+    TaskListenerCast(std::shared_ptr<JobReplier> listener)
         : listener_(listener)
     {
     }
 
     types::JobSolutionDataType process_task (
-            std::unique_ptr<types::JobDataType> task,
+            std::unique_ptr<types::JobDataType>&& task,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& client_id,
             const types::AmlipIdDataType&) override
     {
-        return listener_->process_job(std::move(task), task_id, client_id);
+        return listener_->process_job(*task, task_id, client_id);
     }
 
-    std::shared_ptr<JobListener> listener_;
+    std::shared_ptr<JobReplier> listener_;
 };
 
 AsyncComputingNode::AsyncComputingNode(
         const char* name,
-        std::shared_ptr<JobListener> listener,
+        std::shared_ptr<JobReplier> listener,
         uint32_t domain_id)
     : ParentNode(name, types::NodeKind::computing, types::StateKind::stopped, domain_id)
     , job_server_(
@@ -64,7 +63,7 @@ AsyncComputingNode::AsyncComputingNode(
 
 AsyncComputingNode::AsyncComputingNode(
         const char* name,
-        std::shared_ptr<JobListener> listener)
+        std::shared_ptr<JobReplier> listener)
     : AsyncComputingNode(name, listener, dds::Participant::default_domain_id())
 {
     // Do nothing

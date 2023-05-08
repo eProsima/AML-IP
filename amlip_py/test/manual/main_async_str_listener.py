@@ -12,30 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import signal
-
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
-from amlip_py.node.AsyncMainNode import AsyncMainNode, SolutionListener
+from amlip_py.node.AsyncMainNode import AsyncMainNode, SolutionListenerLambda
 from amlip_py.types.JobDataType import JobDataType
 
-# Maximum time to wait for solution
-MAX_TIMEOUT = 10
+# Variable to wait to the solution
+waiter = BooleanWaitHandler(True, False)
 
 
-class CustomSolutionListener(SolutionListener):
-
-    def __init__(self, waiter):
-        self.waiter_ = waiter
-        super().__init__()
-
-    def solution_received(
-            self,
-            solution,
-            task_id,
-            server_id):
-        print(f'Solution received from server: {server_id}\n with id: {task_id}\n solution: {solution.to_string()}')
-        self.waiter_.open()
+def solution_received(
+        solution,
+        task_id,
+        server_id):
+    print(f'Solution received from server: {server_id}\n with id: {task_id}\n solution: {solution}')
+    waiter.open()
 
 
 def main():
@@ -48,12 +39,13 @@ def main():
 
     # Create node
     print('Starting Manual Test Async Main Node Py execution. Creating Node...')
-    listener = CustomSolutionListener(waiter)
-    main_node = AsyncMainNode('PyTestAsyncMainNode', listener=listener)
+    main_node = AsyncMainNode(
+        'PyTestAsyncMainNode',
+        listener=SolutionListenerLambda(solution_received))
 
     # Create job data
     print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String>'
+    data_str = '<Job Data In Py String Async Lister>'
     job_data = JobDataType(data_str)
 
     # Sending job

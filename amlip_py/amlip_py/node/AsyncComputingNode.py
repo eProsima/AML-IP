@@ -17,33 +17,31 @@ from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.JobDataType import JobDataType
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
-from amlip_swig import AsyncMainNode as cpp_AsyncMainNode
-from amlip_swig import SolutionListener as cpp_SolutionListener
+from amlip_swig import AsyncComputingNode as cpp_AsyncComputingNode
+from amlip_swig import JobReplier as cpp_JobReplier
 
 
-class SolutionListener(cpp_SolutionListener):
+class JobReplier(cpp_JobReplier):
     """
-    Solution Listener class.
-    This object must execute solution_received method with each Solution message that is received
-    from node and must return the solution to the job.
+    TODO
     """
 
-    def solution_received(
+    def process_job(
             self,
-            solution: JobSolutionDataType,
+            job,
             task_id,
-            server_id):
+            client_id):
         """
         Raise exception.
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('SolutionListener.solution_received must be specialized before use.')
+        raise NotImplementedError('JobReplier.process_job must be specialized before use.')
 
 
-class SolutionListenerLambda(SolutionListener):
+class JobReplierLambda(JobReplier):
     """
-    Custom SolutionListener supporting to create it with a lambda function.
+    Custom JobReplier supporting to create it with a lambda function.
     This object is created with a lambda function that is stored inside and used for every
     JobSolution message received.
     """
@@ -53,18 +51,18 @@ class SolutionListenerLambda(SolutionListener):
         self.callback_ = callback
         super().__init__()
 
-    def solution_received(
+    def process_job(
             self,
-            solution: JobSolutionDataType,
+            job,
             task_id,
             server_id):
         """Call internal lambda."""
-        return self.callback_(solution, task_id, server_id)
+        return self.callback_(job, task_id, server_id)
 
 
-class AsyncMainNode(cpp_AsyncMainNode):
+class AsyncComputingNode(cpp_AsyncComputingNode):
     """
-    AML-IP Asynchronous Main Node.
+    AML-IP Asynchronous Computing Node.
     TODO
     """
 
@@ -72,7 +70,7 @@ class AsyncMainNode(cpp_AsyncMainNode):
             self,
             name: str,
             callback=None,
-            listener: SolutionListener = None):
+            listener: JobReplier = None):
         """
         Create a new Async Main Node with a given name.
         Parameters
@@ -83,37 +81,38 @@ class AsyncMainNode(cpp_AsyncMainNode):
 
         if (listener and callback):
             raise ValueError(
-                'AsyncMainNode constructor expects a listener object or a callback, both given.')
+                'AsyncComputingNode constructor expects a listener object or a callback, both given.')
 
         elif (not listener and not callback):
             raise ValueError(
-                'AsyncMainNode constructor expects a listener object or a callback, none given.')
+                'AsyncComputingNode constructor expects a listener object or a callback, none given.')
 
         # Parent class constructor
         if listener:
             super().__init__(name, listener)
         elif callback:
-            super().__init__(name, SolutionListenerLambda(callback))
+            super().__init__(name, SolutionLambda(callback))
         else:
             raise ValueError(
                 'This should not happen.')
 
-    def request_job_solution(
+    def run(
             self,
-            data: JobDataType):
+            ) -> None:
         """
-        Send a job to a ComputingNode to be executed, without actively waiting (async).
-        Parameters
-        ----------
-        data : StringJobDataType
-            Job that will be send to process by a computing node.
-        Return
-        ------
-        Task id associated to the job given
+        TODO
         """
-        return cpp_AsyncMainNode.request_job_solution(self, data)
+        return cpp_AsyncComputingNode.run(self)
+
+    def stop(
+            self,
+            ) -> None:
+        """
+        TODO
+        """
+        return cpp_AsyncComputingNode.stop(self)
 
     def get_id(
             self) -> AmlipIdDataType:
         """Get AMLIP id of the node."""
-        return cpp_AsyncMainNode.id(self)
+        return cpp_AsyncComputingNode.id(self)

@@ -22,14 +22,10 @@
 // Generate directors for the virtual methods in the listener
 // IMPORTANT: this statement must be before including the hpp
 %feature("director") eprosima::amlip::node::SolutionListener;
-// %feature("director") eprosima::amlip::types::JobSolutionDataType;
-
-// %ignore eprosima::amlip::node::AsyncMainNode::AsyncMainNode(char const *,const std::shared_ptr< SolutionListener >&,uint32_t);
-
-%ignore eprosima::amlip::node::AsyncMainNode::request_job_solution(const eprosima::amlip::types::JobDataType& );
 
 %shared_ptr(eprosima::amlip::node::SolutionListener);
-%unique_ptr(eprosima::amlip::types::JobSolutionDataType);
+
+%ignore eprosima::amlip::node::AsyncMainNode::request_job_solution(const eprosima::amlip::types::JobDataType& );
 
 %{
 #include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
