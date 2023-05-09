@@ -17,7 +17,7 @@
 ###############################################################################
 
 set(MODULE_NAME
-    agent_tool)
+    amlip_agent_tool)
 
 set(MODULE_SUMMARY
     "C++ application to execute an agent.")

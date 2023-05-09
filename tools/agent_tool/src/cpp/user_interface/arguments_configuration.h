@@ -136,11 +136,11 @@ struct Arg : public option::Arg
         if (option.arg != 0)
         {
             std::string transport = std::string(option.arg);
-            if (transport != "shm" && transport != "udp" && transport != "udpv4" && transport != "udpv6")
+            if (transport != "tcp" && transport != "udp")
             {
                 if (msg)
                 {
-                    print_error("Option '", option, "' only accepts <shm|udp[v4]|udpv6> values\n");
+                    print_error("Option '", option, "' only accepts <tcp|udp> values\n");
                 }
                 return option::ARG_ILLEGAL;
             }
@@ -192,7 +192,7 @@ const option::Descriptor usage[] = {
     { LISTENING_ADDRESS, 0, "l", "listening_address",           Arg::String,
       "  -l, --listening <listening_address>  \tAddress where listen (Default: 127.0.0.1)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
-      "  -t, --transport <shm|udp|udpv6>  \tUse only shared-memory, UDPv4, or UDPv6 transport. (Default: udp)." },
+      "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: UDPv4)." },
     { 0, 0, 0, 0, 0, 0 }
 };
 

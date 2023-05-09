@@ -2,6 +2,14 @@
 
 *eprosima AML-IP* C++ application to execute an Agent Node.
 
+## Building the workspace
+
+mkdir -p ~/AML-IP/src
+cd ~/AML-IP
+wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+vcs import src < amlip.repos
+colcon build
+
 ## Execution instructions
 
 In order to know all the possible arguments supported by this tool, use the command:

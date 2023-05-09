@@ -64,14 +64,12 @@ int main(
 
     // Parameter definition
     EntityType entity_type = EntityType::CLIENT;
-    std::string connection_address = "127.0.0.1";
-    std::string listening_address = "127.0.0.1";
-    std::string ip;
+    std::string ip = "127.0.0.1";
     int domain = 0;
     int connection_port = 12121;
     int listening_port = 12121;
-    int port;
-    char* name = "agent_tool";
+    int port = 12121;
+    std::string name = "agent_tool";
     eprosima::ddsrouter::core::types::TransportProtocol transport_protocol =
             eprosima::ddsrouter::core::types::TransportProtocol::udp;
 
@@ -125,15 +123,15 @@ int main(
                 break;
 
             case optionIndex::CONNECTION_ADDRESS:
-                connection_address = std::string(opt.arg);
+                ip = std::string(opt.arg);
                 break;
 
             case optionIndex::LISTENING_ADDRESS:
-                listening_address = std::string(opt.arg);
+                ip = std::string(opt.arg);
                 break;
 
             case optionIndex::NAME:
-                strcpy(name, std::string(opt.arg).c_str());
+                name = std::string(opt.arg);
                 break;
 
             case optionIndex::CONNECTION_PORT:
@@ -170,14 +168,12 @@ int main(
     {
         if (entity_type == CLIENT)
         {
-            ip = connection_address;
             port = connection_port;
             logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating connection address...");
 
         }
         else
         {
-            ip = listening_address;
             port = listening_port;
             logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating listening address...");
         }
@@ -189,6 +185,10 @@ int main(
             port,
             transport_protocol);
 
+        std::set<eprosima::ddsrouter::core::types::Address> addresses = { address };
+
+        std::shared_ptr<eprosima::amlip::node::agent::AgentNode> agent_node;
+
         try
         {
             switch (entity_type)
@@ -198,9 +198,9 @@ int main(
                     logUser(AMLIPCPP_MANUAL_TEST, "Address to connect: " << address << ". Creating Node...");
 
                     // Create Client Node
-                    eprosima::amlip::node::agent::ClientNode client_node(
-                        name,
-                        { address },
+                    agent_node = std::make_shared<eprosima::amlip::node::agent::ClientNode>(
+                        "hello",
+                        addresses,
                         domain);
                     break;
                 }
@@ -209,9 +209,10 @@ int main(
                     logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << address << ". Creating Node...");
 
                     // Create Server Node
-                    eprosima::amlip::node::agent::ServerNode server_node(
-                        name,
-                        { address });
+                    agent_node = std::make_shared<eprosima::amlip::node::agent::ServerNode>(
+                        name.c_str(),
+                        addresses,
+                        domain);
                     break;
                 }
                 case REPEATER:
@@ -219,9 +220,9 @@ int main(
                     logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << address << ". Creating Node...");
 
                     // Create Turn Node
-                    eprosima::amlip::node::agent::TurnNode turn_node(
-                        name,
-                        { address });
+                    agent_node = std::make_shared<eprosima::amlip::node::agent::TurnNode>(
+                        name.c_str(),
+                        addresses);
                     break;
                 }
             }
