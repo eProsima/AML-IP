@@ -35,7 +35,7 @@ RUN apt update && \
 # Install AML-IP
 WORKDIR /AML-IP
 RUN mkdir src && \
-    wget https://raw.githubusercontent.com/eProsima/AML-IP/$git_branch/amlip.repos && \
+    wget https://raw.githubusercontent.com/eProsima/AML-IP/$amlip_branch/amlip.repos && \
     vcs import src < amlip.repos && \
     colcon build --packages-up-to amlip_demo_nodes agent_tool
 
