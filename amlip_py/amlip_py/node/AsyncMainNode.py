@@ -71,6 +71,7 @@ class AsyncMainNode(cpp_AsyncMainNode):
     def __init__(
             self,
             name: str,
+            domain: int = None,
             callback=None,
             listener: SolutionListener = None):
         """
@@ -80,23 +81,27 @@ class AsyncMainNode(cpp_AsyncMainNode):
         name : str
             Name of the node.
         """
-
-        if (listener and callback):
+        # Set listener by one given or creating one for callback
+        self.listener_ = None
+        if listener and callback:
             raise ValueError(
                 'AsyncMainNode constructor expects a listener object or a callback, both given.')
 
-        elif (not listener and not callback):
+        elif listener:
+            self.listener_ = listener
+
+        elif callback:
+            self.listener_ = SolutionListenerLambda(callback)
+
+        else:
             raise ValueError(
                 'AsyncMainNode constructor expects a listener object or a callback, none given.')
 
         # Parent class constructor
-        if listener:
-            super().__init__(name, listener)
-        elif callback:
-            super().__init__(name, SolutionListenerLambda(callback))
+        if domain is None:
+            super().__init__(name, self.listener_)
         else:
-            raise ValueError(
-                'This should not happen.')
+            super().__init__(name, self.listener_, domain)
 
     def request_job_solution(
             self,

@@ -15,6 +15,9 @@
 from amlip_py.node.ComputingNode import ComputingNode, JobListener
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
+# Domain ID
+DOMAIN_ID = 10
+
 
 class CustomJobListener(JobListener):
 
@@ -33,7 +36,7 @@ def main():
 
     # Create node
     print('Starting Manual Test Computing Node Py execution. Creating Node...')
-    computing_node = ComputingNode('PyTestComputingNode')
+    computing_node = ComputingNode('PyTestComputingNode', domain=DOMAIN_ID)
 
     # Create listener
     print(f'Node created: {computing_node.get_id()}. Creating Listener...')

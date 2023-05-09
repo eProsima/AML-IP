@@ -12,15 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import signal
-
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.AsyncMainNode import AsyncMainNode, SolutionListener
 from amlip_py.types.JobDataType import JobDataType
 
-# Maximum time to wait for solution
-MAX_TIMEOUT = 10
+# Domain ID
+DOMAIN_ID = 10
 
 
 class CustomSolutionListener(SolutionListener):
@@ -49,11 +47,11 @@ def main():
     # Create node
     print('Starting Manual Test Async Main Node Py execution. Creating Node...')
     listener = CustomSolutionListener(waiter)
-    main_node = AsyncMainNode('PyTestAsyncMainNode', listener=listener)
+    main_node = AsyncMainNode('PyTestAsyncMainNode', listener=listener, domain=DOMAIN_ID)
 
     # Create job data
     print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String>'
+    data_str = '<Job Data In Py String [CUSTOM]>'
     job_data = JobDataType(data_str)
 
     # Sending job

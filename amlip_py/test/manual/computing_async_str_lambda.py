@@ -14,26 +14,23 @@
 
 import signal
 
-from amlip_py.node.AsyncComputingNode import AsyncComputingNode, JobReplier
+from amlip_py.node.AsyncComputingNode import AsyncComputingNode, JobReplierLambda
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 # Domain ID
 DOMAIN_ID = 10
 
 
-class CustomJobReplier(JobReplier):
-
-    def process_job(
-            self,
-            job,
-            task_id,
-            client_id):
-        solution = JobSolutionDataType(job.to_string().lower())
-        print(f'Job received from client: {client_id}\n'
-              f' with id: {task_id}\n'
-              f' job: {job.to_string()}\n'
-              f' solution: {solution.to_string()}')
-        return solution
+def process_job(
+        job,
+        task_id,
+        client_id):
+    solution = JobSolutionDataType(job.to_string().lower())
+    print(f'Job received from client: {client_id}\n'
+          f' with id: {task_id}\n'
+          f' job: {job.to_string()}\n'
+          f' solution: {solution.to_string()}')
+    return solution
 
 
 def main():
@@ -45,7 +42,7 @@ def main():
     print('Starting Manual Test Async Computing Node Py execution. Creating Node...')
     computing_node = AsyncComputingNode(
         'PyTestAsyncComputingNode',
-        listener=CustomJobReplier(),
+        callback=process_job,
         domain=DOMAIN_ID)
 
     # Create job data

@@ -20,12 +20,15 @@ from amlip_py.types.JobDataType import JobDataType
 # Variable to wait to the solution
 waiter = BooleanWaitHandler(True, False)
 
+# Domain ID
+DOMAIN_ID = 10
+
 
 def solution_received(
         solution,
         task_id,
         server_id):
-    print(f'Solution received from server: {server_id}\n with id: {task_id}\n solution: {solution}')
+    print(f'Solution received from server: {server_id}\n with id: {task_id}\n solution: {solution.to_string()}')
     waiter.open()
 
 
@@ -36,11 +39,11 @@ def main():
 
     # Create node
     print('Starting Manual Test Async Main Node Py execution. Creating Node...')
-    main_node = AsyncMainNode('PyTestAsyncMainNode', callback=solution_received)
+    main_node = AsyncMainNode('PyTestAsyncMainNode', callback=solution_received, domain=DOMAIN_ID)
 
     # Create job data
     print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String Async Lambda>'
+    data_str = '<Job Data In Py String Async [LAMBDA]>'
     job_data = JobDataType(data_str)
 
     # Sending job

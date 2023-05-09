@@ -49,10 +49,10 @@ class TestSolutionListener : public eprosima::amlip::dds::SolutionListener<TestD
 public:
 
     void solution_received(
-            std::unique_ptr<TestDataType> solution,
-            const eprosima::amlip::types::TaskId& task_id,
-            const eprosima::amlip::types::AmlipIdDataType& client_id,
-            const eprosima::amlip::types::AmlipIdDataType& server_id) override
+        std::unique_ptr<TestDataType>&& solution,
+        const eprosima::amlip::types::TaskId& task_id,
+        const eprosima::amlip::types::AmlipIdDataType& client_id,
+        const eprosima::amlip::types::AmlipIdDataType& server_id) override
     {
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);
@@ -73,7 +73,7 @@ class TestTaskListener : public eprosima::amlip::dds::TaskListener<TestDataType,
 public:
 
     TestDataType process_task (
-            std::unique_ptr<TestDataType> task,
+            std::unique_ptr<TestDataType>&& task,
             const eprosima::amlip::types::TaskId& task_id,
             const eprosima::amlip::types::AmlipIdDataType& client_id,
             const eprosima::amlip::types::AmlipIdDataType& server_id) override

@@ -88,12 +88,12 @@ public:
      */
     AMLIP_CPP_DllAPI AsyncComputingNode(
             const char* name,
-            std::shared_ptr<JobReplier> listener,
+            const std::shared_ptr<JobReplier>& listener,
             uint32_t domain_id);
 
     AMLIP_CPP_DllAPI AsyncComputingNode(
             const char* name,
-            std::shared_ptr<JobReplier> listener);
+            const std::shared_ptr<JobReplier>& listener);
 
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.

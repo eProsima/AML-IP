@@ -39,7 +39,7 @@ class JobReplier(cpp_JobReplier):
         raise NotImplementedError('JobReplier.process_job must be specialized before use.')
 
 
-class JobReplierLambda(JobReplier):
+class JobReplierLambda(cpp_JobReplier):
     """
     Custom JobReplier supporting to create it with a lambda function.
     This object is created with a lambda function that is stored inside and used for every
@@ -55,9 +55,9 @@ class JobReplierLambda(JobReplier):
             self,
             job,
             task_id,
-            server_id):
+            client_id):
         """Call internal lambda."""
-        return self.callback_(job, task_id, server_id)
+        return self.callback_(job, task_id, client_id)
 
 
 class AsyncComputingNode(cpp_AsyncComputingNode):
@@ -69,6 +69,7 @@ class AsyncComputingNode(cpp_AsyncComputingNode):
     def __init__(
             self,
             name: str,
+            domain: int = None,
             callback=None,
             listener: JobReplier = None):
         """
@@ -78,23 +79,27 @@ class AsyncComputingNode(cpp_AsyncComputingNode):
         name : str
             Name of the node.
         """
-
-        if (listener and callback):
+        # Set listener by one given or creating one for callback
+        self.listener_ = None
+        if listener and callback:
             raise ValueError(
                 'AsyncComputingNode constructor expects a listener object or a callback, both given.')
 
-        elif (not listener and not callback):
+        if listener:
+            self.listener_ = listener
+
+        elif callback:
+            self.listener_ = JobReplierLambda(callback)
+
+        else:
             raise ValueError(
                 'AsyncComputingNode constructor expects a listener object or a callback, none given.')
 
         # Parent class constructor
-        if listener:
-            super().__init__(name, listener)
-        elif callback:
-            super().__init__(name, SolutionLambda(callback))
+        if domain is None:
+            super().__init__(name, self.listener_)
         else:
-            raise ValueError(
-                'This should not happen.')
+            super().__init__(name, self.listener_, domain)
 
     def run(
             self,

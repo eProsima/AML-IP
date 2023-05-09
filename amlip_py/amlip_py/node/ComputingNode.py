@@ -71,7 +71,8 @@ class ComputingNode(cpp_ComputingNode):
 
     def __init__(
             self,
-            name: str):
+            name: str,
+            domain: int = None):
         """
         Create a new Computing Node with a given name.
 
@@ -82,7 +83,10 @@ class ComputingNode(cpp_ComputingNode):
         """
         #####
         # Parent class constructor
-        super().__init__(name)
+        if domain:
+            super().__init__(name, domain)
+        else:
+            super().__init__(name)
 
     def process_job(
             self,
