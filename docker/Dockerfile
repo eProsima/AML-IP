@@ -3,7 +3,7 @@
 # AML-IP Demos Dockerfile
 #########################################################################################
 
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 # Avoids using interactions during building
 ENV DEBIAN_FRONTEND=noninteractive
