@@ -113,7 +113,7 @@ int main(
                 }
                 else
                 {
-                    std::cerr << "ERROR: incorrect entity type. Only <publisher|subscriber> accepted." << std::endl;
+                    std::cerr << "ERROR: incorrect entity type. Only <client|server|repeater> accepted." << std::endl;
                     return 1;
                 }
                 break;
@@ -149,16 +149,16 @@ int main(
         }
     }
 
-    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating connection|listening address...");
-
     {
         if (entity_type == CLIENT)
         {
             domain = connection_address;
+            logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating connection address...");
         }
         else
         {
             domain = listening_address;
+            logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating listening address...");
         }
 
         // Create connection address
