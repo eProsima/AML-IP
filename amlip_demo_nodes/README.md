@@ -23,7 +23,7 @@ However, to make the user experience more realistic, the calculation of this to-
 
 ---
 
-## Nodes simulated
+## Async Nodes simulated
 
 ### Main Node
 
@@ -45,6 +45,41 @@ python3 ./install/amlip_demo_nodes/bin/main_node.py
 Its implementation can be seen in `main_node.py` file.
 
 ### Computing Node
+
+This is a **C++** application that waits for a job to arrive from a Main node and returns the solution.
+It receives an integer argument to set the number of tasks that this node must wait before closing.
+
+```sh
+# To answer 2 jobs
+./install/amlip_demo_nodes/bin/computing_node 2
+```
+
+Its implementation can be seen in `computing_node.cpp` file.
+
+---
+
+## Synchronous Nodes simulated
+
+### Sync Main Node
+
+This is a **Python** application that sends jobs in the format of strings.
+From each string given it creates a job, send it and awaits for a computing to receive the solution.
+There are 2 ways to introduce strings to send jobs:
+
+1. Each argument to the python command will be converted to a string and sent as a job.
+2. If no arguments are given, it expects user to enter strings by keyboard input. Entering an empty string will close the execution.
+
+```sh
+# To send 2 jobs
+python3 ./install/amlip_demo_nodes/bin/main_node.py first_job "second job"
+
+# To waits for keyboard input
+python3 ./install/amlip_demo_nodes/bin/main_node.py
+```
+
+Its implementation can be seen in `main_node.py` file.
+
+### Sync Computing Node
 
 This is a **C++** application that waits for a job to arrive from a Main node and returns the solution.
 It receives an integer argument to set the number of tasks that this node must wait before closing.
