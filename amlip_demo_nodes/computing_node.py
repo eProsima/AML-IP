@@ -88,7 +88,7 @@ def main():
 
         # Simulate calculation by lowering case of string
         # ALGEBRAIC here do the computing calculations
-        solution_str = job.to_string().lower()
+        solution_str = job.to_string().upper()
 
         # Add a sleep to simulate calculations
         actual_sleep_time = random.uniform(
