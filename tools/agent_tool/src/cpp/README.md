@@ -37,8 +37,6 @@ The arguments are read unordered
 ```sh
 Usage: ./agent tool
 
-Usage: ./agent tool
-
 General options:
   -h, --help
                     Produce help message.
@@ -56,13 +54,13 @@ General options:
                     DDS domain ID (Default: 0).
   -p, --connection-port <num>
                     Address connection port (Default: 12121).
-  -x, --listening-port <num>
+  -q, --listening-port <num>
                     Address listening port (Default: 12121).
-  -c, --connection <connection_address>
+  -c, --connection-address <address>
                     Address to connect (Default: 127.0.0.1).
-  -l, --listening <listening_address>
+  -l, --listening-address <address>
                     Address where listen (Default: 127.0.0.1).
-  -t, --transport <shm|udp|udpv6>
-                    Use only shared-memory, UDPv4, or UDPv6 transport. (Default: udp).
+  -t, --transport <tcp|udp>
+                    Use only TCPv4 or UDPv4 transport. (Default: UDPv4).
 
 ```

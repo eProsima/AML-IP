@@ -199,7 +199,7 @@ int main(
 
                     // Create Client Node
                     agent_node = std::make_shared<eprosima::amlip::node::agent::ClientNode>(
-                        "hello",
+                        name.c_str(),
                         addresses,
                         domain);
                     break;
