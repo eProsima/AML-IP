@@ -160,6 +160,9 @@ enum optionIndex
     ENTITY_TYPE,
     HELP,
     NAME,
+    CONNECTION_PORT,
+    LISTENING_PORT,
+    DOMAIN_ID,
     CONNECTION_ADDRESS,
     LISTENING_ADDRESS,
     TRANSPORT
@@ -167,25 +170,26 @@ enum optionIndex
 
 const option::Descriptor usage[] = {
     { UNKNOWN_OPT, 0, "", "",               Arg::None,
-      "Usage: TypeIntrospectionExample \n\nGeneral options:" },
+      "Usage: ./agent tool \n\nGeneral options:" },
     { HELP, 0, "h", "help",                 Arg::None,
       "  -h, --help  \tProduce help message." },
     { ENTITY_TYPE, 0, "e", "entity",       Arg::EntityKind,
-      "  -e, --entity <dds_entity>  \tAgent Entity type (Default: client). Allowed options:\n \
+      "  -e, --entity <client|server|repeater>  \tAgent Entity type (Default: client). Allowed options:\n \
                                     \t• client -> Run an Agent Client Node.\n \
                                     \t• server -> Run an Agent Server Node.\n \
                                     \t• repeater -> Run an Agent Repeater Node. " },
-
-    // Options
-    { UNKNOWN_OPT, 0, "", "",               Arg::None,
-      "\nOptions:"},
-
     { NAME, 0, "n", "name",          Arg::String,
       "  -n, --name <name>  \t Name (Default: agent_tool)." },
-    { CONNECTION_ADDRESS, 0, "c", "connection",          Arg::String,
-      "  -c, --connection <connection_address>  \tAddress to connect (Default: localhost)." },
-    { LISTENING_ADDRESS, 0, "l", "listening",           Arg::String,
-      "  -l, --listening <listening_address>  \tAddress where listen (Default: localhost)." },
+    { DOMAIN_ID, 0, "d", "domain",          Arg::Numeric,
+      "  -d, --domain <id>  \tDDS domain ID (Default: 0)." },
+    { CONNECTION_PORT, 0, "cp", "connection_port",          Arg::Numeric,
+      "  -p, --connection-port <num>  \tAddress connection port (Default: 12121)." },
+    { LISTENING_PORT, 0, "lp", "listening_port",          Arg::Numeric,
+      "  -x, --listening-port <num>  \tAddress listening port (Default: 12121)." },
+    { CONNECTION_ADDRESS, 0, "c", "connection_address",          Arg::String,
+      "  -c, --connection <connection_address>  \tAddress to connect (Default: 127.0.0.1)." },
+    { LISTENING_ADDRESS, 0, "l", "listening_address",           Arg::String,
+      "  -l, --listening <listening_address>  \tAddress where listen (Default: 127.0.0.1)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <shm|udp|udpv6>  \tUse only shared-memory, UDPv4, or UDPv6 transport. (Default: udp)." },
     { 0, 0, 0, 0, 0, 0 }

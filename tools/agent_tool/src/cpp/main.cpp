@@ -41,6 +41,8 @@ int main(
         int argc,
         char** argv)
 {
+    eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
+
     // Help message formatting settings
     int columns;
 
@@ -60,12 +62,15 @@ int main(
     columns = getenv("COLUMNS") ? atoi(getenv("COLUMNS")) : 80;
 #endif // if defined(_WIN32)
 
-
     // Parameter definition
     EntityType entity_type = EntityType::CLIENT;
-    std::string connection_address = "localhost";
-    std::string listening_address = "localhost";
-    std::string domain;
+    std::string connection_address = "127.0.0.1";
+    std::string listening_address = "127.0.0.1";
+    std::string ip;
+    int domain = 0;
+    int connection_port = 12121;
+    int listening_port = 12121;
+    int port;
     char* name = "agent_tool";
     eprosima::ddsrouter::core::types::TransportProtocol transport_protocol = eprosima::ddsrouter::core::types::TransportProtocol::udp;
 
@@ -130,6 +135,18 @@ int main(
                 strcpy(name, std::string(opt.arg).c_str());
                 break;
 
+            case optionIndex::CONNECTION_PORT:
+                connection_port = strtol(opt.arg, nullptr, 10);
+                break;
+
+            case optionIndex::LISTENING_PORT:
+                listening_port = strtol(opt.arg, nullptr, 10);
+                break;
+
+            case optionIndex::DOMAIN_ID:
+                domain = strtol(opt.arg, nullptr, 10);
+                break;
+
             case optionIndex::TRANSPORT:
                 if (strcmp(opt.arg, "tcp") == 0)
                 {
@@ -152,20 +169,23 @@ int main(
     {
         if (entity_type == CLIENT)
         {
-            domain = connection_address;
+            ip = connection_address;
+            port = connection_port;
             logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating connection address...");
+
         }
         else
         {
-            domain = listening_address;
+            ip = listening_address;
+            port = listening_port;
             logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Agent Node execution. Creating listening address...");
         }
 
         // Create connection address
         auto address = eprosima::ddsrouter::core::types::Address(
-            12121,
-            12121,
-            domain,
+            ip,
+            port,
+            port,
             transport_protocol);
 
         try
@@ -179,7 +199,8 @@ int main(
                     // Create Client Node
                     eprosima::amlip::node::agent::ClientNode client_node(
                         name,
-                        { address });
+                        { address },
+                        domain);
                     break;
                 }
                 case SERVER:
@@ -211,7 +232,6 @@ int main(
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created. Waiting SIGINT (C^) to close...");
 
-        eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
         sigint_handler.wait_for_event();
 
         logUser(AMLIPCPP_MANUAL_TEST, "SIGINT received. Destroying entities...");
