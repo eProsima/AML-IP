@@ -111,8 +111,8 @@ struct Arg : public option::Arg
         {
             std::string data_type = std::string(option.arg);
             if (data_type != CLIENT_ENTITY_KIND_ARG &&
-                data_type != SERVER_ENTITY_KIND_ARG &&
-                data_type != REPEATER_ENTITY_KIND_ARG)
+                    data_type != SERVER_ENTITY_KIND_ARG &&
+                    data_type != REPEATER_ENTITY_KIND_ARG)
             {
                 if (msg)
                 {
@@ -152,6 +152,7 @@ struct Arg : public option::Arg
         }
         return option::ARG_ILLEGAL;
     }
+
 };
 
 enum optionIndex

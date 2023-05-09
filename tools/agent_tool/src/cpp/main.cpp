@@ -72,7 +72,8 @@ int main(
     int listening_port = 12121;
     int port;
     char* name = "agent_tool";
-    eprosima::ddsrouter::core::types::TransportProtocol transport_protocol = eprosima::ddsrouter::core::types::TransportProtocol::udp;
+    eprosima::ddsrouter::core::types::TransportProtocol transport_protocol =
+            eprosima::ddsrouter::core::types::TransportProtocol::udp;
 
     // Parse example options
     argc -= (argc > 0);
@@ -225,7 +226,7 @@ int main(
                 }
             }
         }
-        catch(const std::exception& e)
+        catch (const std::exception& e)
         {
             std::cerr << "Execution failed with error:\n " << e.what() << std::endl;
         }
