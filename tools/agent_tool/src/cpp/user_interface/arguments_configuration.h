@@ -192,7 +192,7 @@ const option::Descriptor usage[] = {
     { LISTENING_ADDRESS, 0, "l", "listening-address",           Arg::String,
       "  -l, --listening-address <address>  \tAddress where listen (Default: 127.0.0.1)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
-      "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: UDPv4)." },
+      "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
     { 0, 0, 0, 0, 0, 0 }
 };
 
