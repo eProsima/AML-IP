@@ -56,7 +56,7 @@ def parse_options():
         '-r',
         '--random-sleep',
         type=float,
-        default=1,
+        default=0.5,
         help='Random coefficient for sleep time (0 = no random).'
     )
     parser.add_argument(
@@ -92,7 +92,7 @@ def main():
 
         # Add a sleep to simulate calculations
         actual_sleep_time = random.uniform(
-            sleep - (sleep * sleep_coefficient),
+            sleep - max(sleep * sleep_coefficient, 0),
             sleep + (sleep * sleep_coefficient))
         time.sleep(actual_sleep_time)
 
