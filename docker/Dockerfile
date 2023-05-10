@@ -37,7 +37,7 @@ WORKDIR /AML-IP
 RUN mkdir src && \
     wget https://raw.githubusercontent.com/eProsima/AML-IP/$amlip_branch/amlip.repos && \
     vcs import src < amlip.repos && \
-    colcon build --packages-up-to amlip_demo_nodes agent_tool
+    colcon build --packages-up-to-regex amlip
 
 # Source built workspace
 RUN echo "source /AML-IP/install/setup.bash" >> ~/.bashrc

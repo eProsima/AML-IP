@@ -79,6 +79,10 @@ AsyncMultiServiceClient<Data, Solution>::~AsyncMultiServiceClient()
     // NOTE: this could be done as well within the stop and run, but not this time
     should_stop_ = true;
     waiter_for_request_.blocking_disable();
+
+    // reply_available_reader_.awake_waiting_threads();
+    // task_solution_reader_.awake_waiting_threads();
+
     reply_reading_thread_.join();
     solution_reading_thread_.join();
 
@@ -116,6 +120,8 @@ void AsyncMultiServiceClient<Data, Solution>::stop()
 
         // Stop tasking threads when they are going to take next task
         data_to_send_->blocking_disable();
+
+        server_to_send_->blocking_disable();
 
         // Wait for all those threads to stop
         send_task_request_thread_.join();
@@ -194,8 +200,18 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
         // WAIT FOR REPLY AVAILABLE
         // Wait for reply thread to notify a finding
         types::MsReferenceDataType reference;
-        // Wait this thread till a server is chosen
-        reference = server_to_send_->consume();
+
+        try
+        {
+            // Wait this thread till a server is chosen
+            reference = server_to_send_->consume();
+        }
+        catch (const eprosima::utils::DisabledException&)
+        {
+            // Consumer disable, end thread
+            break;
+        }
+
         // NOTE: This algorithm disconnects a task with its thread, but as long as there is only one thread
         // nothing happens.
 
@@ -233,9 +249,15 @@ void AsyncMultiServiceClient<Data, Solution>::read_replies_()
         }
 
         // Read messages until the one expected (targeted to this id) is listen
-        while (true)
+        while (!should_stop_)
         {
-            reply_available_reader_.wait_data_available();
+            // TODO: this should not be done
+            uint32_t timeout = 1000;
+            auto reason = reply_available_reader_.wait_data_available(timeout);
+            if (reason != eprosima::utils::event::AwakeReason::condition_met)
+            {
+                continue;
+            }
 
             // Get task reference
             types::MsReferenceDataType reference = reply_available_reader_.read();

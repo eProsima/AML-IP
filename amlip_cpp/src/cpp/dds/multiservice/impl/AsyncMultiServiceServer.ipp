@@ -155,10 +155,14 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
             // WAIT FOR TASK TARGET
             // NOTE: this should not exit until the target has been received and answered (if required)
             // So no breaks here or processing checks
-            while (true)
+            while (processing_)
             {
                 // Wait for data to arrive
-                task_target_reader_.wait_data_available();
+                auto reason = task_target_reader_.wait_data_available(WAIT_AVAILABILITY_TIMEOUT_);
+                if (reason != eprosima::utils::event::AwakeReason::condition_met)
+                {
+                    continue;
+                }
 
                 // Read data
                 task_target = task_target_reader_.read();
@@ -207,26 +211,36 @@ void AsyncMultiServiceServer<Data, Solution>::processing_routine_async_(
                 " from client: " << task_target.client_id() << ".");
 
         // WAIT FOR TASK DATA
-        task_data_reader_.wait_data_available();
-        types::MsDataType<Data> ms_data = task_data_reader_.read();
+        while (processing_)
+        {
+            auto reason = task_data_reader_.wait_data_available(WAIT_AVAILABILITY_TIMEOUT_);
+            if (reason != eprosima::utils::event::AwakeReason::condition_met)
+            {
+                continue;
+            }
 
-        // PROCESS DATA AND SEND SOLUTION
+            types::MsDataType<Data> ms_data = task_data_reader_.read();
 
-        // Process solution from callback
-        auto solution = processing_listener->process_task(
-            std::make_unique<Data>(ms_data.data()),
-            task_target.task_id(),
-            task_target.client_id(),
-            task_target.server_id()
-            );
+            // PROCESS DATA AND SEND SOLUTION
 
-        // Create solution data
-        types::MsDataType<Solution> ms_solution(
-            types::MsReferenceDataType(task_target),
-            std::move(solution));
+            // Process solution from callback
+            auto solution = processing_listener->process_task(
+                std::make_unique<Data>(ms_data.data()),
+                task_target.task_id(),
+                task_target.client_id(),
+                task_target.server_id()
+                );
 
-        // Send solution
-        task_solution_writer_.write(task_target.client_id(), ms_solution);
+            // Create solution data
+            types::MsDataType<Solution> ms_solution(
+                types::MsReferenceDataType(task_target),
+                std::move(solution));
+
+            // Send solution
+            task_solution_writer_.write(task_target.client_id(), ms_solution);
+
+            break;
+        }
     }
 }
 

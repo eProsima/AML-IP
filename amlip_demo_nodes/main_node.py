@@ -13,9 +13,11 @@
 # limitations under the License.
 
 import argparse
+import signal
 import time
 
 from py_utils.wait.IntWaitHandler import IntWaitHandler
+from py_utils.wait.WaitHandler import AwakeReason
 
 from amlip_py.node.AsyncMainNode import AsyncMainNode
 from amlip_py.types.JobDataType import JobDataType
@@ -118,15 +120,29 @@ def main():
 
     # Waiting for solutions
     print(
-        f'Main Node {node.id()} waiting for solutions.',
+        f'Main Node {node.id()} waiting for solutions or SIGINT (C^).',
         end='\n\n')
 
-    waiter.wait_greater_equal(n_jobs)
+    # If signal arrive, disable waiter
+    def handler(signum, frame):
+        print(
+            ' Signal received, stopping.',
+            end='\n\n')
+        waiter.disable()
+    signal.signal(signal.SIGINT, handler)
+
+    reason = waiter.wait_greater_equal(n_jobs)
 
     # Closing
-    print(
-        f'Main Node {node.id()} received all solutions. Closing.',
-        end='\n\n')
+    if reason == AwakeReason.disabled:
+        print(
+            f'Main Node {node.id()} closed with {n_jobs-waiter.get_value()} solutions remaining. Closing.',
+            end='\n\n')
+
+    elif reason == AwakeReason.condition_met:
+        print(
+            f'Main Node {node.id()} received all solutions. Closing.',
+            end='\n\n')
 
 
 # Call main in program execution
