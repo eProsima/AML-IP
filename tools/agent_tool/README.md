@@ -1,14 +1,16 @@
 # Agent Node tool
 
-*eprosima AML-IP* C++ application to execute an Agent Node.
+*eprosima AML-IP* C++ application to execute an *Agent Node* which is the main transport component that manages the dynamic discovery of *AML-IP Algebraic Nodes* deployed within a LAN and the discovery of other AML clusters over WAN.
 
 ## Building the workspace
 
-mkdir -p ~/AML-IP/src
-cd ~/AML-IP
-wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
-vcs import src < amlip.repos
-colcon build
+```sh
+  mkdir -p ~/AML-IP/src
+  cd ~/AML-IP
+  wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+  vcs import src < amlip.repos
+  colcon build
+```
 
 ## Execution instructions
 
@@ -21,18 +23,18 @@ In order to know all the possible arguments supported by this tool, use the comm
 To launch an Agent Server Node, execute:
 
 ```sh
-  ./agent tool -e server
+  ./agent tool -e server -l 87.216.115.84 -q 18000 -t tcp
 ```
 
-To launch an Agent Repeater Node, execute:
+To launch an Agent Client Node, execute:
 
 ```sh
-  ./agent tool -e repeater
+  ./agent_tool -e client -c 87.216.115.84 -p 18000 -t tcp
 ```
 
 ## Arguments
 
-The arguments are read unordered
+The arguments are read unordered:
 
 ```sh
 Usage: ./agent tool
