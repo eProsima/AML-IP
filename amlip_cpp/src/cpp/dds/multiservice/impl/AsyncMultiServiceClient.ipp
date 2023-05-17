@@ -52,6 +52,7 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
         own_id,
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
         dds_handler) // TASK_SOLUTION
+    , should_stop_(false)
     , own_id_(own_id)
     , topic_(topic)
     , last_task_id_used_(0)
@@ -62,7 +63,6 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
     , reply_reading_thread_(&AsyncMultiServiceClient::read_replies_, this)
     , server_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<types::MsReferenceDataType>>(0, true))
     , solution_reading_thread_(&AsyncMultiServiceClient::read_solution_, this)
-    , should_stop_(false)
 {
     logDebug(
         AMLIPCPP_DDS_MSASYNCCLIENT,
@@ -237,49 +237,36 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
 template <typename Data, typename Solution>
 void AsyncMultiServiceClient<Data, Solution>::read_replies_()
 {
+    // Read messages until the one expected (targeted to this id) is listen
     while (!should_stop_)
     {
-        // Only start waiting for data once a request have been sent
-        // This way it avoids to wait forever when no required
-        auto reason = waiter_for_request_.wait_and_decrement();
+        // TODO: this should not be done
+        uint32_t timeout = 1000;
+        auto reason = reply_available_reader_.wait_data_available(timeout);
         if (reason != eprosima::utils::event::AwakeReason::condition_met)
         {
-            // Waiter has been disabled
-            break;
+            continue;
         }
 
-        // Read messages until the one expected (targeted to this id) is listen
-        while (!should_stop_)
+        // Get task reference
+        types::MsReferenceDataType reference = reply_available_reader_.read();
+
+        if (reference.client_id() != own_id_)
         {
-            // TODO: this should not be done
-            uint32_t timeout = 1000;
-            auto reason = reply_available_reader_.wait_data_available(timeout);
-            if (reason != eprosima::utils::event::AwakeReason::condition_met)
-            {
-                continue;
-            }
+            continue;
+        }
+        else if (already_chosen_tasks_.find(reference.task_id()) != already_chosen_tasks_.end())
+        {
+            continue;
+        }
+        else
+        {
+            logDebug(AMLIPCPP_DDS_MSCLIENT, "Received task reference for this client: " << reference << ".");
 
-            // Get task reference
-            types::MsReferenceDataType reference = reply_available_reader_.read();
+            already_chosen_tasks_.insert(reference.task_id());
 
-            if (reference.client_id() != own_id_)
-            {
-                continue;
-            }
-            else if (already_chosen_tasks_.find(reference.task_id()) != already_chosen_tasks_.end())
-            {
-                continue;
-            }
-            else
-            {
-                logDebug(AMLIPCPP_DDS_MSCLIENT, "Received task reference for this client: " << reference << ".");
-
-                already_chosen_tasks_.insert(reference.task_id());
-
-                // Notify task thread that a new server is found for task
-                server_to_send_->produce(reference);
-                break;
-            }
+            // Notify task thread that a new server is found for task
+            server_to_send_->produce(reference);
         }
     }
 }
