@@ -23,8 +23,6 @@
 // Trying to export them issues a warning
 %ignore *::operator=;
 
-%ignore eprosima::amlip::types::JobDataType::JobDataType();
-
 %{
 #include <amlip_cpp/types/job/JobDataType.hpp>
 %}

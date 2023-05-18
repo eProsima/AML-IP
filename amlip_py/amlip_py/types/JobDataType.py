@@ -28,7 +28,7 @@ class JobDataType(cpp_JobDataType):
 
     def __init__(
             self,
-            message: str):
+            message: str = None):
         """
         Construct a new Job with name.
 
@@ -37,7 +37,10 @@ class JobDataType(cpp_JobDataType):
         message: str
             Data to send to Computing Node serialized in a string of basic chars.
         """
-        super().__init__(message)
+        if message:
+            super().__init__(message)
+        else:
+            super().__init__()
 
     def __str__(
             self) -> str:

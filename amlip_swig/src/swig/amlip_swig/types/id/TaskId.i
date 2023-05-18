@@ -19,7 +19,13 @@
 
 %{
 #include <amlip_cpp/types/id/TaskId.hpp>
+
+using TaskId = eprosima::amlip::types::TaskId;
 %}
 
 // Include the class interfaces
 %include <amlip_cpp/types/id/TaskId.hpp>
+
+%pythoncode %{
+TaskId = int
+%}

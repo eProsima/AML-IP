@@ -17,23 +17,29 @@ import amlip_py.types.AmlipIdDataType
 import amlip_py.types.JobDataType
 import amlip_py.types.JobSolutionDataType
 import amlip_py.types.StatusDataType
+import amlip_py.types.TaskId
 
 
 def test_id():
     """Test creation of AmlipIdDataType."""
-    _ = amlip_py.types.AmlipIdDataType.AmlipIdDataType
+    _ = amlip_py.types.AmlipIdDataType.AmlipIdDataType()
 
 
 def test_status():
     """Test creation of StatusDataType."""
-    _ = amlip_py.types.StatusDataType.StatusDataType
+    _ = amlip_py.types.StatusDataType.StatusDataType()
 
 
 def test_job():
     """Test creation of JobDataType."""
-    _ = amlip_py.types.JobDataType.JobDataType
+    _ = amlip_py.types.JobDataType.JobDataType()
 
 
 def test_solution():
     """Test creation of JobSolutionDataType."""
-    _ = amlip_py.types.JobSolutionDataType.JobSolutionDataType
+    _ = amlip_py.types.JobSolutionDataType.JobSolutionDataType()
+
+
+def test_task():
+    """Test creation of TaskId."""
+    _ = amlip_py.types.TaskId.TaskId()

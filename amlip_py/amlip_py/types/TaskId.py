@@ -22,4 +22,7 @@ class TaskId(cpp_TaskId):
     def __init__(
             self,
             task_id: int = None):
-        super().__init__()
+        if task_id:
+            super().__init__(task_id)
+        else:
+            super().__init__()
