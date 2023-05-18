@@ -30,7 +30,8 @@ namespace node {
 
 struct SolutionListenerCast : public dds::SolutionListener<types::JobSolutionDataType>
 {
-    SolutionListenerCast(const std::shared_ptr<node::SolutionListener>& listener)
+    SolutionListenerCast(
+            const std::shared_ptr<node::SolutionListener>& listener)
         : listener_(listener)
     {
     }
@@ -84,7 +85,7 @@ types::TaskId AsyncMainNode::request_job_solution(
     logDevError(AMLIPCPP_NODE_ASYNCMAIN, "Copying request data.");
     return request_job_solution(
         std::make_shared<types::JobDataType>(data)
-    );
+        );
 }
 
 } /* namespace node */

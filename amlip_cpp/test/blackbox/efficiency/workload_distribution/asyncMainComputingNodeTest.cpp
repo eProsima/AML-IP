@@ -39,19 +39,19 @@ constexpr eprosima::utils::Duration_ms RESIDUAL_TIME = MESSAGES_REPLY_EXPECTED_T
 constexpr const char* MESSAGE_INTERNAL_TEST = "Some random message that nothing matters";
 
 using SolutionsReceivedType =
-    eprosima::utils::Atomicable<
-        std::map<
-            types::TaskId,
-            types::JobSolutionDataType>>;
+        eprosima::utils::Atomicable<
+    std::map<
+        types::TaskId,
+        types::JobSolutionDataType>>;
 
 class TestSolutionListener : public node::SolutionListener
 {
 public:
 
     void solution_received(
-        const types::JobSolutionDataType& solution,
-        const types::TaskId& task_id,
-        const types::AmlipIdDataType& server_id) override
+            const types::JobSolutionDataType& solution,
+            const types::TaskId& task_id,
+            const types::AmlipIdDataType& server_id) override
     {
         // Store solution
         std::lock_guard<SolutionsReceivedType> guard(solutions);

@@ -57,10 +57,10 @@ public:
      * @return Solution to the \c job .
      */
     virtual void solution_received(
-        std::unique_ptr<Solution>&& solution,
-        const types::TaskId& task_id,
-        const types::AmlipIdDataType& client_id,
-        const types::AmlipIdDataType& server_id) = 0;
+            std::unique_ptr<Solution>&& solution,
+            const types::TaskId& task_id,
+            const types::AmlipIdDataType& client_id,
+            const types::AmlipIdDataType& server_id) = 0;
 };
 
 /**
