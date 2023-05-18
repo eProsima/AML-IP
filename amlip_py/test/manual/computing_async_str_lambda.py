@@ -14,7 +14,7 @@
 
 import signal
 
-from amlip_py.node.AsyncComputingNode import AsyncComputingNode, JobReplierLambda
+from amlip_py.node.AsyncComputingNode import AsyncComputingNode
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 # Domain ID
@@ -46,7 +46,8 @@ def main():
         domain=DOMAIN_ID)
 
     # Create job data
-    print(f'Node created: {computing_node.get_id()}. Already processing jobs. Waiting SIGINT (C^)...')
+    print(f'Node created: {computing_node.get_id()}. '
+          'Already processing jobs. Waiting SIGINT (C^)...')
 
     computing_node.run()
 

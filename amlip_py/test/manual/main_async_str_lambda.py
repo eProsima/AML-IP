@@ -28,7 +28,9 @@ def solution_received(
         solution,
         task_id,
         server_id):
-    print(f'Solution received from server: {server_id}\n with id: {task_id}\n solution: {solution.to_string()}')
+    print(f'Solution received from server: {server_id}\n'
+          f' with id: {task_id}\n'
+          f' solution: {solution.to_string()}')
     waiter.open()
 
 

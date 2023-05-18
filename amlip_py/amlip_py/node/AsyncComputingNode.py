@@ -14,8 +14,6 @@
 """AML-IP Async Main Node API specification."""
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.JobDataType import JobDataType
-from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 from amlip_swig import AsyncComputingNode as cpp_AsyncComputingNode
 from amlip_swig import JobReplier as cpp_JobReplier
@@ -83,7 +81,8 @@ class AsyncComputingNode(cpp_AsyncComputingNode):
         self.listener_ = None
         if listener and callback:
             raise ValueError(
-                'AsyncComputingNode constructor expects a listener object or a callback, both given.')
+                'AsyncComputingNode constructor expects a listener object or a callback, '
+                'both given.')
 
         if listener:
             self.listener_ = listener
@@ -93,7 +92,8 @@ class AsyncComputingNode(cpp_AsyncComputingNode):
 
         else:
             raise ValueError(
-                'AsyncComputingNode constructor expects a listener object or a callback, none given.')
+                'AsyncComputingNode constructor expects a listener object or a callback, '
+                'none given.')
 
         # Parent class constructor
         if domain is None:

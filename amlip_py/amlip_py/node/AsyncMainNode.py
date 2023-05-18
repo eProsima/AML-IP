@@ -38,7 +38,8 @@ class SolutionListener(cpp_SolutionListener):
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('SolutionListener.solution_received must be specialized before use.')
+        raise NotImplementedError('SolutionListener.solution_received must be specialized '
+                                  'before use.')
 
 
 class SolutionListenerLambda(SolutionListener):
