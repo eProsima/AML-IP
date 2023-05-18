@@ -42,7 +42,7 @@ class SolutionListener(cpp_SolutionListener):
                                   'before use.')
 
 
-class SolutionListenerLambda(SolutionListener):
+class SolutionListenerLambda(cpp_SolutionListener):
     """
     Custom SolutionListener supporting to create it with a lambda function.
     This object is created with a lambda function that is stored inside and used for every

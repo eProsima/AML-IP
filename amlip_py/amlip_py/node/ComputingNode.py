@@ -42,7 +42,7 @@ class JobListener(cpp_JobListener):
         raise NotImplementedError('JobListener.Job_received must be specialized before use.')
 
 
-class JobLambda(JobListener):
+class JobLambda(cpp_JobListener):
     """
     Custom JobListener supporting to create it with a lambda function.
 

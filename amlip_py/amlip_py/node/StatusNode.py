@@ -42,7 +42,7 @@ class StatusListener(cpp_StatusListener):
         raise NotImplementedError('StatusListener.status_received must be specialized before use.')
 
 
-class StatusLambda(StatusListener):
+class StatusLambda(cpp_StatusListener):
     """
     Custom StatusListener supporting to create it with a lambda function.
 
