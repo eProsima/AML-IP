@@ -1,4 +1,4 @@
-# Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+# Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,10 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""AML-IP TaskId data type API specification."""
 
-# Nodes
-import amlip_py.node.ComputingNode  # noqa: F401,I100,I202
-import amlip_py.node.MainNode  # noqa: F401
-import amlip_py.node.StatusNode  # noqa: F401
-import amlip_py.node.AsyncMainNode  # noqa: F401
-import amlip_py.node.AsyncComputingNode  # noqa: F401
+from amlip_swig import TaskId as cpp_TaskId
+
+
+class TaskId(cpp_TaskId):
+    """Object that represents a Unique Id for each Task sent by a client."""
+
+    def __init__(
+            self,
+            task_id: int = None):
+        if task_id:
+            super().__init__(task_id)
+        else:
+            super().__init__()

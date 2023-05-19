@@ -33,6 +33,7 @@ def main():
     # Sending job
     print(f'Job data created with string: {job_data}. Sending request...')
     solution, server_id = main_node.request_job_solution(job_data)
+    print(f'------- {type(solution)}   {solution}')
 
     # Deserializing solution
     print(f'Solution received from server {server_id}. Deserializing to string...')

@@ -19,8 +19,6 @@ from amlip_py.node.MainNode import MainNode
 from amlip_py.types.JobDataType import JobDataType
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
-import pytest
-
 
 TEST_JOB_DATA = ['Irene', 'Javier', 'Juan', 'Raul']
 
@@ -34,7 +32,6 @@ def process_job_routine(job: JobDataType) -> JobSolutionDataType:
     return JobSolutionDataType(job.to_string().upper())
 
 
-@pytest.mark.timeout(5)
 def test_one_main_one_computing():
     """
     Create 1 Main and 1 Computing Node and send N jobs from one to the other.

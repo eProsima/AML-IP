@@ -56,16 +56,17 @@ using namespace eprosima::amlip;
  */
 TEST(modelManagerTest, ping_pong)
 {
+    // Managers always send same model in this test
+    // NOTE: this data must be created before nodes or nodes must stop before this is destroyed
+    std::string model_str = "ModelMock and some other data";
+    types::ModelDataType model(model_str);
+
     // Create Manager 1
     node::ModelManagerNode manager_1("ManagerTest1");
     node::ModelManagerNode manager_2("ManagerTest2");
 
     eprosima::utils::event::BooleanWaitHandler wait_handler(false, true);
     std::atomic<unsigned int> models_received(0);
-
-    // Managers always send same model in this test
-    std::string model_str = "ModelMock and some other data";
-    types::ModelDataType model(model_str);
 
     // Both managers will read model, set counter and open wait handler
     auto manager_lambda = [&wait_handler, &models_received, &model_str](const types::ModelDataType& model)

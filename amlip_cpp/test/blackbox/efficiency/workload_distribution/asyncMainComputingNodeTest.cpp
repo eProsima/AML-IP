@@ -42,14 +42,14 @@ using SolutionsReceivedType =
         eprosima::utils::Atomicable<
     std::map<
         types::TaskId,
-        std::unique_ptr<types::JobSolutionDataType>>>;
+        types::JobSolutionDataType>>;
 
 class TestSolutionListener : public node::SolutionListener
 {
 public:
 
     void solution_received(
-            std::unique_ptr<types::JobSolutionDataType> solution,
+            const types::JobSolutionDataType& solution,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& server_id) override
     {
@@ -65,18 +65,18 @@ public:
     eprosima::utils::event::IntWaitHandler waiter{0};
 };
 
-class TestTaskListener : public node::JobListener
+class TestTaskListener : public node::JobReplier
 {
 public:
 
     types::JobSolutionDataType process_job (
-            std::unique_ptr<types::JobDataType> job,
+            const types::JobDataType& job,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& client_id) override
     {
         // Simulate time execution
         eprosima::utils::sleep_for(EXECUTION_TIME);
-        return types::JobSolutionDataType(job->to_string());
+        return types::JobSolutionDataType(job.to_string());
     }
 
 };

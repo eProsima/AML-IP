@@ -1,4 +1,5 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,19 +14,18 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobDataType
+// Binding for class TaskId
 ////////////////////////////////////////////////////////
 
-// Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
-
 %{
-#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <amlip_cpp/types/id/TaskId.hpp>
+
+using TaskId = eprosima::amlip::types::TaskId;
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobDataType.hpp>
+%include <amlip_cpp/types/id/TaskId.hpp>
+
+%pythoncode %{
+TaskId = int
+%}

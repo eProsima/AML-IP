@@ -48,12 +48,12 @@ namespace node {
  * This class is meant to be implemented by a User and be given to a \c AsyncComputingNode in order to process a Job.
  * When a Job is received, \c process_job is called and it is expected to return a Solution for such job.
  */
-class AMLIP_CPP_DllAPI JobListener
+class AMLIP_CPP_DllAPI JobReplier
 {
 public:
 
     //! Default virtual dtor so it can be inherited.
-    virtual ~JobListener() = default;
+    virtual ~JobReplier() = default;
 
     /**
      * @brief Method that will be called with the Job message received to calculate an answer.
@@ -65,7 +65,7 @@ public:
      * @return Solution to the \c job .
      */
     virtual types::JobSolutionDataType process_job (
-            std::unique_ptr<types::JobDataType> job,
+            const types::JobDataType& job,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& client_id) = 0;
 };
@@ -88,12 +88,12 @@ public:
      */
     AMLIP_CPP_DllAPI AsyncComputingNode(
             const char* name,
-            std::shared_ptr<JobListener> listener,
+            const std::shared_ptr<JobReplier>& listener,
             uint32_t domain_id);
 
     AMLIP_CPP_DllAPI AsyncComputingNode(
             const char* name,
-            std::shared_ptr<JobListener> listener);
+            const std::shared_ptr<JobReplier>& listener);
 
     /**
      * @brief Destroy the Main Node object and its internal DDS entities.
@@ -128,7 +128,7 @@ protected:
      */
     std::shared_ptr<dds::AsyncMultiServiceServer<types::JobDataType, types::JobSolutionDataType>> job_server_;
 
-    std::shared_ptr<JobListener> listener_;
+    std::shared_ptr<JobReplier> listener_;
 };
 
 } /* namespace node */

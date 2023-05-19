@@ -59,6 +59,8 @@ public:
 
     AMLIP_CPP_DllAPI virtual ~JobSolutionDataType() = default;
 
+    std::string to_string_() const noexcept;
+
 };
 
 } /* namespace types */

@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,19 +13,23 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobDataType
+// Binding for class MainNode
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
+%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
+// Generate directors for the virtual methods in the listener
+// IMPORTANT: this statement must be before including the hpp
+%feature("director") eprosima::amlip::node::SolutionListener;
+
+%shared_ptr(eprosima::amlip::node::SolutionListener);
+
+%ignore eprosima::amlip::node::AsyncMainNode::request_job_solution(const eprosima::amlip::types::JobDataType& );
 
 %{
-#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobDataType.hpp>
+%include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
