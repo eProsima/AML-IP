@@ -17,17 +17,11 @@ ARG amlip_branch="demo/algebraic"
 ENV TZ=Europe/Madrid
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Update Python to 3.11
 RUN apt update && \
     apt install -y software-properties-common && \
     apt update && \
     add-apt-repository ppa:deadsnakes/ppa && \
-    apt update && \
-    apt install -y python3.11 && \
-    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 && \
-    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2 && \
-    update-alternatives --config python3 && \
-    python3 -v
+    apt update
 
 # Download system dependencies
 RUN apt update && \
