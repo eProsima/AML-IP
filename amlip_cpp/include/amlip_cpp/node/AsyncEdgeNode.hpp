@@ -50,12 +50,12 @@ namespace node {
  * from a Computing Node after sending a Task from this Main.
  * Every Solution message call \c solution_received with the message as argument.
  */
-class SolutionListener
+class InferenceListener
 {
 public:
 
     //! Default virtual dtor so it can be inherited.
-    virtual ~SolutionListener() = default;
+    virtual ~InferenceListener() = default;
 
     /**
      * @brief Method that will be called with each Inference received
@@ -64,7 +64,7 @@ public:
      * @param task_id Id of the task which this inference answers.
      * @param server_id Id of the ComputingNode answering.
      */
-    virtual void solution_received(
+    virtual void inference_received(
             const types::InferenceSolutionDataType& inference,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& server_id) = 0;
@@ -90,17 +90,17 @@ public:
      */
     AMLIP_CPP_DllAPI AsyncEdgeNode(
             const char* name,
-            const std::shared_ptr<SolutionListener>& listener,
+            const std::shared_ptr<InferenceListener>& listener,
             uint32_t domain_id);
 
     AMLIP_CPP_DllAPI AsyncEdgeNode(
             const char* name,
-            const std::shared_ptr<SolutionListener>& listener);
+            const std::shared_ptr<InferenceListener>& listener);
 
     //! Same as previous ctor but with a string argument.
     AMLIP_CPP_DllAPI AsyncEdgeNode(
             const std::string& name,
-            const std::shared_ptr<SolutionListener>& listener);
+            const std::shared_ptr<InferenceListener>& listener);
 
     /**
      * @brief Destroy the Edge Node object and its internal DDS entities.

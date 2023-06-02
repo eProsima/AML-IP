@@ -31,7 +31,7 @@ namespace node {
 struct SolutionListenerCast : public dds::SolutionListener<types::InferenceSolutionDataType>
 {
     SolutionListenerCast(
-            const std::shared_ptr<node::SolutionListener>& listener)
+            const std::shared_ptr<node::InferenceListener>& listener)
         : listener_(listener)
     {
     }
@@ -42,15 +42,15 @@ struct SolutionListenerCast : public dds::SolutionListener<types::InferenceSolut
             const types::AmlipIdDataType&,
             const types::AmlipIdDataType& server_id) override
     {
-        listener_->solution_received(*solution, task_id, server_id);
+        listener_->inference_received(*solution, task_id, server_id);
     }
 
-    std::shared_ptr<node::SolutionListener> listener_;
+    std::shared_ptr<node::InferenceListener> listener_;
 };
 
 AsyncEdgeNode::AsyncEdgeNode(
         const char* name,
-        const std::shared_ptr<SolutionListener>& listener,
+        const std::shared_ptr<InferenceListener>& listener,
         uint32_t domain_id)
     : ParentNode(name, types::NodeKind::edge, types::StateKind::running, domain_id)
     , inference_client_(participant_->create_async_multiservice_client<types::InferenceDataType, types::InferenceSolutionDataType>(
@@ -62,14 +62,14 @@ AsyncEdgeNode::AsyncEdgeNode(
 
 AsyncEdgeNode::AsyncEdgeNode(
         const char* name,
-        const std::shared_ptr<SolutionListener>& listener)
+        const std::shared_ptr<InferenceListener>& listener)
     : AsyncEdgeNode(name, listener, dds::Participant::default_domain_id())
 {
 }
 
 AsyncEdgeNode::AsyncEdgeNode(
         const std::string& name,
-        const std::shared_ptr<SolutionListener>& listener)
+        const std::shared_ptr<InferenceListener>& listener)
     : AsyncEdgeNode(name.c_str(), listener, dds::Participant::default_domain_id())
 {
 }
