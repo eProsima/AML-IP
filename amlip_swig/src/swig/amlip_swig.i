@@ -93,3 +93,4 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/node/AsyncMainNode.i"
 %include "amlip_swig/node/AsyncComputingNode.i"
 %include "amlip_swig/node/EdgeNode.i"
+%include "amlip_swig/node/AsyncEdgeNode.i"
