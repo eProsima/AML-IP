@@ -53,7 +53,8 @@ AsyncEdgeNode::AsyncEdgeNode(
         const std::shared_ptr<InferenceListener>& listener,
         uint32_t domain_id)
     : ParentNode(name, types::NodeKind::edge, types::StateKind::running, domain_id)
-    , inference_client_(participant_->create_async_multiservice_client<types::InferenceDataType, types::InferenceSolutionDataType>(
+    , inference_client_(participant_->create_async_multiservice_client<types::InferenceDataType,
+            types::InferenceSolutionDataType>(
                 dds::utils::INFERENCE_TOPIC_NAME))
 {
     inference_client_->run(std::make_shared<SolutionListenerCast>(listener));

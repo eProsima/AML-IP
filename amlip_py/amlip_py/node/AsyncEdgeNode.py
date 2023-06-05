@@ -21,6 +21,7 @@ from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 from amlip_swig import AsyncEdgeNode as cpp_AsyncEdgeNode
 from amlip_swig import InferenceListener as cpp_InferenceListener
 
+
 class InferenceListener(cpp_InferenceListener):
     """
     Solution Listener class.
@@ -61,6 +62,7 @@ class InferenceListenerLambda(cpp_InferenceListener):
             server_id):
         """Call internal lambda."""
         return self.callback_(inference, task_id, server_id)
+
 
 class AsyncEdgeNode(cpp_AsyncEdgeNode):
     """
