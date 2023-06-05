@@ -39,6 +39,7 @@ class InferenceReplier(cpp_InferenceReplier):
         """
         raise NotImplementedError('JobReplier.process_job must be specialized before use.')
 
+
 class InferenceReplierLambda(cpp_InferenceReplier):
     """
     Custom InferenceListener supporting to create it with a lambda function.
@@ -105,7 +106,6 @@ class InferenceNode(cpp_AsyncInferenceNode):
             super().__init__(name, self.listener_)
         else:
             super().__init__(name, self.listener_, domain)
-
 
     def run(
             self,

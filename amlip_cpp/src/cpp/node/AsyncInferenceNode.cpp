@@ -93,7 +93,6 @@ void AsyncInferenceNode::stop()
     inference_server_->stop();
 }
 
-
 } /* namespace node */
 } /* namespace amlip */
 } /* namespace eprosima */
