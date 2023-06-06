@@ -16,6 +16,9 @@
 // Binding for class StateKind
 ////////////////////////////////////////////////////////
 
+// Import
+%import(module="amlip_swig") "cpp_utils/macros/custom_enumeration.hpp";
+
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::operator <<(std::ostream &,const StateKind&);
@@ -23,9 +26,6 @@
 
 %{
 #include <amlip_cpp/types/status/StateKind.hpp>
-
-// enum class are required to be added with a using
-using StateKind = eprosima::amlip::types::StateKind;
 %}
 
 %include <amlip_cpp/types/status/StateKind.hpp>

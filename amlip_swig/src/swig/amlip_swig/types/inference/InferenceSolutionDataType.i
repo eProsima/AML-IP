@@ -19,20 +19,20 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
 
-%include "std_vector.i"
-namespace std {
-   %template(bytes) vector<uint8_t>;
-}
-
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
-
 %ignore eprosima::amlip::types::InferenceSolutionDataType::InferenceSolutionDataType();
 
 %{
 #include <amlip_cpp/types/inference/InferenceSolutionDataType.hpp>
+
+using InferenceSolutionDataType = eprosima::amlip::types::InferenceSolutionDataType;
 %}
 
 // Include the class interfaces
 %include <amlip_cpp/types/inference/InferenceSolutionDataType.hpp>
+
+%pythoncode %{
+InferenceSolutionDataType = GenericDataType
+%}

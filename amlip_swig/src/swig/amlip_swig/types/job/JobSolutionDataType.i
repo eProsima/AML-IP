@@ -25,7 +25,13 @@
 
 %{
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+
+using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
 %}
 
 // Include the class interfaces
 %include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+
+%pythoncode %{
+JobSolutionDataType = GenericDataType
+%}

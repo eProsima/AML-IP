@@ -25,66 +25,19 @@
 
 #pragma once
 
-#include <array>
-#include <string>
-#include <stdexcept>
-#include <vector>
+#include <cpp_utils/macros/custom_enumeration.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-enum class StateKind
-{
+ENUMERATION_BUILDER(
+    StateKind,
     unknown,  //! Not defined state kind
     running,  //! Node is running (executing some action)
     stopped,  //! Node is stopped
     dropped   //! Node has been removed from the network
-};
-
-const std::array<std::string, 4> NAMES_StateKind =
-{
-    "unknown",
-    "running",
-    "stopped",
-    "dropped"
-};
-
-inline const std::string& to_string(
-        const StateKind& e)
-{
-    return NAMES_StateKind[static_cast<int>(e)];
-}
-
-inline std::vector<std::string> string_vector_StateKind()
-{
-    return std::vector<std::string> (
-        NAMES_StateKind.begin(),
-        NAMES_StateKind.end());
-}
-
-inline StateKind from_string_StateKind(
-        const std::string& s)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        if (NAMES_StateKind[i] == s)
-        {
-            return static_cast<StateKind>(i);
-        }
-    }
-    throw std::invalid_argument("Incorrect name for enum StateKind.");
-}
-
-inline std::ostream& operator <<(
-        std::ostream& os,
-        const StateKind& e)
-{
-    os << to_string(e);
-    return os;
-}
-
-constexpr const unsigned int N_VALUES_StateKind = 4;
+    );
 
 } /* namespace types */
 } /* namespace amlip */
