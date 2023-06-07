@@ -85,7 +85,6 @@ def main():
 
     # Prepare callback to call when solution received
     def process_solution_received(solution, task_id, server_id):
-        # ALGEBRAIC here store models instead of print solutions
         print(
             f'Main Node {node_name} received solution for task <{task_id}> from server <{server_id}> :\n'
             f'  <{solution.to_string()}>.',
@@ -105,7 +104,6 @@ def main():
     while jobs:
 
         # If arguments given, pop first one currently available
-        # ALGEBRAIC here choose real jobs instead of strings
         job_str = jobs.pop(0)
 
         # Send task and awaits for the solution

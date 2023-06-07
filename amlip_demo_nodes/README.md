@@ -1,7 +1,13 @@
 # eProsima AML-IP Demo Nodes
 
-This is a package with a demo on AML-IP node execution.
-In this package there are 2 executables, `main` and `computing`.
+This is a package containing demos of AML-IP node execution.
+In this package there are severat executables:
+
+- [Main](main_node.py) Async Main Node execution
+- [Computing](computing_node.py) Async Computing Node execution
+- [Status](status_node.py) Async Status Node execution
+- [Async Main](sync/sync_main_node.py) Sync Main Node execution
+- [Async Computing](sync/sync_computing_node.py) Sync Computing Node execution
 
 ---
 
@@ -24,10 +30,9 @@ In this package there are 2 executables, `main` and `computing`.
 
 ## Demo
 
-This intends to recreate a simple real scenario where *Computing Nodes* waits and answers
-tasks from *Main Nodes*.
-These nodes can be run from anywhere in the LAN, and as much of each kind as desired, and the workload
-of each *Main* will be distributed along the *Computing* available.
+This intends to recreate a simple real scenario where *Computing Nodes* waits and answers tasks from *Main Nodes*.
+These nodes can be run from anywhere in the LAN and as much of each kind as desired.
+Th workload of each *Main* will be distributed along the *Computing* available.
 This is done in a way that even C++ and Python and Sync and Async nodes can work together.
 
 This project intends to simulate what a real future AML network would look like,
@@ -50,9 +55,10 @@ However, to make the user experience more realistic, the calculation of this to-
 ### Main Node
 
 This is a **Python** application that sends jobs in the format of strings.
-From each string given it creates a job and send it with a configurable time elapsed between job sends.
+From each string given it creates a job and sends it with a configurable time elapsed between job sends.
 For each solution received, it prints the solution.
-It waits until all jobs have been answered.
+It waits until all jobs have been answered, or `SIGINT / C^ / Ctrl+C` is received.
+
 Its implementation can be seen in [main_node.py](main_node.py) file.
 
 In order to introduce strings to be sent as jobs, add them as executable inputs.
@@ -66,7 +72,7 @@ For further information regarding executable arguments, use `--help` argument.
 
 ### Computing Node
 
-This is a **Python** application that waits for a job to arrive from a Main node and returns the solution.
+This is a **Python** application that waits for a job to arrive from a *Main node* and returns the solution.
 It runs until `SIGINT / C^ / Ctrl+C` is received.
 
 Its implementation can be seen in [computing_node.py](computing_node.py) file.
@@ -82,7 +88,7 @@ For further information regarding executable arguments, use `--help` argument.
 
 ## Build Project
 
-In order to build the following project an be able to operate with this demo Nodes, follow these instructions:
+In order to build the following project and be able to operate with this demo Nodes, follow these instructions:
 
 ```sh
 mkdir src
@@ -96,7 +102,8 @@ source install/setup.bash
 
 ## Real Use Case
 
-In order to adapt these nodes for a real Use case (substitute the string transformations for real calculations) look in files for comment `ALGEBRAIC` and substitute with own code.
+In order to adapt these nodes for a real Use case (substitute the string transformations for real calculations),
+look in files for comment `ALGEBRAIC` and substitute with own code.
 
 ---
 
@@ -107,11 +114,12 @@ There are some demos under `sync` directory that contains old examples on Synchr
 ### Sync Main Node
 
 This is a **Python** application that sends jobs in the format of strings.
-From each string given it creates a job, send it and awaits for a computing to receive the solution.
+From each string given it creates a job, sends it and awaits for a computing to receive the solution.
 There are 2 ways to introduce strings to send jobs:
 
-1. Each argument to the python command will be converted to a string and sent as a job.
-2. If no arguments are given, it expects user to enter strings by keyboard input. Entering an empty string will close the execution.
+1. Each argument of the Python command is converted to a string and sent as a job.
+2. If no arguments are given, it expects user to enter strings by keyboard input.
+   Entering an empty string will terminate the execution.
 
 ```sh
 # To send 2 jobs
@@ -121,7 +129,7 @@ python3 ./install/amlip_demo_nodes/bin/main_node.py first_job "second job"
 python3 ./install/amlip_demo_nodes/bin/main_node.py
 ```
 
-Its implementation can be seen in `main_node.py` file.
+Its implementation can be seen in [sync_main_node.py](sync/sync_main_node.py) file.
 
 ### Sync Computing Node
 
@@ -133,4 +141,4 @@ It receives an integer argument to set the number of tasks that this node must w
 ./install/amlip_demo_nodes/bin/computing_node 2
 ```
 
-Its implementation can be seen in `computing_node.cpp` file.
+Its implementation can be seen in [sync_computing_node.cpp](sync/sync_computing_node.cpp) file.

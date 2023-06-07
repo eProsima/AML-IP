@@ -1,4 +1,4 @@
-# Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+# Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -87,7 +87,6 @@ def main():
             f'  Job      : <{job.to_string()}>.')
 
         # Simulate calculation by lowering case of string
-        # ALGEBRAIC here do the computing calculations
         solution_str = job.to_string().upper()
 
         # Add a sleep to simulate calculations
