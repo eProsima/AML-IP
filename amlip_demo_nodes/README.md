@@ -32,7 +32,7 @@ In this package there are severat executables:
 
 This intends to recreate a simple real scenario where *Computing Nodes* waits and answers tasks from *Main Nodes*.
 These nodes can be run from anywhere in the LAN and as much of each kind as desired.
-Th workload of each *Main* will be distributed along the *Computing* available.
+The workload of each *Main* will be distributed along the *Computing* available.
 This is done in a way that even C++ and Python and Sync and Async nodes can work together.
 
 This project intends to simulate what a real future AML network would look like,
