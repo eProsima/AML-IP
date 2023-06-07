@@ -86,7 +86,8 @@ def main():
     # Prepare callback to call when solution received
     def process_solution_received(solution, task_id, server_id):
         print(
-            f'Main Node {node_name} received solution for task <{task_id}> from server <{server_id}> :\n'
+            f'Main Node {node_name} received solution for task <{task_id}> '
+            f'from server <{server_id}> :\n'
             f'  <{solution.to_string()}>.',
             end='\n\n')
         waiter.increase()

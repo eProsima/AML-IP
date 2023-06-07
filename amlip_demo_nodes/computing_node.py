@@ -83,7 +83,8 @@ def main():
     def process_job(job, task_id, client_id):
 
         print(
-            f'Computing Node {node_name} preparing solution for task <{task_id}> from client <{client_id}> :\n'
+            f'Computing Node {node_name} preparing solution for task <{task_id}> '
+            f'from client <{client_id}> :\n'
             f'  Job      : <{job.to_string()}>.')
 
         # Simulate calculation by lowering case of string
