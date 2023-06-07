@@ -29,7 +29,7 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
-/////////////////
+///////////////////
 // STATUS TOPIC
 constexpr const char* STATUS_TOPIC_NAME = "status";
 
@@ -37,7 +37,7 @@ eprosima::fastdds::dds::DataWriterQos status_writer_qos() noexcept;
 
 eprosima::fastdds::dds::DataReaderQos status_reader_qos() noexcept;
 
-/////////////////
+///////////////////
 // JOB TOPIC
 constexpr const char* JOB_TOPIC_NAME = "job";
 
@@ -49,10 +49,12 @@ eprosima::fastdds::dds::DataWriterQos model_writer_qos() noexcept;
 
 eprosima::fastdds::dds::DataReaderQos model_reader_qos() noexcept;
 
-/////////////////
+///////////////////
+constexpr const char* INFERENCE_TOPIC_NAME = "inference";
+
+///////////////////
 // MANGLING
 constexpr const char* TYPE_NAME_MANGLING = "amlip::";
-
 constexpr const char* TOPIC_NAME_MANGLING = "amlip/";
 
 std::string type_name_mangling(

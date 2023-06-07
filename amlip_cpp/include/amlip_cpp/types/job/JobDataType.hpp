@@ -28,38 +28,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-/**
- * @brief AML Job Task Data Type
- *
- * This class implements the Job DataType, the information of training data and a model state.
- * So far this class is a generic void* and size to a bunch of bytes.
- *
- * @note This class may be reimplemented according with AML team designs.
- */
-class JobDataType : public GenericDataType
-{
-public:
-
-    // NOTE: This methods are included already in GenericDataType,
-    // but it is required for Windows and SWIG to work to have them declare here.
-    // All constructors and specially destructor must be declared here.
-    // TODO: Check if there is some way to avoid this.
-    AMLIP_CPP_DllAPI JobDataType() = default;
-
-    AMLIP_CPP_DllAPI JobDataType(
-            void* data,
-            const uint32_t size,
-            bool take_ownership = false);
-
-    AMLIP_CPP_DllAPI JobDataType(
-            const std::vector<ByteType>& bytes);
-
-    AMLIP_CPP_DllAPI JobDataType(
-            const std::string& bytes);
-
-    AMLIP_CPP_DllAPI virtual ~JobDataType() = default;
-
-};
+using JobDataType = GenericDataType;
 
 } /* namespace types */
 } /* namespace amlip */

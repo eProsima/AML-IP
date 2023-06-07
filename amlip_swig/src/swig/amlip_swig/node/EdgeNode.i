@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,19 +13,15 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class StateKind
+// Binding for class EdgeNode
 ////////////////////////////////////////////////////////
 
-// Import
-%import(module="amlip_swig") "cpp_utils/macros/custom_enumeration.hpp";
-
-// Ignore overloaded methods that have no application on Python
-// Otherwise they will issue a warning
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const StateKind&);
-%ignore eprosima::amlip::types::to_string(const StateKind&);
+// Import parent class
+%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
 %{
-#include <amlip_cpp/types/status/StateKind.hpp>
+#include <amlip_cpp/node/EdgeNode.hpp>
 %}
 
-%include <amlip_cpp/types/status/StateKind.hpp>
+// Include the class interfaces
+%include <amlip_cpp/node/EdgeNode.hpp>

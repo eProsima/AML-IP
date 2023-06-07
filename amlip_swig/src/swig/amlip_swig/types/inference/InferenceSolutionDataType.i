@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobSolutionDataType
+// Binding for class InferenceSolutionDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
@@ -22,16 +22,17 @@
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
+%ignore eprosima::amlip::types::InferenceSolutionDataType::InferenceSolutionDataType();
 
 %{
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+#include <amlip_cpp/types/inference/InferenceSolutionDataType.hpp>
 
-using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
+using InferenceSolutionDataType = eprosima::amlip::types::InferenceSolutionDataType;
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+%include <amlip_cpp/types/inference/InferenceSolutionDataType.hpp>
 
 %pythoncode %{
-JobSolutionDataType = GenericDataType
+InferenceSolutionDataType = GenericDataType
 %}

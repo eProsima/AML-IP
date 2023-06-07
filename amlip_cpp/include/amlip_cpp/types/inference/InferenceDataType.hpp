@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
 // limitations under the License.
 
 /*!
- * @file JobSolutionDataType.hpp
+ * @file InferenceDataType.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
-#define AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
+#ifndef AMLIPCPP__SRC_CPP_TYPES_INFERENCEDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_INFERENCEDATATYPE_HPP
 
 #include <string>
 #include <vector>
@@ -28,10 +28,10 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-using JobSolutionDataType = GenericDataType;
+using InferenceDataType = GenericDataType;
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIPCPP__SRC_CPP_TYPES_SOLUTIONDATATYPE_HPP
+#endif // AMLIPCPP__SRC_CPP_TYPES_INFERENCEDATATYPE_HPP

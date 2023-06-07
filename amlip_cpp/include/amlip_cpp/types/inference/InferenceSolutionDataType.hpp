@@ -1,4 +1,4 @@
-// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,40 +13,25 @@
 // limitations under the License.
 
 /*!
- * @file JobDataType.cpp
+ * @file InferenceSolutionDataType.hpp
  */
 
-#include <iostream>
+#ifndef AMLIPCPP__SRC_CPP_TYPES_INFERENCESOLUTIONDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_INFERENCESOLUTIONDATATYPE_HPP
 
-#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <string>
+#include <vector>
+
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-JobDataType::JobDataType(
-        void* data,
-        const uint32_t size,
-        bool take_ownership /* = false */)
-    : GenericDataType(data, size, take_ownership)
-{
-    // Do nothing
-}
-
-JobDataType::JobDataType(
-        const std::vector<ByteType>& bytes)
-    : GenericDataType(bytes)
-{
-    // Do nothing
-}
-
-JobDataType::JobDataType(
-        const std::string& bytes)
-    : GenericDataType(bytes)
-{
-    // Do nothing
-}
+using InferenceSolutionDataType = GenericDataType;
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+#endif // AMLIPCPP__SRC_CPP_TYPES_INFERENCESOLUTIONDATATYPE_HPP
