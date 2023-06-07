@@ -45,6 +45,7 @@
    :numbered: 5
    :hidden:
 
+   /rst/demo/tensor_inference
    /rst/demo/workload_distribution
 
 

@@ -64,3 +64,7 @@ Node Kinds
     status
     main
     computing
+    edge
+    inference
+    async_edge
+    async_inference

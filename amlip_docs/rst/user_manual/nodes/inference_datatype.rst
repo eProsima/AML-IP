@@ -1,14 +1,6 @@
 .. include:: ../../exports/alias.include
 
-.. _user_manual_scenarios_wan:
-
-############
-WAN Scenario
-############
-
-TODO
-
-.. _user_manual_scenarios_wan_inference:
+.. _user_manual_datatype_inference:
 
 Inference Data Type
 ===================
@@ -18,7 +10,7 @@ Internally, the data sent from an *Edge Node* to an *Inference Node* are treated
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 From Python API, the way to interact with it is by `str` and `bytes` type.
 
-.. _user_manual_scenarios_wan_inference_solution:
+.. _user_manual_datatype_inference_solution:
 
 Inference Solution Data Type
 ============================
