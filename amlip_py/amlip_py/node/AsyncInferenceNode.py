@@ -29,7 +29,7 @@ class InferenceReplier(cpp_InferenceReplier):
 
     def process_inference(
             self,
-            job,
+            inference,
             task_id,
             client_id):
         """
@@ -37,12 +37,13 @@ class InferenceReplier(cpp_InferenceReplier):
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('JobReplier.process_job must be specialized before use.')
+        raise NotImplementedError('InferenceReplier.process_inference must be specialized '
+                                  'before use.')
 
 
 class InferenceReplierLambda(cpp_InferenceReplier):
     """
-    Custom InferenceListener supporting to create it with a lambda function.
+    Custom InferenceReplier supporting to create it with a lambda function.
 
     This object is created with a lambda function that is stored inside and used for every
     Inference message received.
@@ -55,11 +56,11 @@ class InferenceReplierLambda(cpp_InferenceReplier):
 
     def process_inference(
             self,
-            job,
+            inference,
             task_id,
             client_id):
         """Call internal lambda."""
-        return self.callback_(job, task_id, client_id)
+        return self.callback_(inference, task_id, client_id)
 
 
 class InferenceNode(cpp_AsyncInferenceNode):

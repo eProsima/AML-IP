@@ -58,7 +58,7 @@ AsyncInferenceNode::AsyncInferenceNode(
             types::InferenceSolutionDataType>(
                 dds::utils::INFERENCE_TOPIC_NAME))
 {
-    logInfo(AMLIPCPP_NODE_ASYNCINFERENCE, "Created new Inference Node: " << *this << ".");
+    logInfo(AMLIPCPP_NODE_ASYNCINFERENCE, "Created new Async Inference Node: " << *this << ".");
 }
 
 AsyncInferenceNode::AsyncInferenceNode(
@@ -80,7 +80,7 @@ AsyncInferenceNode::AsyncInferenceNode(
 AsyncInferenceNode::~AsyncInferenceNode()
 {
     stop();
-    logDebug(AMLIPCPP_NODE_ASYNCINFERENCE, "Destroying Inference Node: " << *this << ".");
+    logDebug(AMLIPCPP_NODE_ASYNCINFERENCE, "Destroying Async Inference Node: " << *this << ".");
 }
 
 void AsyncInferenceNode::run()

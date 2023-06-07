@@ -24,9 +24,9 @@ from amlip_swig import InferenceListener as cpp_InferenceListener
 
 class InferenceListener(cpp_InferenceListener):
     """
-    Solution Listener class.
-    This object must execute solution_received method with each Solution message that is received
-    from node and must return the solution to the job.
+    Inference Listener class.
+    This object must execute inference_received method with each Inference message that is received
+    from node and must return the solution to the inference.
     """
 
     def inference_received(
@@ -39,15 +39,15 @@ class InferenceListener(cpp_InferenceListener):
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('SolutionListener.solution_received must be specialized '
+        raise NotImplementedError('InferenceListener.inference_received must be specialized '
                                   'before use.')
 
 
 class InferenceListenerLambda(cpp_InferenceListener):
     """
-    Custom SolutionListener supporting to create it with a lambda function.
+    Custom InferenceListener supporting to create it with a lambda function.
     This object is created with a lambda function that is stored inside and used for every
-    JobSolution message received.
+    InferenceSolution message received.
     """
 
     def __init__(self, callback):
@@ -57,7 +57,7 @@ class InferenceListenerLambda(cpp_InferenceListener):
 
     def inference_received(
             self,
-            inference: InferenceDataType,
+            inference: InferenceSolutionDataType,
             task_id,
             server_id):
         """Call internal lambda."""
@@ -89,7 +89,7 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
         self.listener_ = None
         if listener and callback:
             raise ValueError(
-                'AsyncMainNode constructor expects a listener object or a callback, both given.')
+                'AsyncEdgeNode constructor expects a listener object or a callback, both given.')
 
         elif listener:
             self.listener_ = listener
@@ -99,7 +99,7 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
 
         else:
             raise ValueError(
-                'AsyncMainNode constructor expects a listener object or a callback, none given.')
+                'AsyncEdgeNode constructor expects a listener object or a callback, none given.')
 
         # Parent class constructor
         if domain is None:
@@ -111,11 +111,11 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
             self,
             data: InferenceDataType):
         """
-        Send a inference to a InferenceNode to be executed, and wait for the response.
+        Send an inference to a InferenceNode to be executed, and wait for the response.
 
         Parameters
         ----------
-        data : StringInferenceDataType
+        data : String
             Inference that will be send to process by a inference node.
 
         Return

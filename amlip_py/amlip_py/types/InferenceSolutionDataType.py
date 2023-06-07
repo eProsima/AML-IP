@@ -42,23 +42,6 @@ class InferenceSolutionDataType(cpp_InferenceSolutionDataType):
         else:
             super().__init__()
 
-    def __init__(
-            self,
-            message: bytes):
-        """TODO"""        """
-        Construct a new Inference with name.
-        Parameters
-        ----------
-        message: bytes
-            Data to send to Inference Node serialized in bytes.
-        """
-        if (message_str):
-            super().__init__(message_str)
-        elif (message_bytes):
-            super().__init__(message_bytes)
-        else:
-            super().__init__()
-
     def __str__(
             self) -> str:
         """Serialize Inference into a string."""

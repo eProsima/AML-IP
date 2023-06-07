@@ -33,7 +33,8 @@ ENUMERATION_BUILDER(
     computing,
     status,
     meta,
-    edge
+    edge,
+    inference
     );
 
 } /* namespace types */

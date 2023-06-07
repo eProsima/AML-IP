@@ -46,7 +46,7 @@ namespace node {
 /**
  * @brief Object that is called when a new Inference data has been received.
  *
- * This class is supposed to be implemented by a User and be given to a \c InferenceNode in order to process a Inference.
+ * This class is supposed to be implemented by a User and be given to a \c AsyncInferenceNode in order to process a Inference.
  * When a Inference is received, \c process_inference is called and it is expected to return a Solution for such inference.
  */
 class AMLIP_CPP_DllAPI InferenceReplier
@@ -57,13 +57,13 @@ public:
     virtual ~InferenceReplier() = default;
 
     /**
-     * @brief Method that will be called with the Job message received to calculate an answer.
+     * @brief Method that will be called with the inference message received to calculate an answer.
      *
-     * @param inference new Job message received.
+     * @param inference new inference message received.
      * @param task_id Id of the Task received.
-     * @param client_id Id of the Client that sent this job.
+     * @param client_id Id of the Client that sent this inference.
      *
-     * @return Solution to the \c job .
+     * @return Solution to the \c inference .
      */
     virtual types::InferenceSolutionDataType process_inference (
             const types::InferenceDataType& inference,
@@ -87,7 +87,7 @@ class AsyncInferenceNode : public ParentNode
 public:
 
     /**
-     * @brief Construct a new Inference Node object.
+     * @brief Construct a new Async Inference Node object.
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
@@ -106,17 +106,17 @@ public:
             const std::shared_ptr<InferenceReplier>& listener);
 
     /**
-     * @brief Destroy the Inference Node object and its internal DDS entities.
+     * @brief Destroy the Async Inference Node object and its internal DDS entities.
      *
      * @pre Cannot be destroyed while processing an inference. Otherwise undefined behaviour.
      */
     AMLIP_CPP_DllAPI ~AsyncInferenceNode();
 
     /**
-     * @brief Process Jobs asynchronously.
+     * @brief Process Inferences asynchronously.
      *
      * This uses an internal thread that execute the whole multiservice process.
-     * In order to calculate Jobs that are received, it uses \c process_job from Listener given.
+     * In order to calculate Inferences that are received, it uses \c process_inference from Listener given.
      *
      * @throw if node is already running.
      */
@@ -132,7 +132,7 @@ public:
 protected:
 
     /**
-     * @brief Reference to the MultiService Server that sends inferences.
+     * @brief Reference to the AsyncMultiService Server that sends inferences.
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
