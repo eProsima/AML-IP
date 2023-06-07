@@ -38,12 +38,12 @@ struct TaskListenerCast : public dds::TaskListener<types::InferenceDataType, typ
     }
 
     types::InferenceSolutionDataType process_task (
-            std::unique_ptr<types::InferenceDataType>&& task,
+            std::unique_ptr<types::InferenceDataType>&& inference,
             const types::TaskId& task_id,
             const types::AmlipIdDataType& client_id,
             const types::AmlipIdDataType&) override
     {
-        return listener_->process_inference(*task, task_id, client_id);
+        return listener_->process_inference(*inference, task_id, client_id);
     }
 
     std::shared_ptr<InferenceReplier> listener_;
@@ -57,6 +57,7 @@ AsyncInferenceNode::AsyncInferenceNode(
     , inference_server_(participant_->create_async_multiservice_server<types::InferenceDataType,
             types::InferenceSolutionDataType>(
                 dds::utils::INFERENCE_TOPIC_NAME))
+    , listener_(listener)
 {
     logInfo(AMLIPCPP_NODE_ASYNCINFERENCE, "Created new Async Inference Node: " << *this << ".");
 }
@@ -86,11 +87,14 @@ AsyncInferenceNode::~AsyncInferenceNode()
 void AsyncInferenceNode::run()
 {
     inference_server_->run(std::make_shared<TaskListenerCast>(listener_));
+    change_status_(types::StateKind::running);
 }
 
 void AsyncInferenceNode::stop()
 {
+
     inference_server_->stop();
+    change_status_(types::StateKind::stopped);
 }
 
 } /* namespace node */

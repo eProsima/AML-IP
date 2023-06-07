@@ -19,10 +19,10 @@ from amlip_py.types.InferenceDataType import InferenceDataType
 from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 
 from amlip_swig import AsyncEdgeNode as cpp_AsyncEdgeNode
-from amlip_swig import InferenceListener as cpp_InferenceListener
+from amlip_swig import InferenceSolutionListener as cpp_InferenceSolutionListener
 
 
-class InferenceListener(cpp_InferenceListener):
+class InferenceSolutionListener(cpp_InferenceSolutionListener):
     """
     Inference Listener class.
     This object must execute inference_received method with each Inference message that is received
@@ -43,7 +43,7 @@ class InferenceListener(cpp_InferenceListener):
                                   'before use.')
 
 
-class InferenceListenerLambda(cpp_InferenceListener):
+class InferenceListenerLambda(cpp_InferenceSolutionListener):
     """
     Custom InferenceListener supporting to create it with a lambda function.
     This object is created with a lambda function that is stored inside and used for every
@@ -76,7 +76,7 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
             name: str,
             domain: int = None,
             callback=None,
-            listener: InferenceListener = None):
+            listener: InferenceSolutionListener = None):
         """
         Create a new Edge Node with a given name.
 

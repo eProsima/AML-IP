@@ -26,8 +26,8 @@
 %shared_ptr(eprosima::amlip::node::InferenceReplier);
 
 %{
-#include <amlip_cpp/node/InferenceNode.hpp>
+#include <amlip_cpp/node/AsyncInferenceNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/node/InferenceNode.hpp>
+%include <amlip_cpp/node/AsyncInferenceNode.hpp>

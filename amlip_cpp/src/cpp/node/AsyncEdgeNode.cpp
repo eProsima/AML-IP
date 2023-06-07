@@ -37,12 +37,12 @@ struct SolutionListenerCast : public dds::SolutionListener<types::InferenceSolut
     }
 
     void solution_received(
-            std::unique_ptr<types::InferenceSolutionDataType>&& solution,
+            std::unique_ptr<types::InferenceSolutionDataType>&& inference,
             const types::TaskId& task_id,
             const types::AmlipIdDataType&,
             const types::AmlipIdDataType& server_id) override
     {
-        listener_->inference_received(*solution, task_id, server_id);
+        listener_->inference_received(*inference, task_id, server_id);
     }
 
     std::shared_ptr<node::InferenceSolutionListener> listener_;

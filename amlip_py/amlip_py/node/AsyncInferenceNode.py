@@ -63,7 +63,7 @@ class InferenceReplierLambda(cpp_InferenceReplier):
         return self.callback_(inference, task_id, client_id)
 
 
-class InferenceNode(cpp_AsyncInferenceNode):
+class AsyncInferenceNode(cpp_AsyncInferenceNode):
     """
     AML-IP Inference Node.
 
