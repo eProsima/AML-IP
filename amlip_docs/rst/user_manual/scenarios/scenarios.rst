@@ -19,4 +19,3 @@ In order to know more about the *Node* concept and their kinds, please refer to 
 
     monitor_state
     workload_distribution
-    wan

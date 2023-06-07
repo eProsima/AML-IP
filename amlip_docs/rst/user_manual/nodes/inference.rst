@@ -1,21 +1,18 @@
 .. include:: ../../exports/alias.include
 
-.. |status| replace:: *Status*
-
 .. _user_manual_nodes_inference:
 
 ##############
 Inference Node
 ##############
 
-This kind of Node performs the passive (server) action of :ref:`user_manual_scenarios_wan`.
-This node waits for data serialized as :ref:`user_manual_scenarios_wan_inference`, and once received it calculate the inference whose output is the inference solution as :ref:`user_manual_scenarios_wan_inference_solution`.
+This node waits for data serialized as :ref:`user_manual_datatype_inference`, and once received it calculate the inference whose output is the inference solution as :ref:`user_manual_datatype_inference_solution`.
 
 .. warning::
 
-    In the current release, the use of a Edge node must be synchronous.
+    The use of a Inference node must be synchronous.
     This means that once the data is sent, the thread must wait for the inference to arrive before sending another data.
-    In future release asynchronous methods will be available.
+    Asynchronous methods are available on the :ref:`user_manual_nodes_async_inference`.
 
 
 Example of Usage
@@ -60,10 +57,9 @@ Steps
             # Create a new Inference Node
             node = InferenceNode("My_Inference_Node")
 
-            def engine_routine():
-                InferenceSolutionDataType inference;
+            def engine_routine(inference):
                 # Do some code that calculates the inference
-                return inference
+                return InferenceSolutionDataType(inference_solution)
 
             # Wait for 1 task from any client and answer it with process_inference callback
-            node.process_inference(callback=engine_routine)
+            node.process_inference(callback=lambda inference: engine_routine(inference))

@@ -1,23 +1,18 @@
 .. include:: ../../exports/alias.include
 
-.. |status| replace:: *Status*
-
 .. _user_manual_nodes_edge:
 
 #########
 Edge Node
 #########
 
-This kind of Node performs the active (client) action of :ref:`user_manual_scenarios_wan`.
-This node is able to send data serialized as :ref:`user_manual_scenarios_wan_inference` and it
-receives an Inference as :ref:`user_manual_scenarios_wan_inference_solution`.
+This node is able to send data serialized as :ref:`user_manual_datatype_inference` and it receives an Inference as :ref:`user_manual_datatype_inference_solution`.
 
 .. warning::
 
-    In the current release, the use of a Edge node must be synchronous.
+    The use of an Edge node must be synchronous.
     This means that once the data is sent, the thread must wait for the inference to arrive before sending another data.
-    In future release asynchronous methods will be available.
-
+    Asynchronous methods are available on the :ref:`user_manual_nodes_async_edge`.
 
 Example of Usage
 ================
@@ -44,7 +39,7 @@ Steps
             auto node = eprosima::amlip::EdgeNode("My_Edge_Node");
 
             // Create new data to be executed remotely
-            auto data = eprosima::amlip::JobDataType("Some data as byte array serialized from a string or bytes");
+            auto data = eprosima::amlip::InferenceDataType("Some data as byte array serialized from a string or bytes");
 
             // Send data to a remote Inference Node and waits for the inference
             // This could be called with an id as well, and it will return the server id that send the inference
@@ -58,7 +53,7 @@ Steps
             node = EdgeNode("My_Edge_Node")
 
             # Create new data to be executed remotely
-            data = JobDataType("Some data as byte array serialized from a string or bytes")
+            data = InferenceDataType("Some data as byte array serialized from a string or bytes")
 
             # Send data to a remote Inference Node and waits for the inference
             inference, server_id = node.request_inference(data)
