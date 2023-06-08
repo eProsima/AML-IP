@@ -64,11 +64,11 @@ ddsrouter::core::DdsRouterConfiguration TurnNode::get_router_configuration_(
         conf->connection_addresses = connection_addresses;
 
         configuration.participants_configurations.insert(
-            {
-                ddsrouter::core::types::ParticipantKind::initial_peers,
-                conf
-            }
-        );
+                        {
+                            ddsrouter::core::types::ParticipantKind::initial_peers,
+                            conf
+                        }
+            );
     }
 
     return configuration;

@@ -57,7 +57,7 @@ ddsrouter::core::DdsRouterConfiguration AgentNode::default_router_configuration(
     ddspipe::core::types::WildcardDdsFilterTopic amlip_topic;
     amlip_topic.topic_name.set_value(std::string(dds::utils::TOPIC_NAME_MANGLING) + "*");
     configuration.allowlist.insert(
-            utils::Heritable<ddspipe::core::types::WildcardDdsFilterTopic>::make_heritable(amlip_topic));
+        utils::Heritable<ddspipe::core::types::WildcardDdsFilterTopic>::make_heritable(amlip_topic));
 
     return configuration;
 }

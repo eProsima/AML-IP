@@ -62,11 +62,11 @@ ddsrouter::core::DdsRouterConfiguration ClientNode::get_router_configuration_(
         conf->domain = domain_id;
 
         configuration.participants_configurations.insert(
-            {
-                ddsrouter::core::types::ParticipantKind::simple,
-                conf
-            }
-        );
+                        {
+                            ddsrouter::core::types::ParticipantKind::simple,
+                            conf
+                        }
+            );
     }
 
     // Create WAN Participant as Client
@@ -78,11 +78,11 @@ ddsrouter::core::DdsRouterConfiguration ClientNode::get_router_configuration_(
         conf->connection_addresses = connection_addresses;
 
         configuration.participants_configurations.insert(
-            {
-                ddsrouter::core::types::ParticipantKind::initial_peers,
-                conf
-            }
-        );
+                        {
+                            ddsrouter::core::types::ParticipantKind::initial_peers,
+                            conf
+                        }
+            );
     }
 
     return configuration;
