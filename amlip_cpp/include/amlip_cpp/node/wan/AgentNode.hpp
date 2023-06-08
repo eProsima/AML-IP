@@ -21,8 +21,8 @@
 
 #include <memory>
 
-#include <ddsrouter_core/configuration/DDSRouterConfiguration.hpp>
-#include <ddsrouter_core/core/DDSRouter.hpp>
+#include <ddsrouter_core/configuration/DdsRouterConfiguration.hpp>
+#include <ddsrouter_core/core/DdsRouter.hpp>
 
 #include <amlip_cpp/node/ParentNode.hpp>
 
@@ -42,15 +42,15 @@ public:
 
     virtual ~AgentNode();
 
-    static ddsrouter::core::configuration::DDSRouterConfiguration default_router_configuration();
+    static ddsrouter::core::DdsRouterConfiguration default_router_configuration();
 
 protected:
 
     AgentNode(
             const char* name,
-            const ddsrouter::core::configuration::DDSRouterConfiguration& ddsrouter_configuration);
+            const ddsrouter::core::DdsRouterConfiguration& ddsrouter_configuration);
 
-    std::unique_ptr<ddsrouter::core::DDSRouter> router_;
+    std::unique_ptr<ddsrouter::core::DdsRouter> router_;
 };
 
 } /* namespace agent */

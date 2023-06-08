@@ -20,8 +20,10 @@ project(amlip_demo_nodes)
 
 # Find dependencies
 find_package(cpp_utils)
+find_package(ddspipe_core)
+find_package(ddspipe_participants)
+find_package(ddsrouter_core)
 find_package(amlip_cpp)
-find_package(ddsrouter_core )
 
 # C++ executables
 add_executable(computing_node sync/sync_computing_node.cpp)

@@ -25,6 +25,8 @@ set(MODULE_SUMMARY
 set(MODULE_FIND_PACKAGES
         amlip_cpp
         cpp_utils
+        ddspipe_core
+        ddspipe_participants
         ddsrouter_core
     )
 

@@ -23,7 +23,7 @@
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/Log.hpp>
 
-#include <ddsrouter_core/types/address/Address.hpp>
+#include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/workload_distribution/MainNode.hpp>
 #include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
@@ -87,8 +87,8 @@ TEST(agentTest, client_server)
             };
     std::thread computing_thread(computing_node_routine);
 
-    auto address = eprosima::ddsrouter::core::types::Address(
-        16161, 16161, "localhost", eprosima::ddsrouter::core::types::TransportProtocol::udp);
+    auto address = eprosima::ddspipe::participants::types::Address(
+        16161, 16161, "localhost", eprosima::ddspipe::participants::types::TransportProtocol::udp);
 
     // No messages sent yet
     ASSERT_EQ(n_jobs_solved, 0u);
@@ -153,8 +153,8 @@ TEST(agentTest, client_turn_client)
             };
     std::thread computing_thread(computing_node_routine);
 
-    auto address = eprosima::ddsrouter::core::types::Address(
-        16161, 16161, "localhost", eprosima::ddsrouter::core::types::TransportProtocol::udp);
+    auto address = eprosima::ddspipe::participants::types::Address(
+        16161, 16161, "localhost", eprosima::ddspipe::participants::types::TransportProtocol::udp);
 
     // No messages sent yet
     ASSERT_EQ(n_jobs_solved, 0u);
@@ -228,8 +228,8 @@ TEST(agentTest, turn_n_clients)
     std::array<std::thread, test::N_CLIENTS> main_threads;
     std::array<std::unique_ptr<node::agent::ClientNode>, test::N_CLIENTS + 1> clients_nodes;
 
-    auto address = eprosima::ddsrouter::core::types::Address(
-        16161, 16161, "localhost", eprosima::ddsrouter::core::types::TransportProtocol::udp);
+    auto address = eprosima::ddspipe::participants::types::Address(
+        16161, 16161, "localhost", eprosima::ddspipe::participants::types::TransportProtocol::udp);
 
     for (unsigned int i = 0u; i < test::N_CLIENTS; ++i)
     {
@@ -271,5 +271,6 @@ int main(
     ::testing::InitGoogleTest(&argc, argv);
     eprosima::fastrtps::Domain::stopAll();
     // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetCategoryFilter(std::regex("(AMLIP|DDSROUTER|DDSPIPE|DEBUG)"));
     return RUN_ALL_TESTS();
 }

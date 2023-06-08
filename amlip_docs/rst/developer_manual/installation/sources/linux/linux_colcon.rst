@@ -43,7 +43,7 @@ Build packages
 
     .. code-block:: bash
 
-        colcon build
+        colcon build --packages-up-to-regex amlip
 
 .. note::
 

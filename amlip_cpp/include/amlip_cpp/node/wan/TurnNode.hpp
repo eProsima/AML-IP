@@ -19,7 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP
 
-#include <ddsrouter_core/types/address/Address.hpp>
+#include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/AgentNode.hpp>
 
@@ -39,19 +39,19 @@ public:
 
     TurnNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& listening_addresses,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses);
+            const std::set<ddspipe::participants::types::Address>& listening_addresses,
+            const std::set<ddspipe::participants::types::Address>& connection_addresses);
 
     TurnNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& listening_addresses);
+            const std::set<ddspipe::participants::types::Address>& listening_addresses);
 
 protected:
 
-    static ddsrouter::core::configuration::DDSRouterConfiguration get_router_configuration_(
+    static ddsrouter::core::DdsRouterConfiguration get_router_configuration_(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& listening_addresses,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses);
+            const std::set<ddspipe::participants::types::Address>& listening_addresses,
+            const std::set<ddspipe::participants::types::Address>& connection_addresses);
 
 };
 

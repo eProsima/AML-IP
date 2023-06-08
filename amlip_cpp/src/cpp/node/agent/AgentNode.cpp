@@ -18,10 +18,10 @@
 
 #include <cpp_utils/Log.hpp>
 
-#include <ddsrouter_core/configuration/DDSRouterConfiguration.hpp>
-#include <ddsrouter_core/core/DDSRouter.hpp>
-#include <ddsrouter_core/types/topic/filter/WildcardDdsFilterTopic.hpp>
-#include <ddsrouter_core/configuration/participant/EchoParticipantConfiguration.hpp>  // TODO remove
+#include <ddspipe_core/types/topic/filter/WildcardDdsFilterTopic.hpp>
+
+#include <ddsrouter_core/configuration/DdsRouterConfiguration.hpp>
+#include <ddsrouter_core/core/DdsRouter.hpp>
 
 #include <amlip_cpp/node/wan/AgentNode.hpp>
 
@@ -34,9 +34,9 @@ namespace agent {
 
 AgentNode::AgentNode(
         const char* name,
-        const ddsrouter::core::configuration::DDSRouterConfiguration& ddsrouter_configuration)
+        const ddsrouter::core::DdsRouterConfiguration& ddsrouter_configuration)
     : ParentNode(name, types::NodeKind::agent)
-    , router_(std::make_unique<ddsrouter::core::DDSRouter>(ddsrouter_configuration))
+    , router_(std::make_unique<ddsrouter::core::DdsRouter>(ddsrouter_configuration))
 {
     logInfo(AMLIPCPP_NODE_AGENT, "Created new Agent Node: " << *this << ".");
 
@@ -49,14 +49,15 @@ AgentNode::~AgentNode()
     logDebug(AMLIPCPP_NODE_AGENT, "Destroying Agent Node: " << *this << ".");
 }
 
-ddsrouter::core::configuration::DDSRouterConfiguration AgentNode::default_router_configuration()
+ddsrouter::core::DdsRouterConfiguration AgentNode::default_router_configuration()
 {
-    ddsrouter::core::configuration::DDSRouterConfiguration configuration;
+    ddsrouter::core::DdsRouterConfiguration configuration;
 
     // Set allowlist
-    configuration.allowlist = {
-        std::make_shared<ddsrouter::core::types::WildcardDdsFilterTopic>(
-            std::string(dds::utils::TOPIC_NAME_MANGLING) + "*")};
+    ddspipe::core::types::WildcardDdsFilterTopic amlip_topic;
+    amlip_topic.topic_name.set_value(std::string(dds::utils::TOPIC_NAME_MANGLING) + "*");
+    configuration.allowlist.insert(
+        utils::Heritable<ddspipe::core::types::WildcardDdsFilterTopic>::make_heritable(amlip_topic));
 
     return configuration;
 }
