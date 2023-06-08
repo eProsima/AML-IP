@@ -18,7 +18,7 @@ from amlip_py.node.AsyncInferenceNode import AsyncInferenceNode, InferenceReplie
 from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 
 # Domain ID
-DOMAIN_ID = 10
+DOMAIN_ID = 166
 
 
 def process_inference(

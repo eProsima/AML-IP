@@ -16,7 +16,7 @@ from amlip_py.node.ComputingNode import ComputingNode, JobListener
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 # Domain ID
-DOMAIN_ID = 10
+DOMAIN_ID = 166
 
 
 class CustomJobListener(JobListener):

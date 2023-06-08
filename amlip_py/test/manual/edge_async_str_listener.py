@@ -21,7 +21,7 @@ from amlip_py.types.InferenceDataType import InferenceDataType
 waiter = BooleanWaitHandler(True, False)
 
 # Domain ID
-DOMAIN_ID = 10
+DOMAIN_ID = 166
 
 
 def inference_received(

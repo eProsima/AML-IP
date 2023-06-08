@@ -16,6 +16,9 @@ import signal
 
 from amlip_py.node.StatusNode import StatusListener, StatusNode
 
+# Domain ID
+DOMAIN_ID = 166
+
 
 class CustomStatusListener(StatusListener):
 
@@ -34,7 +37,7 @@ def main():
 
     # Create node
     print('Starting Manual Test Status Node Py execution. Creating Node...')
-    status_node = StatusNode('PyTestCustomListenerStatusNode')
+    status_node = StatusNode('PyTestCustomListenerStatusNode', domain=DOMAIN_ID)
 
     # Create lambda
     print(f'Node {status_node.get_id()} created. Creating Functor...')

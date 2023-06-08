@@ -15,6 +15,9 @@
 from amlip_py.node.ComputingNode import ComputingNode
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
+# Domain ID
+DOMAIN_ID = 166
+
 
 def main():
     """Execute Computing routine."""
@@ -23,7 +26,7 @@ def main():
 
     # Create node
     print('Starting Manual Test Computing Node Py execution. Creating Node...')
-    computing_node = ComputingNode('PyTestComputingNode')
+    computing_node = ComputingNode('PyTestComputingNode', domain=DOMAIN_ID)
 
     # Launch node
     print(f'Node created: {computing_node.get_id()}. Processing job...')

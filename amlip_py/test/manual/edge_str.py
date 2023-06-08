@@ -33,7 +33,6 @@ def main():
     # Sending inference
     print(f'Inference data created with string: {inference_data}. Sending request...')
     solution, server_id = edge_node.request_inference(inference_data)
-    print(f'------- {type(solution)}   {solution}')
 
     # Deserializing solution
     print(f'Solution received from server {server_id}. Deserializing to string...')

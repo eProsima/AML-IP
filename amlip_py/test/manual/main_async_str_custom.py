@@ -18,7 +18,7 @@ from amlip_py.node.AsyncMainNode import AsyncMainNode, SolutionListener
 from amlip_py.types.JobDataType import JobDataType
 
 # Domain ID
-DOMAIN_ID = 10
+DOMAIN_ID = 166
 
 
 class CustomSolutionListener(SolutionListener):
