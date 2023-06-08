@@ -26,6 +26,8 @@ set(MODULE_FIND_PACKAGES
     fastcdr
     fastrtps
     cpp_utils
+    ddspipe_core
+    ddspipe_participants
     ddsrouter_core
     amlip_cpp
 )
