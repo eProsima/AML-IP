@@ -19,7 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_NODE_AGENT_CLIENTNODE_HPP
 #define AMLIPCPP__SRC_CPP_NODE_AGENT_CLIENTNODE_HPP
 
-#include <ddsrouter_core/types/address/Address.hpp>
+#include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/AgentNode.hpp>
 
@@ -39,18 +39,18 @@ public:
 
     ClientNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses,
+            const std::set<ddspipe::participants::types::Address>& connection_addresses,
             const uint32_t domain_id);
 
     ClientNode(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses);
+            const std::set<ddspipe::participants::types::Address>& connection_addresses);
 
 protected:
 
-    static ddsrouter::core::configuration::DDSRouterConfiguration get_router_configuration_(
+    static ddsrouter::core::DdsRouterConfiguration get_router_configuration_(
             const char* name,
-            const std::set<ddsrouter::core::types::Address>& connection_addresses,
+            const std::set<ddspipe::participants::types::Address>& connection_addresses,
             const uint32_t domain_id);
 
 };

@@ -22,7 +22,7 @@
 
 #include <cpp_utils/event/SignalEventHandler.hpp>
 #include <cpp_utils/Log.hpp>
-#include <ddsrouter_core/types/address/Address.hpp>
+#include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 #include <amlip_cpp/node/wan/ServerNode.hpp>
@@ -70,8 +70,8 @@ int main(
     int listening_port = 12121;
     int port = 12121;
     std::string name = "agent_tool";
-    eprosima::ddsrouter::core::types::TransportProtocol transport_protocol =
-            eprosima::ddsrouter::core::types::TransportProtocol::udp;
+    eprosima::ddspipe::participants::types::TransportProtocol transport_protocol =
+            eprosima::ddspipe::participants::types::TransportProtocol::udp;
 
     // Parse example options
     argc -= (argc > 0);
@@ -149,11 +149,11 @@ int main(
             case optionIndex::TRANSPORT:
                 if (strcmp(opt.arg, "tcp") == 0)
                 {
-                    transport_protocol = eprosima::ddsrouter::core::types::TransportProtocol::tcp;
+                    transport_protocol = eprosima::ddspipe::participants::types::TransportProtocol::tcp;
                 }
                 else if (strcmp(opt.arg, "udp") == 0)
                 {
-                    transport_protocol = eprosima::ddsrouter::core::types::TransportProtocol::udp;
+                    transport_protocol = eprosima::ddspipe::participants::types::TransportProtocol::udp;
                 }
                 break;
 
@@ -179,13 +179,13 @@ int main(
         }
 
         // Create connection address
-        auto address = eprosima::ddsrouter::core::types::Address(
+        auto address = eprosima::ddspipe::participants::types::Address(
             ip,
             port,
             port,
             transport_protocol);
 
-        std::set<eprosima::ddsrouter::core::types::Address> addresses = { address };
+        std::set<eprosima::ddspipe::participants::types::Address> addresses = { address };
 
         std::shared_ptr<eprosima::amlip::node::agent::AgentNode> agent_node;
 

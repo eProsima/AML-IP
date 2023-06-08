@@ -22,7 +22,7 @@
 
 #include <cpp_utils/event/SignalEventHandler.hpp>
 #include <cpp_utils/Log.hpp>
-#include <ddsrouter_core/types/address/Address.hpp>
+#include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/TurnNode.hpp>
 
@@ -35,11 +35,11 @@ int main(
 
     {
         // Create listening address
-        auto listening_address = eprosima::ddsrouter::core::types::Address(
+        auto listening_address = eprosima::ddspipe::participants::types::Address(
             12121,
             12121,
             "localhost",
-            eprosima::ddsrouter::core::types::TransportProtocol::udp);
+            eprosima::ddspipe::participants::types::TransportProtocol::udp);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << listening_address << ". Creating Node...");
 

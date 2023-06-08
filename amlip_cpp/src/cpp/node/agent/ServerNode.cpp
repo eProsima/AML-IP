@@ -16,10 +16,11 @@
  * @file ServerNode.cpp
  */
 
-#include <ddsrouter_core/configuration/DDSRouterConfiguration.hpp>
-#include <ddsrouter_core/configuration/participant/SimpleParticipantConfiguration.hpp>
-#include <ddsrouter_core/configuration/participant/InitialPeersParticipantConfiguration.hpp>
-#include <ddsrouter_core/types/participant/ParticipantKind.hpp>
+#include <ddspipe_participants/configuration/InitialPeersParticipantConfiguration.hpp>
+#include <ddspipe_participants/configuration/SimpleParticipantConfiguration.hpp>
+
+#include <ddsrouter_core/configuration/DdsRouterConfiguration.hpp>
+#include <ddsrouter_core/types/ParticipantKind.hpp>
 
 #include <amlip_cpp/node/wan/ServerNode.hpp>
 
@@ -32,7 +33,7 @@ namespace agent {
 
 ServerNode::ServerNode(
         const char* name,
-        const std::set<ddsrouter::core::types::Address>& listening_addresses,
+        const std::set<ddspipe::participants::types::Address>& listening_addresses,
         const uint32_t domain_id)
     : AgentNode(name, get_router_configuration_(name, listening_addresses, domain_id))
 {
@@ -41,37 +42,48 @@ ServerNode::ServerNode(
 
 ServerNode::ServerNode(
         const char* name,
-        const std::set<ddsrouter::core::types::Address>& listening_addresses)
+        const std::set<ddspipe::participants::types::Address>& listening_addresses)
     : ServerNode(name, listening_addresses, dds::Participant::default_domain_id())
 {
 }
 
-ddsrouter::core::configuration::DDSRouterConfiguration ServerNode::get_router_configuration_(
+ddsrouter::core::DdsRouterConfiguration ServerNode::get_router_configuration_(
         const char* name,
-        const std::set<ddsrouter::core::types::Address>& listening_addresses,
+        const std::set<ddspipe::participants::types::Address>& listening_addresses,
         const uint32_t domain_id)
 {
-    ddsrouter::core::configuration::DDSRouterConfiguration configuration = AgentNode::default_router_configuration();
+    ddsrouter::core::DdsRouterConfiguration configuration = AgentNode::default_router_configuration();
 
     // Create Simple internal Participant
-    configuration.participants_configurations.insert(
-        std::make_shared<ddsrouter::core::configuration::SimpleParticipantConfiguration>(
-            std::string("local_") + name,
-            ddsrouter::core::types::ParticipantKind::simple_rtps,
-            false,
-            domain_id));
+    {
+        auto conf = std::make_shared<ddspipe::participants::SimpleParticipantConfiguration>();
+        conf->id = std::string("local_") + name;
+        conf->is_repeater = false;
+        conf->domain = domain_id;
+
+        configuration.participants_configurations.insert(
+            {
+                ddsrouter::core::types::ParticipantKind::simple,
+                conf
+            }
+        );
+    }
 
     // Create WAN Participant as Server
-    configuration.participants_configurations.insert(
-        std::make_shared<ddsrouter::core::configuration::InitialPeersParticipantConfiguration>(
-            std::string("wan_server") + name,
-            ddsrouter::core::types::ParticipantKind::wan_initial_peers,
-            false,
-            dds::Participant::default_domain_id(),
-            listening_addresses,
-            std::set<ddsrouter::core::types::Address>(),
-            ddsrouter::core::types::security::TlsConfiguration()
-            ));
+    {
+        auto conf = std::make_shared<ddspipe::participants::InitialPeersParticipantConfiguration>();
+        conf->id = std::string("wan_server_") + name;
+        conf->is_repeater = false;
+        conf->domain = dds::Participant::default_domain_id();
+        conf->listening_addresses = listening_addresses;
+
+        configuration.participants_configurations.insert(
+            {
+                ddsrouter::core::types::ParticipantKind::initial_peers,
+                conf
+            }
+        );
+    }
 
     return configuration;
 }
