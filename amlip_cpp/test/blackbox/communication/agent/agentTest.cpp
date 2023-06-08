@@ -271,5 +271,6 @@ int main(
     ::testing::InitGoogleTest(&argc, argv);
     eprosima::fastrtps::Domain::stopAll();
     // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetCategoryFilter(std::regex("(AMLIP|DDSROUTER|DDSPIPE|DEBUG)"));
     return RUN_ALL_TESTS();
 }
