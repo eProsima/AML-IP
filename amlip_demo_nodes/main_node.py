@@ -12,46 +12,121 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
+import argparse
+import time
 
-from amlip_py.node.MainNode import MainNode
+from py_utils.wait.IntWaitHandler import IntWaitHandler
+
+from amlip_py.node.AsyncMainNode import AsyncMainNode
 from amlip_py.types.JobDataType import JobDataType
 
 
+DESCRIPTION = """Script to execute an Asynchronous Main Node"""
+USAGE = ('python3 main_node.py '
+         '[-d <domain>] [-s <sleep>] [-n <name>] [<job1> <job2> ...]')
+
+
+def parse_options():
+    """
+    Parse arguments.
+
+    :return: The arguments parsed.
+    """
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        add_help=True,
+        description=(DESCRIPTION),
+        usage=(USAGE)
+    )
+    parser.add_argument(
+        '-d',
+        '--domain',
+        type=int,
+        default=0,
+        help='DDS Domain ID.'
+    )
+    parser.add_argument(
+        '-s',
+        '--sleep',
+        type=float,
+        default=0.1,
+        help='Time to sleep after task sent.'
+    )
+    parser.add_argument(
+        '-n',
+        '--name',
+        type=str,
+        default='AML-MainNode',
+        help='Node name.'
+    )
+    parser.add_argument(
+        'args',
+        nargs='*',
+        default=['Default JOB 1', 'Default JOB 2'],
+        help='Jobs to send in string format.'
+    )
+
+    return parser.parse_args()
+
+
 def main():
+
+    # Parse arguments
+    args = parse_options()
+
+    domain = args.domain
+    sleep = args.sleep
+    node_name = args.name
+    jobs = args.args
+    n_jobs = len(jobs)
+
+    # Create Wait Handler so process waits for all solutions
+    waiter = IntWaitHandler(True)
+
+    # Prepare callback to call when solution received
+    def process_solution_received(solution, task_id, server_id):
+        print(
+            f'Main Node {node_name} received solution for task <{task_id}> '
+            f'from server <{server_id}> :\n'
+            f'  <{solution.to_string()}>.',
+            end='\n\n')
+        waiter.increase()
+
     # Create Node
-    node = MainNode('AMLMainNode')
-    print(f'Main Node {node.id()} ready.')
+    node = AsyncMainNode(
+        node_name,
+        callback=process_solution_received,
+        domain=domain)
+    print(
+        f'Main Node {node.id()} ready.',
+        end='\n\n')
 
-    has_input_args = (len(sys.argv) > 1)
-    input_args = sys.argv[1:]
+    # Iterate while arguments do not run out
+    while jobs:
 
-    # Iterate while user does not introduce empty string
-    while True:
-
-        job_str = ''
-
-        if has_input_args:
-            # Get string from argument input
-            if input_args:
-                job_str = input_args.pop(0)
-            else:
-                break
-
-        else:
-            # Get input from keyboard
-            job_str = input('Please enter a string to create a job. Press enter to finish:\n> ')
-            if not job_str:
-                break
+        # If arguments given, pop first one currently available
+        job_str = jobs.pop(0)
 
         # Send task and awaits for the solution
-        print(f'Main Node {node.id()} sending task <{job_str}>.')
-        solution, server_id = node.request_job_solution(JobDataType(job_str))
-        print(f'Main Node received solution from {server_id}'
-              f' for job <{job_str}> => <{solution.to_string()}>.')
+        task_id = node.request_job_solution(JobDataType(job_str))
+        print(
+            f'Main Node {node.id()} sent task <{job_str}> with task id <{task_id}>.',
+            end='\n\n')
+
+        # Wait for a bit
+        time.sleep(sleep)
+
+    # Waiting for solutions
+    print(
+        f'Main Node {node.id()} waiting for solutions.',
+        end='\n\n')
+
+    waiter.wait_greater_equal(n_jobs)
 
     # Closing
-    print(f'Main Node {node.id()} closing.')
+    print(
+        f'Main Node {node.id()} received all solutions. Closing.',
+        end='\n\n')
 
 
 # Call main in program execution

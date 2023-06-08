@@ -23,8 +23,8 @@ find_package(cpp_utils)
 find_package(amlip_cpp)
 find_package(ddsrouter_core )
 
-# C++ nodes
-add_executable(computing_node computing_node.cpp)
+# C++ executables
+add_executable(computing_node sync/sync_computing_node.cpp)
 target_link_libraries(computing_node amlip_cpp cpp_utils)
 install(
     TARGETS
@@ -33,10 +33,13 @@ install(
         bin/
 )
 
-# Python nodes
+# Python executables
 install(
     PROGRAMS
+        sync/sync_main_node.py
         main_node.py
+        computing_node.py
+        status_node.py
     DESTINATION
         bin/
 )

@@ -76,7 +76,8 @@ class StatusNode(cpp_StatusNode):
 
     def __init__(
             self,
-            name: str):
+            name: str,
+            domain: int = None):
         """
         Create a new Status Node with a given name.
 
@@ -91,7 +92,10 @@ class StatusNode(cpp_StatusNode):
 
         #####
         # Parent class constructor
-        super().__init__(name)
+        if domain:
+            super().__init__(name, domain)
+        else:
+            super().__init__(name)
 
     def process_status_async(
             self,
