@@ -22,7 +22,6 @@
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
-%ignore eprosima::amlip::types::InferenceSolutionDataType::InferenceSolutionDataType();
 
 %{
 #include <amlip_cpp/types/inference/InferenceSolutionDataType.hpp>

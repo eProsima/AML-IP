@@ -1,4 +1,4 @@
-# Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+# Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from amlip_py.node.MainNode import MainNode
-from amlip_py.types.JobDataType import JobDataType
+from amlip_py.node.EdgeNode import EdgeNode
+from amlip_py.types.InferenceDataType import InferenceDataType
 
 
 def main():
@@ -22,24 +22,24 @@ def main():
     # TODO
 
     # Create node
-    print('Starting Manual Test Main Node Py execution. Creating Node...')
-    main_node = MainNode('PyTestMainNode')
+    print('Starting Manual Test Edge Node Py execution. Creating Node...')
+    edge_node = EdgeNode('PyTestEdgeNode')
 
-    # Create job data
-    print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String>'
-    job_data = JobDataType(data_str)
+    # Create inference data
+    print(f'Node created: {edge_node.get_id()}. Creating inference...')
+    data_str = '<Inference Data In Py String>'
+    inference_data = InferenceDataType(data_str)
 
-    # Sending job
-    print(f'Job data created with string: {job_data}. Sending request...')
-    solution, server_id = main_node.request_job_solution(job_data)
+    # Sending inference
+    print(f'Inference data created with string: {inference_data}. Sending request...')
+    solution, server_id = edge_node.request_inference(inference_data)
 
     # Deserializing solution
     print(f'Solution received from server {server_id}. Deserializing to string...')
     solution_str = solution.to_string()
 
     print(f'Solution deserialized is: {solution_str}. '
-          'Finishing Manual Test Main Node Py execution.')
+          'Finishing Manual Test Edge Node Py execution.')
 
 
 # Call main in program execution

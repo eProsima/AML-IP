@@ -12,29 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from amlip_py.node.ComputingNode import ComputingNode
-from amlip_py.types.JobSolutionDataType import JobSolutionDataType
-
-# Domain ID
-DOMAIN_ID = 166
+from amlip_py.node.InferenceNode import InferenceNode, InferenceLambda
+from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 
 
 def main():
-    """Execute Computing routine."""
+    """Execute Inference routine."""
     # Initialize random number generator
     # TODO
 
     # Create node
-    print('Starting Manual Test Computing Node Py execution. Creating Node...')
-    computing_node = ComputingNode('PyTestComputingNode', domain=DOMAIN_ID)
+    print('Starting Manual Test Inference Node Py execution. Creating Node...')
+    inference_node = InferenceNode('PyTestInferenceNode')
+
+    # Create listener
+    print(f'Node created: {inference_node.get_id()}. Creating Listener...')
+    inference_listener = InferenceLambda(
+        lambda inference: InferenceSolutionDataType(inference.to_string().lower()))
 
     # Launch node
-    print(f'Node created: {computing_node.get_id()}. Processing job...')
-    client_id = computing_node.process_job(
-        callback=lambda job: JobSolutionDataType(job.to_string().lower()))
+    print('Listener created. Processing inference...')
+    client_id = inference_node.process_inference(listener=inference_listener)
 
     print(f'Solution sent to client {client_id}. '
-          'Finishing Manual Test Computing Node Py execution.')
+          'Finishing Manual Test Inference Node Py execution.')
 
 
 # Call main in program execution

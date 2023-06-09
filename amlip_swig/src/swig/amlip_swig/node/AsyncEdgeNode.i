@@ -21,9 +21,9 @@
 
 // Generate directors for the virtual methods in the listener
 // IMPORTANT: this statement must be before including the hpp
-%feature("director") eprosima::amlip::node::InferenceListener;
+%feature("director") eprosima::amlip::node::InferenceSolutionListener;
 
-%shared_ptr(eprosima::amlip::node::InferenceListener);
+%shared_ptr(eprosima::amlip::node::InferenceSolutionListener);
 
 %ignore eprosima::amlip::node::AsyncEdgeNode::request_inference(const eprosima::amlip::types::InferenceDataType& );
 

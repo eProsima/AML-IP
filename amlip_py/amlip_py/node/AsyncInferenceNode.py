@@ -11,43 +11,42 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""AML-IP Edge Node API specification."""
-
+"""AML-IP Async Inference Node API specification."""
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.InferenceDataType import InferenceDataType
-from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 
-from amlip_swig import AsyncEdgeNode as cpp_AsyncEdgeNode
-from amlip_swig import InferenceSolutionListener as cpp_InferenceSolutionListener
+from amlip_swig import AsyncInferenceNode as cpp_AsyncInferenceNode
+from amlip_swig import InferenceReplier as cpp_InferenceReplier
 
 
-class InferenceSolutionListener(cpp_InferenceSolutionListener):
+class InferenceReplier(cpp_InferenceReplier):
     """
     Inference Listener class.
-    This object must execute inference_received method with each Inference message that is received
-    from node and must return the solution to the inference.
+
+    This object must execute process_inference method with each Inference message that is received
+    from node and must return the inferred data.
     """
 
-    def inference_received(
+    def process_inference(
             self,
-            inference: InferenceSolutionDataType,
+            inference,
             task_id,
-            server_id):
+            client_id):
         """
         Raise exception.
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('InferenceListener.inference_received must be specialized '
+        raise NotImplementedError('InferenceReplier.process_inference must be specialized '
                                   'before use.')
 
 
-class InferenceListenerLambda(cpp_InferenceSolutionListener):
+class InferenceReplierLambda(cpp_InferenceReplier):
     """
-    Custom InferenceListener supporting to create it with a lambda function.
+    Custom InferenceReplier supporting to create it with a lambda function.
+
     This object is created with a lambda function that is stored inside and used for every
-    InferenceSolution message received.
+    Inference message received.
     """
 
     def __init__(self, callback):
@@ -55,18 +54,18 @@ class InferenceListenerLambda(cpp_InferenceSolutionListener):
         self.callback_ = callback
         super().__init__()
 
-    def inference_received(
+    def process_inference(
             self,
-            inference: InferenceSolutionDataType,
+            inference,
             task_id,
-            server_id):
+            client_id):
         """Call internal lambda."""
-        return self.callback_(inference, task_id, server_id)
+        return self.callback_(inference, task_id, client_id)
 
 
-class AsyncEdgeNode(cpp_AsyncEdgeNode):
+class AsyncInferenceNode(cpp_AsyncInferenceNode):
     """
-    AML-IP Asynchronous Edge Node.
+    AML-IP Inference Node.
 
     TODO
     """
@@ -76,9 +75,9 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
             name: str,
             domain: int = None,
             callback=None,
-            listener: InferenceSolutionListener = None):
+            listener: InferenceReplier = None):
         """
-        Create a new Edge Node with a given name.
+        Create a new Inference Node with a given name.
 
         Parameters
         ----------
@@ -89,17 +88,19 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
         self.listener_ = None
         if listener and callback:
             raise ValueError(
-                'AsyncEdgeNode constructor expects a listener object or a callback, both given.')
+                'AsyncComputingNode constructor expects a listener object or a callback, '
+                'both given.')
 
-        elif listener:
+        if listener:
             self.listener_ = listener
 
         elif callback:
-            self.listener_ = InferenceListenerLambda(callback)
+            self.listener_ = InferenceReplierLambda(callback)
 
         else:
             raise ValueError(
-                'AsyncEdgeNode constructor expects a listener object or a callback, none given.')
+                'AsyncComputingNode constructor expects a listener object or a callback, '
+                'none given.')
 
         # Parent class constructor
         if domain is None:
@@ -107,26 +108,23 @@ class AsyncEdgeNode(cpp_AsyncEdgeNode):
         else:
             super().__init__(name, self.listener_, domain)
 
-    def request_inference(
+    def run(
             self,
-            data: InferenceDataType):
+            ) -> None:
         """
-        Send an inference to a InferenceNode to be executed, and wait for the response.
-
-        Parameters
-        ----------
-        data : String
-            Inference that will be send to process by a inference node.
-
-        Return
-        ------
-        Tuple[InferenceSolutionDataType, AmlipIdDataType]
-        1. Solution to the inference given
-        2. Id of the server
+        TODO
         """
-        return cpp_AsyncEdgeNode.request_inference(self, data)
+        return cpp_AsyncInferenceNode.run(self)
+
+    def stop(
+            self,
+            ) -> None:
+        """
+        TODO
+        """
+        return cpp_AsyncInferenceNode.stop(self)
 
     def get_id(
             self) -> AmlipIdDataType:
         """Get AMLIP id of the node."""
-        return cpp_AsyncEdgeNode.id(self)
+        return cpp_AsyncInferenceNode.id(self)

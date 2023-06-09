@@ -50,6 +50,7 @@ eprosima::fastdds::dds::DataWriterQos model_writer_qos() noexcept;
 eprosima::fastdds::dds::DataReaderQos model_reader_qos() noexcept;
 
 ///////////////////
+// INFERENCE TOPIC
 constexpr const char* INFERENCE_TOPIC_NAME = "inference";
 
 ///////////////////

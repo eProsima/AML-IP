@@ -16,6 +16,9 @@ import signal
 
 from amlip_py.node.StatusNode import StatusLambda, StatusNode
 
+# Domain ID
+DOMAIN_ID = 166
+
 
 def main():
     """Execute main routine."""
@@ -24,7 +27,7 @@ def main():
 
     # Create node
     print('Starting Manual Test Status Node Py execution. Creating Node...')
-    status_node = StatusNode('PyTestListenerStatusNode')
+    status_node = StatusNode('PyTestListenerStatusNode', domain=DOMAIN_ID)
 
     # Create lambda
     print(f'Node {status_node.get_id()} created. Creating Functor...')

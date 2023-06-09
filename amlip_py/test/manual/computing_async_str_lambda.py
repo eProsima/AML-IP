@@ -18,7 +18,7 @@ from amlip_py.node.AsyncComputingNode import AsyncComputingNode
 from amlip_py.types.JobSolutionDataType import JobSolutionDataType
 
 # Domain ID
-DOMAIN_ID = 10
+DOMAIN_ID = 166
 
 
 def process_job(

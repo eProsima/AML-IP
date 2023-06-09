@@ -14,23 +14,23 @@
 
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
-from amlip_py.node.AsyncMainNode import AsyncMainNode, SolutionListenerLambda
-from amlip_py.types.JobDataType import JobDataType
+from amlip_py.node.AsyncEdgeNode import AsyncEdgeNode, InferenceListenerLambda
+from amlip_py.types.InferenceDataType import InferenceDataType
 
-# Variable to wait to the solution
+# Variable to wait to the inference
 waiter = BooleanWaitHandler(True, False)
 
 # Domain ID
 DOMAIN_ID = 166
 
 
-def solution_received(
-        solution,
+def inference_received(
+        inference,
         task_id,
         server_id):
-    print(f'Solution received from server: {server_id}\n'
+    print(f'Data received from server: {server_id}\n'
           f' with id: {task_id}\n'
-          f' solution: {solution.to_string()}')
+          f' inference: {inference.to_string()}')
     waiter.open()
 
 
@@ -40,27 +40,27 @@ def main():
     # TODO
 
     # Create node
-    print('Starting Manual Test Async Main Node Py execution. Creating Node...')
-    main_node = AsyncMainNode(
-        'PyTestAsyncMainNode',
-        listener=SolutionListenerLambda(solution_received),
+    print('Starting Manual Test Async Edge Node Py execution. Creating Node...')
+    edge_node = AsyncEdgeNode(
+        'PyTestAsyncEdgeNode',
+        listener=InferenceListenerLambda(inference_received),
         domain=DOMAIN_ID)
 
-    # Create job data
-    print(f'Node created: {main_node.get_id()}. Creating job...')
-    data_str = '<Job Data In Py String Async [LISTENER]>'
-    job_data = JobDataType(data_str)
+    # Create data
+    print(f'Node created: {edge_node.get_id()}. Creating data...')
+    data_str = '<Inference Data In Py String Async [LISTENER]>'
+    inference_data = InferenceDataType(data_str)
 
-    # Sending job
-    print(f'Job data created with string: {job_data}. Sending request...')
-    task_id = main_node.request_job_solution(job_data)
+    # Sending data
+    print(f'Data created with string: {inference_data}. Sending request...')
+    task_id = edge_node.request_inference(inference_data)
 
-    print(f'Request sent with task id: {task_id}. Waiting solution...')
+    print(f'Request sent with task id: {task_id}. Waiting inference...')
 
     # Wait to received solution
     waiter.wait()
 
-    print('Finishing Manual Test Async Main Node Py execution.')
+    print('Finishing Manual Test Async Edge Node Py execution.')
 
 
 # Call main in program execution

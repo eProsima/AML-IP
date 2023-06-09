@@ -21,7 +21,7 @@ from amlip_py.types.JobDataType import JobDataType
 waiter = BooleanWaitHandler(True, False)
 
 # Domain ID
-DOMAIN_ID = 10
+DOMAIN_ID = 166
 
 
 def solution_received(

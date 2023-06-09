@@ -14,23 +14,23 @@
 
 import signal
 
-from amlip_py.node.AsyncComputingNode import AsyncComputingNode, JobReplierLambda
-from amlip_py.types.JobSolutionDataType import JobSolutionDataType
+from amlip_py.node.AsyncInferenceNode import AsyncInferenceNode, InferenceReplierLambda
+from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 
 # Domain ID
 DOMAIN_ID = 166
 
 
-def process_job(
-        job,
+def process_inference(
+        inference,
         task_id,
         client_id):
-    solution = JobSolutionDataType(job.to_string().lower())
-    print(f'Job received from client: {client_id}\n'
+    inference_solution = InferenceSolutionDataType(inference.to_string().lower())
+    print(f'Data received from client: {client_id}\n'
           f' with id: {task_id}\n'
-          f' job: {job.to_string()}\n'
-          f' solution: {solution.to_string()}')
-    return solution
+          f' job: {inference.to_string()}\n'
+          f' inference: {inference_solution.to_string()}')
+    return inference_solution
 
 
 def main():
@@ -39,26 +39,26 @@ def main():
     # TODO
 
     # Create node
-    print('Starting Manual Test Async Computing Node Py execution. Creating Node...')
-    computing_node = AsyncComputingNode(
-        'PyTestAsyncComputingNode',
-        listener=JobReplierLambda(process_job),
+    print('Starting Manual Test Async Inference Node Py execution. Creating Node...')
+    inference_node = AsyncInferenceNode(
+        'PyTestAsyncInferenceNode',
+        listener=InferenceReplierLambda(process_inference),
         domain=DOMAIN_ID)
 
     # Create job data
-    print(f'Node created: {computing_node.get_id()}. '
-          'Already processing jobs. Waiting SIGINT (C^)...')
+    print(f'Node created: {inference_node.get_id()}. '
+          'Already processing inferences. Waiting SIGINT (C^)...')
 
-    computing_node.run()
+    inference_node.run()
 
     def handler(signum, frame):
         pass
     signal.signal(signal.SIGINT, handler)
     signal.pause()
 
-    computing_node.stop()
+    inference_node.stop()
 
-    print('Finishing Manual Test Async Computing Node Py execution.')
+    print('Finishing Manual Test Async Inference Node Py execution.')
 
 
 # Call main in program execution

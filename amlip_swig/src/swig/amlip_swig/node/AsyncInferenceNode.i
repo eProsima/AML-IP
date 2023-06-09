@@ -12,31 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file NodeKind.hpp
- */
+////////////////////////////////////////////////////////
+// Binding for class InferenceNode
+////////////////////////////////////////////////////////
 
-#pragma once
+// Import parent class
+%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
-#include <cpp_utils/macros/custom_enumeration.hpp>
+// Generate directors for the virtual methods in the listener
+// IMPORTANT: this statement must be before including the hpp
+%feature("director") eprosima::amlip::node::InferenceReplier;
 
-namespace eprosima {
-namespace amlip {
-namespace types {
+%shared_ptr(eprosima::amlip::node::InferenceReplier);
 
-ENUMERATION_BUILDER(
-    NodeKind,
-    undetermined,
-    discovery,
-    agent,
-    main,
-    computing,
-    status,
-    meta,
-    edge,
-    inference
-    );
+%{
+#include <amlip_cpp/node/AsyncInferenceNode.hpp>
+%}
 
-} /* namespace types */
-} /* namespace amlip */
-} /* namespace eprosima */
+// Include the class interfaces
+%include <amlip_cpp/node/AsyncInferenceNode.hpp>
