@@ -11,15 +11,16 @@ This node waits for data serialized as :ref:`user_manual_datatype_inference`, an
 Example of Usage
 ================
 
-.. note::
-    This page is under maintenance and will be updated soon.
+User can use method :code:`request_inference` to send new data.
+The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from
+the *Inference Node* in charge of this data, and will process this data by the Listener or callback given, and return the Inference calculated.
+By destroying the node every internal entity is correctly destroyed.
 
 Steps
 -----
 
 * Instantiate the Inference Node creating an object of such class with a name, a listener and a domain.
 * Wait for the data by calling :code:`run`.
-* Return the inference as an :code:`InferenceSolutionDataType`.
 
 .. tabs::
 

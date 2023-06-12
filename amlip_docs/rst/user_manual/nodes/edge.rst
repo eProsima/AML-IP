@@ -19,7 +19,7 @@ Example of Usage
 
 This node kind does require **active** interaction with the user to perform its action.
 Users can use method :code:`request_inference` to send new data.
-The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the *Inference Node* in charge of this data.
+The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_inference` in charge of this data.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps

@@ -14,20 +14,22 @@ TensorFlow Inference Demo
 Background
 ==========
 
-This demo shows how to implement 2 types of nodes, :ref:`user_manual_nodes_inference` and :ref:`user_manual_nodes_edge`, to perform TensorFlow inference on a given image.
-
-With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the behaviour of a simulated |amlip| network running.
-
-
 Inference refers to the process of using a trained model to make predictions or draw conclusions based on input data.
 It involves applying the learned knowledge and statistical relationships encoded in the model to new, unseen data.
-
 The inference of an image involves passing the image through a trained AI model to obtain a classification based on the learned knowledge and patterns within the model.
+
+This demo shows how to implement 2 types of nodes, :ref:`user_manual_nodes_inference` and :ref:`user_manual_nodes_edge`, to perform TensorFlow inference on a given image.
+With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the behaviour of a simulated |amlip| network running.
+
+The demo that is presented here follows the schema of the figure below:
+
+.. figure:: /rst/figures/tensor_inference_demo.png
 
 TensorFlow
 ----------
 
 `TensorFlow <https://www.tensorflow.org/>`_ is an end-to-end machine learning platform with pre-trained models.
+
 
 Edge Node
 ---------
@@ -46,7 +48,7 @@ Prerequisites
 =============
 
 First of all, check that :code:`amlip_demo_nodes` sub-package is correctly installed.
-If it is not, please refer to :ref:`developer_manual_installation_sources_linux`.
+If it is not, please refer to :ref:`developer_manual_installation_sources_linux_colcon_demos`.
 
 
 The demo requires the following tools to be installed in the system:
@@ -75,10 +77,6 @@ Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub
 Run demo
 ========
 
-The demo that is presented here follows the schema of the figure below:
-
-.. figure:: /rst/figures/tensor_inference_demo.png
-
 Run Edge Node
 -------------
 
@@ -99,12 +97,19 @@ The expected output is the following:
 
 .. code-block:: bash
 
-    Edge Node AMLEdgeNode.e5.45.c7.f5 ready.
-    Edge Node AMLEdgeNode.e5.45.c7.f5 sending data: /home/irenebm/annapurna/AML-IP/src/amlipdemos/amlip_demos/resource/tensorflow/models/research/object_detection/test_images/image2.jpg.
-    Edge Node received inference from AMLInferenceNode.7c.df.34.e8
-    Edge Node received inference kite: 81% person: 76% person: 74% kite: 72% kite: 71% person: 67% kite: 67% kite: 66% kite: 59% person: 54% person: 52% person: 52% person: 52% person: 51% kite: 50% person: 45% person: 45% surfboard: 40% surfboard: 39% surfboard: 31% kite: 30% person: 24% bird: 23% handbag: 23% person: 22% surfboard: 21% kite: 20% handbag: 20% kite: 20% surfboard: 19% person: 18% person: 18% kite: 16% person: 15% person: 15% person: 14% person: 14% surfboard: 13% kite: 13% backpack: 12% person: 12% kite: 11% person: 11% surfboard: 11% surfboard: 11% kite: 11%
-    # ... Speak
-    Edge Node AMLEdgeNode.e5.45.c7.f5 closing.
+    Edge Node AMLEdgeNode.fb.d4.38.13 ready.
+    Edge Node AMLEdgeNode.fb.d4.38.13 sending data.
+
+    Edge Node received inference from AMLInferenceNode.b8.34.4d.a3
+    Edge Node received inference:
+    Box [(0.15590962767601013, 0.21641747653484344), (0.7388607263565063, 0.7326743006706238)] bicycle: 97%
+    Box [(0.16968876123428345, 0.38129815459251404), (0.403958797454834, 0.9422630071640015)] dog: 92%
+    Box [(0.6158109307289124, 0.13117200136184692), (0.9053990244865417, 0.2978983521461487)] truck: 53%
+    Box [(0.6158109307289124, 0.13117200136184692), (0.9053990244865417, 0.2978983521461487)] car: 48%
+    Box [(0.8892407417297363, 0.19558095932006836), (0.933372974395752, 0.2684069573879242)] potted plant: 34%
+    Box [(0.0753115713596344, 0.15651819109916687), (0.13415342569351196, 0.22736744582653046)] motorcycle: 32%
+
+    Edge Node AMLEdgeNode.fb.d4.38.13 closing.
 
 
 Run Inference Node
@@ -127,7 +132,7 @@ This execution expects an output similar to the one shown below:
 
     2023-02-14 14:50:42.711797: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
     To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-    Inference Node AMLInferenceNode.7c.df.34.e8 ready.
+    Inference Node AMLInferenceNode.b8.34.4d.a3 ready.
     Model Handle at TensorFlow Hub: /home/user/AML-IP/src/amlipdemos/amlip_demos/resource/tensorflow/models/centernet_hourglass_512x512_kpts_1
     loading model...
     WARNING:absl:Importing a function (__inference_batchnorm_layer_call_and_return_conditional_losses_42408) with ops with unsaved custom gradients. Will likely fail if a gradient is requested.
@@ -140,5 +145,36 @@ This execution expects an output similar to the one shown below:
     Selected model:tensorflow
     2023-02-14 14:51:14.165305: W tensorflow/core/grappler/optimizers/loop_optimizer.cc:907] Skipping loop optimization for Merge node with control input: StatefulPartitionedCall/cond/then/_918/cond/Assert_2/AssertGuard/branch_executed/_1123
     inference ready!
-    sending inference: kite: 81% person: 76% person: 74% kite: 72% kite: 71% person: 67% kite: 67% kite: 66% kite: 59% person: 54% person: 52% person: 52% person: 52% person: 51% kite: 50% person: 45% person: 45% surfboard: 40% surfboard: 39% surfboard: 31% kite: 30% person: 24% bird: 23% handbag: 23% person: 22% surfboard: 21% kite: 20% handbag: 20% kite: 20% surfboard: 19% person: 18% person: 18% kite: 16% person: 15% person: 15% person: 14% person: 14% surfboard: 13% kite: 13% backpack: 12% person: 12% kite: 11% person: 11% surfboard: 11% surfboard: 11% kite: 11%
-    Inference sent to client AMLEdgeNode.e5.45.c7.f5.
+    sending inference:
+    Box [(0.15590962767601013, 0.21641747653484344), (0.7388607263565063, 0.7326743006706238)] bicycle: 97%
+    Box [(0.16968876123428345, 0.38129815459251404), (0.403958797454834, 0.9422630071640015)] dog: 92%
+    Box [(0.6158109307289124, 0.13117200136184692), (0.9053990244865417, 0.2978983521461487)] truck: 53%
+    Box [(0.6158109307289124, 0.13117200136184692), (0.9053990244865417, 0.2978983521461487)] car: 48%
+    Box [(0.8892407417297363, 0.19558095932006836), (0.933372974395752, 0.2684069573879242)] potted plant: 34%
+    Box [(0.0753115713596344, 0.15651819109916687), (0.13415342569351196, 0.22736744582653046)] motorcycle: 32%
+
+    Inference sent to client AMLEdgeNode.fb.d4.38.13.
+
+
+Next steps
+----------
+
+Based on the information acquired, we have successfully generated the next image:
+
+.. figure:: /rst/figures/inferred_image.png
+
+
+Run multiple nodes of each kind
+===============================
+
+One of the advantages inherent to this architecture lies in its ability to support multiple models operating concurrently across multiple :ref:`user_manual_nodes_inference`, while simultaneously requesting inferences from :ref:`user_manual_nodes_edge` in parallel.
+This architectural design fosters a highly efficient and scalable system, enabling the execution of diverse inference tasks in a distributed manner.
+
+How to use your own model
+=========================
+
+To use your own model, simply download it and load it by passing the path to the function:
+
+.. code-block:: python
+
+    hub_model = hub.load(your_model_path)

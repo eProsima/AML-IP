@@ -11,17 +11,17 @@ This node is able to send data serialized as :ref:`user_manual_datatype_inferenc
 Example of Usage
 ================
 
-.. note::
-    This page is under maintenance and will be updated soon.
+Users can use method :code:`request_inference` to send new data.
+The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_async_inference` in charge of this data.
+By destroying the node every internal entity is correctly destroyed.
 
 Steps
 -----
 
-* Create a :code:`BooleanWaitHandler` to wait for the inference.
 * Instantiate the Edge Node creating an object of such class with a name, a listener and a domain.
 * Create a new :code:`InferenceDataType` from an array of bytes.
 * Send a data synchronously calling :code:`request_inference`.
-* Wait for the inference by calling :code:`waiter.wait()`.
+* Wait for the inference.
 
 .. tabs::
 
