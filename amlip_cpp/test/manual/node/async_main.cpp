@@ -29,7 +29,8 @@ class CustomSolutionListener : public eprosima::amlip::node::SolutionListener
 {
 public:
 
-    CustomSolutionListener(const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter)
+    CustomSolutionListener(
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter)
         : waiter_(waiter)
     {
         // Do nothing
@@ -43,8 +44,8 @@ public:
         logUser(
             AMLIPCPP_MANUAL_TEST,
             "Solution received for task : " << task_id
-            << " answered from server : " << server_id
-            << " . Solution : " << solution << " .");
+                                            << " answered from server : " << server_id
+                                            << " . Solution : " << solution << " .");
         waiter_->open();
     }
 
@@ -69,11 +70,11 @@ int main(
     {
         // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> solution_waiter =
-            std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
+                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<CustomSolutionListener> listener =
-            std::make_shared<CustomSolutionListener>(solution_waiter);
+                std::make_shared<CustomSolutionListener>(solution_waiter);
 
         // Create Main Node
         eprosima::amlip::node::AsyncMainNode main_node("CppAsyncMainNode_Manual", listener);
