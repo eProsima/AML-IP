@@ -10,7 +10,7 @@ This node waits for data serialized as :ref:`user_manual_datatype_inference`, an
 
 .. warning::
 
-    The use of a Inference node must be synchronous.
+    The use of an Inference node must be called once for each inference to be processed.
     This means that once the data is sent, the thread must wait for the inference to arrive before sending another data.
     Asynchronous methods are available on the :ref:`user_manual_nodes_async_inference`.
 
