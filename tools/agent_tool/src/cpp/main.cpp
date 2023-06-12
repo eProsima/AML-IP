@@ -18,6 +18,7 @@
  */
 
 #include <algorithm>
+#include <memory>
 #include <thread>
 
 #include <cpp_utils/event/SignalEventHandler.hpp>

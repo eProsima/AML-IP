@@ -63,6 +63,6 @@ General options:
   -l, --listening-address <address>
                     Address where listen (Default: 127.0.0.1).
   -t, --transport <tcp|udp>
-                    Use only TCPv4 or UDPv4 transport. (Default: UDPv4).
+                    Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
 
 ```

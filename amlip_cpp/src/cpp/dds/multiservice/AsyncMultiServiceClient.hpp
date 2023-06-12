@@ -123,6 +123,8 @@ protected:
 
     TargetedReader<types::MsDataType<Solution>> task_solution_reader_;
 
+    std::atomic<bool> should_stop_;
+
     types::AmlipIdDataType own_id_;
 
     std::string topic_;
@@ -155,8 +157,6 @@ protected:
     // SOLUTION READER
 
     std::thread solution_reading_thread_;
-
-    std::atomic<bool> should_stop_;
 
     template <typename D, typename S>
     friend std::ostream& operator <<(
