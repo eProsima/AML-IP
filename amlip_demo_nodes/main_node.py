@@ -136,7 +136,8 @@ def main():
     # Closing
     if reason == AwakeReason.disabled:
         print(
-            f'Main Node {node.id()} closed with {n_jobs-waiter.get_value()} solutions remaining. Closing.',
+            f'Main Node {node.id()} closed with '
+            '{n_jobs-waiter.get_value()} solutions remaining. Closing.',
             end='\n\n')
 
     elif reason == AwakeReason.condition_met:
