@@ -24,23 +24,15 @@ class InferenceSolutionDataType(cpp_InferenceSolutionDataType):
 
     def __init__(
             self,
-            message_str: str = None,
-            message_bytes: bytes = None):
+            message):
         """
         Construct a new Inference with name.
         Parameters
         ----------
-        message: str
+        message: str or bytes
             Data to send to Inference Node serialized in a string of basic chars.
-        message: bytes
-            Data to send to Inference Node serialized in bytes.
         """
-        if (message_str):
-            super().__init__(message_str)
-        elif (message_bytes):
-            super().__init__(message_bytes)
-        else:
-            super().__init__()
+        super().__init__(message)
 
     def __str__(
             self) -> str:
