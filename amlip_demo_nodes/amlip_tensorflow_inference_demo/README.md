@@ -25,6 +25,8 @@ In this package there are severat executables:
     - [Sync Main Node](#sync-edge-node)
     - [Sync Computing Node](#sync-inference-node)
 
+<img src="../../.figures/tensor_inference_demo.png"/>
+
 ---
 
 ## Prepare Workspace

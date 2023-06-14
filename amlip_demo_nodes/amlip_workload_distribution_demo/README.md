@@ -38,7 +38,7 @@ This is done in a way that even C++ and Python and Sync and Async nodes can work
 This project intends to simulate what a real future AML network would look like,
 as well as to give a simple example on how to implement, use and deploy AML-IP nodes.
 
-<img src="../.figures/basic_example.png" width="300"/>
+<img src="../../.figures/basic_example.png" width="300"/>
 
 ---
 
