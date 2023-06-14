@@ -57,13 +57,22 @@ The demo requires the following tools to be installed in the system:
 
     sudo apt install -y  swig espeak alsa-utils libopencv-dev ffmpeg
     pip3 install -U pyttsx3 opencv-python pygame
+    curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh
+    # For changes to take effect, close and re-open your current shell.
+    conda create --name tf python=3.9
+    conda install -c conda-forge cudatoolkit=11.8.0
+    mkdir -p $CONDA_PREFIX/etc/conda/activate.d
+    echo 'CUDNN_PATH=$(dirname $(python3 -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+    echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+    source $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
 
 Ensure that you have TensorFlow and TensorFlow Hub installed in your Python environment before proceeding.
 You can install them using pip by executing the following commands:
 
 .. code-block:: bash
 
-    pip3 install tensorflow tensorflow-hub tensorflow-object-detection-api
+    pip3 install tensorflow tensorflow-hub tensorflow-object-detection-api nvidia-cudnn-cu11==8.6.0.163
 
 Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub <https://tfhub.dev/>`_, follow the steps below:
 

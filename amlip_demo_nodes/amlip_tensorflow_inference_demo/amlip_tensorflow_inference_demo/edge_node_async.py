@@ -17,14 +17,33 @@ import os
 import cv2
 import base64
 
-from amlip_py.node.EdgeNode import EdgeNode
+from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
+
+from amlip_py.node.AsyncEdgeNode import AsyncEdgeNode, InferenceListenerLambda
 from amlip_py.types.InferenceDataType import InferenceDataType
 
+# Variable to wait to the inference
+waiter = BooleanWaitHandler(True, False)
+
+# Domain ID
+DOMAIN_ID = 166
+
+def inference_received(
+        inference,
+        task_id,
+        server_id):
+    print(f'Edge Node received inference from {server_id}')
+    print(f"Edge Node received inference {inference.to_string()}")
+    waiter.open()
 
 def main():
     # Create Node
-    node = EdgeNode('AMLEdgeNode')
-    print(f'Edge Node {node.id()} ready.')
+    node = AsyncEdgeNode(
+        'AMLAsyncEdgeNode',
+        listener=InferenceListenerLambda(inference_received),
+        domain=DOMAIN_ID)
+
+    print(f'Async Edge Node {node.id()} ready.')
 
     # Image to inferred
     current_path = os.path.abspath(__file__)
@@ -43,10 +62,12 @@ def main():
 
     print(f'Edge Node {node.id()} sending data.')
 
-    inference, server_id = node.request_inference(InferenceDataType(img_size_bytes))
-    print(f'Edge Node received inference from {server_id}')
+    task_id = node.request_inference(InferenceDataType(img_size_bytes))
 
-    print(f"Edge Node received inference {inference.to_string()}")
+    print(f'Request sent with task id: {task_id}. Waiting inference...')
+
+    # Wait to received solution
+    waiter.wait()
 
     # Closing
     print(f'Edge Node {node.id()} closing.')

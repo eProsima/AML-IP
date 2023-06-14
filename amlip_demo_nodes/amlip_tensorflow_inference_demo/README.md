@@ -73,9 +73,9 @@ In each one, source the workspace and launch a node.
 ### Edge Node
 
 ```bash
-source ~/AML-IP-demos-ws/install/setup.bash
-cd ~/AML-IP-demos-ws/src/AML-IP-demos/amlip_demos/amlip_demos
-python3 edge_node_sync.py
+source ~/AML-IP-ws/install/setup.bash
+cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
+python3 edge_node_async.py
 ```
 
 Expected output:
@@ -99,9 +99,9 @@ Edge Node AMLEdgeNode.fb.d4.38.13 closing.
 ### Inference Node
 
 ```bash
-source ~/AML-IP-demos-ws/install/setup.bash
-cd ~/AML-IP-demos-ws/src/AML-IP-demos/amlip_demos/amlip_demos
-python3 inference_node_sync.py
+source ~/AML-IP-ws/install/setup.bash
+cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
+python3 inference_node_async.py
 ```
 
 Expected output:
@@ -121,8 +121,8 @@ WARNING:absl:Importing a function (__inference_batchnorm_layer_call_and_return_c
 model loaded!
 Selected model:tensorflow
 2023-02-14 14:51:14.165305: W tensorflow/core/grappler/optimizers/loop_optimizer.cc:907] Skipping loop optimization for Merge node with control input: StatefulPartitionedCall/cond/then/_918/cond/Assert_2/AssertGuard/branch_executed/_1123
-inference ready!
-sending inference:
+Inference ready!
+Sending inference:
 Box [(0.15590962767601013, 0.21641747653484344), (0.7388607263565063, 0.7326743006706238)] bicycle: 97%
 Box [(0.16968876123428345, 0.38129815459251404), (0.403958797454834, 0.9422630071640015)] dog: 92%
 Box [(0.6158109307289124, 0.13117200136184692), (0.9053990244865417, 0.2978983521461487)] truck: 53%
@@ -132,6 +132,8 @@ Box [(0.0753115713596344, 0.15651819109916687), (0.13415342569351196, 0.22736744
 
 Inference sent to client AMLEdgeNode.fb.d4.38.13.
 ```
+
+---
 
 ## Docker
 
@@ -146,4 +148,28 @@ Run the commands above from a container launched with:
 
 ```bash
 docker run -it --rm amlip-demos:inference-tensor-flow
+```
+
+---
+
+## Synchronous Nodes simulated
+
+There are some demos that contains old examples on Synchronous Nodes.
+
+### Sync Edge Node
+
+Its implementation can be seen in [edge_node_sync.py](amlip_tensorflow_inference_demo/edge_node_sync.py) file.
+
+```sh
+cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
+python3 edge_node_sync.py
+```
+
+### Sync Inference Node
+
+Its implementation can be seen in [inference_node_sync.PY](amlip_tensorflow_inference_demo/inference_node_sync.PY) file.
+
+```sh
+cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
+python3 inference_node_sync.py
 ```

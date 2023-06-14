@@ -19,7 +19,6 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
-%include "std_vector.i"
 namespace std {
    %template(bytes) vector<uint8_t>;
 }
