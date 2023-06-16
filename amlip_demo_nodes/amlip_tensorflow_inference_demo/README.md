@@ -169,7 +169,7 @@ python3 edge_node_sync.py
 
 ### Sync Inference Node
 
-Its implementation can be seen in [inference_node_sync.PY](amlip_tensorflow_inference_demo/inference_node_sync.PY) file.
+Its implementation can be seen in [inference_node_sync.py](amlip_tensorflow_inference_demo/inference_node_sync.PY) file.
 
 ```sh
 cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
