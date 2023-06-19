@@ -16,7 +16,9 @@ import os
 
 import cv2
 import base64
+import time
 import re
+import pygame
 
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
@@ -64,6 +66,18 @@ class SubscriberImage(Node):
         self.image = self.br.imgmsg_to_cv2(msg)
         self.image_arrive = True
 
+
+def beep():
+    pygame.mixer.init()
+    current_path = os.path.abspath(__file__)
+    beep_path = current_path.split("amlip_tensorflow_inference_demo",-1)[0]+"amlip_tensorflow_inference_demo/resource/beep.wav"
+    beep_sound = pygame.mixer.Sound(beep_path)
+    beep_sound.set_volume(1.0)
+    beep_sound.play()
+    time.sleep(1)
+    beep_sound.stop()
+    pygame.mixer.quit()
+
 def check_data(str):
     labels = re.findall(r'\b(\w+):', str)
     percentages = re.findall(r'(\d+)%', str)
@@ -72,9 +86,9 @@ def check_data(str):
     print('Percentages: ')
     print(percentages)
     for i in range(len(labels)):
-        print(i)
-        if(labels[i] == 'person' and int(percentages[i]) >= 90):
+        if(labels[i] == 'person' and int(percentages[i]) >= 80):
             print('Found a person!')
+            beep()
             return
     print('No person found :(')
 

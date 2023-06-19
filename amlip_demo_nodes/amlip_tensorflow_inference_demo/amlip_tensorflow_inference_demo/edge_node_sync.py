@@ -18,6 +18,7 @@ import cv2
 import base64
 import time
 import re
+import pygame
 
 from amlip_py.node.EdgeNode import EdgeNode
 from amlip_py.types.InferenceDataType import InferenceDataType
@@ -29,7 +30,6 @@ from rclpy.qos import QoSHistoryPolicy
 from rclpy.qos import QoSReliabilityPolicy
 
 from sensor_msgs.msg import Image
-from geometry_msgs.msg import Twist
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 
 
@@ -57,55 +57,17 @@ class SubscriberImage(Node):
         self.image = self.br.imgmsg_to_cv2(msg)
         self.image_arrive = True
 
-class PublisherVel(Node):
 
-    def __init__(self):
-        super().__init__('publisher_velocity')
-        custom_qos_profile = QoSProfile(
-        depth=10,
-        reliability=QoSReliabilityPolicy.BEST_EFFORT)
-
-        self.pub = self.create_publisher(
-            Twist,
-            '/cmd_vel',
-            custom_qos_profile)
-
-    def turn(self):
-        msg = Twist()
-
-        # todo add header
-
-        msg.linear.x = 0.0
-        msg.linear.y = 0.0
-        msg.linear.z = 0.0
-
-        msg.angular.x = 0.0
-        msg.angular.y = 1.0
-        msg.angular.z = 0.0
-
-        self.pub.publish(msg)
-
-    def stop(self):
-        msg = Twist()
-
-        msg.linear.x = 0.0
-        msg.linear.y = 0.0
-        msg.linear.z = 0.0
-
-        msg.angular.x = 0.0
-        msg.angular.y = 0.0
-        msg.angular.z = 0.0
-
-        self.pub.publish(msg)
-
-def turn_rosbot():
-    rclpy.init(args=None)
-    node = PublisherVel()
-    print('Turn ROSbot')
-    node.turn()
+def beep():
+    pygame.mixer.init()
+    current_path = os.path.abspath(__file__)
+    beep_path = current_path.split("amlip_tensorflow_inference_demo",-1)[0]+"amlip_tensorflow_inference_demo/resource/beep.wav"
+    beep_sound = pygame.mixer.Sound(beep_path)
+    beep_sound.set_volume(1.0)
+    beep_sound.play()
     time.sleep(1)
-    node.destroy_node()
-    rclpy.shutdown()
+    beep_sound.stop()
+    pygame.mixer.quit()
 
 def check_data(str):
     labels = re.findall(r'\b(\w+):', str)
@@ -117,7 +79,7 @@ def check_data(str):
     for i in range(len(labels)):
         if(labels[i] == 'person' and int(percentages[i]) >= 80):
             print('Found a person!')
-            turn_rosbot()
+            beep()
             return
     print('No person found :(')
 
