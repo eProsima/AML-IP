@@ -1,0 +1,20 @@
+# Quick Start
+# just plug Orbbec Astra to your laptop and launch:
+# $ docker compose up
+
+services:
+  astra:
+    image: husarion/astra:humble
+    network_mode: host
+    ipc: host
+    devices:
+      - /dev/bus/usb/
+    volumes:
+      - ./astra_params.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
+    command: ros2 launch astra_camera astra_mini.launch.py
+
+  edge:
+    image: husarion/astra:humble
+    network_mode: host
+    ipc: host
+    command: python3 edge_node_async.py
