@@ -17,38 +17,48 @@ import os
 
 from amlip_py.node.InferenceNode import InferenceNode
 from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
-import tensorflow_hub as hub
+
 import numpy as np
-from tensorflow_data import *
+
+from object_detection.utils import label_map_util
+
+import tensorflow_hub as hub
+
 # Not take into account detections with less probability than tolerance
 tolerance = 25
+
+
 def main():
     # Create Node
     node = InferenceNode('AMLInferenceNode')
     print(f'Inference Node {node.id()} ready.')
     current_path = os.path.abspath(__file__)
-    ## Initialise model
+    # Initialise model
     path = current_path.split('amlip_tensorflow_inference_demo', -1)[0]\
-        +'amlip_tensorflow_inference_demo/resource/tensorflow/models/centernet_hourglass_512x512_kpts_1'
+        + 'amlip_tensorflow_inference_demo/resource/tensorflow/models/\
+centernet_hourglass_512x512_kpts_1'
     dataset = current_path.split('amlip_tensorflow_inference_demo', -1)[0]\
-        +'amlip_tensorflow_inference_demo/resource/tensorflow/models/research/object_detection/data/mscoco_label_map.pbtxt'
+        + 'amlip_tensorflow_inference_demo/resource/tensorflow/models/research\
+/object_detection/data/mscoco_label_map.pbtxt'
     print('Model Handle at TensorFlow Hub: {}'.format(path))
     print('loading model...')
     hub_model = hub.load(path)
     print('model loaded!')
+
     def engine_routine(inference):
         # Size | Image
-        height, width = (inference.to_string().split(' | ',1)[0]).split()
-        image_str = inference.to_string().split(' | ',1)[1]
+        height, width = (inference.to_string().split(' | ', 1)[0]).split()
+        image_str = inference.to_string().split(' | ', 1)[1]
         # Convert string to bytes
         img_bytes = base64.b64decode(image_str)
         # Convert bytes to image
         image = np.frombuffer((img_bytes), dtype=np.uint8).reshape((int(width), int(height), 3))
-        string_inference = ""
-        image_np = np.array(image).reshape((1,int(width), int(height),3))
+        string_inference = ''
+        image_np = np.array(image).reshape((1, int(width), int(height), 3))
         results = hub_model(image_np)
-        result = {key:value.numpy() for key,value in results.items()}
-        category_index = label_map_util.create_category_index_from_labelmap(dataset, use_display_name=True)
+        result = {key: value.numpy() for key, value in results.items()}
+        category_index = label_map_util.create_category_index_from_labelmap(dataset,
+                                                                            use_display_name=True)
         classes = (result['detection_classes'][0]).astype(int)
         scores = result['detection_scores'][0]
         for i in range(result['detection_boxes'][0].shape[0]):
@@ -56,9 +66,12 @@ def main():
                 boxes = result['detection_boxes'][0]
                 box = tuple(boxes[i].tolist())
                 ymin, xmin, ymax, xmax = box
-                string_inference = string_inference + 'Box [({}, {}), ({}, {})] {}: {}% \n' .format(xmin, ymin, xmax, ymax, category_index[classes[i]]['name'], round(100*scores[i]))
+                string_inference = string_inference + \
+                    'Box [({}, {}), ({}, {})] {}: {}% \n' \
+                    .format(xmin, ymin, xmax, ymax, category_index[classes[i]]['name'],
+                            round(100*scores[i]))
         print('Inference ready!')
-        print("sending inference: " + string_inference)
+        print('sending inference: ' + string_inference)
         return InferenceSolutionDataType(string_inference)
     try:
         while True:
@@ -67,8 +80,10 @@ def main():
             )
             print(f'Inference sent to client {client_id}.')
     except KeyboardInterrupt:
-            # Closing
-            print(f'Inference Node {node.id()} closing.')
+        # Closing
+        print(f'Inference Node {node.id()} closing.')
+
+
 # Call main in program execution
 if __name__ == '__main__':
     main()

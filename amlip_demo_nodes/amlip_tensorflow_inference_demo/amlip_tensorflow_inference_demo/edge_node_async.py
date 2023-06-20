@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
-import cv2
 import base64
-
-from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
+import os
 
 from amlip_py.node.AsyncEdgeNode import AsyncEdgeNode, InferenceListenerLambda
 from amlip_py.types.InferenceDataType import InferenceDataType
+
+import cv2
+
+from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 # Variable to wait to the inference
 waiter = BooleanWaitHandler(True, False)
@@ -50,7 +50,8 @@ def main():
     # Image to inferred
     current_path = os.path.abspath(__file__)
     image_path = current_path.split('amlip_tensorflow_inference_demo', -1)[0]\
-        +'amlip_tensorflow_inference_demo/resource/tensorflow/models/research/object_detection/test_images/dog.jpg'
+        + 'amlip_tensorflow_inference_demo/resource/tensorflow/models/research\
+/object_detection/test_images/dog.jpg'
     img = cv2.imread(image_path)
     width = img.shape[1]
     height = img.shape[0]

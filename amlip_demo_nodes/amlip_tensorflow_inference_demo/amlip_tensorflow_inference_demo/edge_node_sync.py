@@ -11,13 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import os
 
-import cv2
 import base64
+import os
 
 from amlip_py.node.EdgeNode import EdgeNode
 from amlip_py.types.InferenceDataType import InferenceDataType
+
+import cv2
 
 
 def main():
@@ -27,7 +28,8 @@ def main():
     # Image to inferred
     current_path = os.path.abspath(__file__)
     image_path = current_path.split('amlip_tensorflow_inference_demo', -1)[0]\
-        +'amlip_tensorflow_inference_demo/resource/tensorflow/models/research/object_detection/test_images/dog.jpg'
+        + 'amlip_tensorflow_inference_demo/resource/tensorflow/models/research\
+/object_detection/test_images/dog.jpg'
     img = cv2.imread(image_path)
     width = img.shape[1]
     height = img.shape[0]

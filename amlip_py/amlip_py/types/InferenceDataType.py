@@ -34,7 +34,6 @@ class InferenceDataType(cpp_InferenceDataType):
         """
         super().__init__(message)
 
-
     def __str__(
             self) -> str:
         """Serialize Inference into a string."""
