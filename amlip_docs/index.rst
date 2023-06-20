@@ -59,6 +59,7 @@
 
    Scenarios </rst/user_manual/scenarios/scenarios>
    Nodes </rst/user_manual/nodes/nodes>
+   Data Types </rst/user_manual/data_type/data_type>
    /rst/user_manual/dds/dds
    /rst/user_manual/user_manual_glossary
 
