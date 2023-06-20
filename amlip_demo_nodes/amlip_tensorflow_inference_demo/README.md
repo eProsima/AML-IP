@@ -3,8 +3,8 @@
 This is a package containing demos of AML-IP node execution.
 In this package there are severat executables:
 
-- [Edge](amlip_tensorflow_inference_demo/edge_node_async.py) Async Edge Node execution
-- [Inference](amlip_tensorflow_inference_demo/inference_node_async.py) Async Inference Node execution
+- [Async Edge](amlip_tensorflow_inference_demo/edge_node_async.py) Async Edge Node execution
+- [Async Inference](amlip_tensorflow_inference_demo/inference_node_async.py) Async Inference Node execution
 - [Sync Edge](amlip_tensorflow_inference_demo/edge_node_sync.py) Sync Edge Node execution
 - [Sync Inference](amlip_tensorflow_inference_demo/inference_node_sync.py) Sync Inference Node execution
 
