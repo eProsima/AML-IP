@@ -12,26 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
-import cv2
 import base64
-import time
 import re
+import time
 
 from amlip_py.node.EdgeNode import EdgeNode
 from amlip_py.types.InferenceDataType import InferenceDataType
 
+from cv_bridge import CvBridge      # Package to convert between ROS and OpenCV Images
+
+from geometry_msgs.msg import Twist
+
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile
-from rclpy.qos import QoSHistoryPolicy
 from rclpy.qos import QoSDurabilityPolicy
+from rclpy.qos import QoSHistoryPolicy
+from rclpy.qos import QoSProfile
 from rclpy.qos import QoSReliabilityPolicy
 
 from sensor_msgs.msg import Image
-from geometry_msgs.msg import Twist
-from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 
 
 class SubscriberImage(Node):
@@ -39,8 +38,8 @@ class SubscriberImage(Node):
     def __init__(self):
         super().__init__('subscriber_image')
         custom_qos_profile = QoSProfile(
-        depth=10,
-        reliability=QoSReliabilityPolicy.BEST_EFFORT)
+                            depth=10,
+                            reliability=QoSReliabilityPolicy.BEST_EFFORT)
 
         self.subscription = self.create_subscription(
             Image,
@@ -64,9 +63,9 @@ class PublisherVel(Node):
     def __init__(self):
         super().__init__('publisher_velocity')
         custom_qos_profile = QoSProfile(
-        history=QoSHistoryPolicy.KEEP_ALL,
-        durability=QoSDurabilityPolicy.TRANSIENT_LOCAL,
-        reliability=QoSReliabilityPolicy.BEST_EFFORT)
+                            history=QoSHistoryPolicy.KEEP_ALL,
+                            durability=QoSDurabilityPolicy.TRANSIENT_LOCAL,
+                            reliability=QoSReliabilityPolicy.BEST_EFFORT)
 
         self.pub = self.create_publisher(
             Twist,
@@ -86,6 +85,7 @@ class PublisherVel(Node):
 
         self.pub.publish(msg)
 
+
 def turn_rosbot():
     rclpy.init(args=None)
     node = PublisherVel()
@@ -100,19 +100,21 @@ def turn_rosbot():
     node.destroy_node()
     rclpy.shutdown()
 
-def check_data(str):
-    labels = re.findall(r'\b(\w+):', str)
-    percentages = re.findall(r'(\d+)%', str)
+
+def check_data(str_inference):
+    labels = re.findall(r'\b(\w+):', str_inference)
+    percentages = re.findall(r'(\d+)%', str_inference)
     print('Labels: ')
     print(labels)
     print('Percentages: ')
     print(percentages)
     for i in range(len(labels)):
-        if(labels[i] == 'person' and int(percentages[i]) >= 80):
+        if (labels[i] == 'person' and int(percentages[i]) >= 80):
             print('Found a person!')
             turn_rosbot()
             return
     print('No person found :(')
+
 
 def main():
     rclpy.init(args=None)
@@ -142,7 +144,7 @@ def main():
     height = img.shape[0]
 
     # Convert size to bytes
-    str_size = str(width) + " " + str(height) + " | "
+    str_size = str(width) + ' ' + str(height) + ' | '
     bytes_size = bytes(str_size, 'utf-8')
     # Convert image to bytes
     img_bytes = base64.b64encode(img)
@@ -154,7 +156,7 @@ def main():
     inference, server_id = node.request_inference(InferenceDataType(img_size_bytes))
     print(f'Edge Node received inference from {server_id}')
 
-    print(f"Edge Node received inference {inference.to_string()}")
+    print(f'Edge Node received inference {inference.to_string()}')
 
     check_data(inference.to_string())
 
