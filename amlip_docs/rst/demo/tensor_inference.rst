@@ -19,7 +19,7 @@ It involves applying the learned knowledge and statistical relationships encoded
 The inference of an image involves passing the image through a trained AI model to obtain a classification based on the learned knowledge and patterns within the model.
 
 This demo shows how to implement 2 types of nodes, :ref:`user_manual_nodes_inference` and :ref:`user_manual_nodes_edge`, to perform TensorFlow inference on a given image.
-With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the behaviour of a simulated |amlip| network running.
+With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the behavior of a simulated |amlip| network running.
 
 The demo that is presented here follows the schema of the figure below:
 
@@ -69,7 +69,7 @@ Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub
 
 .. code-block:: bash
 
-    cd ~/AML-IP-demos-ws/src/AML-IP-demos/amlip_demos/resource/tensorflow/models/
+    cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/resource/tensorflow/models/
     wget -O centernet_hourglass_512x512_kpts_1.tar.gz https://tfhub.dev/tensorflow/centernet/hourglass_512x512_kpts/1?tf-hub-format=compressed
     mkdir centernet_hourglass_512x512_kpts_1
     tar -xvf centernet_hourglass_512x512_kpts_1.tar.gz -C ./centernet_hourglass_512x512_kpts_1
@@ -88,8 +88,8 @@ In the first terminal, run the following command:
     source install/setup.bash
 
     # To execute Edge Node to send an image to inferred
-    cd ~/AML-IP-demos-ws/src/AML-IP-demos/amlip_demos/amlip_demos
-    python3 edge_node.py
+    cd ~/AML-IP-ws/src/amlip/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
+    python3 edge_node_async.py
 
 Take into account that this node will wait until there is an *Inference Node* running and available
 in the same :term:`LAN` in order to process the inference.
@@ -123,8 +123,8 @@ In the second terminal, run the following command to process the inference:
     source install/setup.bash
 
     # To execute Inference Node with pre-trained model from TensorFlow
-    cd ~/AML-IP-demos-ws/src/AML-IP-demos/amlip_demos/amlip_demos
-    python3 inference_node.py tensorflow
+    cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
+    python3 inference_node_async.py
 
 This execution expects an output similar to the one shown below:
 
@@ -133,7 +133,7 @@ This execution expects an output similar to the one shown below:
     2023-02-14 14:50:42.711797: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
     To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
     Inference Node AMLInferenceNode.b8.34.4d.a3 ready.
-    Model Handle at TensorFlow Hub: /home/user/AML-IP/src/amlipdemos/amlip_demos/resource/tensorflow/models/centernet_hourglass_512x512_kpts_1
+    Model Handle at TensorFlow Hub: /home/user/AML-IP/src/amlip/amlip_demo_nodes/amlip_tensorflow_inference_demo/resource/tensorflow/models/centernet_hourglass_512x512_kpts_1
     loading model...
     WARNING:absl:Importing a function (__inference_batchnorm_layer_call_and_return_conditional_losses_42408) with ops with unsaved custom gradients. Will likely fail if a gradient is requested.
     WARNING:absl:Importing a function (__inference_batchnorm_layer_call_and_return_conditional_losses_209416) with ops with unsaved custom gradients. Will likely fail if a gradient is requested.
