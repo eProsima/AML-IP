@@ -1,8 +1,8 @@
 #########################################################################################
-# AML-IP Demos Dockerfile
+# AML-IP TensorFlow Inference using ROSbot2R Demo Dockerfile
 #########################################################################################
 
-FROM ubuntu:jammy
+FROM ros:humble-ros-core
 
 # Avoids using interactions during building
 ENV DEBIAN_FRONTEND=noninteractive
@@ -29,24 +29,25 @@ RUN apt update && \
         pip \
         swig \
         wget \
-        espeak \
         alsa-utils \
-        libopencv-dev \
-        ffmpeg && \
+        libopencv-dev && \
     pip3 install -U colcon-common-extensions \
         vcstool \
-        pyttsx3 \
-        opencv-python \
         tensorflow \
         tensorflow-hub \
         tensorflow-object-detection-api \
-        pygame
+        cv_bridge
 
 # Install AML-IP
 WORKDIR /AML-IP
 RUN mkdir src && \
-    wget https://raw.githubusercontent.com/eProsima/AML-IP/$amlip_branch/amlip.repos && \
-    vcs import src < amlip.repos && \
+    git clone -b master https://github.com/eProsima/foonathan_memory_vendor.git /AML-IP/src/foonathan_memory_vendor && \
+    git clone -b master https://github.com/eProsima/Fast-CDR.git /AML-IP/src/fastcdr && \
+    git clone -b master https://github.com/eProsima/Fast-DDS.git /AML-IP/src/fastdds && \
+    git clone -b main https://github.com/eProsima/dev-utils.git /AML-IP/src/dev-utils && \
+    git clone -b main https://github.com/eProsima/DDS-Pipe.git /AML-IP/src/ddspipe && \
+    git clone -b main https://github.com/eProsima/DDS-Router.git /AML-IP/src/ddsrouter && \
+    git clone -b feature/rosbot2r_inference https://github.com/eProsima/AML-IP.git /AML-IP/src/amlip && \
     colcon build --packages-up-to-regex amlip
 
 # Source built workspace
