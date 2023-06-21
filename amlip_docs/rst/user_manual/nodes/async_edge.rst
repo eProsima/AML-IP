@@ -12,7 +12,7 @@ Example of Usage
 ================
 
 Users can use method :code:`request_inference` to send new data.
-The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_async_inference` in charge of this data.
+The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_async_inference` in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps
@@ -28,9 +28,6 @@ Steps
     .. tab:: Python
 
         .. code-block:: python
-
-            # Variable to wait to the inference
-            waiter = BooleanWaitHandler(True, False)
 
             def inference_received(
                     inference,
@@ -54,5 +51,6 @@ Steps
                 # Send data to a remote Inference Node and waits for the inference
                 task_id = node.request_inference(data)
 
-                # Wait to received solution
-                waiter.wait()
+                # User must wait to receive solution.
+                # Out of scope, the node will be destroyed,
+                # and thus the solution will not arrive.

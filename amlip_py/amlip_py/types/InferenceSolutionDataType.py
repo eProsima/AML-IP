@@ -24,7 +24,7 @@ class InferenceSolutionDataType(cpp_InferenceSolutionDataType):
 
     def __init__(
             self,
-            message):
+            message: None):
         """
         Construct a new Inference with name.
         Parameters

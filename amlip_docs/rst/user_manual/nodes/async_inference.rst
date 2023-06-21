@@ -11,9 +11,8 @@ This node waits for data serialized as :ref:`user_manual_datatype_inference`, an
 Example of Usage
 ================
 
-User can use method :code:`request_inference` to send new data.
-The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from
-the *Inference Node* in charge of this data, and will process this data by the Listener or callback given, and return the Inference calculated.
+User can use method :code:`request_inference` from :ref:`user_manual_nodes_async_edge` to send new data.
+The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the *Inference Node* in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps
@@ -29,14 +28,10 @@ Steps
         .. code-block:: python
 
             def process_inference(
-                    inference,
+                    dataset,
                     task_id,
                     client_id):
-                inference_solution = InferenceSolutionDataType(inference.to_string().lower())
-                print(f'Data received from client: {client_id}\n'
-                      f' with id: {task_id}\n'
-                      f' job: {inference.to_string()}\n'
-                      f' inference: {inference_solution.to_string()}')
+                # Do some code that calculates the inference
                 return inference_solution
 
             def main():
@@ -49,9 +44,6 @@ Steps
 
                 inference_node.run()
 
-                def handler(signum, frame):
-                    pass
-                signal.signal(signal.SIGINT, handler)
-                signal.pause()
+                # Wait until Ctrl+C
 
                 inference_node.stop()
