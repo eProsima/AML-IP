@@ -44,6 +44,7 @@ Redistributable
 Requiredness
 runtime
 scalable
+teleoperate
 url
 Vulcanexus
 wget

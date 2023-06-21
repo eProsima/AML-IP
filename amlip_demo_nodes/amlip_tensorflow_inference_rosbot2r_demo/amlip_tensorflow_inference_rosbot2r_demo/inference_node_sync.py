@@ -34,11 +34,11 @@ def main():
     print(f'Inference Node {node.id()} ready.')
     current_path = os.path.abspath(__file__)
     # Initialise model
-    path = current_path.split('amlip_tensorflow_inference_demo', -1)[0]\
-        + 'amlip_tensorflow_inference_demo/resource/tensorflow/models/\
+    path = current_path.split('amlip_tensorflow_inference_rosbot2r_demo', -1)[0]\
+        + 'amlip_tensorflow_inference_rosbot2r_demo/resource/tensorflow/models/\
 centernet_hourglass_512x512_kpts_1'
-    dataset = current_path.split('amlip_tensorflow_inference_demo', -1)[0]\
-        + 'amlip_tensorflow_inference_demo/resource/tensorflow/models/research\
+    dataset = current_path.split('amlip_tensorflow_inference_rosbot2r_demo', -1)[0]\
+        + 'amlip_tensorflow_inference_rosbot2r_demo/resource/tensorflow/models/research\
 /object_detection/data/mscoco_label_map.pbtxt'
     print('Model Handle at TensorFlow Hub: {}'.format(path))
     print('loading model...')

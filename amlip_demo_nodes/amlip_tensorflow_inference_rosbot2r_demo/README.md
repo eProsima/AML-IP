@@ -143,13 +143,13 @@ If using Docker instead, build a Docker image from the given [Dockerfile](https:
 In order to do so, execute the following to build the docker image:
 
 ```bash
-docker build -t amlip-demos:inference-tensor-flow -f Dockerfile .
+docker build -t amlip-demos:inference-tensorflow -f Dockerfile .
 ```
 
 Run the commands above from a container launched with:
 
 ```bash
-docker run -it --rm amlip-demos:inference-tensor-flow
+docker run -it --rm amlip-demos:inference-tensorflow
 ```
 
 ---

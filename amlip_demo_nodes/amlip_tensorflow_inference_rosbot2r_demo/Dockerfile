@@ -30,13 +30,13 @@ RUN apt update && \
         swig \
         wget \
         alsa-utils \
-        libopencv-dev && \
+        libopencv-dev \
+        ros-humble-cv-bridge && \
     pip3 install -U colcon-common-extensions \
         vcstool \
         tensorflow \
         tensorflow-hub \
-        tensorflow-object-detection-api \
-        cv_bridge
+        tensorflow-object-detection-api
 
 # Install AML-IP
 WORKDIR /AML-IP
@@ -52,4 +52,4 @@ RUN mkdir src && \
 
 # Source built workspace
 RUN echo "source /AML-IP/install/setup.bash" >> ~/.bashrc && \
-    echo "source /AML-IP-demos/install/setup.bash" >> ~/.bashrc
+    echo "source /AML-IP/install/setup.bash" >> ~/.bashrc

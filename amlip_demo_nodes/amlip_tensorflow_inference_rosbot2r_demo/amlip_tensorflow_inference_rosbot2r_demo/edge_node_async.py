@@ -47,7 +47,7 @@ class SubscriberImage(Node):
     def __init__(self):
         super().__init__('subscriber_image')
         custom_qos_profile = QoSProfile(
-                            depth=10,
+                            depth=4,
                             reliability=QoSReliabilityPolicy.BEST_EFFORT)
 
         self.subscription = self.create_subscription(
@@ -96,7 +96,6 @@ class PublisherVel(Node):
 
 
 def turn_rosbot():
-    rclpy.init(args=None)
     node = PublisherVel()
 
     print('Turn ROSbot')
@@ -107,7 +106,6 @@ def turn_rosbot():
         loop += 1
 
     node.destroy_node()
-    rclpy.shutdown()
 
 
 def check_data(str_inference):
@@ -140,49 +138,47 @@ def main():
 
     minimal_subscriber = SubscriberImage()
 
-    while rclpy.ok() and not minimal_subscriber.image_arrive:
-        rclpy.spin_once(minimal_subscriber)
-
-    img = minimal_subscriber.image
-
-    minimal_subscriber.destroy_node()
-    rclpy.try_shutdown()
-
-    # Display image - debug
-    # cv2.imshow("ROSbot2R Camera", img)
-
-    # cv2.waitKey(0)
-    # cv2.destroyWindow("ROSbot2R Camera")
-
     # Create Node
     node = AsyncEdgeNode(
         'AMLAsyncEdgeNode',
         listener=InferenceListenerLambda(inference_received),
         domain=DOMAIN_ID)
 
-    print(f'Async Edge Node {node.id()} ready.')
+    while True:
 
-    width = img.shape[1]
-    height = img.shape[0]
+        while rclpy.ok() and not minimal_subscriber.image_arrive:
+            rclpy.spin_once(minimal_subscriber, timeout_sec=1)
 
-    # Convert size to bytes
-    str_size = str(width) + ' ' + str(height) + ' | '
-    bytes_size = bytes(str_size, 'utf-8')
-    # Convert image to bytes
-    img_bytes = base64.b64encode(img)
-    # Size + images
-    img_size_bytes = bytes_size + img_bytes
+        img = minimal_subscriber.image
 
-    print(f'Edge Node {node.id()} sending data.')
+        print(f'Async Edge Node {node.id()} ready.')
 
-    task_id = node.request_inference(InferenceDataType(img_size_bytes))
+        width = img.shape[1]
+        height = img.shape[0]
 
-    print(f'Request sent with task id: {task_id}. Waiting inference...')
+        # Convert size to bytes
+        str_size = str(width) + ' ' + str(height) + ' | '
+        bytes_size = bytes(str_size, 'utf-8')
+        # Convert image to bytes
+        img_bytes = base64.b64encode(img)
+        # Size + images
+        img_size_bytes = bytes_size + img_bytes
 
-    # Wait to received solution
-    waiter.wait()
+        print(f'Edge Node {node.id()} sending data.')
+
+        task_id = node.request_inference(InferenceDataType(img_size_bytes))
+
+        print(f'Request sent with task id: {task_id}. Waiting inference...')
+
+        # Wait to received solution
+        waiter.wait()
+
+        minimal_subscriber.image_arrive = False
 
     # Closing
+    minimal_subscriber.destroy_node()
+    rclpy.shutdown()
+
     print(f'Edge Node {node.id()} closing.')
 
 

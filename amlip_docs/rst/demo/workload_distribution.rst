@@ -2,9 +2,9 @@
 
 .. _demo_workload_distribution:
 
-##########################
-Workload Distribution Demo
-##########################
+#####################
+Workload Distribution
+#####################
 
 This demonstrator shows how to implement 2 kind of nodes:
 :ref:`user_manual_nodes_computing` and :ref:`user_manual_nodes_main`.

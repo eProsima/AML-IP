@@ -38,7 +38,7 @@ class SubscriberImage(Node):
     def __init__(self):
         super().__init__('subscriber_image')
         custom_qos_profile = QoSProfile(
-                            depth=10,
+                            depth=1,
                             reliability=QoSReliabilityPolicy.BEST_EFFORT)
 
         self.subscription = self.create_subscription(

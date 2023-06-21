@@ -32,7 +32,7 @@ services:
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   edge:
-    image: amlip-demos:inference-tensor-flow
+    image: amlip-demos:inference-tensorflow
     network_mode: host
     ipc: host
     privileged: true
