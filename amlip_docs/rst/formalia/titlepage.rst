@@ -86,3 +86,11 @@ This documentation is organized into the sections below.
 * :ref:`User Manual <user_manual_scenarios>`
 * :ref:`Developer Manual <developer_manual_installation_sources_linux>`
 * :ref:`Release Notes <release_notes>`
+
+----
+
+.. image:: /rst/figures/eu_flag.jpg
+  :height: 45px
+  :align: left
+
+This project (ALMA: Human Centric Algebraic Machine Learning) has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 952091.
