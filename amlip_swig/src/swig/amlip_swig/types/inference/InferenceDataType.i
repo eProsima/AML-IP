@@ -19,6 +19,7 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/GenericDataType.hpp";
 
+
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;

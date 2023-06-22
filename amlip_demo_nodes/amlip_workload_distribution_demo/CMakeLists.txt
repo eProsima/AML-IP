@@ -13,10 +13,10 @@
 # limitations under the License.
 
 # Required CMake minimum version
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.5)
 
 # Project name
-project(amlip_demo_nodes)
+project(amlip_workload_distribution_demo)
 
 # Find dependencies
 find_package(cpp_utils)
@@ -26,11 +26,11 @@ find_package(ddsrouter_core)
 find_package(amlip_cpp)
 
 # C++ executables
-add_executable(computing_node sync/sync_computing_node.cpp)
-target_link_libraries(computing_node amlip_cpp cpp_utils)
+add_executable(computing_node_sync computing_node_sync.cpp)
+target_link_libraries(computing_node_sync amlip_cpp cpp_utils)
 install(
     TARGETS
-        computing_node
+    computing_node_sync
     DESTINATION
         bin/
 )
@@ -38,9 +38,9 @@ install(
 # Python executables
 install(
     PROGRAMS
-        sync/sync_main_node.py
-        main_node.py
-        computing_node.py
+        main_node_sync.py
+        main_node_async.py
+        computing_node_async.py
         status_node.py
     DESTINATION
         bin/
