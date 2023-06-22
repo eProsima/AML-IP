@@ -47,7 +47,7 @@ To run it, one string argument is required. This will be the model this node wil
 Prerequisites
 =============
 
-First of all, check that :code:`amlip_demo_nodes` sub-package is correctly installed.
+First of all, check that :code:`amlip_tensorflow_inference_demo` sub-package is correctly installed.
 If it is not, please refer to :ref:`developer_manual_installation_sources_linux_colcon_demos`.
 
 
@@ -55,8 +55,8 @@ The demo requires the following tools to be installed in the system:
 
 .. code-block:: bash
 
-    sudo apt install -y  swig espeak alsa-utils libopencv-dev ffmpeg
-    pip3 install -U pyttsx3 opencv-python pygame
+    sudo apt install -y  swig alsa-utils libopencv-dev
+    pip3 install -U pyttsx3 opencv-python
     curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3-latest-Linux-x86_64.sh
     bash Miniconda3-latest-Linux-x86_64.sh
     # For changes to take effect, close and re-open your current shell.
@@ -72,7 +72,7 @@ You can install them using pip by executing the following commands:
 
 .. code-block:: bash
 
-    pip3 install tensorflow tensorflow-hub tensorflow-object-detection-api nvidia-cudnn-cu11==8.6.0.163
+    pip3 install tensorflow tensorflow-hub tensorflow-object-detection-api nvidia-cudnn-cu11==8.6.0.163 protobuf==3.20.*
 
 Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub <https://tfhub.dev/>`_, follow the steps below:
 
@@ -86,10 +86,12 @@ Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub
 Run demo
 ========
 
+This demo explains the implemented nodes in `amlip_demo_nodes/amlip_tensorflow_inference_demo`.
+
 Run Edge Node
 -------------
 
-In the first terminal, run the following command:
+In the first terminal, run the Edge Node with the following command:
 
 .. code-block:: bash
 
@@ -99,6 +101,8 @@ In the first terminal, run the following command:
     # To execute Edge Node to send an image to inferred
     cd ~/AML-IP-ws/src/amlip/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
     python3 edge_node_async.py
+
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/edge_node_async.py>`__.
 
 Take into account that this node will wait until there is an *Inference Node* running and available
 in the same :term:`LAN` in order to process the inference.
@@ -135,7 +139,9 @@ In the second terminal, run the following command to process the inference:
     cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo
     python3 inference_node_async.py
 
-This execution expects an output similar to the one shown below:
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/inference_node_async.py>`__.
+
+The execution expects an output similar to the one shown below:
 
 .. code-block:: bash
 
@@ -164,6 +170,13 @@ This execution expects an output similar to the one shown below:
 
     Inference sent to client AMLEdgeNode.fb.d4.38.13.
 
+.. warning:: If you encounter an output similar to the next one, follow the set of instructions outlined :ref:`below <demo_inference_troubleshooting>`:
+
+    .. code-block:: bash
+
+        terminate called after throwing an instance of 'Swig::DirectorMethodException'
+            what():  SWIG director method error. In method 'process_inference': AttributeError: module 'tensorflow' has no attribute 'gfile'
+        Aborted (core dumped)
 
 Next steps
 ----------
@@ -187,3 +200,22 @@ To use your own model, simply download it and load it by passing the path to the
 .. code-block:: python
 
     hub_model = hub.load(your_model_path)
+
+.. _demo_inference_troubleshooting:
+
+Troubleshooting
+===============
+
+TensorFlow using old API
+------------------------
+
+Please be aware that Simple TensorFlow Serving is currently not compatible with TensorFlow 2.0 due to its reliance on the older API.
+It is important to note that in TensorFlow 2.0, the `gfile` package has been relocated under the `tf.io` module.
+Therefore, if you intend to utilize TensorFlow 2.0, please take into consideration this change in the package structure and update your code accordingly.
+Check following `issue <https://github.com/tensorflow/tensorflow/issues/31315>`_ for further information.
+
+To update the code, please follow these `steps <https://stackoverflow.com/questions/55591437/attributeerror-module-tensorflow-has-no-attribute-gfile>`_:
+
+1. Locate the file `label_map_util.py`. (default path: ``.local/lib/python3.10/site-packages/object_detection/utils/label_map_util.py``)
+2. Navigate to line 132 within the file.
+3. Replace `tf.gfile.GFile` with `tf.io.gfile.GFile`.

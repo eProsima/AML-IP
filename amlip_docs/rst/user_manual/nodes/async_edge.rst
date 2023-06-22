@@ -12,7 +12,7 @@ Example of Usage
 ================
 
 Users can use method :code:`request_inference` to send new data.
-The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_async_inference` in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
+The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_async_inference` or :ref:`user_manual_nodes_inference` in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps

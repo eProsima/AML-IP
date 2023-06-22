@@ -19,7 +19,7 @@ Example of Usage
 ================
 
 This node kind does require **active** interaction with the user to perform its action.
-User can use method :code:`request_inference` from :ref:`user_manual_nodes_edge` to send new data.
+User can use method :code:`request_inference` from :ref:`user_manual_nodes_edge` or :ref:`user_manual_nodes_async_edge` to send new data.
 The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the *Inference Node* in charge of this data.
 By destroying the node every internal entity is correctly destroyed.
 

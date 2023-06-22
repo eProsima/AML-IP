@@ -11,7 +11,7 @@ This node waits for data serialized as :ref:`user_manual_datatype_inference`, an
 Example of Usage
 ================
 
-User can use method :code:`request_inference` from :ref:`user_manual_nodes_async_edge` to send new data.
+User can use method :code:`request_inference` from :ref:`user_manual_nodes_async_edge` or :ref:`user_manual_nodes_edge` to send new data.
 The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the *Inference Node* in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
 By destroying the node every internal entity is correctly destroyed.
 

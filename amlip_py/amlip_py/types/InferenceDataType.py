@@ -24,7 +24,7 @@ class InferenceDataType(cpp_InferenceDataType):
 
     def __init__(
             self,
-            message: None):
+            message: (str | bytes) = None):
         """
         Construct a new Inference with name.
         Parameters
@@ -32,7 +32,10 @@ class InferenceDataType(cpp_InferenceDataType):
         message: str or bytes
             Data to send to Inference Node serialized in a string of basic chars.
         """
-        super().__init__(message)
+        if (message):
+            super().__init__(message)
+        else:
+            super().__init__()
 
     def __str__(
             self) -> str:

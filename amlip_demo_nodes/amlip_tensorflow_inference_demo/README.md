@@ -45,7 +45,30 @@ vcs import src < amlip.repos
 
 ## Prerequisites
 
-It is required to obtain the TensorFlow model from `TensorFlow Hub <https://tfhub.dev/>`_, follow the steps below:
+The demo requires the following tools to be installed in the system:
+
+```bash
+sudo apt install -y  swig alsa-utils libopencv-dev
+pip3 install -U pyttsx3 opencv-python
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+# For changes to take effect, close and re-open your current shell.
+conda create --name tf python=3.9
+conda install -c conda-forge cudatoolkit=11.8.0
+mkdir -p $CONDA_PREFIX/etc/conda/activate.d
+echo 'CUDNN_PATH=$(dirname $(python3 -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+source $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+```
+
+Ensure that you have TensorFlow and TensorFlow Hub installed in your Python environment before proceeding.
+You can install them using pip by executing the following commands:
+
+```bash
+pip3 install tensorflow tensorflow-hub tensorflow-object-detection-api nvidia-cudnn-cu11==8.6.0.163 protobuf==3.20.*
+```
+
+Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub <https://tfhub.dev/>`_, follow the steps below:
 
 ```bash
 cd ~/src/AML-IP/amlip_demo_modes/amlip_tensorflow_inference_demo/resource/tensorflow/models/
@@ -133,23 +156,6 @@ Box [(0.8892407417297363, 0.19558095932006836), (0.933372974395752, 0.2684069573
 Box [(0.0753115713596344, 0.15651819109916687), (0.13415342569351196, 0.22736744582653046)] motorcycle: 32%
 
 Inference sent to client AMLEdgeNode.fb.d4.38.13.
-```
-
----
-
-## Docker
-
-If using Docker instead, build a Docker image from the given [Dockerfile](https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_demo/Dockerfile) with all required dependencies already installed.
-In order to do so, execute the following to build the docker image:
-
-```bash
-docker build -t amlip-demos:inference-tensor-flow -f Dockerfile .
-```
-
-Run the commands above from a container launched with:
-
-```bash
-docker run -it --rm amlip-demos:inference-tensor-flow
 ```
 
 ---

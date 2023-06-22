@@ -73,15 +73,14 @@ centernet_hourglass_512x512_kpts_1'
         print('Inference ready!')
         print('sending inference: ' + string_inference)
         return InferenceSolutionDataType(string_inference)
-    try:
-        while True:
-            client_id = node.process_inference(
-                callback=lambda inference: engine_routine(inference)
-            )
-            print(f'Inference sent to client {client_id}.')
-    except KeyboardInterrupt:
-        # Closing
-        print(f'Inference Node {node.id()} closing.')
+
+    client_id = node.process_inference(
+        callback=lambda inference: engine_routine(inference)
+    )
+    print(f'Inference sent to client {client_id}.')
+
+    # Closing
+    print(f'Inference Node {node.id()} closing.')
 
 
 # Call main in program execution
