@@ -114,7 +114,7 @@ void StatusNode::stop_processing()
     if (processing_)
     {
         processing_ = false;
-        status_reader_->awake_waiting_threads(); // This must awake thread and it must finish
+        status_reader_->stop(); // This must awake thread and it must finish
         process_thread_.join();
 
         change_status_(types::StateKind::stopped);
