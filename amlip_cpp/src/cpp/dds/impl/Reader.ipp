@@ -81,6 +81,12 @@ void Reader<T>::awake_waiting_threads()
 }
 
 template <typename T>
+void Reader<T>::stop()
+{
+    reader_data_waiter_.blocking_disable();
+}
+
+template <typename T>
 bool Reader<T>::is_data_available()
 {
     return reader_data_waiter_.is_open();

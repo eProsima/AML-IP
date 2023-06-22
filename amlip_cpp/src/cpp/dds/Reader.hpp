@@ -56,6 +56,8 @@ public:
 
     void awake_waiting_threads();
 
+    void stop();
+
     bool is_data_available();
 
     T read();
