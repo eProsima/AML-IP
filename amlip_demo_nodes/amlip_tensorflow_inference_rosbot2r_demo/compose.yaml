@@ -1,0 +1,39 @@
+# Quick Start
+# docker compose up
+
+services:
+  astra:
+    image: husarion/astra:humble
+    network_mode: host
+    ipc: host
+    devices:
+      - /dev/bus/usb/
+    volumes:
+      - ./astra_params.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
+    privileged: true
+    command: ros2 launch astra_camera astra_mini.launch.py
+
+  rosbot:
+    image: husarion/rosbot:humble
+    network_mode: host
+    ipc: host
+    privileged: true
+    command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=False
+
+  microros:
+    image: husarion/micro-ros-agent:humble
+    network_mode: host
+    ipc: host
+    devices:
+      - ${SERIAL_PORT:?err}
+    environment:
+      - SERIAL_PORT
+    privileged: true
+    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
+
+  edge:
+    image: amlip-demos:inference-tensorflow
+    network_mode: host
+    ipc: host
+    privileged: true
+    command: bash -c "sleep 5 && source ./install/setup.bash && python3 ./src/amlip/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/amlip_tensorflow_inference_rosbot2r_demo/edge_node_async.py"
