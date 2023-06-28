@@ -51,3 +51,6 @@ class JobSolutionDataType(cpp_JobSolutionDataType):
             self) -> str:
         """Serialize Job into a string."""
         return cpp_JobSolutionDataType.to_string(self)
+
+    def view(self) -> memoryview:
+        return generic_type_view(self)

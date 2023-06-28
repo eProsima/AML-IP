@@ -85,6 +85,8 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/job/JobSolutionDataType.i"
 %include "amlip_swig/types/inference/InferenceDataType.i"
 %include "amlip_swig/types/inference/InferenceSolutionDataType.i"
+%include "amlip_swig/types/ctypes.i"
+
 // node
 %include "amlip_swig/node/ParentNode.i"
 %include "amlip_swig/node/StatusNode.i"
