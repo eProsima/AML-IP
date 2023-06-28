@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>amlip_py</name>
+  <name>amlip_bytes_demo</name>
   <version>0.0.0</version>
   <description>
-    eprosima AML IP Python API
+    eprosima AML IP Demo
   </description>
   <maintainer email="RaulSanchezMateos@eprosima.com">Raul Sánchez-Mateos</maintainer>
   <maintainer email="javierparis@eprosima.com">Javier París</maintainer>
@@ -15,13 +15,13 @@
   <url type="bugtracker">https://github.com/eProsima/AML-IP/issues</url>
   <url type="repository">https://github.com/eProsima/AML-IP</url>
 
-  <depend>amlip_ctypes</depend>
-  <depend>amlip_swig</depend>
-  <depend>py_utils</depend>
+  <buildtool_depend>cmake_python</buildtool_depend>
 
-  <test_depend>python3-pytest</test_depend>
+  <depend>amlip_cpp</depend>
+  <depend>amlip_py</depend>
 
   <export>
-    <build_type>ament_python</build_type>
+    <build_type>cmake</build_type>
   </export>
+
 </package>
