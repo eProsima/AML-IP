@@ -13,118 +13,104 @@
 // limitations under the License.
 
 /**
- * @file ModelManagerNode.cpp
+ * @file ModelManagerSenderNode.cpp
  */
 
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
+#include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
+
+#include <dds/rpc/RPCClient.hpp>
 #include <dds/Participant.hpp>
 #include <dds/network_utils/topic.hpp>
-#include <dds/network_utils/dds_qos.hpp>
-#include <amlip_cpp/node/collaborative_learning/ModelManagerNode.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
-ModelManagerNode::ModelManagerNode(
+ModelManagerSenderNode::ModelManagerSenderNode(
         const char* name,
         uint32_t domain_id)
     : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 name))
-    , model_reader_(participant_->create_reader<types::ModelDataType>(
-                dds::utils::MODEL_TOPIC_NAME,
-                dds::utils::model_reader_qos()))
     , model_writer_(participant_->create_writer<types::ModelDataType>(
                 dds::utils::MODEL_TOPIC_NAME,
                 dds::utils::model_writer_qos()))
-    , receiving_(false)
+    , rpc_server_(
+        participant_->create_rpc_server<types::ModelDataType,
+        types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
+    , sending_(false)
 {
     // Participant ignore local enpoints
     logInfo(AMLIPCPP_NODE_MODELMANAGER, "Created new ModelManager Node: " << *this << ".");
 }
 
-ModelManagerNode::ModelManagerNode(
+ModelManagerSenderNode::ModelManagerSenderNode(
         const char* name)
-    : ModelManagerNode(name, dds::Participant::default_domain_id())
+    : ModelManagerSenderNode(name, dds::Participant::default_domain_id())
 {
 }
 
-ModelManagerNode::~ModelManagerNode()
+ModelManagerSenderNode::~ModelManagerSenderNode()
 {
     logDebug(AMLIPCPP_NODE_MODELMANAGER, "Destroying ModelManager Node: " << *this << ".");
 
     // If the thread is running, stop it and join thread
-    if (receiving_)
+    if (sending_)
     {
-        stop_receiving();
+        stop();
     }
 
     logDebug(AMLIPCPP_NODE_MODELMANAGER, "ModelManager Node Destroyed.");
 }
 
-void ModelManagerNode::start_receiving(
-        std::shared_ptr<ModelListener> listener)
+void ModelManagerSenderNode::start(
+        std::shared_ptr<ModelReplier> replier)
 {
-    logInfo(AMLIPCPP_NODE_MODELMANAGER, "Start processing ModelManager messages by listener in : " << *this << ".");
+    logInfo(AMLIPCPP_NODE_MODELMANAGER, "Start processing ModelManager messages by replier in : " << *this << ".");
 
-    if (receiving_)
+    if (sending_)
     {
         throw utils::InconsistencyException(
                   STR_ENTRY << "ModelManager node " << this << " is already processing data.");
     }
     else
     {
-        receiving_ = true;
-        receiving_thread_ = std::thread(
-            &ModelManagerNode::process_routine_,
+        sending_ = true;
+        sending_thread_ = std::thread(
+            &ModelManagerSenderNode::process_routine_,
             this,
-            listener);
+            replier);
 
         change_status_(types::StateKind::running);
     }
 }
 
-void ModelManagerNode::stop_receiving()
+void ModelManagerSenderNode::stop()
 {
-    if (receiving_)
+    if (sending_)
     {
-        receiving_ = false;
-        model_reader_->awake_waiting_threads(); // This must awake thread and it must finish
-        receiving_thread_.join();
+        sending_ = false;
+        sending_thread_.join();
 
         change_status_(types::StateKind::stopped);
     }
 }
 
-void ModelManagerNode::process_routine_(
-        std::shared_ptr<ModelListener> listener)
+void ModelManagerSenderNode::process_routine_(
+        std::shared_ptr<ModelReplier> replier)
 {
-    while (receiving_)
+    while (sending_)
     {
-        // Wait for data
-        utils::event::AwakeReason reason = model_reader_->wait_data_available();
-
-        if (reason == utils::event::AwakeReason::disabled)
-        {
-            logDebug(AMLIPCPP_NODE_MODELMANAGER, "ModelManager Node " << *this << " finished processing data.");
-
-            // Break thread execution
-            return;
-        }
-
-        // Read data
-        types::ModelDataType model = model_reader_->read();
-
-        logDebug(AMLIPCPP_NODE_MODELMANAGER, "ModelManager Node " << *this << " read data :" << model << ".");
-
         // Call callback
-        listener->model_received(model);
+        types::ModelDataType model;
+        replier->model_received(model);
+        ModelManagerSenderNode::publish_model(model);
     }
 }
 
-void ModelManagerNode::publish_model(
+void ModelManagerSenderNode::publish_model(
         types::ModelDataType& model)
 {
     model_writer_->publish(model);

@@ -104,6 +104,26 @@ std::shared_ptr<AsyncMultiServiceServer<Data, Solution>> Participant::create_asy
         dds_handler_.lease());
 }
 
+template <typename Data, typename Solution>
+std::shared_ptr<RPCClient<Data, Solution>> Participant::create_rpc_client(
+        const std::string& topic_name)
+{
+    return std::make_shared<RPCClient<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
+template <typename Data, typename Solution>
+std::shared_ptr<RPCServer<Data, Solution>> Participant::create_rpc_server(
+        const std::string& topic_name)
+{
+    return std::make_shared<RPCServer<Data, Solution>>(
+        id_,
+        topic_name,
+        dds_handler_.lease());
+}
+
 } /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
