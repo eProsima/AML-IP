@@ -37,8 +37,9 @@ RpcReplyDataType<T>::RpcReplyDataType(
         const TaskId& task_id,
         const AmlipIdDataType& server_id,
         const T& data)
-    : server_id_(server_id)
+    : client_id_(client_id)
     , task_id_(task_id)
+    , server_id_(server_id)
     , data_(data)
 {
 }
@@ -52,24 +53,30 @@ template <typename T>
 RpcReplyDataType<T>::RpcReplyDataType(
         const RpcReplyDataType& x)
 {
-    server_id_ = x.server_id_;
+    client_id_ = x.client_id_;
     task_id_ = x.task_id_;
+    server_id_ = x.server_id_;
+    data_ = x.data_;
 }
 
 template <typename T>
 RpcReplyDataType<T>::RpcReplyDataType(
         RpcReplyDataType&& x)
 {
-    server_id_ = std::move(x.server_id_);
+    client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
+    server_id_ = std::move(x.server_id_);
+    data_ = std::move(x.data_);
 }
 
 template <typename T>
 RpcReplyDataType<T>& RpcReplyDataType<T>::operator =(
         const RpcReplyDataType<T>& x)
 {
-    server_id_ = x.server_id_;
+    client_id_ = x.client_id_;
     task_id_ = x.task_id_;
+    server_id_ = x.server_id_;
+    data_ = x.data_;
 
     return *this;
 }
@@ -78,8 +85,10 @@ template <typename T>
 RpcReplyDataType<T>& RpcReplyDataType<T>::operator =(
         RpcReplyDataType<T>&& x)
 {
-    server_id_ = std::move(x.server_id_);
+    client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
+    server_id_ = std::move(x.server_id_);
+    data_ = std::move(x.data_);
 
     return *this;
 }
@@ -88,7 +97,7 @@ template <typename T>
 bool RpcReplyDataType<T>::operator ==(
         const RpcReplyDataType<T>& x) const
 {
-    return (server_id_ == x.server_id_ && task_id_ == x.task_id_);
+    return (server_id_ == x.server_id_ && task_id_ == x.task_id_ && client_id_ == x.client_id_ && data_ == x.data_);
 }
 
 template <typename T>
@@ -110,6 +119,14 @@ bool RpcReplyDataType<T>::operator <(
     {
         return false;
     }
+    if (client_id_ < x.client_id_)
+    {
+        return true;
+    }
+    else if (x.client_id_ < client_id_)
+    {
+        return false;
+    }
     else
     {
         return (task_id_ < x.task_id_);
@@ -117,16 +134,16 @@ bool RpcReplyDataType<T>::operator <(
 }
 
 template <typename T>
-AmlipIdDataType RpcReplyDataType<T>::server_id() const
+AmlipIdDataType RpcReplyDataType<T>::client_id() const
 {
-    return server_id_;
+    return client_id_;
 }
 
 template <typename T>
-void RpcReplyDataType<T>::server_id(
+void RpcReplyDataType<T>::client_id(
         const AmlipIdDataType& new_value)
 {
-    server_id_ = new_value;
+    client_id_ = new_value;
 }
 
 template <typename T>
@@ -143,11 +160,25 @@ void RpcReplyDataType<T>::task_id(
 }
 
 template <typename T>
+AmlipIdDataType RpcReplyDataType<T>::server_id() const
+{
+    return server_id_;
+}
+
+template <typename T>
+void RpcReplyDataType<T>::server_id(
+        const AmlipIdDataType& new_value)
+{
+    server_id_ = new_value;
+}
+
+template <typename T>
 void RpcReplyDataType<T>::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << server_id_;
+    scdr << client_id_;
     scdr << task_id_;
+    scdr << server_id_;
     scdr << data_;
 }
 
@@ -155,8 +186,9 @@ template <typename T>
 void RpcReplyDataType<T>::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
-    dcdr >> server_id_;
+    dcdr >> client_id_;
     dcdr >> task_id_;
+    dcdr >> server_id_;
     dcdr >> data_;
 }
 

@@ -23,6 +23,7 @@
 
 #include <dds/rpc/RPCClient.hpp>
 #include <dds/Participant.hpp>
+#include <dds/network_utils/model_manager.hpp>
 #include <dds/network_utils/topic.hpp>
 
 namespace eprosima {
@@ -30,69 +31,85 @@ namespace amlip {
 namespace node {
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
-        const char* name,
+        types::AmlipIdDataType id,
+        types::ModelDataType& data,
         uint32_t domain_id)
-    : ParentNode(name, types::NodeKind::model_receiver, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
-                name))
-    , model_reader_(participant_->create_reader<types::ModelDataType>(
-                dds::utils::MODEL_TOPIC_NAME,
-                dds::utils::model_reader_qos()))
-    , rpc_client_(
+    : ParentNode(id, types::NodeKind::model_receiver, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
+                id.name().c_str()))
+    , statistics_reader_(participant_->create_reader<types::ModelStatisticsDataType>(
+                dds::utils::MODEL_STATISTICS_TOPIC_NAME))
+    , model_reader_(
         participant_->create_rpc_client<types::ModelDataType,
         types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
-    , receiving_(false)
+    , running_(false)
+    , data_(data)
 {
     // Participant ignore local enpoints
-    logInfo(AMLIPCPP_NODE_MODELMANAGER, "Created new ModelManagerReceiver Node: " << *this << ".");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVERRECEIVER, "Created new ModelManagerReceiver Node: " << *this << ".");
 }
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
-        const char* name)
-    : ModelManagerReceiverNode(name, dds::Participant::default_domain_id())
+        types::AmlipIdDataType id,
+        types::ModelDataType& data)
+    : ModelManagerReceiverNode(id, data, dds::Participant::default_domain_id())
+{
+}
+
+ModelManagerReceiverNode::ModelManagerReceiverNode(
+        const char* name,
+        types::ModelDataType& data,
+        uint32_t domain_id)
+    : ModelManagerReceiverNode(types::AmlipIdDataType(name), data, domain_id)
+{
+}
+
+ModelManagerReceiverNode::ModelManagerReceiverNode(
+        const char* name,
+        types::ModelDataType& data)
+    : ModelManagerReceiverNode(name, data, dds::Participant::default_domain_id())
 {
 }
 
 ModelManagerReceiverNode::~ModelManagerReceiverNode()
 {
-    logDebug(AMLIPCPP_NODE_MODELMANAGER, "Destroying ModelManagerReceiver Node: " << *this << ".");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Destroying ModelManagerReceiver Node: " << *this << ".");
 
     // If the thread is running, stop it and join thread
-    if (receiving_)
+    if (running_)
     {
         stop();
     }
 
-    logDebug(AMLIPCPP_NODE_MODELMANAGER, "ModelManager Node Destroyed.");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManager Node Destroyed.");
 }
 
 void ModelManagerReceiverNode::start(
         std::shared_ptr<ModelListener> listener)
 {
-    logInfo(AMLIPCPP_NODE_MODELMANAGER, "Start processing ModelManager messages by listener in : " << *this << ".");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
+            "Start processing ModelManager messages by listener in : " << *this << ".");
 
-    if (receiving_)
+    if (!running_.exchange(true))
     {
-        throw utils::InconsistencyException(
-                  STR_ENTRY << "ModelManager node " << this << " is already processing data.");
-    }
-    else
-    {
-        receiving_ = true;
+        change_status_(types::StateKind::running);
+
         receiving_thread_ = std::thread(
             &ModelManagerReceiverNode::process_routine_,
             this,
             listener);
-
-        change_status_(types::StateKind::running);
+    }
+    else
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "ModelManager node " << this << " is already processing data.");
     }
 }
 
 void ModelManagerReceiverNode::stop()
 {
-    if (receiving_)
+    if (running_.exchange(false))
     {
-        receiving_ = false;
-        model_reader_->awake_waiting_threads(); // This must awake thread and it must finish
+        statistics_reader_->awake_waiting_threads(); // This must awake thread and it must finish
         receiving_thread_.join();
 
         change_status_(types::StateKind::stopped);
@@ -102,26 +119,49 @@ void ModelManagerReceiverNode::stop()
 void ModelManagerReceiverNode::process_routine_(
         std::shared_ptr<ModelListener> listener)
 {
-    while (receiving_)
+    while (running_)
     {
         // Wait for data
-        utils::event::AwakeReason reason = model_reader_->wait_data_available();
+        utils::event::AwakeReason reason = statistics_reader_->wait_data_available(dds::utils::WAIT_MS);
 
         if (reason == utils::event::AwakeReason::disabled)
         {
-            logDebug(AMLIPCPP_NODE_MODELMANAGER, "ModelManager Node " << *this << " finished processing data.");
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManager Node " << *this << " finished processing data.");
+            return;
 
             // Break thread execution
             return;
         }
 
         // Read data
-        types::ModelDataType model = model_reader_->read();
+        eprosima::amlip::types::ModelStatisticsDataType statistics;
+        try
+        {
+            // Read statistics
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
 
-        logDebug(AMLIPCPP_NODE_MODELMANAGER, "ModelManager Node " << *this << " read data :" << model << ".");
+            statistics = statistics_reader_->read();
 
-        // Call callback
-        listener->model_received(model);
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
+                    "ModelManager Node " << *this << " read statistics :" << statistics << ".");
+
+            if (listener->statistics_received(statistics))
+            {
+                types::TaskId task_id = model_reader_->send_request(data_, statistics.server_id(), dds::utils::WAIT_MS);
+
+                eprosima::amlip::types::ModelSolutionDataType model = model_reader_->get_reply(task_id,
+                                dds::utils::WAIT_MS);
+
+                // Call callback
+                listener->model_received(model);
+
+                return;
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
     }
 }
 

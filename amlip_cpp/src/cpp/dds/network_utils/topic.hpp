@@ -44,6 +44,7 @@ constexpr const char* JOB_TOPIC_NAME = "job";
 /////////////////
 // MODEL TOPIC
 constexpr const char* MODEL_TOPIC_NAME = "model";
+constexpr const char* MODEL_STATISTICS_TOPIC_NAME = "model_statistics";
 
 eprosima::fastdds::dds::DataWriterQos model_writer_qos() noexcept;
 

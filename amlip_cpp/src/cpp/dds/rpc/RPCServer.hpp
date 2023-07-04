@@ -31,6 +31,24 @@ namespace amlip {
 namespace dds {
 
 /**
+ * @brief TODO
+ */
+template <typename Data, typename Solution>
+class RequestReplier
+{
+public:
+
+    //! Default virtual dtor so it can be inherited.
+    virtual ~RequestReplier() = default;
+
+    /**
+     * @brief TODO
+     */
+    virtual Solution process_request (
+            Data request) = 0;
+};
+
+/**
  * TODO
  */
 template <typename Data, typename Solution>
@@ -59,15 +77,16 @@ public:
      * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
      * Thus, using multiple threads will cause desynchronization of messages received and locks.
      */
-    types::TaskId send_reply(
-            std::function<Solution(const Data&)> process_callback);
+    types::RpcRequestDataType<Data> get_request(
+            uint32_t timeout = 0);
+
+    void send_reply(
+            types::RpcReplyDataType<Solution> rpc_reply,
+            uint32_t timeout = 0);
 
 protected:
 
     types::TaskId new_task_id_();
-
-    // static eprosima::fastdds::dds::DataReaderQos default_request_availability_reader_qos_();
-    // static eprosima::fastdds::dds::DataReaderQos default_task_target_reader_qos_();
 
     TargetedReader<types::RpcRequestDataType<Data>> request_available_model_;
 

@@ -22,9 +22,12 @@
 #include <functional>
 
 #include <amlip_cpp/node/ParentNode.hpp>
+
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/model/ModelDataType.hpp>
 #include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
 
 // Forward declaration of dds classes
 namespace eprosima {
@@ -48,7 +51,7 @@ namespace node {
 /**
  * @brief TODO
  */
-class AMLIP_CPP_DllAPI ModelListener
+class ModelListener
 {
 public:
 
@@ -58,8 +61,14 @@ public:
     /**
      * TODO
      */
-    virtual void model_received (
-            const types::ModelDataType& model) const = 0;
+    virtual bool statistics_received (
+            const types::ModelStatisticsDataType statistics) = 0;
+
+    /**
+     * TODO
+     */
+    virtual bool model_received (
+            const types::ModelSolutionDataType model) = 0;
 };
 
 /**
@@ -70,7 +79,17 @@ class ModelManagerReceiverNode : public ParentNode
 public:
 
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
+            types::AmlipIdDataType id,
+            types::ModelDataType& data,
+            uint32_t domain_id);
+
+    AMLIP_CPP_DllAPI ModelManagerReceiverNode(
+            types::AmlipIdDataType id,
+            types::ModelDataType& data);
+
+    AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             const char* name,
+            types::ModelDataType& data,
             uint32_t domain_id);
 
     /**
@@ -79,7 +98,8 @@ public:
      * @param name name of the Node (it is advisable to be unique, or at least representative).
      */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
-            const char* name);
+            const char* name,
+            types::ModelDataType& data);
 
     /**
      * @brief Destroy the ModelManagerReceiverNode Node object
@@ -100,12 +120,14 @@ protected:
 
     std::thread receiving_thread_;
 
-    std::shared_ptr<dds::Reader<types::ModelDataType>> model_reader_;
+    std::shared_ptr<dds::Reader<types::ModelStatisticsDataType>> statistics_reader_;
 
-    std::shared_ptr<dds::RPCClient<types::ModelDataType, types::ModelSolutionDataType>> rpc_client_;
+    std::shared_ptr<dds::RPCClient<types::ModelDataType, types::ModelSolutionDataType>> model_reader_;
 
     //! Whether the Node is currently open to receive data or it is stopped.
-    std::atomic<bool> receiving_;
+    std::atomic<bool> running_;
+
+    types::ModelDataType data_;
 };
 
 } /* namespace node */

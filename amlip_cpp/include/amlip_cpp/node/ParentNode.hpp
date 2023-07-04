@@ -94,10 +94,26 @@ public:
 protected:
 
     AMLIP_CPP_DllAPI ParentNode(
-            const char* name,
+            types::AmlipIdDataType id,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id,
+            eprosima::fastdds::dds::DomainParticipantQos qos);
+
+    AMLIP_CPP_DllAPI ParentNode(
+            types::AmlipIdDataType id,
             types::NodeKind node_kind,
             types::StateKind initial_state,
             uint32_t domain_id);
+
+    AMLIP_CPP_DllAPI ParentNode(
+            types::AmlipIdDataType id,
+            types::NodeKind node_kind,
+            types::StateKind initial_state);
+
+    AMLIP_CPP_DllAPI ParentNode(
+            types::AmlipIdDataType id,
+            types::NodeKind node_kind);
 
     AMLIP_CPP_DllAPI ParentNode(
             const char* name,
@@ -105,6 +121,12 @@ protected:
             types::StateKind initial_state,
             uint32_t domain_id,
             eprosima::fastdds::dds::DomainParticipantQos qos);
+
+    AMLIP_CPP_DllAPI ParentNode(
+            const char* name,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id);
 
     AMLIP_CPP_DllAPI ParentNode(
             const char* name,

@@ -20,8 +20,10 @@
 #define AMLIPCPP__SRC_CPP_DDS_RPC_IMPL_RPCCLIENT_IPP
 
 #include <cpp_utils/Log.hpp>
+#include <cpp_utils/wait/WaitHandler.hpp>
 
 #include <dds/network_utils/dds_qos.hpp>
+#include <dds/network_utils/direct_write.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -33,14 +35,14 @@ RPCClient<Data, Solution>::RPCClient(
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : request_availability_model_(
-        topic,
+        "rpc_request_" + topic,
         dds_handler) // REQUEST_MODEL
     , reply_available_model_(
         own_id,
-        topic,
+        "rpc_reply_" + topic,
         dds_handler) // REPLY_MODEL
     , own_id_(own_id)
-    , topic_(topic)
+    , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
     , last_task_id_used_(0)
 {
 }
@@ -51,35 +53,81 @@ RPCClient<Data, Solution>::~RPCClient()
 }
 
 template <typename Data, typename Solution>
-Solution RPCClient<Data, Solution>::send_request(
+types::TaskId RPCClient<Data, Solution>::send_request(
         const Data& data,
-        types::AmlipIdDataType& server)
+        types::AmlipIdDataType server_id,
+        uint32_t timeout /* = 0 */)
 {
-    // SEND DATA
-    auto task_id = new_task_id_();
-    types::RpcRequestDataType<Data> data_(own_id_, task_id);
-    request_availability_model_.write(server, data_);
+    // REQUEST
+    types::TaskId task_id = new_task_id_();
+    types::RpcRequestDataType<Data> rpc_request(own_id_, task_id, server_id, data);
 
-    // WAIT FOR SOLUTION
-    logDebug(AMLIPCPP_DDS_RPCCLIENT, "Wait for model: " << server.name() << ".");
+    // Wait for matching
+    logDebug(AMLIPCPP_DDS_RPCCLIENT, "Wait match with Reader ID: " << server_id << ".");
+    eprosima::utils::event::AwakeReason reason = request_availability_model_.wait_match(server_id, timeout);
 
+    if (reason == eprosima::utils::event::AwakeReason::disabled)
+    {
+        logDebug(AMLIPCPP_DDS_RPCCLIENT, "ModelManager Node " << this << " finished processing data.");
+
+        // Break thread execution
+        return task_id;
+    }
+
+    // Wait a bit to let the reader do the match
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+
+    logDebug(AMLIPCPP_DDS_RPCCLIENT, "Matched with Reader. Seding data...");
+    // Send request
+    request_availability_model_.write(server_id, rpc_request);
+
+    return task_id;
+}
+
+template <typename Data, typename Solution>
+Solution RPCClient<Data, Solution>::get_reply(
+        types::TaskId task_id,
+        uint32_t timeout /* = 0 */)
+{
+    types::RpcReplyDataType<Solution> rpc_reply;
     while (true)
     {
-        reply_available_model_.wait_data_available();
+        // WAIT FOR SOLUTION
+        logDebug(AMLIPCPP_DDS_RPCCLIENT, "Waiting for reply in: " << own_id_ << ".");
 
-        // Get task reference
-        types::RpcReplyDataType<Solution> rpc_reply = reply_available_model_.read();
+        // REPLY
+        eprosima::utils::event::AwakeReason reason = reply_available_model_.wait_data_available(timeout);
 
-        // NOTE: it does not check the server, it can be assumed is the one we are waiting for
-        if (rpc_reply.task_id() == task_id &&
-                rpc_reply.client_id() == own_id_)
+        if (reason == eprosima::utils::event::AwakeReason::disabled)
         {
-            logDebug(AMLIPCPP_DDS_MSCLIENT, "Solution found for task: " << task_id << ".");
+            logDebug(AMLIPCPP_DDS_RPCCLIENT, "ModelManager Node " << this << " finished processing data.");
 
-            // Return the data so it is not copied but moved
-            return rpc_reply.data();
+            // Break thread execution
+            break;
+        }
+
+        try
+        {
+            // Read reply
+            logDebug(AMLIPCPP_DDS_RPCCLIENT, "Data received. Reading data...");
+            rpc_reply = reply_available_model_.read();
+
+            // NOTE: it does not check the server, it can be assumed is the one we are waiting for
+            if (rpc_reply.task_id() == task_id &&
+                    rpc_reply.client_id() == own_id_)
+            {
+                logDebug(AMLIPCPP_DDS_RPCCLIENT, "Solution found for task: " << task_id << ".");
+
+                break;
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << e.what() << std::endl;
         }
     }
+    // Return the data so it is not copied but moved
+    return rpc_reply.data();
 }
 
 template <typename Data, typename Solution>

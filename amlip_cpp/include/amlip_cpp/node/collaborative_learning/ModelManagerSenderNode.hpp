@@ -22,9 +22,12 @@
 #include <functional>
 
 #include <amlip_cpp/node/ParentNode.hpp>
+
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/model/ModelDataType.hpp>
 #include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
 
 // Forward declaration of dds classes
 namespace eprosima {
@@ -48,7 +51,7 @@ namespace node {
 /**
  * @brief TODO
  */
-class AMLIP_CPP_DllAPI ModelReplier
+class ModelReplier
 {
 public:
 
@@ -58,8 +61,8 @@ public:
     /**
      * TODO
      */
-    virtual void model_received (
-            const types::ModelSolutionDataType& model) const = 0;
+    virtual types::ModelSolutionDataType send_model (
+            const types::ModelDataType data) = 0;
 };
 
 /**
@@ -70,16 +73,13 @@ class ModelManagerSenderNode : public ParentNode
 public:
 
     AMLIP_CPP_DllAPI ModelManagerSenderNode(
-            const char* name,
+            types::AmlipIdDataType id,
+            types::ModelStatisticsDataType& statistics,
             uint32_t domain_id);
 
-    /**
-     * @brief Construct a new ModelManagerSenderNode Node object.
-     *
-     * @param name name of the Node (it is advisable to be unique, or at least representative).
-     */
     AMLIP_CPP_DllAPI ModelManagerSenderNode(
-            const char* name);
+            types::AmlipIdDataType id,
+            types::ModelStatisticsDataType& statistics);
 
     /**
      * @brief Destroy the ModelManagerSenderNode Node object
@@ -89,26 +89,25 @@ public:
     AMLIP_CPP_DllAPI ~ModelManagerSenderNode();
 
     void start(
-            std::shared_ptr<ModelReplier> replier);
+            std::shared_ptr<ModelReplier> model_replier);
 
     void stop();
-
-    void publish_model(
-            types::ModelDataType& model);
 
 protected:
 
     void process_routine_(
-            std::shared_ptr<ModelReplier> replier);
+            std::shared_ptr<ModelReplier> model_replier);
 
     std::thread sending_thread_;
 
-    std::shared_ptr<dds::Writer<types::ModelDataType>> model_writer_;
+    std::shared_ptr<dds::Writer<types::ModelStatisticsDataType>> statistics_writer_;
 
-    std::shared_ptr<dds::RPCServer<types::ModelDataType, types::ModelSolutionDataType>> rpc_server_;
+    std::shared_ptr<dds::RPCServer<types::ModelDataType, types::ModelSolutionDataType>> model_writer_;
 
     //! Whether the Node is currently open to receive data or it is stopped.
-    std::atomic<bool> sending_;
+    std::atomic<bool> running_;
+
+    types::ModelStatisticsDataType statistics_;
 };
 
 } /* namespace node */

@@ -115,12 +115,12 @@ public:
     /*!
      * TODO
      */
-    AmlipIdDataType server_id() const;
+    AmlipIdDataType client_id() const;
 
     /*!
      * TODO
      */
-    void server_id(
+    void client_id(
             const AmlipIdDataType& new_value);
 
     /*!
@@ -133,6 +133,17 @@ public:
      */
     void task_id(
             const TaskId& new_value);
+
+    /*!
+     * TODO
+     */
+    AmlipIdDataType server_id() const;
+
+    /*!
+     * TODO
+     */
+    void server_id(
+            const AmlipIdDataType& new_value);
 
     /////
     // InterfaceDataType methods
@@ -256,9 +267,11 @@ public:
 
 protected:
 
-    AmlipIdDataType server_id_;
+    AmlipIdDataType client_id_;
 
     TaskId task_id_;
+
+    AmlipIdDataType server_id_;
 
     static const char* DATA_TYPE_PREFIX_NAME_;
 
@@ -269,7 +282,7 @@ protected:
 template <typename T>
 std::ostream& operator <<(
         std::ostream& os,
-        const RpcReplyDataType<T>& request);
+        const RpcReplyDataType<T>& reply);
 
 } /* namespace types */
 } /* namespace amlip */

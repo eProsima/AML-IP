@@ -58,8 +58,9 @@ public:
      * TODO
      */
     RpcRequestDataType(
-            const AmlipIdDataType client_id,
+            const AmlipIdDataType& client_id,
             const TaskId& task_id,
+            const AmlipIdDataType& server_id,
             const T& data);
 
     /*!
@@ -137,6 +138,17 @@ public:
      */
     void task_id(
             const TaskId& new_value);
+
+    /*!
+     * TODO
+     */
+    AmlipIdDataType server_id() const;
+
+    /*!
+     * TODO
+     */
+    void server_id(
+            const AmlipIdDataType& new_value);
 
     /////
     // InterfaceDataType methods
@@ -263,6 +275,8 @@ protected:
     AmlipIdDataType client_id_;
 
     TaskId task_id_;
+
+    AmlipIdDataType server_id_;
 
     static const char* DATA_TYPE_PREFIX_NAME_; // "rpc_request"
 

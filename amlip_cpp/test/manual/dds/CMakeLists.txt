@@ -24,6 +24,8 @@ set(TEST_NAMES
         "directwriter"
         "msclient"
         "msserver"
+        "rpcclient"
+        "rpcserver"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})

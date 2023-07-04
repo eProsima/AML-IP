@@ -62,16 +62,18 @@ public:
      * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
      * Thus, using multiple threads will cause desynchronization of messages received and locks.
      */
-    Solution send_request(
+    types::TaskId send_request(
             const Data& data,
-            types::AmlipIdDataType& server);
+            types::AmlipIdDataType server,
+            uint32_t timeout = 0);
+
+    Solution get_reply(
+            types::TaskId task_id,
+            uint32_t timeout = 0);
 
 protected:
 
     types::TaskId new_task_id_();
-
-    //     static eprosima::fastdds::dds::DataWriterQos default_request_availability_writer_qos_();
-    //     static eprosima::fastdds::dds::DataWriterQos default_task_target_writer_qos_();
 
     DirectWriter<types::RpcRequestDataType<Data>> request_availability_model_;
 

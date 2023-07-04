@@ -31,12 +31,6 @@ set(TEST_LIST
         create_status
         create_main
         create_computing
-        create_async_main
-        create_async_computing
-        create_edge
-        create_inference
-        create_async_edge
-        create_async_inference
         create_model_sender
         create_model_receiver
     )

@@ -33,11 +33,13 @@ RpcRequestDataType<T>::RpcRequestDataType()
 
 template <typename T>
 RpcRequestDataType<T>::RpcRequestDataType(
-        const AmlipIdDataType client_id,
+        const AmlipIdDataType& client_id,
         const TaskId& task_id,
+        const AmlipIdDataType& server_id,
         const T& data)
     : client_id_(client_id)
     , task_id_(task_id)
+    , server_id_(server_id)
     , data_(data)
 {
 }
@@ -53,6 +55,8 @@ RpcRequestDataType<T>::RpcRequestDataType(
 {
     client_id_ = x.client_id_;
     task_id_ = x.task_id_;
+    server_id_ = x.server_id_;
+    data_ = x.data_;
 }
 
 template <typename T>
@@ -61,6 +65,8 @@ RpcRequestDataType<T>::RpcRequestDataType(
 {
     client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
+    server_id_ = std::move(x.server_id_);
+    data_ = std::move(x.data_);
 }
 
 template <typename T>
@@ -69,6 +75,8 @@ RpcRequestDataType<T>& RpcRequestDataType<T>::operator =(
 {
     client_id_ = x.client_id_;
     task_id_ = x.task_id_;
+    server_id_ = x.server_id_;
+    data_ = x.data_;
 
     return *this;
 }
@@ -79,6 +87,8 @@ RpcRequestDataType<T>& RpcRequestDataType<T>::operator =(
 {
     client_id_ = std::move(x.client_id_);
     task_id_ = std::move(x.task_id_);
+    server_id_ = std::move(x.server_id_);
+    data_ = std::move(x.data_);
 
     return *this;
 }
@@ -87,7 +97,7 @@ template <typename T>
 bool RpcRequestDataType<T>::operator ==(
         const RpcRequestDataType<T>& x) const
 {
-    return (client_id_ == x.client_id_ && task_id_ == x.task_id_);
+    return (server_id_ == x.server_id_ && task_id_ == x.task_id_ && client_id_ == x.client_id_ && data_ == x.data_);
 }
 
 template <typename T>
@@ -101,6 +111,14 @@ template <typename T>
 bool RpcRequestDataType<T>::operator <(
         const RpcRequestDataType<T>& x) const
 {
+    if (server_id_ < x.server_id_)
+    {
+        return true;
+    }
+    else if (x.server_id_ < server_id_)
+    {
+        return false;
+    }
     if (client_id_ < x.client_id_)
     {
         return true;
@@ -142,11 +160,25 @@ void RpcRequestDataType<T>::task_id(
 }
 
 template <typename T>
+AmlipIdDataType RpcRequestDataType<T>::server_id() const
+{
+    return server_id_;
+}
+
+template <typename T>
+void RpcRequestDataType<T>::server_id(
+        const AmlipIdDataType& new_value)
+{
+    server_id_ = new_value;
+}
+
+template <typename T>
 void RpcRequestDataType<T>::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
     scdr << client_id_;
     scdr << task_id_;
+    scdr << server_id_;
     scdr << data_;
 }
 
@@ -156,6 +188,7 @@ void RpcRequestDataType<T>::deserialize(
 {
     dcdr >> client_id_;
     dcdr >> task_id_;
+    dcdr >> server_id_;
     dcdr >> data_;
 }
 
@@ -173,6 +206,7 @@ size_t RpcRequestDataType<T>::get_max_cdr_serialized_size(
 
     current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
 
     current_alignment += T::get_max_cdr_serialized_size(current_alignment);
 
@@ -188,6 +222,7 @@ size_t RpcRequestDataType<T>::get_cdr_serialized_size(
 
     current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
 
     current_alignment += T::get_cdr_serialized_size(data.data(), current_alignment);
 

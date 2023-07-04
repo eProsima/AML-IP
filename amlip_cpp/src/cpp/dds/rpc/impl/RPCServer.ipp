@@ -22,6 +22,7 @@
 #include <cpp_utils/Log.hpp>
 
 #include <dds/network_utils/dds_qos.hpp>
+#include <dds/network_utils/direct_write.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -34,13 +35,13 @@ RPCServer<Data, Solution>::RPCServer(
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : request_available_model_(
         own_id,
-        topic,
+        "rpc_request_" + topic,
         dds_handler) // REQUEST_AVAILABILITY
     , reply_availability_model_(
-        topic,
+        "rpc_reply_" + topic,
         dds_handler) // REPLY_AVAILABLE
     , own_id_(own_id)
-    , topic_(topic)
+    , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
 {
 }
 
@@ -50,30 +51,61 @@ RPCServer<Data, Solution>::~RPCServer()
 }
 
 template <typename Data, typename Solution>
-types::TaskId RPCServer<Data, Solution>::send_reply(
-        std::function<Solution(const Data&)> process_callback)
+types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
+        uint32_t timeout /* = 0 */)
 {
-    // WAIT FOR TASK DATA
-    request_available_model_.wait_data_available();
-    types::RpcRequestDataType<Data> rpc_request = request_available_model_.read();
+    types::RpcRequestDataType<Data> rpc_request;
+    while (true)
+    {
+        // WAIT FOR REQUEST DATA
+        logDebug(AMLIPCPP_DDS_RPCSERVER, "Waiting for request in: " << own_id_ << ".");
+        eprosima::utils::event::AwakeReason reason = request_available_model_.wait_data_available(timeout);
 
+        if (reason == eprosima::utils::event::AwakeReason::disabled)
+        {
+            logDebug(AMLIPCPP_DDS_RPCSERVER, "ModelManager Node " << this << " finished processing data.");
 
-    // PROCESS DATA AND SEND SOLUTION
+            // Break thread execution
+            break;
+        }
 
-    // Process solution from callback
-    Solution solution = process_callback(rpc_request.data());
+        try
+        {
+            // Read request
+            logDebug(AMLIPCPP_DDS_RPCSERVER, "Data received. Reading data...");
+            rpc_request = request_available_model_.read();
+            break;
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+    }
+    return rpc_request;
+}
 
-    // Create solution data
-    types::RpcReplyDataType<Solution> rpc_solution(
-        rpc_request.client_id(),
-        rpc_request.task_id(),
-        own_id_,
-        std::move(solution));
+template <typename Data, typename Solution>
+void RPCServer<Data, Solution>::send_reply(
+        types::RpcReplyDataType<Solution> rpc_reply,
+        uint32_t timeout /* = 0 */)
+{
+    // Wait for matching
+    logDebug(AMLIPCPP_DDS_RPCSERVER, "Wait match with Reader ID: " << rpc_reply.client_id() << ".");
+
+    eprosima::utils::event::AwakeReason reason = reply_availability_model_.wait_match(rpc_reply.client_id(), timeout);
+
+    if (reason == eprosima::utils::event::AwakeReason::disabled)
+    {
+        logDebug(AMLIPCPP_DDS_RPCSERVER, "ModelManager Node " << this << " finished processing data.");
+
+        // Break thread execution
+        return;
+    }
 
     // Send solution
-    reply_availability_model_.write(rpc_request.client_id(), rpc_solution);
+    reply_availability_model_.write(rpc_reply.client_id(), rpc_reply);
 
-    return rpc_request.task_id();
+    logDebug(AMLIPCPP_DDS_RPCSERVER, "Direct Writer has sent message: " << rpc_reply.data() << ".");
 }
 
 template <typename Data, typename Solution>
@@ -81,7 +113,7 @@ std::ostream& operator <<(
         std::ostream& os,
         const RPCServer<Data, Solution>& obj)
 {
-    os << "RPCCLIENT{" << obj.own_id_ << ";" << obj.topic_ << "}";
+    os << "RPCSERVER{" << obj.own_id_ << ";" << obj.topic_ << "}";
     return os;
 }
 
