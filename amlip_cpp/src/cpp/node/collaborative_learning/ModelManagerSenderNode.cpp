@@ -32,7 +32,7 @@ namespace node {
 ModelManagerSenderNode::ModelManagerSenderNode(
         const char* name,
         uint32_t domain_id)
-    : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
+    : ParentNode(name, types::NodeKind::model_sender, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 name))
     , model_writer_(participant_->create_writer<types::ModelDataType>(
                 dds::utils::MODEL_TOPIC_NAME,

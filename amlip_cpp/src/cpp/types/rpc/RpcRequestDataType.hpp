@@ -264,7 +264,7 @@ protected:
 
     TaskId task_id_;
 
-    static const char* DATA_TYPE_NAME_; // "rpc_request"
+    static const char* DATA_TYPE_PREFIX_NAME_; // "rpc_request"
 
     T data_;
 

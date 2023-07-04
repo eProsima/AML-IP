@@ -172,7 +172,9 @@ size_t RpcReplyDataType<T>::get_max_cdr_serialized_size(
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += RpcReplyDataType::get_max_cdr_serialized_size(current_alignment);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
 
     current_alignment += T::get_max_cdr_serialized_size(current_alignment);
 
@@ -186,7 +188,9 @@ size_t RpcReplyDataType<T>::get_cdr_serialized_size(
 {
     size_t initial_alignment = current_alignment;
 
-    current_alignment += RpcReplyDataType::get_cdr_serialized_size(data, current_alignment);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
 
     current_alignment += T::get_cdr_serialized_size(data.data(), current_alignment);
 

@@ -34,7 +34,9 @@ ENUMERATION_BUILDER(
     status,
     meta,
     edge,
-    inference
+    inference,
+    model_receiver,
+    model_sender
     );
 
 } /* namespace types */

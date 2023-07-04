@@ -109,6 +109,8 @@ set(TEST_LIST
         create_targetedreader
         create_ms_client
         create_ms_server
+        create_rpc_client
+        create_rpc_server
     )
 
 set(TEST_EXTRA_LIBRARIES

@@ -24,7 +24,7 @@ namespace amlip {
 namespace types {
 
 template <typename T>
-const char* RpcRequestDataType<T>::DATA_TYPE_NAME_ = "rpc_request";
+const char* RpcRequestDataType<T>::DATA_TYPE_PREFIX_NAME_ = "rpc_request";
 
 template <typename T>
 RpcRequestDataType<T>::RpcRequestDataType()
@@ -174,16 +174,24 @@ size_t RpcRequestDataType<T>::get_max_cdr_serialized_size(
     current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
+    current_alignment += T::get_max_cdr_serialized_size(current_alignment);
+
     return current_alignment - initial_alignment;
 }
 
 template <typename T>
 size_t RpcRequestDataType<T>::get_cdr_serialized_size(
-        const RpcRequestDataType&,
+        const RpcRequestDataType& data,
         size_t current_alignment)
 {
-    // As the data type is plain, the max size and the size for a data is the same
-    return get_max_cdr_serialized_size(current_alignment);
+    size_t initial_alignment = current_alignment;
+
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+    current_alignment += T::get_cdr_serialized_size(data.data(), current_alignment);
+
+    return current_alignment - initial_alignment;
 }
 
 template <typename T>
@@ -202,27 +210,51 @@ bool RpcRequestDataType<T>::is_key_defined()
 template <typename T>
 bool RpcRequestDataType<T>::is_bounded()
 {
-    return true;
+    return T::is_bounded();
 }
 
 template <typename T>
 bool RpcRequestDataType<T>::is_plain()
 {
-    return true;
+    return T::is_plain();
 }
 
 template <typename T>
 bool RpcRequestDataType<T>::construct_sample(
         void* memory)
 {
-    new (memory) RpcRequestDataType();
-    return true;
+    if (!is_plain())
+    {
+        return false;
+    }
+    else
+    {
+        new (memory) RpcRequestDataType<T>();
+        return true;
+    }
 }
 
 template <typename T>
 std::string RpcRequestDataType<T>::type_name()
 {
-    return DATA_TYPE_NAME_;
+    // NOTE: there is no easy way to concatenate 2 const chars
+    std::string result(DATA_TYPE_PREFIX_NAME_);
+    result.append(T::type_name());
+
+    return result;
+}
+
+template <typename T>
+const T& RpcRequestDataType<T>::data() const
+{
+    return data_;
+}
+
+template <typename T>
+void RpcRequestDataType<T>::data(
+        T new_value)
+{
+    data_ = new_value;
 }
 
 template <typename T>

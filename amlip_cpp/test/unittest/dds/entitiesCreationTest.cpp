@@ -95,6 +95,28 @@ TEST(EntitiesCreationTest, create_ms_server)
             participant.create_multiservice_server<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
 }
 
+/**
+ * Create RPC Client
+ */
+TEST(EntitiesCreationTest, create_rpc_client)
+{
+    Participant participant(std::string("TestRpcClientParticipant"));
+
+    std::shared_ptr<RPCClient<types::AmlipIdDataType, types::AmlipIdDataType>>  entity_ =
+            participant.create_rpc_client<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+}
+
+/**
+ * Create RPC Server
+ */
+TEST(EntitiesCreationTest, create_rpc_server)
+{
+    Participant participant(std::string("TestRpcServerParticipant"));
+
+    std::shared_ptr<RPCServer<types::AmlipIdDataType, types::AmlipIdDataType>>  entity_ =
+            participant.create_rpc_server<types::AmlipIdDataType, types::AmlipIdDataType>("test_topic");
+}
+
 int main(
         int argc,
         char** argv)
