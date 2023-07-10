@@ -85,6 +85,10 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/job/JobSolutionDataType.i"
 %include "amlip_swig/types/inference/InferenceDataType.i"
 %include "amlip_swig/types/inference/InferenceSolutionDataType.i"
+%include "amlip_swig/types/model/ModelDataType.i"
+%include "amlip_swig/types/model/ModelSolutionDataType.i"
+%include "amlip_swig/types/model/ModelStatisticsDataType.i"
+
 // node
 %include "amlip_swig/node/ParentNode.i"
 %include "amlip_swig/node/StatusNode.i"
@@ -96,3 +100,5 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/node/AsyncEdgeNode.i"
 %include "amlip_swig/node/InferenceNode.i"
 %include "amlip_swig/node/AsyncInferenceNode.i"
+%include "amlip_swig/node/ModelManagerSenderNode.i"
+%include "amlip_swig/node/ModelManagerReceiverNode.i"
