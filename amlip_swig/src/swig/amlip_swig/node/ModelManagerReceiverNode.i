@@ -23,6 +23,8 @@
 // IMPORTANT: this statement must be before including the hpp
 %feature("director") eprosima::amlip::node::ModelListener;
 
+%shared_ptr(eprosima::amlip::node::ModelListener);
+
 %{
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 %}

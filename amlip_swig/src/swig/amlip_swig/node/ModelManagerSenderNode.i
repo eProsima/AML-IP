@@ -23,6 +23,8 @@
 // IMPORTANT: this statement must be before including the hpp
 %feature("director") eprosima::amlip::node::ModelReplier;
 
+%shared_ptr(eprosima::amlip::node::ModelReplier);
+
 %{
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 %}

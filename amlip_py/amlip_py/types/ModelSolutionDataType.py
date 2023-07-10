@@ -19,7 +19,8 @@ from amlip_swig import ModelSolutionDataType as cpp_ModelSolutionDataType
 
 class ModelSolutionDataType(cpp_ModelSolutionDataType):
     """
-    Object that represents a Model (reply) sent from a ModelManagerSender Node to a ModelManagerReceiver one.
+    Object that represents a Model (reply) sent from a ModelManagerSender
+    Node to a ModelManagerReceiver one.
     """
 
     def __init__(

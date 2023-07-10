@@ -25,6 +25,7 @@
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 
+
 class CustomModelListener : public eprosima::amlip::node::ModelListener
 {
 public:

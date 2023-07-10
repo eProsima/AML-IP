@@ -19,6 +19,10 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
+namespace std {
+   %template(rand_id) array<uint8_t, 4>;
+}
+
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;

@@ -18,3 +18,5 @@ import amlip_py.node.MainNode  # noqa: F401
 import amlip_py.node.StatusNode  # noqa: F401
 import amlip_py.node.AsyncMainNode  # noqa: F401
 import amlip_py.node.AsyncComputingNode  # noqa: F401
+import amlip_py.node.ModelManagerReceiverNode  # noqa: F401
+import amlip_py.node.ModelManagerSenderNode  # noqa: F401

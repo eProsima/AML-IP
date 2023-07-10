@@ -19,7 +19,8 @@ from amlip_swig import ModelDataType as cpp_ModelDataType
 
 class ModelDataType(cpp_ModelDataType):
     """
-    Object that represents a Model (request) sent from a ModelManagerReceiver Node to a ModelManagerSender one.
+    Object that represents a Model (request) sent from a ModelManagerReceiver
+    Node to a ModelManagerSender one.
     """
 
     def __init__(

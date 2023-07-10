@@ -15,12 +15,13 @@
 
 
 from amlip_swig import ModelStatisticsDataType as cpp_ModelStatisticsDataType
-import AmlipIdDataType
+from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 
 
 class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
     """
-    Object that represents a Model (request) sent from a ModelManagerReceiver Node to a ModelManagerSender one.
+    Object that represents a Model (request) sent from a ModelManagerReceiver
+    Node to a ModelManagerSender one.
     """
 
     def __init__(
@@ -40,12 +41,16 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
 
     def get_name(self) -> str:
         """Get name referenced to this Id."""
-        return cpp_ModelStatisticsDataType.name()
+        return cpp_ModelStatisticsDataType.name(self)
 
     def get_server_id(self) -> AmlipIdDataType:
         """Get server Id referenced to this Id."""
-        return cpp_ModelStatisticsDataType.server_id()
+        return cpp_ModelStatisticsDataType.server_id(self)
 
     def get_data(self):
         """Get data referenced to this Id."""
-        return cpp_ModelStatisticsDataType.data()
+        return cpp_ModelStatisticsDataType.data(self)
+
+    def set_data(self, data):
+        """Set data referenced to this Id."""
+        cpp_ModelStatisticsDataType.data(self, data)

@@ -19,6 +19,10 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
+namespace std {
+   %template(bytes) vector<uint8_t>;
+}
+
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
@@ -30,6 +34,8 @@
 
 %{
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+using ModelStatisticsDataType = eprosima::amlip::types::ModelStatisticsDataType;
 %}
 
 // Include the class interfaces

@@ -162,6 +162,7 @@ void ModelManagerReceiverNode::process_routine_(
         {
             std::cerr << e.what() << std::endl;
         }
+
     }
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Finishing ModelManagerSender routine.");
 }

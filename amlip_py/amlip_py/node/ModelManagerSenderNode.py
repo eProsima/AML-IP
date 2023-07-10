@@ -51,7 +51,9 @@ class ModelReplierLambda(cpp_ModelReplier):
     ModelDataType message received.
     """
 
-    def __init__(self, callback):
+    def __init__(
+            self,
+            callback):
         """Construct new object with lambda as callback."""
         self.callback_ = callback
         super().__init__()
@@ -93,7 +95,7 @@ class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
 
     def start(
             self,
-            callback = None,
+            callback=None,
             listener: ModelReplier = None):
 
         # Set listener by one given or creating one for callback
@@ -117,8 +119,12 @@ class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
         return cpp_ModelManagerSenderNode.start(self, self.listener_)
 
     def stop(
-            self,
-            ) -> None:
+            self) -> None:
 
         """Stop this entity if it is running. Do nothing otherwise."""
         return cpp_ModelManagerSenderNode.stop(self)
+
+    def get_id(
+            self) -> AmlipIdDataType:
+        """Get AMLIP id of the node."""
+        return cpp_ModelManagerSenderNode.id(self)

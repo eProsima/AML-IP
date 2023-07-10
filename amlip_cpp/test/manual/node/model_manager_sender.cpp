@@ -31,6 +31,7 @@
 
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 
+
 class CustomModelReplier : public eprosima::amlip::node::ModelReplier
 {
 public:
