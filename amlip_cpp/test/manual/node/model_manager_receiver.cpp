@@ -39,7 +39,6 @@ public:
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
         // Decide if we want the model based on the statistics received
-
         return true;
     }
 
@@ -61,7 +60,7 @@ int main(
         char** argv)
 {
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIPCPP_MANUAL_TEST,
             "Starting Manual Test Model Manager Receiver Node execution. Creating Node...");

@@ -31,9 +31,7 @@ namespace eprosima {
 namespace amlip {
 namespace dds {
 
-/**
- * TODO
- */
+
 template <typename Data, typename Solution>
 class RPCClient
 {
@@ -44,11 +42,21 @@ class RPCClient
 
 public:
 
+    /**
+     * @brief Construct a new RPCClient object.
+     *
+     * @param own_id Id of the Participant (associated with the Node it belongs to)
+     * @param topic Name of the topic
+     * @param dds_handler
+     */
     RPCClient(
             const types::AmlipIdDataType& own_id,
             const std::string& topic,
             eprosima::utils::LesseePtr<DdsHandler> dds_handler);
 
+    /**
+     * @brief Destroy the RPCClient object
+     */
     ~RPCClient();
 
     /**
@@ -56,17 +64,23 @@ public:
      *
      * @param data [in] Data to send in request
      * @param server [out] Id of the server that has answered the data
+     * @param timeout maximum wait time in milliseconds (0 = no wait)
      *
-     * @return Solution
-     *
-     * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
-     * Thus, using multiple threads will cause desynchronization of messages received and locks.
+     * @return TaskId
      */
     types::TaskId send_request(
             const Data& data,
             types::AmlipIdDataType server,
             uint32_t timeout = 0);
 
+    /**
+     * @brief
+     *
+     * @param task_id Id of the Task received
+     * @param timeout maximum wait time in milliseconds (0 = no wait)
+     *
+     * @return Solution
+     */
     Solution get_reply(
             types::TaskId task_id,
             uint32_t timeout = 0);

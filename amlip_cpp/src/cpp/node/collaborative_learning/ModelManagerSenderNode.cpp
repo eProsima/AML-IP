@@ -46,7 +46,6 @@ ModelManagerSenderNode::ModelManagerSenderNode(
     , statistics_(statistics)
 {
     statistics_.server_id(participant_->id());
-    // Participant ignore local enpoints
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Created new ModelManager Node: " << *this << ".");
 }
 
@@ -55,11 +54,12 @@ ModelManagerSenderNode::ModelManagerSenderNode(
         types::ModelStatisticsDataType& statistics)
     : ModelManagerSenderNode(id, statistics, dds::Participant::default_domain_id())
 {
+    // Do nothing
 }
 
 ModelManagerSenderNode::~ModelManagerSenderNode()
 {
-    logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Destroying ModelManager Node: " << *this << ".");
+    logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Destroying ModelManagerSender Node: " << *this << ".");
 
     // If the thread is running, stop it and join thread
     if (running_)
@@ -67,7 +67,7 @@ ModelManagerSenderNode::~ModelManagerSenderNode()
         stop();
     }
 
-    logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "ModelManager Node Destroyed.");
+    logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "ModelManagerSender Node Destroyed.");
 }
 
 void ModelManagerSenderNode::start(
@@ -88,7 +88,7 @@ void ModelManagerSenderNode::start(
     else
     {
         throw utils::InconsistencyException(
-                  STR_ENTRY << "ModelManager node " << this << " is already processing data.");
+                  STR_ENTRY << "ModelManagerSender node " << this << " is already processing data.");
     }
 }
 
@@ -112,7 +112,8 @@ void ModelManagerSenderNode::process_routine_(
 
         if (reason == utils::event::AwakeReason::disabled)
         {
-            logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "ModelManager Node " << *this << " finished processing data.");
+            logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER,
+                    "ModelManagerSender Node " << *this << " finished processing data.");
 
             // Break thread execution
             return;
@@ -129,12 +130,13 @@ void ModelManagerSenderNode::process_routine_(
             statistics_writer_->publish(statistics_);
 
             logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER,
-                    "ModelManager Node " << *this << " send statistics :" << statistics_ << ".");
+                    "ModelManagerSender Node " << *this << " send statistics :" << statistics_ << ".");
 
+            // Wait request
             types::RpcRequestDataType<types::ModelDataType> request =
                     model_writer_->get_request(dds::utils::WAIT_MS);
 
-            logDebug(AMLIPCPP_MANUAL_TEST, "Wait match with Reader ID: " << request.client_id() << ".");
+            // Call callback
             eprosima::amlip::types::ModelSolutionDataType solution = model_replier->send_model(request.data());
 
             types::RpcReplyDataType<types::ModelSolutionDataType> reply(
@@ -143,7 +145,7 @@ void ModelManagerSenderNode::process_routine_(
                 participant_->id(),
                 std::move(solution));
 
-            // Call callback to send model
+            // Send reply
             model_writer_->send_reply(reply, dds::utils::WAIT_MS);
         }
 

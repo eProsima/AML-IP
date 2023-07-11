@@ -30,9 +30,7 @@ namespace eprosima {
 namespace amlip {
 namespace dds {
 
-/**
- * @brief TODO
- */
+
 template <typename Data, typename Solution>
 class RequestReplier
 {
@@ -42,15 +40,17 @@ public:
     virtual ~RequestReplier() = default;
 
     /**
-     * @brief TODO
+     * @brief Method that will be called with the request message received to calculate a reply.
+     *
+     * @param request new request message received.
+     *
+     * @return Solution to the \c requets .
      */
     virtual Solution process_request (
             Data request) = 0;
 };
 
-/**
- * TODO
- */
+
 template <typename Data, typename Solution>
 class RPCServer
 {
@@ -61,25 +61,38 @@ class RPCServer
 
 public:
 
+    /**
+     * @brief Construct a new RPCServer object.
+     *
+     * @param own_id Id of the Participant (associated with the Node it belongs to)
+     * @param topic Name of the topic
+     * @param dds_handler
+     */
     RPCServer(
             const types::AmlipIdDataType& own_id,
             const std::string& topic,
             eprosima::utils::LesseePtr<DdsHandler> dds_handler);
 
+    /**
+     * @brief Destroy the RPCServer object
+     */
     ~RPCServer();
 
     /**
      * @brief
      *
-     * @param data
-     * @return Solution
+     * @param timeout maximum wait time in milliseconds (0 = no wait)
      *
-     * @warning This method is thought to use MS in only one thread. Multithreading synchronization is not implemented.
-     * Thus, using multiple threads will cause desynchronization of messages received and locks.
+     * @return RpcRequestDataType<Data>
      */
     types::RpcRequestDataType<Data> get_request(
             uint32_t timeout = 0);
 
+    /**
+     * @brief
+     *
+     * @param timeout maximum wait time in milliseconds (0 = no wait)
+     */
     void send_reply(
             types::RpcReplyDataType<Solution> rpc_reply,
             uint32_t timeout = 0);

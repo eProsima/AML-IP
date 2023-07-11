@@ -36,11 +36,11 @@ RPCClient<Data, Solution>::RPCClient(
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
     : request_availability_model_(
         "rpc_request_" + topic,
-        dds_handler) // REQUEST_MODEL
+        dds_handler) // REQUEST
     , reply_available_model_(
         own_id,
         "rpc_reply_" + topic,
-        dds_handler) // REPLY_MODEL
+        dds_handler) // REPLY
     , own_id_(own_id)
     , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
     , last_task_id_used_(0)
@@ -58,7 +58,7 @@ types::TaskId RPCClient<Data, Solution>::send_request(
         types::AmlipIdDataType server_id,
         uint32_t timeout /* = 0 */)
 {
-    // REQUEST
+    // Request
     types::TaskId task_id = new_task_id_();
     types::RpcRequestDataType<Data> rpc_request(own_id_, task_id, server_id, data);
 
@@ -76,8 +76,8 @@ types::TaskId RPCClient<Data, Solution>::send_request(
 
     // Wait a bit to let the reader do the match
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
-
     logDebug(AMLIPCPP_DDS_RPCCLIENT, "Matched with Reader. Seding data...");
+
     // Send request
     request_availability_model_.write(server_id, rpc_request);
 
@@ -92,10 +92,8 @@ Solution RPCClient<Data, Solution>::get_reply(
     types::RpcReplyDataType<Solution> rpc_reply;
     while (true)
     {
-        // WAIT FOR SOLUTION
+        // Wait for reply
         logDebug(AMLIPCPP_DDS_RPCCLIENT, "Waiting for reply in: " << own_id_ << ".");
-
-        // REPLY
         eprosima::utils::event::AwakeReason reason = reply_available_model_.wait_data_available(timeout);
 
         if (reason == eprosima::utils::event::AwakeReason::disabled)
@@ -126,7 +124,7 @@ Solution RPCClient<Data, Solution>::get_reply(
             std::cerr << e.what() << std::endl;
         }
     }
-    // Return the data so it is not copied but moved
+    // Return the data
     return rpc_reply.data();
 }
 

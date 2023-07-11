@@ -44,8 +44,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
     , running_(false)
     , data_(data)
 {
-    // Participant ignore local enpoints
-    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVERRECEIVER, "Created new ModelManagerReceiver Node: " << *this << ".");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Created new ModelManagerReceiver Node: " << *this << ".");
 }
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
@@ -53,6 +52,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::ModelDataType& data)
     : ModelManagerReceiverNode(id, data, dds::Participant::default_domain_id())
 {
+    // Do nothing
 }
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
@@ -61,6 +61,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
         uint32_t domain_id)
     : ModelManagerReceiverNode(types::AmlipIdDataType(name), data, domain_id)
 {
+    // Do nothing
 }
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
@@ -68,6 +69,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::ModelDataType& data)
     : ModelManagerReceiverNode(name, data, dds::Participant::default_domain_id())
 {
+    // Do nothing
 }
 
 ModelManagerReceiverNode::~ModelManagerReceiverNode()
@@ -80,7 +82,7 @@ ModelManagerReceiverNode::~ModelManagerReceiverNode()
         stop();
     }
 
-    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManager Node Destroyed.");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManagerReceiver Node Destroyed.");
 }
 
 void ModelManagerReceiverNode::start(
@@ -101,7 +103,7 @@ void ModelManagerReceiverNode::start(
     else
     {
         throw utils::InconsistencyException(
-                  STR_ENTRY << "ModelManager node " << this << " is already processing data.");
+                  STR_ENTRY << "ModelManagerReceiver node " << this << " is already processing data.");
     }
 }
 
@@ -126,29 +128,30 @@ void ModelManagerReceiverNode::process_routine_(
 
         if (reason == utils::event::AwakeReason::disabled)
         {
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManager Node " << *this << " finished processing data.");
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
+                    "ModelManagerReceiver Node " << *this << " finished processing data.");
             return;
 
             // Break thread execution
             return;
         }
 
-        // Read data
         eprosima::amlip::types::ModelStatisticsDataType statistics;
         try
         {
             // Read statistics
             logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
-
             statistics = statistics_reader_->read();
 
             logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
-                    "ModelManager Node " << *this << " read statistics :" << statistics << ".");
+                    "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
 
             if (listener->statistics_received(statistics))
             {
+                // Send request
                 types::TaskId task_id = model_reader_->send_request(data_, statistics.server_id(), dds::utils::WAIT_MS);
 
+                // Wait reply
                 eprosima::amlip::types::ModelSolutionDataType model = model_reader_->get_reply(task_id,
                                 dds::utils::WAIT_MS);
 

@@ -36,10 +36,10 @@ RPCServer<Data, Solution>::RPCServer(
     : request_available_model_(
         own_id,
         "rpc_request_" + topic,
-        dds_handler) // REQUEST_AVAILABILITY
+        dds_handler) // REQUEST
     , reply_availability_model_(
         "rpc_reply_" + topic,
-        dds_handler) // REPLY_AVAILABLE
+        dds_handler) // REPLY
     , own_id_(own_id)
     , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
 {
@@ -57,7 +57,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
     types::RpcRequestDataType<Data> rpc_request;
     while (true)
     {
-        // WAIT FOR REQUEST DATA
+        // Wait for request
         logDebug(AMLIPCPP_DDS_RPCSERVER, "Waiting for request in: " << own_id_ << ".");
         eprosima::utils::event::AwakeReason reason = request_available_model_.wait_data_available(timeout);
 
@@ -81,6 +81,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
             std::cerr << e.what() << std::endl;
         }
     }
+    // Return the request
     return rpc_request;
 }
 
@@ -91,7 +92,6 @@ void RPCServer<Data, Solution>::send_reply(
 {
     // Wait for matching
     logDebug(AMLIPCPP_DDS_RPCSERVER, "Wait match with Reader ID: " << rpc_reply.client_id() << ".");
-
     eprosima::utils::event::AwakeReason reason = reply_availability_model_.wait_match(rpc_reply.client_id(), timeout);
 
     if (reason == eprosima::utils::event::AwakeReason::disabled)
@@ -102,7 +102,11 @@ void RPCServer<Data, Solution>::send_reply(
         return;
     }
 
-    // Send solution
+    // Wait a bit to let the reader do the match
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    logDebug(AMLIPCPP_DDS_RPCSERVER, "Matched with Reader. Seding data...");
+
+    // Send reply
     reply_availability_model_.write(rpc_reply.client_id(), rpc_reply);
 
     logDebug(AMLIPCPP_DDS_RPCSERVER, "Direct Writer has sent message: " << rpc_reply.data() << ".");

@@ -49,7 +49,13 @@ namespace amlip {
 namespace node {
 
 /**
- * @brief TODO
+ * @brief Object that listens to:
+ *
+ *  - new ModelDataType messages received from a \c ModelManagerReceiverNode and executes a callback.
+ *
+ * This class is supposed to be implemented by a User and be given to a \c ModelManagerSenderNode in order to process
+ * the messages received from other Nodes in the network.
+ * When data is received, \c send_model is called and it is expected to return a Model Solution for such data.
  */
 class ModelReplier
 {
@@ -59,24 +65,40 @@ public:
     virtual ~ModelReplier() = default;
 
     /**
-     * TODO
+     * @brief Method that will be called with each ModelSolutionDataType message received to calculate an answer.
+     *
+     * @param status new ModelSolutionDataType message received.
      */
     virtual types::ModelSolutionDataType send_model (
             const types::ModelDataType data) = 0;
 };
 
 /**
- * TODO
+ * @brief This  is a specialisation of the AML-IP node that sends
+ * statistical data from models and receives requests to those models.
  */
 class ModelManagerSenderNode : public ParentNode
 {
 public:
 
+    /**
+     * @brief Construct a new ModelManagerReceiverNode Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param statistics statistical data from models
+     * @param domain_id DomainId of the DDS DomainParticipant
+     */
     AMLIP_CPP_DllAPI ModelManagerSenderNode(
             types::AmlipIdDataType id,
             types::ModelStatisticsDataType& statistics,
             uint32_t domain_id);
 
+    /**
+     * @brief Construct a new ModelManagerReceiverNode Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param statistics statistical data from models
+     */
     AMLIP_CPP_DllAPI ModelManagerSenderNode(
             types::AmlipIdDataType id,
             types::ModelStatisticsDataType& statistics);
@@ -88,20 +110,51 @@ public:
      */
     AMLIP_CPP_DllAPI ~ModelManagerSenderNode();
 
+    /**
+     * @brief Process model replies
+     *
+     * @throw if node is already running.
+     */
     void start(
             std::shared_ptr<ModelReplier> model_replier);
 
+    /**
+     * @brief Stop processing data.
+     *
+     * If not processing data, do nothing.
+     */
     void stop();
 
 protected:
 
+    /**
+     * @brief Routine to be processed that read messages when available and call listener functions.
+     *
+     * Function to run from a thread.
+     * It waits in \c statistics_writer_ to have messages matched.
+     *
+     * @param model_replier listener to call
+     */
     void process_routine_(
             std::shared_ptr<ModelReplier> model_replier);
 
+    /**
+     * @brief Thread that waits for new data to be available.
+     */
     std::thread sending_thread_;
 
+    /**
+     * @brief Reference to the Writer that writes statistics.
+     *
+     * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
+     */
     std::shared_ptr<dds::Writer<types::ModelStatisticsDataType>> statistics_writer_;
 
+    /**
+     * @brief Reference to the RPC Server that sends replies.
+     *
+     * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
+     */
     std::shared_ptr<dds::RPCServer<types::ModelDataType, types::ModelSolutionDataType>> model_writer_;
 
     //! Whether the Node is currently open to receive data or it is stopped.

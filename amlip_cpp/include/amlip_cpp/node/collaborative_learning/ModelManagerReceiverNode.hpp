@@ -49,7 +49,13 @@ namespace amlip {
 namespace node {
 
 /**
- * @brief TODO
+ * @brief Object that listens to:
+ *
+ *  - new ModelStatisticsDataType messages received from a \c ModelManagerSenderNode and executes a callback.
+ *  - new ModelSolutionDataType messages received from a \c ModelManagerSenderNode and executes a callback.
+ *
+ * This class is supposed to be implemented by a User and be given to a \c ModelManagerReceiverNode in order to process
+ * the messages received from other Nodes in the network.
  */
 class ModelListener
 {
@@ -59,34 +65,60 @@ public:
     virtual ~ModelListener() = default;
 
     /**
-     * TODO
+     * @brief Method that will be called with each ModelStatisticsDataType message received
+     *
+     * @param status new ModelStatisticsDataType message received.
      */
     virtual bool statistics_received (
             const types::ModelStatisticsDataType statistics) = 0;
 
     /**
-     * TODO
+     * @brief Method that will be called with each ModelSolutionDataType message received
+     *
+     * @param status new ModelSolutionDataType message received.
      */
     virtual bool model_received (
             const types::ModelSolutionDataType model) = 0;
 };
 
 /**
- * TODO
+ * @brief This  is a specialisation of the AML-IP node that receives
+ * statistical data from models and sends requests to those models
+ * depending on the data received.
  */
 class ModelManagerReceiverNode : public ParentNode
 {
 public:
 
+    /**
+     * @brief Construct a new ModelManagerReceiverNode Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param data
+     * @param domain_id DomainId of the DDS DomainParticipant
+     */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             types::AmlipIdDataType id,
             types::ModelDataType& data,
             uint32_t domain_id);
 
+    /**
+     * @brief Construct a new ModelManagerReceiverNode Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param data
+     */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             types::AmlipIdDataType id,
             types::ModelDataType& data);
 
+    /**
+     * @brief Construct a new ModelManagerReceiverNode Node object.
+     *
+     * @param name name of the Node (it is advisable to be unique, or at least representative).
+     * @param data
+     * @param domain_id DomainId of the DDS DomainParticipant
+     */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             const char* name,
             types::ModelDataType& data,
@@ -96,6 +128,7 @@ public:
      * @brief Construct a new ModelManagerReceiverNode Node object.
      *
      * @param name name of the Node (it is advisable to be unique, or at least representative).
+     * @param data
      */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             const char* name,
@@ -108,20 +141,51 @@ public:
      */
     AMLIP_CPP_DllAPI ~ModelManagerReceiverNode();
 
+    /**
+     * @brief Process model requests
+     *
+     * @throw if node is already running.
+     */
     void start(
             std::shared_ptr<ModelListener> listener);
 
+    /**
+     * @brief Stop processing data.
+     *
+     * If not processing data, do nothing.
+     */
     void stop();
 
 protected:
 
+    /**
+     * @brief Routine to be processed that read messages when available and call listener functions.
+     *
+     * Function to run from a thread.
+     * It waits in \c statistics_reader_ to have messages to read.
+     *
+     * @param listener listener to call
+     */
     void process_routine_(
             std::shared_ptr<ModelListener> listener);
 
+    /**
+     * @brief Thread that waits for new data to be available.
+     */
     std::thread receiving_thread_;
 
+    /**
+     * @brief Reference to the Reader that reads statistics.
+     *
+     * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
+     */
     std::shared_ptr<dds::Reader<types::ModelStatisticsDataType>> statistics_reader_;
 
+    /**
+     * @brief Reference to the RPC Client that sends request.
+     *
+     * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
+     */
     std::shared_ptr<dds::RPCClient<types::ModelDataType, types::ModelSolutionDataType>> model_reader_;
 
     //! Whether the Node is currently open to receive data or it is stopped.

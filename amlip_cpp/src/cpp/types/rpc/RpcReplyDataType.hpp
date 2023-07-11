@@ -39,9 +39,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-/**
- * TODO
- */
+
 template <typename T>
 class RpcReplyDataType : public InterfaceDataType
 {
@@ -50,8 +48,20 @@ class RpcReplyDataType : public InterfaceDataType
 
 public:
 
+    /**
+     * @brief Default constructor.
+     */
     RpcReplyDataType();
 
+    /**
+     * @brief Construct a new RpcReplyDataType object.
+     *
+     * @param client_id Id of the Participant (associated with the RPC Client)
+     * @param task_id Id of the task
+     * @param server_id Id of the Participant (associated with the RPC Server)
+     * @param data
+     *
+     */
     RpcReplyDataType(
             const AmlipIdDataType& client_id,
             const TaskId& task_id,
@@ -113,34 +123,37 @@ public:
             const RpcReplyDataType& x) const;
 
     /*!
-     * TODO
+     * @brief Return value of attribute \c client_id_
      */
     AmlipIdDataType client_id() const;
 
     /*!
-     * TODO
+     * @brief This function copies the value in member \c client_id_
+     * @param new_value New value to be copied in member id \c client_id_
      */
     void client_id(
             const AmlipIdDataType& new_value);
 
     /*!
-     * TODO
+     * @brief Return value of attribute \c task_id_
      */
     TaskId task_id() const;
 
     /*!
-     * TODO
+     * @brief This function copies the value in member \c task_id_
+     * @param new_value New value to be copied in member id \c task_id_
      */
     void task_id(
             const TaskId& new_value);
 
     /*!
-     * TODO
+     * @brief Return value of attribute \c server_id_
      */
     AmlipIdDataType server_id() const;
 
     /*!
-     * TODO
+     * @brief This function copies the value in member \c server_id_
+     * @param new_value New value to be copied in member id \c server_id_
      */
     void server_id(
             const AmlipIdDataType& new_value);
@@ -260,8 +273,15 @@ public:
      */
     static std::string type_name();
 
+    /*!
+     * @brief Return value of attribute \c data_
+     */
     const T& data() const;
 
+    /*!
+     * @brief This function copies the value in member \c data_
+     * @param new_value New value to be copied in member id \c data_
+     */
     void data(
             T new_value);
 

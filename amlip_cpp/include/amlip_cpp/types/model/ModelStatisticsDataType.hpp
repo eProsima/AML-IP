@@ -133,8 +133,8 @@ public:
     AMLIP_CPP_DllAPI AmlipIdDataType server_id() const;
 
     /*!
-     * @brief This function copies the value in member \c rand_id_
-     * @param id New value to be copied in member id \c rand_id_
+     * @brief This function copies the value in member \c id_
+     * @param id New value to be copied in member id \c id_
      */
     AMLIP_CPP_DllAPI void server_id(
             const AmlipIdDataType& id);
@@ -145,26 +145,30 @@ public:
     AMLIP_CPP_DllAPI void* data() const;
 
     /*!
-     * @brief
+     * @brief This function copies the value in member \c data_
+     * @param bytes New value to be copied in member id \c data_
      */
     AMLIP_CPP_DllAPI void data(
             const std::vector<ByteType>& bytes);
 
     /*!
-     * @brief
+     * @brief This function copies the value in member \c data_
+     * @param bytes New value to be copied in member id \c data_
      */
     AMLIP_CPP_DllAPI void data(
             const std::string& bytes);
 
     /*!
-     * @brief
+     * @brief This function copies the value in member \c data_
+     * @param data New value to be copied in member id \c data_
+     * @param size New value to be copied in member id \c data_size_
      */
     AMLIP_CPP_DllAPI void data(
             void* data,
             const uint32_t size);
 
     /*!
-     * @brief Return value of attribute \c data__size_
+     * @brief Return value of attribute \c data_size_
      */
     AMLIP_CPP_DllAPI uint32_t data_size() const;
 

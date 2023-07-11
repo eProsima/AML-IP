@@ -24,6 +24,7 @@ namespace amlip {
 namespace dds {
 namespace utils {
 
+//! Maximum number of wait time in milliseconds (0 = no wait)
 constexpr const uint32_t WAIT_MS = 2000;
 
 } /* namespace utils */

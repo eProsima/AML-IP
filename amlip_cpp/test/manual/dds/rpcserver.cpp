@@ -73,7 +73,7 @@ int main(
 
         logUser(AMLIPCPP_MANUAL_TEST, "Created Participant: " << participant << ". Creating Server...");
 
-        // Create Server
+        // Create RPC Server
         std::shared_ptr<
             eprosima::amlip::dds::RPCServer<eprosima::amlip::types::AmlipIdDataType,
             eprosima::amlip::types::AmlipIdDataType>> server =
@@ -86,18 +86,22 @@ int main(
         std::shared_ptr<CustomRequestReplier> replier =
                 std::make_shared<CustomRequestReplier>();
 
+        // Wait request from client
         eprosima::amlip::types::RpcRequestDataType<eprosima::amlip::types::AmlipIdDataType> rpc_request =
                 server->get_request(eprosima::amlip::dds::utils::WAIT_MS);
 
+        // Calculate solution from data received from client
         eprosima::amlip::types::AmlipIdDataType rpc_solution =
                 replier->process_request(rpc_request.data());
 
+        // Create reply
         eprosima::amlip::types::RpcReplyDataType<eprosima::amlip::types::AmlipIdDataType> rpc_reply(
             rpc_request.client_id(),
             rpc_request.task_id(),
             participant.id(),
             std::move(rpc_solution));
 
+        // Send reply to client
         server->send_reply(rpc_reply, eprosima::amlip::dds::utils::WAIT_MS);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Server has processed model.");
