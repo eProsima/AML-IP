@@ -33,7 +33,11 @@ So far, the interaction with this class could be done from a :code:`void*`, a by
 Model Solution Data Type
 ========================
 
+<<<<<<< HEAD
 The **Solution** Data Type represents a problem reply with the requested model.
+=======
+The **Solution** Data Type represents a problem reply with a more complex and accurate model.
+>>>>>>> 00af3fa (Add scenario)
 The *replies* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a bytes array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 
@@ -48,7 +52,11 @@ So far, the interaction with this class could be done from a :code:`void*`, a by
 Model Statistics Data Type
 ==========================
 
+<<<<<<< HEAD
 The **Statistics** Data Type represents the statistics of models, such as their number of parameters or the datasets they were trained on.
+=======
+The **Statistics** Data Type represents the statistics of a model, such as the weights or the dataset.
+>>>>>>> 00af3fa (Add scenario)
 The *messages* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a bytes array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 
