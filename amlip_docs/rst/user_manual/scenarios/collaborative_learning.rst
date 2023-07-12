@@ -14,6 +14,7 @@ It uses the :ref:`user_manual_dds_rpc` communication to publish those problems i
 
 .. figure:: /rst/figures/collaborative_learning_scenario.png
     :align: center
+    :width: 75%
 
 .. _user_manual_scenarios_collaborative_learning_model:
 

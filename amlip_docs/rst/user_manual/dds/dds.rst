@@ -51,4 +51,10 @@ server that is publicly available, and each server receives no more than one tas
 RPC
 ---
 
-TODO
+The Remote Procedure Call based on DDS has been implemented to meet the need to distribute models across a network.
+
+The following diagram illustrates the flow of the implementation:
+
+.. figure:: /rst/figures/rpc_diagram.png
+    :align: center
+    :width: 100%
