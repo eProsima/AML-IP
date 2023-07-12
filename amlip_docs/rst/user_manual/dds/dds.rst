@@ -45,3 +45,10 @@ The idea is a Service protocol based on Client-Server communication where multip
 the same time in the same network.
 This protocol creates an auto-regulated orchestration method where a task could be distributed to **one and only one**
 server that is publicly available, and each server receives no more than one task at a time.
+
+.. _user_manual_dds_rpc:
+
+RPC
+---
+
+TODO
