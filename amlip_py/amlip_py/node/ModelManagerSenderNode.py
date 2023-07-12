@@ -68,8 +68,6 @@ class ModelReplierLambda(cpp_ModelReplier):
 class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
     """
     AML-IP Model Manager Sender Node.
-
-    TODO
     """
 
     def __init__(

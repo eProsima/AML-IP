@@ -45,6 +45,7 @@ def model_received(
 def main():
     """Execute main routine."""
 
+    # Create request
     data = ModelDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
@@ -57,7 +58,6 @@ def main():
         data=data,
         domain=DOMAIN_ID)
 
-    # Create job data
     print(f'Node created: {model_receiver_node.get_id()}. '
           'Already processing jobs.')
 
@@ -65,7 +65,7 @@ def main():
         callback_statistics=statistics_received,
         callback_model=model_received)
 
-    # Wait to received solution
+    # Wait for reply
     waiter.wait()
 
     model_receiver_node.stop()

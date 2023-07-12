@@ -28,7 +28,7 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
             self,
             message: (str | bytes) = None):
         """
-        Construct a new Model Statistics with name.
+        Construct a new Model Statistics with statistics.
         Parameters
         ----------
         message: str or bytes

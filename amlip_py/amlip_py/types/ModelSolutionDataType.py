@@ -27,7 +27,7 @@ class ModelSolutionDataType(cpp_ModelSolutionDataType):
             self,
             message: (str | bytes) = None):
         """
-        Construct a new Model reply with name.
+        Construct a new Model reply with data.
         Parameters
         ----------
         message: str or bytes

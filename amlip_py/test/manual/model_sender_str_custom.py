@@ -45,11 +45,11 @@ class CustomModelReplier(ModelReplier):
 def main():
     """Execute main routine."""
 
+    # Create statistics data
     statistics_data = ModelStatisticsDataType('ModelManagerSenderStatistics')
     statistics_data.set_data('hello world')
 
     id = AmlipIdDataType('ModelManagerSender')
-
     id.set_id([66, 66, 66, 66])
 
     # Create node
@@ -59,7 +59,6 @@ def main():
         statistics=statistics_data,
         domain=DOMAIN_ID)
 
-    # Create job data
     print(f'Node created: {model_sender_node.get_id()}. '
           'Already processing models.')
 

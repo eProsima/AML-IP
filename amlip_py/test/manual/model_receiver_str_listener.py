@@ -45,6 +45,7 @@ def model_received(
 def main():
     """Execute main routine."""
 
+    # Create request
     data = ModelDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
@@ -57,19 +58,18 @@ def main():
         data=data,
         domain=DOMAIN_ID)
 
-    # Create job data
     print(f'Node created: {model_receiver_node.get_id()}. '
           'Already processing jobs.')
 
     model_receiver_node.start(
         listener=ModelListenerLambda(statistics_received, model_received))
 
-    # Wait to received solution
+    # Wait for reply
     waiter.wait()
 
     model_receiver_node.stop()
 
-    print('Finishing Manual Test Model Manager Sender Node Py execution.')
+    print('Finishing Manual Test Model Manager Receiver Node Py execution.')
 
 
 # Call main in program execution

@@ -42,6 +42,7 @@ def send_model(
 def main():
     """Execute main routine."""
 
+    # Create statistics data
     statistics_data = ModelStatisticsDataType('ModelManagerSenderStatistics')
     statistics_data.set_data('hello world')
 
@@ -55,7 +56,6 @@ def main():
         statistics=statistics_data,
         domain=DOMAIN_ID)
 
-    # Create job data
     print(f'Node created: {model_sender_node.get_id()}. '
           'Already processing models.')
 

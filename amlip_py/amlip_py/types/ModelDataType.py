@@ -27,7 +27,7 @@ class ModelDataType(cpp_ModelDataType):
             self,
             message: (str | bytes) = None):
         """
-        Construct a new Model request with name.
+        Construct a new Model request with data.
         Parameters
         ----------
         message: str or bytes
