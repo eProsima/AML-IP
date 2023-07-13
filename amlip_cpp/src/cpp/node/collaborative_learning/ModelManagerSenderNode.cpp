@@ -68,7 +68,7 @@ ModelManagerSenderNode::~ModelManagerSenderNode()
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "ModelManagerSender Node Destroyed.");
 }
 
-void ModelManagerSenderNode::statistics(
+void ModelManagerSenderNode::update_statistics(
         const std::string& name,
         void* data,
         const uint32_t size)

@@ -128,14 +128,18 @@ void ModelManagerReceiverNode::process_routine_(
         eprosima::amlip::types::ModelStatisticsDataType statistics;
         try
         {
-            // Read statistics
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
-            statistics = statistics_reader_->read();
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Waiting for statistics...");
+            statistics_reader_->wait_data_available();
 
             if (!running_)
             {
                 break;
             }
+
+            // Read statistics
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
+            statistics = statistics_reader_->read();
+
 
             logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
                     "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");

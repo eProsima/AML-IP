@@ -125,7 +125,7 @@ TEST(modelManagerTest, ping_pong)
     // Create statistics data
     void* data_void = eprosima::utils::copy_to_void_ptr(eprosima::utils::cast_to_void_ptr(data_str.c_str()),
                     data_str.length());
-    model_sender_node.statistics("v0", data_void, data_str.length());
+    model_sender_node.update_statistics("v0", data_void, data_str.length());
 
     // Create waiter
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =

@@ -79,7 +79,7 @@ int main(
         std::string data = "hello world";
         void* data_void = eprosima::utils::copy_to_void_ptr(eprosima::utils::cast_to_void_ptr(data.c_str()),
                         data.length());
-        model_sender_node.statistics("v0", data_void, data.length());
+        model_sender_node.update_statistics("v0", data_void, data.length());
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_sender_node << ". Creating model...");
 

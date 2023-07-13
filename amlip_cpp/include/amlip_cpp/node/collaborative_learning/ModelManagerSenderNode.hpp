@@ -114,7 +114,7 @@ public:
      * @param name New value to be copied in member id \c statistics_.name_
      * @param data New value to be copied in member id \c statistics_.data_
      */
-    void statistics(
+    void update_statistics(
             const std::string& name,
             void* data,
             const uint32_t size);
