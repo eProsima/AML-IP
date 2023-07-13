@@ -18,6 +18,7 @@
 
 #ifndef AMLIPCPP__SRC_CPP_DDS_RPC_RPCSERVER_HPP
 #define AMLIPCPP__SRC_CPP_DDS_RPC_RPCSERVER_HPP
+
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/TargetedReader.hpp>
@@ -79,6 +80,12 @@ public:
     ~RPCServer();
 
     /**
+     * @brief Disable \c request_reader_ object.
+     *
+     */
+    void stop();
+
+    /**
      * @brief
      *
      * @param timeout maximum wait time in milliseconds (0 = no wait)
@@ -99,11 +106,14 @@ public:
 
 protected:
 
+    static eprosima::fastdds::dds::DataWriterQos default_rpc_datawriter_qos();
+    static eprosima::fastdds::dds::DataReaderQos default_rpc_datareader_qos();
+
     types::TaskId new_task_id_();
 
-    TargetedReader<types::RpcRequestDataType<Data>> request_available_model_;
+    TargetedReader<types::RpcRequestDataType<Data>> request_reader_;
 
-    DirectWriter<types::RpcReplyDataType<Solution>> reply_availability_model_;
+    DirectWriter<types::RpcReplyDataType<Solution>> reply_writer_;
 
     types::AmlipIdDataType own_id_;
 

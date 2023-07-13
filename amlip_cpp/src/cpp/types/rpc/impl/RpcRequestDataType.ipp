@@ -28,6 +28,7 @@ const char* RpcRequestDataType<T>::DATA_TYPE_PREFIX_NAME_ = "rpc_request";
 
 template <typename T>
 RpcRequestDataType<T>::RpcRequestDataType()
+    : task_id_(0)
 {
 }
 

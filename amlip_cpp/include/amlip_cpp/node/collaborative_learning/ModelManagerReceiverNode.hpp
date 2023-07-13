@@ -21,6 +21,8 @@
 
 #include <functional>
 
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
+
 #include <amlip_cpp/node/ParentNode.hpp>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
@@ -67,7 +69,7 @@ public:
     /**
      * @brief Method that will be called with each ModelStatisticsDataType message received
      *
-     * @param status new ModelStatisticsDataType message received.
+     * @param statistics new ModelStatisticsDataType message received.
      */
     virtual bool statistics_received (
             const types::ModelStatisticsDataType statistics) = 0;
@@ -75,7 +77,7 @@ public:
     /**
      * @brief Method that will be called with each ModelSolutionDataType message received
      *
-     * @param status new ModelSolutionDataType message received.
+     * @param model new ModelSolutionDataType message received.
      */
     virtual bool model_received (
             const types::ModelSolutionDataType model) = 0;
@@ -144,7 +146,7 @@ public:
     /**
      * @brief Process model requests
      *
-     * @throw if node is already running.
+     * @throw InconsistencyException if node is already running.
      */
     void start(
             std::shared_ptr<ModelListener> listener);
@@ -157,6 +159,8 @@ public:
     void stop();
 
 protected:
+
+    static eprosima::fastdds::dds::DataReaderQos default_statistics_datareader_qos();
 
     /**
      * @brief Routine to be processed that read messages when available and call listener functions.
@@ -186,11 +190,12 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::RPCClient<types::ModelDataType, types::ModelSolutionDataType>> model_reader_;
+    std::shared_ptr<dds::RPCClient<types::ModelDataType, types::ModelSolutionDataType>> model_receiver_;
 
     //! Whether the Node is currently open to receive data or it is stopped.
     std::atomic<bool> running_;
 
+    //! Data to request to ModelManagerSenderNode.
     types::ModelDataType data_;
 };
 

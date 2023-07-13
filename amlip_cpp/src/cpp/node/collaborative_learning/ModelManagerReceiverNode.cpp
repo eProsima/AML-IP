@@ -37,8 +37,9 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
     : ParentNode(id, types::NodeKind::model_receiver, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 id.name().c_str()))
     , statistics_reader_(participant_->create_reader<types::ModelStatisticsDataType>(
-                dds::utils::MODEL_STATISTICS_TOPIC_NAME))
-    , model_reader_(
+                dds::utils::MODEL_STATISTICS_TOPIC_NAME,
+                default_statistics_datareader_qos()))
+    , model_receiver_(
         participant_->create_rpc_client<types::ModelDataType,
         types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
@@ -111,7 +112,8 @@ void ModelManagerReceiverNode::stop()
 {
     if (running_.exchange(false))
     {
-        statistics_reader_->awake_waiting_threads(); // This must awake thread and it must finish
+        statistics_reader_->stop(); // This must awake thread and it must finish
+        model_receiver_->stop();
         receiving_thread_.join();
 
         change_status_(types::StateKind::stopped);
@@ -123,19 +125,6 @@ void ModelManagerReceiverNode::process_routine_(
 {
     while (running_)
     {
-        // Wait for data
-        utils::event::AwakeReason reason = statistics_reader_->wait_data_available(dds::utils::WAIT_MS);
-
-        if (reason == utils::event::AwakeReason::disabled)
-        {
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
-                    "ModelManagerReceiver Node " << *this << " finished processing data.");
-            return;
-
-            // Break thread execution
-            return;
-        }
-
         eprosima::amlip::types::ModelStatisticsDataType statistics;
         try
         {
@@ -143,17 +132,21 @@ void ModelManagerReceiverNode::process_routine_(
             logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
             statistics = statistics_reader_->read();
 
+            if (!running_)
+            {
+                break;
+            }
+
             logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
                     "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
 
             if (listener->statistics_received(statistics))
             {
                 // Send request
-                types::TaskId task_id = model_reader_->send_request(data_, statistics.server_id(), dds::utils::WAIT_MS);
+                types::TaskId task_id = model_receiver_->send_request(data_, statistics.server_id());
 
                 // Wait reply
-                eprosima::amlip::types::ModelSolutionDataType model = model_reader_->get_reply(task_id,
-                                dds::utils::WAIT_MS);
+                eprosima::amlip::types::ModelSolutionDataType model = model_receiver_->get_reply(task_id);
 
                 // Call callback
                 listener->model_received(model);
@@ -166,6 +159,19 @@ void ModelManagerReceiverNode::process_routine_(
             std::cerr << e.what() << std::endl;
         }
     }
+    logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Finishing ModelManagerSender routine.");
+}
+
+eprosima::fastdds::dds::DataReaderQos ModelManagerReceiverNode::default_statistics_datareader_qos()
+{
+    eprosima::fastdds::dds::DataReaderQos qos;
+
+    qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
+    qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
+    qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
+    qos.history().depth = 1;
+
+    return qos;
 }
 
 } /* namespace node */

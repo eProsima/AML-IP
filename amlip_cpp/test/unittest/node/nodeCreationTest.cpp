@@ -165,9 +165,8 @@ TEST(NodeCreationTest, create_model_sender)
 {
     // Create statistics data
     eprosima::amlip::types::AmlipIdDataType id({"TestNode"}, {66, 11, 77, 44});
-    eprosima::amlip::types::ModelStatisticsDataType statistics_data("TestNodeStatistics");
 
-    node::ModelManagerSenderNode node(id, statistics_data);
+    node::ModelManagerSenderNode node(id);
 
     ASSERT_EQ(types::StateKind::stopped, node.current_state());
     ASSERT_EQ(types::NodeKind::model_sender, node.node_kind());

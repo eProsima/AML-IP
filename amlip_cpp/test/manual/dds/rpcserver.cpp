@@ -88,7 +88,7 @@ int main(
 
         // Wait request from client
         eprosima::amlip::types::RpcRequestDataType<eprosima::amlip::types::AmlipIdDataType> rpc_request =
-                server->get_request(eprosima::amlip::dds::utils::WAIT_MS);
+                server->get_request();
 
         // Calculate solution from data received from client
         eprosima::amlip::types::AmlipIdDataType rpc_solution =
@@ -102,9 +102,9 @@ int main(
             std::move(rpc_solution));
 
         // Send reply to client
-        server->send_reply(rpc_reply, eprosima::amlip::dds::utils::WAIT_MS);
+        server->send_reply(rpc_reply);
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Server has processed model.");
+        logUser(AMLIPCPP_MANUAL_TEST, "Server has processed request.");
     }
 
     logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test RPC Server execution.");

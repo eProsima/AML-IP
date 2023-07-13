@@ -52,7 +52,7 @@ int main(
                         eprosima::amlip::types::AmlipIdDataType>("manual_test_topic");
 
         // Data to request
-        eprosima::amlip::types::AmlipIdDataType data("MobileNet V1");
+        eprosima::amlip::types::AmlipIdDataType data("hello world");
         // Id server to request
         eprosima::amlip::types::AmlipIdDataType id_server({"RPC-SERVER"}, {66, 11, 77, 44});
 
@@ -60,12 +60,11 @@ int main(
                 "Created RPCClient. Sending request model: " << data << " to Server with ID: " << id_server);
 
         // Send request to server
-        eprosima::amlip::types::TaskId task_id = client->send_request(data, id_server,
-                        eprosima::amlip::dds::utils::WAIT_MS);
+        eprosima::amlip::types::TaskId task_id = client->send_request(data, id_server);
 
         // Wait reply from server
         eprosima::amlip::types::AmlipIdDataType reply =
-                client->get_reply(task_id, eprosima::amlip::dds::utils::WAIT_MS);
+                client->get_reply(task_id);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Client has received reply: " << reply << " . Destroying entities...");
     }

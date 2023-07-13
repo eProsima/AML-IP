@@ -42,7 +42,7 @@ public:
         // Do nothing
     }
 
-    virtual eprosima::amlip::types::ModelSolutionDataType send_model (
+    virtual eprosima::amlip::types::ModelSolutionDataType fetch_model (
             const eprosima::amlip::types::ModelDataType data) override
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
@@ -65,7 +65,7 @@ int main(
         char** argv)
 {
     // Activate log
-    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
 
     logUser(AMLIPCPP_MANUAL_TEST,
             "Starting Manual Test Model Manager Sender Node execution. Creating Node...");
@@ -73,12 +73,13 @@ int main(
     {
         // Create statistics data
         eprosima::amlip::types::AmlipIdDataType id({"ModelManagerSender"}, {66, 66, 66, 66});
-        eprosima::amlip::types::ModelStatisticsDataType statistics("ModelManagerSenderStatistics");
-        std::string data = "hello world";
-        statistics.data(data);
 
         // Create ModelManagerSender Node
-        eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id, statistics);
+        eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id);
+        std::string data = "hello world";
+        void* data_void = eprosima::utils::copy_to_void_ptr(eprosima::utils::cast_to_void_ptr(data.c_str()),
+                        data.length());
+        model_sender_node.statistics("v0", data_void, data.length());
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_sender_node << ". Creating model...");
 

@@ -22,7 +22,6 @@
 #include <cpp_utils/Log.hpp>
 
 #include <dds/network_utils/dds_qos.hpp>
-#include <dds/network_utils/direct_write.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -33,13 +32,15 @@ RPCServer<Data, Solution>::RPCServer(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
-    : request_available_model_(
+    : request_reader_(
         own_id,
         "rpc_request_" + topic,
-        dds_handler) // REQUEST
-    , reply_availability_model_(
+        dds_handler,
+        default_rpc_datareader_qos()) // REQUEST
+    , reply_writer_(
         "rpc_reply_" + topic,
-        dds_handler) // REPLY
+        dds_handler,
+        default_rpc_datawriter_qos()) // REPLY
     , own_id_(own_id)
     , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
 {
@@ -51,6 +52,12 @@ RPCServer<Data, Solution>::~RPCServer()
 }
 
 template <typename Data, typename Solution>
+void RPCServer<Data, Solution>::stop()
+{
+    request_reader_.stop();
+}
+
+template <typename Data, typename Solution>
 types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
         uint32_t timeout /* = 0 */)
 {
@@ -59,7 +66,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
     {
         // Wait for request
         logDebug(AMLIPCPP_DDS_RPCSERVER, "Waiting for request in: " << own_id_ << ".");
-        eprosima::utils::event::AwakeReason reason = request_available_model_.wait_data_available(timeout);
+        eprosima::utils::event::AwakeReason reason = request_reader_.wait_data_available(timeout);
 
         if (reason == eprosima::utils::event::AwakeReason::disabled)
         {
@@ -73,7 +80,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
         {
             // Read request
             logDebug(AMLIPCPP_DDS_RPCSERVER, "Data received. Reading data...");
-            rpc_request = request_available_model_.read();
+            rpc_request = request_reader_.read();
             break;
         }
         catch (const std::exception& e)
@@ -90,26 +97,36 @@ void RPCServer<Data, Solution>::send_reply(
         types::RpcReplyDataType<Solution> rpc_reply,
         uint32_t timeout /* = 0 */)
 {
-    // Wait for matching
-    logDebug(AMLIPCPP_DDS_RPCSERVER, "Wait match with Reader ID: " << rpc_reply.client_id() << ".");
-    eprosima::utils::event::AwakeReason reason = reply_availability_model_.wait_match(rpc_reply.client_id(), timeout);
-
-    if (reason == eprosima::utils::event::AwakeReason::disabled)
-    {
-        logDebug(AMLIPCPP_DDS_RPCSERVER, "ModelManager Node " << this << " finished processing data.");
-
-        // Break thread execution
-        return;
-    }
-
-    // Wait a bit to let the reader do the match
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
-    logDebug(AMLIPCPP_DDS_RPCSERVER, "Matched with Reader. Seding data...");
-
     // Send reply
-    reply_availability_model_.write(rpc_reply.client_id(), rpc_reply);
+    reply_writer_.write(rpc_reply.client_id(), rpc_reply);
 
     logDebug(AMLIPCPP_DDS_RPCSERVER, "Direct Writer has sent message: " << rpc_reply.data() << ".");
+}
+
+template <typename Data, typename Solution>
+eprosima::fastdds::dds::DataWriterQos RPCServer<Data, Solution>::default_rpc_datawriter_qos()
+{
+    eprosima::fastdds::dds::DataWriterQos qos;
+
+    qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
+    qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
+    qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
+    qos.history().depth = 1;
+
+    return qos;
+}
+
+template <typename Data, typename Solution>
+eprosima::fastdds::dds::DataReaderQos RPCServer<Data, Solution>::default_rpc_datareader_qos()
+{
+    eprosima::fastdds::dds::DataReaderQos qos;
+
+    qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
+    qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
+    qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
+    qos.history().depth = 1;
+
+    return qos;
 }
 
 template <typename Data, typename Solution>

@@ -60,6 +60,12 @@ public:
     ~RPCClient();
 
     /**
+     * @brief Disable \c reply_reader_ object.
+     *
+     */
+    void stop();
+
+    /**
      * @brief
      *
      * @param data [in] Data to send in request
@@ -87,11 +93,14 @@ public:
 
 protected:
 
+    static eprosima::fastdds::dds::DataWriterQos default_rpc_datawriter_qos();
+    static eprosima::fastdds::dds::DataReaderQos default_rpc_datareader_qos();
+
     types::TaskId new_task_id_();
 
-    DirectWriter<types::RpcRequestDataType<Data>> request_availability_model_;
+    DirectWriter<types::RpcRequestDataType<Data>> request_writer_;
 
-    TargetedReader<types::RpcReplyDataType<Solution>> reply_available_model_;
+    TargetedReader<types::RpcReplyDataType<Solution>> reply_reader_;
 
     types::AmlipIdDataType own_id_;
 

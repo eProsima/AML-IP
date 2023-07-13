@@ -21,6 +21,8 @@
 
 #include <functional>
 
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+
 #include <amlip_cpp/node/ParentNode.hpp>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
@@ -55,7 +57,7 @@ namespace node {
  *
  * This class is supposed to be implemented by a User and be given to a \c ModelManagerSenderNode in order to process
  * the messages received from other Nodes in the network.
- * When data is received, \c send_model is called and it is expected to return a Model Solution for such data.
+ * When data is received, \c fetch_model is called and it is expected to return a Model Solution for such data.
  */
 class ModelReplier
 {
@@ -67,9 +69,9 @@ public:
     /**
      * @brief Method that will be called with each ModelSolutionDataType message received to calculate an answer.
      *
-     * @param status new ModelSolutionDataType message received.
+     * @param data new ModelDataType message received.
      */
-    virtual types::ModelSolutionDataType send_model (
+    virtual types::ModelSolutionDataType fetch_model (
             const types::ModelDataType data) = 0;
 };
 
@@ -85,23 +87,19 @@ public:
      * @brief Construct a new ModelManagerReceiverNode Node object.
      *
      * @param id Id of the Participant (associated with the Node it belongs to)
-     * @param statistics statistical data from models
      * @param domain_id DomainId of the DDS DomainParticipant
      */
     AMLIP_CPP_DllAPI ModelManagerSenderNode(
             types::AmlipIdDataType id,
-            types::ModelStatisticsDataType& statistics,
             uint32_t domain_id);
 
     /**
      * @brief Construct a new ModelManagerReceiverNode Node object.
      *
      * @param id Id of the Participant (associated with the Node it belongs to)
-     * @param statistics statistical data from models
      */
     AMLIP_CPP_DllAPI ModelManagerSenderNode(
-            types::AmlipIdDataType id,
-            types::ModelStatisticsDataType& statistics);
+            types::AmlipIdDataType id);
 
     /**
      * @brief Destroy the ModelManagerSenderNode Node object
@@ -111,9 +109,28 @@ public:
     AMLIP_CPP_DllAPI ~ModelManagerSenderNode();
 
     /**
+     * @brief This function copies the values in member \c statistics_
+     *
+     * @param name New value to be copied in member id \c statistics_.name_
+     * @param data New value to be copied in member id \c statistics_.data_
+     */
+    void statistics(
+            const std::string& name,
+            void* data,
+            const uint32_t size);
+
+    /**
+     * @brief This function gets the value of member \c statistics_ as ModelStatisticsDataType
+     *
+     * @return Value of member \c statistics_ as ModelStatisticsDataType
+     */
+    types::ModelStatisticsDataType statistics();
+
+
+    /**
      * @brief Process model replies
      *
-     * @throw if node is already running.
+     * @throw InconsistencyException if node is already running.
      */
     void start(
             std::shared_ptr<ModelReplier> model_replier);
@@ -126,6 +143,8 @@ public:
     void stop();
 
 protected:
+
+    static eprosima::fastdds::dds::DataWriterQos default_statistics_datawriter_qos();
 
     /**
      * @brief Routine to be processed that read messages when available and call listener functions.
@@ -155,11 +174,12 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::RPCServer<types::ModelDataType, types::ModelSolutionDataType>> model_writer_;
+    std::shared_ptr<dds::RPCServer<types::ModelDataType, types::ModelSolutionDataType>> model_sender_;
 
     //! Whether the Node is currently open to receive data or it is stopped.
     std::atomic<bool> running_;
 
+    //! Statistical data from models.
     types::ModelStatisticsDataType statistics_;
 };
 
