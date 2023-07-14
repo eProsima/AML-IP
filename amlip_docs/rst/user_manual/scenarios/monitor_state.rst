@@ -12,6 +12,8 @@ This :term:`Scenario` performs the monitoring action: knowing, analyzing and deb
 Each of the |amlip| :term:`Nodes <Node>` :term:`Publish` their current |status| information and update it along their lifetimes.
 This scenario supports :term:`subscription <Subscribe>` to this :term:`Topic` in order to receive such status information, that can be processed, stored, read, etc.
 
+.. _user_manual_status_data_type:
+
 Status Data Type
 ================
 
