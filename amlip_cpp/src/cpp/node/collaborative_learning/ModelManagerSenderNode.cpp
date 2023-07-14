@@ -21,7 +21,6 @@
 
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/types/cast.hpp>
-
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 
 #include <dds/rpc/RPCClient.hpp>
@@ -89,7 +88,7 @@ void ModelManagerSenderNode::update_statistics(
 {
     update_statistics(
         name,
-        data,
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
         data.length());
 }
 
