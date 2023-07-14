@@ -109,7 +109,7 @@ public:
     AMLIP_CPP_DllAPI ~ModelManagerSenderNode();
 
     /**
-     * @brief This function copies the values in member \c statistics_
+     * @brief This function copies the values in member \c statistics_ and publishes them
      *
      * @param name New value to be copied in member id \c statistics_.name_
      * @param data New value to be copied in member id \c statistics_.data_

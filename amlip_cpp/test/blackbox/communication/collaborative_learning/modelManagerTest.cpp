@@ -16,8 +16,6 @@
 #include <gtest/gtest.h>
 
 #include <cpp_utils/Log.hpp>
-#include <cpp_utils/types/cast.hpp>
-#include <cpp_utils/utils.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
@@ -120,12 +118,10 @@ TEST(modelManagerTest, ping_pong)
     // Create ModelManagerSender Node
     eprosima::amlip::types::AmlipIdDataType id_sender({"ModelManagerSender"}, {66, 66, 66, 66});
     eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
-    std::string data_str = "hello world";
 
     // Create statistics data
-    void* data_void = eprosima::utils::copy_to_void_ptr(eprosima::utils::cast_to_void_ptr(data_str.c_str()),
-                    data_str.length());
-    model_sender_node.update_statistics("v0", data_void, data_str.length());
+    std::string data_str = "hello world";
+    model_sender_node.update_statistics("v0", data_str);
 
     // Create waiter
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =

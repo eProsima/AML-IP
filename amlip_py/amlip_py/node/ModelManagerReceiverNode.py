@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""AML-IP Model Receiver Node API specification."""
+"""AML-IP Model Manager Receiver Node API specification."""
 
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType

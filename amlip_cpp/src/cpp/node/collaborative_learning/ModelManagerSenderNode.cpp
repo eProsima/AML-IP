@@ -89,7 +89,7 @@ void ModelManagerSenderNode::update_statistics(
 {
     update_statistics(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
+        data,
         data.length());
 }
 
