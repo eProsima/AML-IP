@@ -64,7 +64,7 @@ public:
     DirectWriter(
             const std::string& topic,
             eprosima::utils::LesseePtr<DdsHandler> dds_handler,
-            eprosima::fastdds::dds::DataWriterQos qos = DirectWriter::default_directwriter_qos());
+            eprosima::fastdds::dds::DataWriterQos qos = DirectWriter<T>::default_directwriter_qos());
 
     //! Default destructor, stop listener before destruction
     virtual ~DirectWriter();

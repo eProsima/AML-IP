@@ -13,32 +13,23 @@
 // limitations under the License.
 
 /**
- * @file NodeKind.hpp
+ * @file model_manager.hpp
  */
 
-#pragma once
-
-#include <cpp_utils/macros/custom_enumeration.hpp>
+#ifndef AMLIPCPP__SRC_CPP_NETWORK_MODEL_MANAGER_HPP
+#define AMLIPCPP__SRC_CPP_NETWORK_MODEL_MANAGER_HPP
 
 namespace eprosima {
 namespace amlip {
-namespace types {
+namespace dds {
+namespace utils {
 
-ENUMERATION_BUILDER(
-    NodeKind,
-    undetermined,
-    discovery,
-    agent,
-    main,
-    computing,
-    status,
-    meta,
-    edge,
-    inference,
-    model_receiver,
-    model_sender
-    );
+//! Maximum number of wait time in milliseconds (0 = no wait)
+constexpr const uint32_t WAIT_MS = 2000;
 
-} /* namespace types */
+} /* namespace utils */
+} /* namespace dds */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+#endif /* AMLIPCPP__SRC_CPP_NETWORK_MODEL_MANAGER_HPP */

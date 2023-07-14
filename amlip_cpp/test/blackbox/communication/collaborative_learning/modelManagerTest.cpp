@@ -15,33 +15,80 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <cpp_utils/Log.hpp>
+#include <cpp_utils/types/cast.hpp>
+#include <cpp_utils/utils.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
-#include <amlip_cpp/node/collaborative_learning/ModelManagerNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
+#include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
+
 
 namespace test {
-
-uint32_t NUMBER_OF_MESSAGES = 10;
 
 class TestModelListener : public eprosima::amlip::node::ModelListener
 {
 public:
 
     TestModelListener(
-            std::function<void(const eprosima::amlip::types::ModelDataType&)> callback)
-        : callback_(callback)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter)
+        : waiter_(waiter)
     {
     }
 
-    void model_received (
-            const eprosima::amlip::types::ModelDataType& model) const override
+    virtual bool statistics_received (
+            const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
-        callback_(model);
+        // Decide if we want the model based on the statistics received
+        return true;
     }
 
-protected:
+    virtual bool model_received (
+            const eprosima::amlip::types::ModelSolutionDataType model) override
+    {
+        logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-    std::function<void(const eprosima::amlip::types::ModelDataType&)> callback_;
+        waiter_->open();
+
+        return true;
+    }
+
+    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_;
+};
+
+class TestModelReplier : public eprosima::amlip::node::ModelReplier
+{
+public:
+
+    TestModelReplier()
+    {
+        // Do nothing
+    }
+
+    virtual eprosima::amlip::types::ModelSolutionDataType fetch_model (
+            const eprosima::amlip::types::ModelDataType data) override
+    {
+        logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
+
+        eprosima::amlip::types::ModelSolutionDataType solution;
+        if (data.data() == "MobileNet V1")
+        {
+            solution = eprosima::amlip::types::ModelSolutionDataType("MOBILENET V1");
+        }
+        else if (data.data() == "MobileNet V2")
+        {
+            solution = eprosima::amlip::types::ModelSolutionDataType("MOBILENET V2");
+        }
+        else
+        {
+            solution = eprosima::amlip::types::ModelSolutionDataType("Do not have this model :,(");
+        }
+        logUser(AMLIPCPP_MANUAL_TEST, "Processed model: " << solution << " . Returning model...");
+
+        return solution;
+    }
+
 };
 
 } /* namespace test */
@@ -49,55 +96,58 @@ protected:
 using namespace eprosima::amlip;
 
 /**
- * Launch 2 ModelManager nodes and let 1 publish a model and the other wait for a model.
- * Then node 2 publish a node and 1 waits for it. This will be executed N times.
+ * Launch 1 ModelManagerReceiverNode and 1 ModelManagerSenderNode.
  *
  * Models will be mocked with strings.
  */
 TEST(modelManagerTest, ping_pong)
 {
+    // Activate log
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+
     // Managers always send same model in this test
     // NOTE: this data must be created before nodes or nodes must stop before this is destroyed
     std::string model_str = "ModelMock and some other data";
     types::ModelDataType model(model_str);
 
-    // Create Manager 1
-    node::ModelManagerNode manager_1("ManagerTest1");
-    node::ModelManagerNode manager_2("ManagerTest2");
+    // Create ModelManagerReceiver Node
+    eprosima::amlip::types::AmlipIdDataType id_receiver({"ModelManagerReceiver"}, {66, 66, 66, 66});
+    eprosima::amlip::types::ModelDataType data("MobileNet V1");
+    eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id_receiver, data);
 
-    eprosima::utils::event::BooleanWaitHandler wait_handler(false, true);
-    std::atomic<unsigned int> models_received(0);
+    logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
 
-    // Both managers will read model, set counter and open wait handler
-    auto manager_lambda = [&wait_handler, &models_received, &model_str](const types::ModelDataType& model)
-            {
-                models_received++;
-                ASSERT_EQ(model.to_string(), model_str);
-                wait_handler.open();
-            };
+    // Create ModelManagerSender Node
+    eprosima::amlip::types::AmlipIdDataType id_sender({"ModelManagerSender"}, {66, 66, 66, 66});
+    eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
+    std::string data_str = "hello world";
 
-    manager_1.start_receiving(std::make_shared<test::TestModelListener>(manager_lambda));
-    manager_2.start_receiving(std::make_shared<test::TestModelListener>(manager_lambda));
+    // Create statistics data
+    void* data_void = eprosima::utils::copy_to_void_ptr(eprosima::utils::cast_to_void_ptr(data_str.c_str()),
+                    data_str.length());
+    model_sender_node.update_statistics("v0", data_void, data_str.length());
 
-    // Ping pong N times
-    for (unsigned int i = 0u; i < test::NUMBER_OF_MESSAGES; i++)
-    {
-        // Publish model from 1
-        manager_1.publish_model(model);
+    // Create waiter
+    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
+            std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
-        // Wait until 2 have received it
-        wait_handler.wait();
-        wait_handler.close();
+    // Create listener
+    std::shared_ptr<test::TestModelListener> listener =
+            std::make_shared<test::TestModelListener>(waiter);
 
-        // Send a model from 1
-        manager_2.publish_model(model);
+    std::shared_ptr<test::TestModelReplier> replier =
+            std::make_shared<test::TestModelReplier>();
 
-        // Wait until 1 has received it
-        wait_handler.wait();
-        wait_handler.close();
-    }
+    // Start nodes
+    model_receiver_node.start(listener);
+    model_sender_node.start(replier);
 
-    ASSERT_EQ(models_received, 2 * test::NUMBER_OF_MESSAGES);
+    // Wait solution
+    waiter->wait();
+
+    // Stop nodes
+    model_receiver_node.stop();
+    model_sender_node.stop();
 }
 
 int main(

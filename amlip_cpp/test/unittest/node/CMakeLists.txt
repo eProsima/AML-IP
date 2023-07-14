@@ -24,10 +24,15 @@ set(TEST_SOURCES
 all_library_sources(${TEST_SOURCES})
 
 set(TEST_LIST
+        create_client
+        create_server
+        create_turn
         create_parent
         create_status
         create_main
         create_computing
+        create_model_sender
+        create_model_receiver
     )
 
 set(TEST_EXTRA_LIBRARIES
@@ -68,4 +73,3 @@ add_unittest_executable(
         "${TEST_LIST}"
         "${TEST_EXTRA_LIBRARIES}"
     )
-

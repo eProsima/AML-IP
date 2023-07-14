@@ -38,6 +38,8 @@
 #include <dds/multiservice/MultiServiceServer.hpp>
 #include <dds/multiservice/AsyncMultiServiceClient.hpp>
 #include <dds/multiservice/AsyncMultiServiceServer.hpp>
+#include <dds/rpc/RPCClient.hpp>
+#include <dds/rpc/RPCServer.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -123,6 +125,14 @@ public:
 
     template <typename Data, typename Solution>
     std::shared_ptr<AsyncMultiServiceServer<Data, Solution>> create_async_multiservice_server(
+            const std::string& topic_name);
+
+    template <typename Data, typename Solution>
+    std::shared_ptr<RPCClient<Data, Solution>> create_rpc_client(
+            const std::string& topic_name);
+
+    template <typename Data, typename Solution>
+    std::shared_ptr<RPCServer<Data, Solution>> create_rpc_server(
             const std::string& topic_name);
 
     /**

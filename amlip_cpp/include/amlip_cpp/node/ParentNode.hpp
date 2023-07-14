@@ -93,12 +93,87 @@ public:
 
 protected:
 
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param node_kind node kind
+     * @param initial_state initial status of the node
+     * @param domain_id DomainId of the DDS DomainParticipant
+     * @param qos QoS of the DDS DomainParticipant
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
     AMLIP_CPP_DllAPI ParentNode(
-            const char* name,
+            types::AmlipIdDataType id,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id,
+            eprosima::fastdds::dds::DomainParticipantQos qos);
+
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param node_kind node kind
+     * @param initial_state initial status of the node
+     * @param domain_id DomainId of the DDS DomainParticipant
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
+    AMLIP_CPP_DllAPI ParentNode(
+            types::AmlipIdDataType id,
             types::NodeKind node_kind,
             types::StateKind initial_state,
             uint32_t domain_id);
 
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param node_kind node kind
+     * @param initial_state initial status of the node
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
+    AMLIP_CPP_DllAPI ParentNode(
+            types::AmlipIdDataType id,
+            types::NodeKind node_kind,
+            types::StateKind initial_state);
+
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param id Id of the Participant (associated with the Node it belongs to)
+     * @param node_kind node kind
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
+    AMLIP_CPP_DllAPI ParentNode(
+            types::AmlipIdDataType id,
+            types::NodeKind node_kind);
+
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param name name of the node
+     * @param node_kind node kind
+     * @param initial_state initial status of the node
+     * @param domain_id DomainId of the DDS DomainParticipant
+     * @param qos QoS of the DDS DomainParticipant
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
     AMLIP_CPP_DllAPI ParentNode(
             const char* name,
             types::NodeKind node_kind,
@@ -106,6 +181,35 @@ protected:
             uint32_t domain_id,
             eprosima::fastdds::dds::DomainParticipantQos qos);
 
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param name name of the node
+     * @param node_kind node kind
+     * @param initial_state initial status of the node
+     * @param domain_id DomainId of the DDS DomainParticipant
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
+    AMLIP_CPP_DllAPI ParentNode(
+            const char* name,
+            types::NodeKind node_kind,
+            types::StateKind initial_state,
+            uint32_t domain_id);
+
+    /**
+     * @brief Construct a new Parent Node object.
+     *
+     * @param name name of the node
+     * @param node_kind node kind
+     * @param initial_state initial status of the node
+     *
+     * @note node_kind is not taken by a virtual method because it is required ctor.
+     *
+     * @note protected so this class is abstract and cannot be constructed.
+     */
     AMLIP_CPP_DllAPI ParentNode(
             const char* name,
             types::NodeKind node_kind,

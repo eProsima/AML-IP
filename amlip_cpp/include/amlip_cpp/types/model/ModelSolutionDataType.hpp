@@ -1,4 +1,4 @@
-// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,40 +13,25 @@
 // limitations under the License.
 
 /*!
- * @file ModelDataType.cpp
+ * @file ModelSolutionDataType.hpp
  */
 
-#include <iostream>
+#ifndef AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELSOLUTIONDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELSOLUTIONDATATYPE_HPP
 
-#include <amlip_cpp/types/model/ModelDataType.hpp>
+#include <string>
+#include <vector>
+
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-ModelDataType::ModelDataType(
-        void* data,
-        const uint32_t size,
-        bool take_ownership /* = false */)
-    : GenericDataType(data, size, take_ownership)
-{
-    // Do nothing
-}
-
-ModelDataType::ModelDataType(
-        const std::vector<ByteType>& bytes)
-    : GenericDataType(bytes)
-{
-    // Do nothing
-}
-
-ModelDataType::ModelDataType(
-        const std::string& bytes)
-    : GenericDataType(bytes)
-{
-    // Do nothing
-}
+using ModelSolutionDataType = GenericDataType;
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+#endif // AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELSOLUTIONDATATYPE_HPP

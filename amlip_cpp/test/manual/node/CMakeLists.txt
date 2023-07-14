@@ -20,6 +20,8 @@ set(TEST_NAMES
         "agent_server"
         "agent_turn"
         "async_main"
+        "model_manager_sender"
+        "model_manager_receiver"
     )
 
 foreach(TEST_NAME ${TEST_NAMES})

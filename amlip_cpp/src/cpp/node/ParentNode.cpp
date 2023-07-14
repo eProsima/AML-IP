@@ -30,6 +30,47 @@ namespace amlip {
 namespace node {
 
 ParentNode::ParentNode(
+        types::AmlipIdDataType id,
+        types::NodeKind node_kind,
+        types::StateKind initial_state,
+        uint32_t domain_id,
+        eprosima::fastdds::dds::DomainParticipantQos qos)
+    : participant_(std::make_unique<dds::Participant>(id, qos, domain_id))
+    , status_writer_(participant_->create_writer<types::StatusDataType>(
+                dds::utils::STATUS_TOPIC_NAME,
+                dds::utils::status_writer_qos()))
+    , current_state_(initial_state)
+    , node_kind_(node_kind)
+{
+    logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
+    publish_status_();
+}
+
+ParentNode::ParentNode(
+        types::AmlipIdDataType id,
+        types::NodeKind node_kind,
+        types::StateKind initial_state,
+        uint32_t domain_id)
+    : ParentNode(id, node_kind, initial_state, domain_id, dds::utils::default_domain_participant_qos())
+{
+}
+
+ParentNode::ParentNode(
+        types::AmlipIdDataType id,
+        types::NodeKind node_kind,
+        types::StateKind initial_state)
+    : ParentNode(id, node_kind, initial_state, dds::Participant::default_domain_id())
+{
+}
+
+ParentNode::ParentNode(
+        types::AmlipIdDataType id,
+        types::NodeKind node_kind)
+    : ParentNode(id, node_kind, types::StateKind::stopped)
+{
+}
+
+ParentNode::ParentNode(
         const char* name,
         types::NodeKind node_kind,
         types::StateKind initial_state,
