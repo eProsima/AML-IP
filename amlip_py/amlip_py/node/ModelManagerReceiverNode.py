@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""AML-IP Model Receiver Receiver Node API specification."""
+"""AML-IP Model Receiver Node API specification."""
 
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
@@ -27,8 +27,9 @@ class ModelListener(cpp_ModelListener):
     """
     Model Listener class.
 
-    This object must execute statistics_received method with each ModelStatisticsDataType that
-    is received from node and must return true or false. This object must also execute
+    This object must be called by the ModelManagerReceiverNode to execute
+    the statistics_received method with each ModelStatisticsDataType that is
+    received from node and must return true or false. Must also execute the
     model_received method on each ModelSolutionDataType that is received from node.
     """
 

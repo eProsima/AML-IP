@@ -26,7 +26,8 @@ class ModelReplier(cpp_ModelReplier):
     """
     Model Replier class.
 
-    This object must execute fetch_model method with each ModelDataType request that is received
+    This object must be called by the ModelManagerSenderNode to execute
+    the  fetch_model method with each ModelDataType request that is received
     from node and must return the ModelSolutionDataType reply.
     """
 

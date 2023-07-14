@@ -113,19 +113,22 @@ public:
      *
      * @param name New value to be copied in member id \c statistics_.name_
      * @param data New value to be copied in member id \c statistics_.data_
-     */
-    void update_statistics(
-            const std::string& name,
-            const std::string& data);
-
-    /**
-     * @brief Same as previous function but with a void* \c statistics_.data_ argument.
-     *
+     * @param size New value to be copied in member id \c statistics_.data_size_
      */
     void update_statistics(
             const std::string& name,
             void* data,
             const uint32_t size);
+
+    /**
+     * @brief This function copies the values in member \c statistics_ and publishes them
+     *
+     * @param name New value to be copied in member id \c statistics_.name_
+     * @param data New value to be copied in member id \c statistics_.data_
+     */
+    void update_statistics(
+            const std::string& name,
+            const std::string& data);
 
     /**
      * @brief This function gets the value of member \c statistics_ as ModelStatisticsDataType

@@ -42,6 +42,7 @@ class CustomModelReplier(ModelReplier):
 
         return solution
 
+
 class CustomModelListener(ModelListener):
 
     def statistics_received(
@@ -60,6 +61,7 @@ class CustomModelListener(ModelListener):
         waiter.open()
 
         return True
+
 
 def main():
     """Execute main routine."""
