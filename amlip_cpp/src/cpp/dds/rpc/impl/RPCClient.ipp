@@ -114,6 +114,7 @@ Solution RPCClient<Data, Solution>::get_reply(
         {
             std::cerr << e.what() << std::endl;
         }
+
     }
     // Return the data
     return rpc_reply.data();

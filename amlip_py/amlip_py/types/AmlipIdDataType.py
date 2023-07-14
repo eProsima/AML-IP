@@ -36,3 +36,7 @@ class AmlipIdDataType(cpp_AmlipIdDataType):
     def is_defined(self) -> bool:
         """Wether the Id is defined."""
         return cpp_AmlipIdDataType.is_defined(self)
+
+    def set_id(self, id) -> bool:
+        """Defines the Id."""
+        return cpp_AmlipIdDataType.id(self, id)

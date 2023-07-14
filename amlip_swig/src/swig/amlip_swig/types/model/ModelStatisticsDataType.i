@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,14 +13,14 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class AmlipIdDataType
+// Binding for class ModelStatisticsDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
 namespace std {
-   %template(rand_id) array<uint8_t, 4>;
+   %template(bytes) vector<uint8_t>;
 }
 
 // Assignemt operators are ignored, as there is no such thing in Python.
@@ -29,21 +29,14 @@ namespace std {
 
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
-%ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(AmlipIdDataType&&);
-%ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(std::array< uint8_t,28> &&,std::array< uint8_t,4 > &&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const AmlipIdDataType&);
-
-// Declare the to string method
-%extend eprosima::amlip::types::AmlipIdDataType {
-    std::string __str__() const
-    {
-        return $self->to_string();
-    }
-}
+%ignore eprosima::amlip::types::ModelStatisticsDataType::ModelStatisticsDataType(ModelStatisticsDataType&&);
+%ignore eprosima::amlip::types::operator <<(std::ostream &,const ModelStatisticsDataType&);
 
 %{
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+using ModelStatisticsDataType = eprosima::amlip::types::ModelStatisticsDataType;
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+%include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>

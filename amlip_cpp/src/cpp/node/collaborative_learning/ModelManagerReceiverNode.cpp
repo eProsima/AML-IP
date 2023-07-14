@@ -152,18 +152,24 @@ void ModelManagerReceiverNode::process_routine_(
                 // Wait reply
                 eprosima::amlip::types::ModelSolutionDataType model = model_receiver_->get_reply(task_id);
 
+                if (!running_)
+                {
+                    break;
+                }
+
                 // Call callback
                 listener->model_received(model);
+                logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManagerReceiver Node has received a model update.");
 
-                return;
             }
         }
         catch (const std::exception& e)
         {
             std::cerr << e.what() << std::endl;
         }
+
     }
-    logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Finishing ModelManagerSender routine.");
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Finishing ModelManagerReceiver routine.");
 }
 
 eprosima::fastdds::dds::DataReaderQos ModelManagerReceiverNode::default_statistics_datareader_qos()

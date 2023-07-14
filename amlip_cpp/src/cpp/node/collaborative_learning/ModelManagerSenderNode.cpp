@@ -19,6 +19,8 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
+#include <cpp_utils/utils.hpp>
+#include <cpp_utils/types/cast.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 
 #include <dds/rpc/RPCClient.hpp>
@@ -78,6 +80,16 @@ void ModelManagerSenderNode::update_statistics(
 
     // Send statistics
     statistics_writer_->publish(statistics_);
+}
+
+void ModelManagerSenderNode::update_statistics(
+        const std::string& name,
+        const std::string& data)
+{
+    update_statistics(
+        name,
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
+        data.length());
 }
 
 types::ModelStatisticsDataType ModelManagerSenderNode::statistics()

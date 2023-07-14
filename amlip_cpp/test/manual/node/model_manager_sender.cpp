@@ -20,8 +20,6 @@
 #include <thread>
 
 #include <cpp_utils/Log.hpp>
-#include <cpp_utils/types/cast.hpp>
-#include <cpp_utils/utils.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
@@ -30,6 +28,7 @@
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
+
 
 class CustomModelReplier : public eprosima::amlip::node::ModelReplier
 {
@@ -76,10 +75,10 @@ int main(
 
         // Create ModelManagerSender Node
         eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id);
+
+        // Create statistics data
         std::string data = "hello world";
-        void* data_void = eprosima::utils::copy_to_void_ptr(eprosima::utils::cast_to_void_ptr(data.c_str()),
-                        data.length());
-        model_sender_node.update_statistics("v0", data_void, data.length());
+        model_sender_node.update_statistics("v0", data);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_sender_node << ". Creating model...");
 

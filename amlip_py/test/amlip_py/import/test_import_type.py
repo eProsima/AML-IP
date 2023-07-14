@@ -18,6 +18,9 @@ import amlip_py.types.JobDataType
 import amlip_py.types.JobSolutionDataType
 import amlip_py.types.StatusDataType
 import amlip_py.types.TaskId
+import amlip_py.types.ModelDataType
+import amlip_py.types.ModelSolutionDataType
+import amlip_py.types.ModelStatisticsDataType
 
 
 def test_id():
@@ -43,3 +46,18 @@ def test_solution():
 def test_task():
     """Test creation of TaskId."""
     _ = amlip_py.types.TaskId.TaskId()
+
+
+def test_model():
+    """Test creation of ModelDataType."""
+    _ = amlip_py.types.ModelDataType.ModelDataType()
+
+
+def test_model_solution():
+    """Test creation of ModelSolutionDataType."""
+    _ = amlip_py.types.ModelSolutionDataType.ModelSolutionDataType()
+
+
+def test_model_statistics():
+    """Test creation of ModelStatisticsDataType."""
+    _ = amlip_py.types.ModelStatisticsDataType.ModelStatisticsDataType()
