@@ -70,6 +70,17 @@ ModelManagerSenderNode::~ModelManagerSenderNode()
 
 void ModelManagerSenderNode::update_statistics(
         const std::string& name,
+        const std::string& data)
+{
+    statistics_.name(name);
+    statistics_.data(data);
+
+    // Send statistics
+    statistics_writer_->publish(statistics_);
+}
+
+void ModelManagerSenderNode::update_statistics(
+        const std::string& name,
         void* data,
         const uint32_t size)
 {

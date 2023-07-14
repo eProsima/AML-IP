@@ -27,11 +27,11 @@ class ModelReplier(cpp_ModelReplier):
     """
     Model Replier class.
 
-    This object must execute send_model method with each ModelDataType request that is received
+    This object must execute fetch_model method with each ModelDataType request that is received
     from node and must return the ModelSolutionDataType reply.
     """
 
-    def send_model(
+    def fetch_model(
             self,
             model: ModelDataType) -> ModelSolutionDataType:
         """
@@ -40,7 +40,7 @@ class ModelReplier(cpp_ModelReplier):
         Abstract method.
         This method should be reimplemented by child class.
         """
-        raise NotImplementedError('ModelReplier.send_model must be specialized before use.')
+        raise NotImplementedError('ModelReplier.fetch_model must be specialized before use.')
 
 
 class ModelReplierLambda(cpp_ModelReplier):
@@ -58,7 +58,7 @@ class ModelReplierLambda(cpp_ModelReplier):
         self.callback_ = callback
         super().__init__()
 
-    def send_model(
+    def fetch_model(
             self,
             model: ModelDataType) -> ModelSolutionDataType:
         """Call internal lambda."""
@@ -73,23 +73,28 @@ class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
     def __init__(
             self,
             id: AmlipIdDataType,
-            statistics: ModelStatisticsDataType,
             domain: int = None):
 
         """
         Create a new Model Manager Sender Node with a given id.
         Parameters
         ----------
-        id : AmlipIdDataType
-        statistics : ModelStatisticsDataType
+        id : AmlipIdDataTypeD
         domain : int
         """
 
         # Parent class constructor
         if domain is None:
-            super().__init__(id, statistics)
+            super().__init__(id)
         else:
-            super().__init__(id, statistics, domain)
+            super().__init__(id, domain)
+
+    def update_statistics(
+            self,
+            name: str,
+            data: str) -> None:
+
+        cpp_ModelManagerSenderNode.update_statistics(self, name, data)
 
     def start(
             self,
@@ -114,13 +119,13 @@ class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
                 'ModelManagerSenderNode constructor expects a listener object or a callback, '
                 'none given.')
 
-        return cpp_ModelManagerSenderNode.start(self, self.listener_)
+        cpp_ModelManagerSenderNode.start(self, self.listener_)
 
     def stop(
             self) -> None:
 
         """Stop this entity if it is running. Do nothing otherwise."""
-        return cpp_ModelManagerSenderNode.stop(self)
+        cpp_ModelManagerSenderNode.stop(self)
 
     def get_id(
             self) -> AmlipIdDataType:

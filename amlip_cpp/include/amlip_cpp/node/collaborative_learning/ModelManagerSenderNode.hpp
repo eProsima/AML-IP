@@ -116,6 +116,14 @@ public:
      */
     void update_statistics(
             const std::string& name,
+            const std::string& data);
+
+    /**
+     * @brief Same as previous function but with a void* \c statistics_.data_ argument.
+     *
+     */
+    void update_statistics(
+            const std::string& name,
             void* data,
             const uint32_t size);
 

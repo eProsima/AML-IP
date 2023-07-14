@@ -136,14 +136,14 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
                 'ModelManagerReceiverNode constructor expects a listener object or a '
                 'callback_statistics and a callback_model, none given.')
 
-        return cpp_ModelManagerReceiverNode.start(self, self.listener_)
+        cpp_ModelManagerReceiverNode.start(self, self.listener_)
 
     def stop(
             self,
             ) -> None:
 
         """Stop this entity if it is running. Do nothing otherwise."""
-        return cpp_ModelManagerReceiverNode.stop(self)
+        cpp_ModelManagerReceiverNode.stop(self)
 
     def get_id(
             self) -> AmlipIdDataType:
