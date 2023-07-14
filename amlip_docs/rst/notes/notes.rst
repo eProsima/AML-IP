@@ -18,8 +18,8 @@ This release includes the following **User Interface features**:
 * C++ API
 * Python API
 * Add implementation of DDS entities.
-* Add implementation of Multiservice.
-* Add implementation of Asynchronous Multiservice.
+* Add implementation of Multiservice protocol.
+* Add implementation of Asynchronous Multiservice protocol.
 * New internal package :code:`amlip_demo_nodes` to include the demos packages.
 * Dockerfile for creating a docker image with AML-IP.
 
