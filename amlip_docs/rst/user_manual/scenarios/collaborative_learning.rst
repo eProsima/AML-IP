@@ -7,7 +7,7 @@ Collaborative Learning Scenario
 ###############################
 
 In this :term:`Scenario`, multiple nodes working on the same problem share their locally obtained models with each other, without the need to share the private datasets with which they were trained.
-This intends to lead towards the requested model.
+This intends to lead towards a more complex and accurate model.
 It leverages the :ref:`user_manual_dds_rpc` communication protocol/paradigm in order to exchange all required information (model requests/replies) in an efficient way.
 
 .. figure:: /rst/figures/collaborative_learning_scenario.png
