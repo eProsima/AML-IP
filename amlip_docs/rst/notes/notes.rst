@@ -11,7 +11,7 @@
 Version v0.1.0
 ##############
 
-This is the first release of eProsima *AML-IP*.
+This is the first release of eProsima *AML-IP* (Algebraic Machine Learning - Integrating Platform).
 
 This release includes the following **User Interface features**:
 
@@ -22,29 +22,27 @@ This release includes the following **User Interface features**:
 * Add implementation of Asynchronous Multiservice protocol.
 * New internal package :code:`amlip_demo_nodes` to include the demos packages.
 * Dockerfile for creating a docker image with AML-IP.
+* Add Custom RPC communication over DDS.
 
-This release supports the following **:term:`Scenarios <Scenario>` features**:
+This release supports the following **Deployment Scenarios**:
 
 * :ref:`Monitor State <user_manual_scenarios_status>`
 * :ref:`Workload Distribution <user_manual_scenarios_workload_distribution>`
+* :ref:`Collaborative Learning <user_manual_scenarios_collaborative_learning>`
 
-This release includes the following **:term:`Nodes <Node>` features**:
+This release includes the following new **AML-IP Nodes**:
 
 * :ref:`Status <user_manual_nodes_status>`
 * :ref:`Main <user_manual_nodes_main>`
 * :ref:`Computing <user_manual_nodes_computing>`
-* Asynchronous Main
-* Asynchronous Computing
 * :ref:`Edge <user_manual_nodes_edge>`
 * :ref:`Inference <user_manual_nodes_inference>`
-* :ref:`Asynchronous Edge <user_manual_nodes_async_edge>`
-* :ref:`Asynchronous Inference <user_manual_nodes_async_inference>`
 * Agent Nodes:
     * Client
     * Server
     * Turn
 
-This release includes the following **Data Types features**:
+This release includes the following new **AML-IP Data Types**:
 
 * :ref:`Status <user_manual_status_data_type>`
 * :ref:`Job <user_manual_scenarios_workload_distribution_job>`
@@ -65,6 +63,7 @@ This release includes the following **Documentation features**:
 
 This release includes the following **Continuous Integration features**:
 
+* Continuous Integration deployment in `GitHub Actions <https://github.com/eProsima/AML-IP/actions>`_.
 * Compile with *-Wall* flag *Clang* job.
 * Add *Address Sanitizer* check to all tests.
 * Add Python Liner test to the Python API.
