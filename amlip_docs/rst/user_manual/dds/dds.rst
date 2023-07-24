@@ -53,7 +53,7 @@ RPC
 
 The Remote Procedure Call based on DDS has been implemented to meet the need to distribute requests and replies across a network.
 
-Unlike how it is implemented in ROS2 (Fast DDS middleware), it is used topic mangling for the communication between the servers and the clients.
+Unlike how it is implemented in ROS 2 (with Fast DDS as middleware), topic mangling is used for the communication between the servers and clients.
 
 The following diagram illustrates the flow of the implementation:
 

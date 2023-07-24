@@ -7,7 +7,7 @@ Collaborative Learning Scenario
 ###############################
 
 In this :term:`Scenario`, multiple nodes working on the same problem share their locally obtained models with each other, without the need to share the private datasets with which they were trained.
-This cooperation intends to lead towards the requested model.
+This intends to lead towards the requested model.
 It leverages the :ref:`user_manual_dds_rpc` communication protocol/paradigm in order to exchange all required information (model requests/replies) in an efficient way.
 
 .. figure:: /rst/figures/collaborative_learning_scenario.png
@@ -48,7 +48,7 @@ So far, the interaction with this class could be done from a :code:`void*`, a by
 Model Statistics Data Type
 ==========================
 
-The **Statistics** Data Type represents the statistics of models, such as the weights or the dataset.
+The **Statistics** Data Type represents the statistics of models, such as their number of parameters or the datasets they were trained on.
 The *messages* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a bytes array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 

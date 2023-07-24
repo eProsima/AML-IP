@@ -31,6 +31,16 @@ Steps
 
         .. code-block:: cpp
 
+            #include <cpp_utils/wait/BooleanWaitHandler.hpp>
+
+            #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+            #include <amlip_cpp/types/model/ModelDataType.hpp>
+            #include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+            #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+            #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
+
+
             class CustomModelListener : public eprosima::amlip::node::ModelListener
             {
             public:
@@ -45,14 +55,14 @@ Steps
                 virtual bool statistics_received (
                         const eprosima::amlip::types::ModelStatisticsDataType statistics) override
                 {
-                    // Decide if we want the model based on the statistics received
+                    // Always request model
                     return true;
                 }
 
                 virtual bool model_received (
                         const eprosima::amlip::types::ModelSolutionDataType model) override
                 {
-                    logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
+                     std::cout << "Model received: " << model << " ." << std::endl;
 
                     waiter_->open();
 
@@ -91,6 +101,16 @@ Steps
     .. tab:: Python
 
         .. code-block:: python
+
+            from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
+
+            from amlip_py.types.AmlipIdDataType import AmlipIdDataType
+            from amlip_py.types.ModelDataType import ModelDataType
+            from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+            from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
+
+            from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListener
+
 
             class CustomModelListener(ModelListener):
 

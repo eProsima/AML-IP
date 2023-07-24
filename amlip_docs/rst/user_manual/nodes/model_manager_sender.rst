@@ -32,6 +32,16 @@ Steps
 
         .. code-block:: cpp
 
+            #include <cpp_utils/wait/BooleanWaitHandler.hpp>
+
+            #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+            #include <amlip_cpp/types/model/ModelDataType.hpp>
+            #include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+            #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+            #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
+
+
             class CustomModelReplier : public eprosima::amlip::node::ModelReplier
             {
             public:
@@ -46,12 +56,12 @@ Steps
                 virtual eprosima::amlip::types::ModelSolutionDataType fetch_model (
                         const eprosima::amlip::types::ModelDataType data) override
                 {
-                    logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
+                    std::cout << "Processing data: " << data << " . Processing data..." << std::endl;
 
                     // Create new solution from data here
                     eprosima::amlip::types::ModelSolutionDataType solution("MOBILENET V1");
 
-                    logUser(AMLIPCPP_MANUAL_TEST, "Processed model: " << solution << " . Returning model...");
+                    std::cout << "Processed model: " << solution << " . Returning model..." << std::endl;
 
                     waiter_->open();
 
@@ -91,6 +101,16 @@ Steps
     .. tab:: Python
 
         .. code-block:: python
+
+            from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
+
+            from amlip_py.types.AmlipIdDataType import AmlipIdDataType
+            from amlip_py.types.ModelDataType import ModelDataType
+            from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+            from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
+
+            from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplier
+
 
             class CustomModelReplier(ModelReplier):
 
