@@ -45,3 +45,18 @@ The idea is a Service protocol based on Client-Server communication where multip
 the same time in the same network.
 This protocol creates an auto-regulated orchestration method where a task could be distributed to **one and only one**
 server that is publicly available, and each server receives no more than one task at a time.
+
+.. _user_manual_dds_rpc:
+
+RPC
+---
+
+The Remote Procedure Call based on DDS has been implemented to meet the need to distribute requests and replies across a network.
+
+Unlike how it is implemented in ROS 2 (with Fast DDS as middleware), topic mangling is used for the communication between the servers and clients.
+
+The following diagram illustrates the flow of the implementation:
+
+.. figure:: /rst/figures/rpc_diagram.png
+    :align: center
+    :width: 100%

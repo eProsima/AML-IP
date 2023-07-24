@@ -68,3 +68,5 @@ Node Kinds
     inference
     async_edge
     async_inference
+    model_manager_receiver
+    model_manager_sender
