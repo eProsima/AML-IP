@@ -59,7 +59,7 @@ def main():
         domain=DOMAIN_ID)
 
     print(f'Node created: {model_receiver_node.get_id()}. '
-          'Already processing jobs.')
+          'Already processing models.')
 
     model_receiver_node.start(
         callback_statistics=statistics_received,

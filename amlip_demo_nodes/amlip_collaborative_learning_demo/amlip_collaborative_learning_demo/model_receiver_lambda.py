@@ -30,10 +30,7 @@ waiter = BooleanWaitHandler(True, False)
 def statistics_received(
         statistics: ModelStatisticsDataType) -> bool:
 
-    if statistics.data() == 'hello world':
-        return True
-
-    return False
+    return True
 
 
 def model_received(
@@ -54,7 +51,7 @@ def main():
     data = ModelDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
-    id.set_id([66, 66, 66, 66])
+    id.set_id([15, 25, 35, 45])
 
     # Create node
     print('Starting Manual Test Model Manager Receiver Node Py execution. Creating Node...')
@@ -64,7 +61,7 @@ def main():
         domain=DOMAIN_ID)
 
     print(f'Node created: {model_receiver_node.get_id()}. '
-          'Already processing jobs.')
+          'Already processing models.')
 
     model_receiver_node.start(
         callback_statistics=statistics_received,

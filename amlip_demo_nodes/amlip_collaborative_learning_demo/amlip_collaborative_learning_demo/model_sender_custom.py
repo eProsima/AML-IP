@@ -29,7 +29,7 @@ waiter = BooleanWaitHandler(True, False)
 
 class CustomModelReplier(ModelReplier):
 
-    def send_model(
+    def fetch_model(
             self,
             model: ModelDataType) -> ModelSolutionDataType:
 
@@ -47,22 +47,21 @@ class CustomModelReplier(ModelReplier):
 def main():
     """Execute main routine."""
 
-    # Create statistics data
-    statistics_data = ModelStatisticsDataType('ModelManagerSenderStatistics')
-    statistics_data.set_data('hello world')
-
     id = AmlipIdDataType('ModelManagerSender')
-    id.set_id([66, 66, 66, 66])
+    id.set_id([10, 20, 30, 40])
 
     # Create node
     print('Starting Manual Test Model Manager Sender Node Py execution. Creating Node...')
     model_sender_node = ModelManagerSenderNode(
         id=id,
-        statistics=statistics_data,
         domain=DOMAIN_ID)
 
     print(f'Node created: {model_sender_node.get_id()}. '
           'Already processing models.')
+
+    model_sender_node.update_statistics(
+        'ModelManagerSenderStatistics',
+        'hello world')
 
     model_sender_node.start(
         listener=CustomModelReplier())
