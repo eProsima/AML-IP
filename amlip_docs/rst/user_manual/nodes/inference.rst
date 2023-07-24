@@ -69,7 +69,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Async Inference Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Inference Node creating an object of such class with a name, a listener or callback and a domain.
 * Wait for the data by calling :code:`run`.
 
 .. tabs::

@@ -74,7 +74,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Async Computing Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Computing Node creating an object of such class with a name, a listener or callback and a domain.
 * Wait for tasks by calling :code:`run`.
 
 .. tabs::

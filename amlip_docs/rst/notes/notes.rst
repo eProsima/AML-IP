@@ -37,10 +37,10 @@ This release includes the following new **AML-IP Nodes**:
 * :ref:`Computing <user_manual_nodes_computing>`
 * :ref:`Edge <user_manual_nodes_edge>`
 * :ref:`Inference <user_manual_nodes_inference>`
-* Agent Nodes:
-    * Client
-    * Server
-    * Turn
+* :ref:`Agent <user_manual_nodes_agent>`:
+    * :ref:`Client <user_manual_nodes_agent_client>`:
+    * :ref:`Server <user_manual_nodes_agent_server>`:
+    * :ref:`Turn <user_manual_nodes_agent_turn>`:
 
 This release includes the following new **AML-IP Data Types**:
 

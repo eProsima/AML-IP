@@ -65,7 +65,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Async Edge Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Edge Node creating an object of such class with a name, a listener or callback and a domain.
 * Create a new :code:`InferenceDataType` from an array of bytes.
 * Send a data synchronously calling :code:`request_inference`.
 * Wait for the inference.

@@ -69,7 +69,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Async Main Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Main Node creating an object of such class with a name, a listener or callback and a domain.
 * Create a new :code:`JobDataType` from an array of bytes.
 * Send a new *Job* synchronously and wait for the solution by calling :code:`request_job_solution`.
 * Wait for the solution.

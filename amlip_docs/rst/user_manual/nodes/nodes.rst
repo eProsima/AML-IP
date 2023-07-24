@@ -61,12 +61,11 @@ Node Kinds
 .. toctree::
     :maxdepth: 1
 
+    agent
     status
     main
     computing
     edge
     inference
-    async_edge
-    async_inference
     model_manager_receiver
     model_manager_sender
