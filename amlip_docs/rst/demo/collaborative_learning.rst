@@ -6,39 +6,198 @@
 Collaborative Learning
 ######################
 
-This demonstrator shows how to implement 2 kind of nodes:
+.. contents::
+    :local:
+    :backlinks: none
+    :depth: 2
+
+Background
+==========
+
+This demo shows how to implement a :ref:`user_manual_scenarios_collaborative_learning` and the nodes involved:
 :ref:`user_manual_nodes_model_receiver` and :ref:`user_manual_nodes_model_sender`.
 With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the
 behavior of a simulated |amlip| network running.
-They are implemented one in Python and one in C++ to demonstrate as well how to instantiate each kind of node
-with different :term:`APIs <API>`, and to prove the communication between the 2 implementations.
+They are implemented in Python to prove the communication between the 2 implementations.
 
-Simulation
-==========
+Prerequisites
+=============
+
+First of all, check that :code:`amlip_collaborative_learning_demo` sub-package is correctly installed.
+If it is not, please refer to :ref:`developer_manual_installation_sources_linux_colcon_demos`.
+
+Building the demo
+=================
+
+To build the demo, build the packages with Colcon:
+
+.. code-block:: bash
+
+    colcon build --packages-up-to amlip_demo_nodes
+
+Once AML-IP packages are installed and built, import the libraries using the following command.
+
+.. code-block:: bash
+
+    source install/setup.bash
+
+Explaining the demo
+===================
+
+In this section, we will explore and explain the demo in detail.
 
 Model Manager Receiver Node
 ---------------------------
 
-This node simulates a :ref:`user_manual_nodes_model_receiver`.
+This is the Python code for the :ref:`user_manual_nodes_model_receiver` application.
 It does not use real *AML Models*, but strings.
 It is implemented in |python| using :code:`amlip_py` API.
+
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py>`__.
+
+The next block includes the Python header files that allow the use of the AML-IP Python API.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 17-21
+
+Let's continue explaining the global variables.
+
+``DOMAIN_ID`` allows the execution to be isolated because only DomainParticipants with the same Domain Id would be able to communicate to each other.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 24
+
+``waiter`` is a ``WaitHandler`` that waits on a boolean value.
+Whenever this value is ``True``, threads awake.
+Whenever it is ``False``, threads wait.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 27
+
+The ``CustomModelListener`` class is responsible for listens to :ref:`user_manual_scenarios_collaborative_learning_statistics` and :ref:`user_manual_scenarios_collaborative_learning_solution` messages received from a :ref:`user_manual_nodes_model_sender`.
+This class is supposed to be implemented by the user in order to process the messages received from other nodes in the network.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 30-47
+
+We define the ``main`` function.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 50
+
+We create an instance of ``ModelManagerReceiverNode``.
+The first thing the constructor gets is the id of the participant associated with the node.
+Then the data which is a ``ModelDataType`` with the request message.
+And also we specified the domain equal to the DOMAIN_ID variable.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 53-65
+
+Then we start the node execution, passing the previously defined ``CustomModelListener()`` class, which is responsible for managing the messages received.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 69-70
+
+Wait for the response model to arrive from the :ref:`user_manual_nodes_model_sender`.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 72-73
+
+Finally, stop and close the node.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
+  :language: python
+  :lines: 75
 
 Model Manager Sender Node
 -------------------------
 
-This node simulates a :ref:`user_manual_nodes_model_sender`.
+This is the Python code for the :ref:`user_manual_nodes_model_sender` application.
 It does not use real *AML Models*, but strings.
 It does not have a real *AML Engine* but instead the calculation is an *upper-case* conversion of the string received.
 It is implemented in |python| using :code:`amlip_py` API.
 
-Installation
-============
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py>`__.
 
-First of all, check that :code:`amlip_demo_nodes` sub-package is correctly installed.
-If it is not, please refer to :ref:`developer_manual_installation_sources_linux_colcon_demos`.
+The next block includes the Python header files that allow the use of the AML-IP Python API.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 17-20
+
+Let's continue explaining the global variables.
+
+``DOMAIN_ID`` allows the execution to be isolated because only DomainParticipants with the same Domain Id would be able to communicate to each other.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 23
+
+``waiter`` is a ``WaitHandler`` that waits on a boolean value.
+Whenever this value is ``True``, threads awake.
+Whenever it is ``False``, threads wait.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 26
+
+The ``CustomModelReplier`` class is responsible for listens to :ref:`user_manual_scenarios_collaborative_learning_model` request messages received from a :ref:`user_manual_nodes_model_receiver`.
+This class is supposed to be implemented by the user in order to process the messages.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 29-43
+
+We define the ``main`` function.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 46
+
+We create an instance of ``ModelManagerSenderNode``.
+The first thing the constructor gets is the id of the participant associated with the node.
+And also we specified the domain equal to the DOMAIN_ID variable.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 49-56
+
+Call the ``update_statistics()`` function, which fills the :ref:`user_manual_scenarios_collaborative_learning_statistics`  and publishes it.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 61-63
+
+Then we start the node execution, passing the previously defined ``CustomModelReplier()`` class, which is responsible for managing the request received.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 65-66
+
+Wait for the response model to be sent to the :ref:`user_manual_nodes_model_receiver`.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 68-69
+
+Finally, stop and close the node.
+
+.. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
+  :language: python
+  :lines: 71
 
 Run demo
 ========
+
+This demo runs the implemented nodes in ``amlip_demo_nodes/amlip_collaborative_learning_demo``.
 
 Run Model Manager Receiver Node
 -------------------------------
@@ -50,7 +209,7 @@ Run the following command:
     # Source colcon installation
     source install/setup.bash
 
-    # To execute Main Node to send 2 jobs
+    # To execute Model Manager Receiver Node
     cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo
     python3 model_receiver_custom.py
 
@@ -75,7 +234,7 @@ Run the following command to answer before closing:
     # Source colcon installation
     source install/setup.bash
 
-    # To execute Main Node to send 2 jobs
+    # To execute Model Manager Sender Node
     cd ~/AML-IP-ws/src/AML-IP/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo
     python3 model_sender_custom.py
 

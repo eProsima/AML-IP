@@ -62,7 +62,7 @@ Steps
                 virtual bool model_received (
                         const eprosima::amlip::types::ModelSolutionDataType model) override
                 {
-                     std::cout << "Model received: " << model << " ." << std::endl;
+                    std::cout << "Model received: " << model << " ." << std::endl;
 
                     waiter_->open();
 

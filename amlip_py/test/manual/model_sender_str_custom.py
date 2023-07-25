@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import time
-
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplier

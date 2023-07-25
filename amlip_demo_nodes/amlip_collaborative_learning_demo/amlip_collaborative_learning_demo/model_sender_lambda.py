@@ -18,7 +18,6 @@ from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.ModelDataType import ModelDataType
 from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
-from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 # Domain ID
 DOMAIN_ID = 166

@@ -74,12 +74,12 @@ Steps
             // Create the Id of the node
             eprosima::amlip::types::AmlipIdDataType id({"ModelManagerSender"}, {66, 66, 66, 66});
 
-            // Create statistics data
-            eprosima::amlip::types::ModelStatisticsDataType statistics("ModelManagerSenderStatistics");
-            statistics.data("hello world");
-
             // Create ModelManagerSender Node
-            eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id, statistics);
+            eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id);
+
+            // Create statistics data
+            std::string data = "hello world";
+            model_sender_node.update_statistics("v0", data);
 
             // Create waiter
             std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
@@ -126,10 +126,6 @@ Steps
 
                     return solution
 
-            # Create statistics data
-            statistics_data = ModelStatisticsDataType('ModelManagerSenderStatistics')
-            statistics_data.set_data('hello world')
-
             # Create the Id of the node
             id = AmlipIdDataType('ModelManagerSender')
             id.set_id([66, 66, 66, 66])
@@ -137,8 +133,11 @@ Steps
             # Create  a new ModelManagerSender Node
             model_sender_node = ModelManagerSenderNode(
                 id=id,
-                statistics=statistics_data,
                 domain=100)
+
+            model_sender_node.update_statistics(
+                'ModelManagerSenderStatistics',
+                'hello world')
 
             # Start execution
             model_sender_node.start(

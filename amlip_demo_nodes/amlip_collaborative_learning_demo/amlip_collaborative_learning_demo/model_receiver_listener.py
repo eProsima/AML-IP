@@ -32,6 +32,7 @@ def statistics_received(
 
     return True
 
+
 def model_received(
         model: ModelSolutionDataType) -> bool:
 
