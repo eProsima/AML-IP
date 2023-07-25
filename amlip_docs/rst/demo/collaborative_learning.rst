@@ -14,22 +14,31 @@ Collaborative Learning
 Background
 ==========
 
-This demo shows how to implement a :ref:`user_manual_scenarios_collaborative_learning` and the nodes involved:
+This demo shows a :ref:`user_manual_scenarios_collaborative_learning` and the |amlip| nodes involved:
 :ref:`user_manual_nodes_model_receiver` and :ref:`user_manual_nodes_model_sender`.
 With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the
 behavior of a simulated |amlip| network running.
 They are implemented in Python to prove the communication between the 2 implementations.
 
+The purpose of the demo is to show how a *Sender* and a *Receiver* node can communicate.
+The *Receiver* node awaits model statistics from the *Sender*.
+Since the *Sender* doesn't have a real *AML Engine*, it sends the model statistics as a string.
+Upon receiving the statistics, the *Receiver* return ``True`` and sends a model request, also as a string since it doesn't have an *AML Engine*.
+Then, the *Sender* converts the received model request to uppercase and sends it back as a model reply.
+
 Prerequisites
 =============
 
-First of all, check that :code:`amlip_collaborative_learning_demo` sub-package is correctly installed.
-If it is not, please refer to :ref:`developer_manual_installation_sources_linux_colcon_demos`.
+First of all, check that :code:`AML-IP` is correctly installed using one of the following installation methods:
+
+* :ref:`installation_manual_linux`
+* :ref:`installation_manual_windows`
+* :ref:`docker`
 
 Building the demo
 =================
 
-To build the demo, build the packages with Colcon:
+If the demo package is not compiled, please refer to :ref:`developer_manual_installation_sources_linux_colcon_demos` or run the command below.
 
 .. code-block:: bash
 
@@ -93,7 +102,7 @@ We define the ``main`` function.
 We create an instance of ``ModelManagerReceiverNode``.
 The first thing the constructor gets is the id of the participant associated with the node.
 Then the data which is a ``ModelDataType`` with the request message.
-And also we specified the domain equal to the DOMAIN_ID variable.
+And also we specified the domain equal to the ``DOMAIN_ID`` variable.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
   :language: python
@@ -164,7 +173,7 @@ We define the ``main`` function.
 
 We create an instance of ``ModelManagerSenderNode``.
 The first thing the constructor gets is the id of the participant associated with the node.
-And also we specified the domain equal to the DOMAIN_ID variable.
+And also we specified the domain equal to the ``DOMAIN_ID`` variable.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
   :language: python
@@ -194,8 +203,8 @@ Finally, stop and close the node.
   :language: python
   :lines: 71
 
-Run demo
-========
+Running the demo
+================
 
 This demo runs the implemented nodes in ``amlip_demo_nodes/amlip_collaborative_learning_demo``.
 

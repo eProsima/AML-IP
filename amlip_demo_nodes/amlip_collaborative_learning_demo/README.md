@@ -1,4 +1,4 @@
-# eProsima AML-IP Workload Distribution Demo
+# eProsima AML-IP Collaborative Learning Demo
 
 This is a package containing demos of AML-IP node execution.
 There are several executables in this package, depending on whether they use listeners or callback:

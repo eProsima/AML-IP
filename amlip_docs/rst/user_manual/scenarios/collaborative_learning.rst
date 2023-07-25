@@ -10,7 +10,7 @@ In this :term:`Scenario`, *Model Manager Receiver* and *Model Manager Sender* no
 This intends to lead towards a more complex and accurate model.
 It leverages the :ref:`user_manual_dds_rpc` communication protocol/paradigm in order to exchange all required information (model requests/replies) in an efficient way.
 
-The Model Manager Sender Nodes publish :ref:`user_manual_scenarios_collaborative_learning_statistics`'s and the Model Manager Receiver Nodes listen to them.
+The Model Manager Sender Nodes publish :ref:`user_manual_scenarios_collaborative_learning_statistics` 's while the Model Manager Receiver Nodes listen to them.
 When a :ref:`user_manual_nodes_model_receiver` is interested in a model based on its :ref:`user_manual_scenarios_collaborative_learning_statistics`, it sends a :ref:`user_manual_scenarios_collaborative_learning_model` request to the Model Manager Sender Node that sent the :ref:`user_manual_scenarios_collaborative_learning_statistics`.
 The :ref:`user_manual_nodes_model_sender` will respond with a :ref:`user_manual_scenarios_collaborative_learning_solution`.
 
