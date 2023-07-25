@@ -48,6 +48,7 @@
    /rst/demo/tensor_inference
    /rst/demo/rosbot2r_inference
    /rst/demo/workload_distribution
+   /rst/demo/collaborative_learning
 
 
 .. _index_user_manual:
