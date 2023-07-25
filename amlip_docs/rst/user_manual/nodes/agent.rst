@@ -17,7 +17,6 @@ Does not depend on any AML node, so the AML process is not affected by any commu
 
 .. figure:: /rst/figures/agent_nodes.png
     :align: center
-    :width: 75%
 
 .. _user_manual_nodes_agent_client:
 
@@ -29,6 +28,7 @@ This node acts as a communication client that connects to a Server Node.
 
 .. figure:: /rst/figures/agent_nodes_client.png
     :align: center
+    :width: 75%
 
 .. _user_manual_nodes_agent_server:
 

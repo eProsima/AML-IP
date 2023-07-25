@@ -29,6 +29,7 @@ This release supports the following **Deployment Scenarios**:
 * :ref:`Monitor State <user_manual_scenarios_status>`
 * :ref:`Workload Distribution <user_manual_scenarios_workload_distribution>`
 * :ref:`Collaborative Learning <user_manual_scenarios_collaborative_learning>`
+* :ref:`Distributed Inference <user_manual_scenarios_distributed_inference>`
 
 This release includes the following new **AML-IP Nodes**:
 

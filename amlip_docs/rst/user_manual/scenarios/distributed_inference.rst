@@ -1,10 +1,21 @@
 .. include:: ../../exports/alias.include
 
-.. _user_manual_data_inference:
+.. _user_manual_scenarios_distributed_inference:
 
-#########
-Inference
-#########
+##############################
+Distributed Inference Scenario
+##############################
+
+This :term:`Scenario` involves the action of distributing a large amount of *Data* to remote
+nodes to perform their inferences, in order to parallelize them and do not block any other important actions that may require to run in the same device.
+By performing this action, the system ensures seamless execution of multiple tasks, optimizing overall performance and resource utilization.
+It uses the :ref:`user_manual_dds_multiservice` to efficiently publish and distribute the data across remote nodes, ensuring a streamlined and effective process.
+
+The inference is performed in a :ref:`user_manual_nodes_inference` and sent to an :ref:`user_manual_nodes_edge`.
+
+.. figure:: /rst/figures/distributed_inference_scenario.png
+    :align: center
+    :width: 75%
 
 .. _user_manual_datatype_inference:
 
