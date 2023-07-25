@@ -16,7 +16,7 @@ The :ref:`user_manual_nodes_model_sender` will respond with a :ref:`user_manual_
 
 .. figure:: /rst/figures/collaborative_learning_scenario.png
     :align: center
-    :width: 75%
+    :width: 80%
 
 .. _user_manual_scenarios_collaborative_learning_model:
 
