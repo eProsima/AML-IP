@@ -6,14 +6,12 @@
 Agent Node
 ##########
 
-The Agent Node will relay on the DDS Router.
-This tool is developed and maintained by `eProsima` which facilitates certain DDS behaviours, as the WAN or the **UPnP** (Universal Plug and Play) administration.
-It allows to create a bridge between two DDS DomainParticipants, which fill the gap between the LAN and WAN.
+The Agent Node relays on the `eProsima DDS Router <https://eprosima-dds-router.readthedocs.io/en/latest/index.html>`__.
+This tool is developed and maintained by `eProsima` which enables the connection of distributed DDS networks.
+DDS entities such as publishers and subscribers deployed in one geographic location and using a dedicated local network will be able to communicate with other DDS entities deployed in different geographic areas on their own dedicated local networks as if they were all on the same network.
 
 This node is in charge of communicating a local node or AML-IP cluster with the rest of the network in WANs.
 It centralizes the WAN discovery and communication, i.e. it is the bridge for all the nodes in their LANs with the rest of the AML-IP components.
-
-Does not depend on any AML node, so the AML process is not affected by any communication delays.
 
 .. figure:: /rst/figures/agent_nodes.png
     :align: center
@@ -44,13 +42,13 @@ This node acts as a communication server, waiting for other Client Nodes to conn
 
 .. _user_manual_nodes_agent_turn:
 
-*********
-Turn Node
-*********
+*************
+Repeater Node
+*************
 
-A Turn Node could work as a :term:`TURN` Repeater.
-This means that a Turn Node can be used to repeat messages between networks.
+A Repeater Node could work as a :term:`TURN` Repeater.
+This means that a Repeater Node can be used to repeat messages between networks.
 
-.. figure:: /rst/figures/agent_nodes_turn.png
+.. figure:: /rst/figures/agent_nodes_repeater.png
     :align: center
     :width: 75%

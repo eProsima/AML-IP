@@ -33,29 +33,35 @@ This release supports the following **Deployment Scenarios**:
 
 This release includes the following new **AML-IP Nodes**:
 
-* :ref:`Status <user_manual_nodes_status>`
-* :ref:`Main <user_manual_nodes_main>`
-* :ref:`Computing <user_manual_nodes_computing>`
-* :ref:`Edge <user_manual_nodes_edge>`
-* :ref:`Inference <user_manual_nodes_inference>`
-* :ref:`Agent <user_manual_nodes_agent>`:
-    * :ref:`Client <user_manual_nodes_agent_client>`:
-    * :ref:`Server <user_manual_nodes_agent_server>`:
-    * :ref:`Turn <user_manual_nodes_agent_turn>`:
+* :ref:`Status <user_manual_nodes_status>`: node that listens to other nodes status.
+* :ref:`Main <user_manual_nodes_main>`: node that sends training data and collects the solution to that data.
+* :ref:`Computing <user_manual_nodes_computing>`: node that waits for training data and retrieves a solution.
+* :ref:`Edge <user_manual_nodes_edge>`: node that sends data and waits for the inferred solution.
+* :ref:`Inference <user_manual_nodes_inference>`: node that waits for data and retrieves an inference.
+* :ref:`Agent <user_manual_nodes_agent>`: node in charge of the communication with the network.
+    * :ref:`Client <user_manual_nodes_agent_client>`
+    * :ref:`Server <user_manual_nodes_agent_server>`
+    * :ref:`Turn <user_manual_nodes_agent_turn>`
+* :ref:`Model Manager Receiver <user_manual_nodes_model_receiver>`: node that receives statistical data from models and sends requests to those models.
+* :ref:`Model Manager Sender <user_manual_nodes_model_sender>`: node that sends statistical data from models, receives requests and sends replies to those requests.
 
 This release includes the following new **AML-IP Data Types**:
 
-* :ref:`Status <user_manual_status_data_type>`
-* :ref:`Job <user_manual_scenarios_workload_distribution_job>`
-* :ref:`Job Solution <user_manual_scenarios_workload_distribution_solution>`
-* :ref:`Inference <user_manual_datatype_inference>`
-* :ref:`Inference Solution <user_manual_datatype_inference_solution>`
+* :ref:`Status <user_manual_status_data_type>`: status messages sent by each node with its id, type and current state.
+* :ref:`Job <user_manual_scenarios_workload_distribution_job>`: messages that represent training data.
+* :ref:`Job Solution <user_manual_scenarios_workload_distribution_solution>`: messages that represent the solution for a given set of training data.
+* :ref:`Inference <user_manual_datatype_inference>`: messages that represent a partial data-set.
+* :ref:`Inference Solution <user_manual_datatype_inference_solution>`: messages that represent the inference of a data-set.
+* :ref:`Model Statistics <user_manual_scenarios_collaborative_learning_statistics>`: messages that represent statistical data from models.
+* :ref:`Model <user_manual_scenarios_collaborative_learning_model>`: messages that represent a problem model request.
+* :ref:`Model Solution <user_manual_scenarios_collaborative_learning_solution>`: messages that represent a problem reply with the requested model.
 
 This release includes the following **Demos**:
 
-* :ref:`demo_workload_distribution`
+* :ref:`demo_collaborative_learning`
 * :ref:`demo_inference`
 * :ref:`demo_rosbot2r_inference`
+* :ref:`demo_workload_distribution`
 
 This release includes the following **Documentation features**:
 
