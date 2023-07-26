@@ -14,61 +14,58 @@
 
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
-from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode
+from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplierLambda
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.ModelDataType import ModelDataType
 from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
-from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 # Domain ID
 DOMAIN_ID = 166
 
-# Variable to wait to the model reply
+# Variable to wait to the model request
 waiter = BooleanWaitHandler(True, False)
 
 
-def statistics_received(
-        statistics: ModelStatisticsDataType) -> bool:
-    return True
+def fetch_model(
+        model: ModelDataType) -> ModelSolutionDataType:
 
+    solution = ModelSolutionDataType(model.to_string().upper())
 
-def model_received(
-        model: ModelSolutionDataType) -> bool:
-    print(f'Model reply received from server\n'
-          f' solution: {model.to_string()}')
+    print(f'Model request received from client\n'
+          f' model: {model.to_string()}\n'
+          f' solution: {solution.to_string()}')
 
     waiter.open()
 
-    return True
+    return solution
 
 
 def main():
     """Execute main routine."""
 
-    # Create request
-    data = ModelDataType('MobileNet V1')
-
-    id = AmlipIdDataType('ModelManagerReceiver')
-    id.set_id([66, 66, 66, 66])
+    id = AmlipIdDataType('ModelManagerSender')
+    id.set_id([10, 20, 30, 40])
 
     # Create node
-    print('Starting Manual Test Model Manager Receiver Node Py execution. Creating Node...')
-    model_receiver_node = ModelManagerReceiverNode(
+    print('Starting Manual Test Model Manager Sender Node Py execution. Creating Node...')
+    model_sender_node = ModelManagerSenderNode(
         id=id,
-        data=data,
         domain=DOMAIN_ID)
 
-    print(f'Node created: {model_receiver_node.get_id()}. '
+    print(f'Node created: {model_sender_node.get_id()}. '
           'Already processing models.')
 
-    model_receiver_node.start(
-        callback_statistics=statistics_received,
-        callback_model=model_received)
+    model_sender_node.update_statistics(
+        'ModelManagerSenderStatistics',
+        'hello world')
 
-    # Wait for reply
+    model_sender_node.start(
+        listener=ModelReplierLambda(fetch_model))
+
+    # Wait for the solution to be sent
     waiter.wait()
 
-    model_receiver_node.stop()
+    model_sender_node.stop()
 
     print('Finishing Manual Test Model Manager Sender Node Py execution.')
 

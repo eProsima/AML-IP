@@ -29,11 +29,13 @@ waiter = BooleanWaitHandler(True, False)
 
 def statistics_received(
         statistics: ModelStatisticsDataType) -> bool:
+
     return True
 
 
 def model_received(
         model: ModelSolutionDataType) -> bool:
+
     print(f'Model reply received from server\n'
           f' solution: {model.to_string()}')
 
@@ -49,7 +51,7 @@ def main():
     data = ModelDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
-    id.set_id([66, 66, 66, 66])
+    id.set_id([15, 25, 35, 45])
 
     # Create node
     print('Starting Manual Test Model Manager Receiver Node Py execution. Creating Node...')

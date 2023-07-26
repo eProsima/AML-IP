@@ -14,7 +14,7 @@
 
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
-from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode
+from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListenerLambda
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.ModelDataType import ModelDataType
 from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
@@ -29,11 +29,13 @@ waiter = BooleanWaitHandler(True, False)
 
 def statistics_received(
         statistics: ModelStatisticsDataType) -> bool:
+
     return True
 
 
 def model_received(
         model: ModelSolutionDataType) -> bool:
+
     print(f'Model reply received from server\n'
           f' solution: {model.to_string()}')
 
@@ -49,7 +51,7 @@ def main():
     data = ModelDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
-    id.set_id([66, 66, 66, 66])
+    id.set_id([15, 25, 35, 45])
 
     # Create node
     print('Starting Manual Test Model Manager Receiver Node Py execution. Creating Node...')
@@ -62,15 +64,14 @@ def main():
           'Already processing models.')
 
     model_receiver_node.start(
-        callback_statistics=statistics_received,
-        callback_model=model_received)
+        listener=ModelListenerLambda(statistics_received, model_received))
 
     # Wait for reply
     waiter.wait()
 
     model_receiver_node.stop()
 
-    print('Finishing Manual Test Model Manager Sender Node Py execution.')
+    print('Finishing Manual Test Model Manager Receiver Node Py execution.')
 
 
 # Call main in program execution

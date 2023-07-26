@@ -45,8 +45,9 @@
    :numbered: 5
    :hidden:
 
-   /rst/demo/tensor_inference
+   /rst/demo/collaborative_learning
    /rst/demo/rosbot2r_inference
+   /rst/demo/tensor_inference
    /rst/demo/workload_distribution
 
 

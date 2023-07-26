@@ -56,6 +56,8 @@
 #define AMLIP_CPP_DllAPI
 
 // SWIG helper modules
+%include "pointer.i"
+%include "cpointer.i"
 %include "stdint.i"
 %include "std_array.i"
 %include "std_list.i"
