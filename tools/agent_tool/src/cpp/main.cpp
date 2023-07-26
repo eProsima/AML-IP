@@ -124,10 +124,22 @@ int main(
                 break;
 
             case optionIndex::CONNECTION_ADDRESS:
+                if (entity_type == EntityType::SERVER)
+                {
+                    print_warning("client or repeater", opt.arg);
+                    break;
+                }
+
                 ip = std::string(opt.arg);
                 break;
 
             case optionIndex::LISTENING_ADDRESS:
+                if (entity_type == EntityType::CLIENT)
+                {
+                    print_warning("server or repeater", opt.arg);
+                    break;
+                }
+
                 ip = std::string(opt.arg);
                 break;
 
@@ -136,10 +148,22 @@ int main(
                 break;
 
             case optionIndex::CONNECTION_PORT:
+                if (entity_type == EntityType::SERVER)
+                {
+                    print_warning("client or repeater", opt.arg);
+                    break;
+                }
+
                 connection_port = strtol(opt.arg, nullptr, 10);
                 break;
 
             case optionIndex::LISTENING_PORT:
+                if (entity_type == EntityType::CLIENT)
+                {
+                    print_warning("server or repeater", opt.arg);
+                    break;
+                }
+
                 listening_port = strtol(opt.arg, nullptr, 10);
                 break;
 
