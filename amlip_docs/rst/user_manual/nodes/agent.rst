@@ -31,7 +31,7 @@ This node acts as a communication client that connects to a Server Node.
 Steps
 -----
 
-* Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, ip address and transport protocol.
+* Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
 * Instantiate the Client Node creating an object of such class with a name and the connection address.
 
 .. tabs::
@@ -72,7 +72,7 @@ This node acts as a communication server, waiting for other Client Nodes to conn
 Steps
 -----
 
-* Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, ip address and transport protocol.
+* Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
 * Instantiate the Server Node creating an object of such class with a name and the listening address.
 
 .. tabs::
@@ -114,7 +114,7 @@ This means that a Repeater Node can be used to repeat messages between networks.
 Steps
 -----
 
-* Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, ip address and transport protocol.
+* Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
 * Instantiate the Client Node creating an object of such class with a name and the listening address.
 
 .. tabs::
