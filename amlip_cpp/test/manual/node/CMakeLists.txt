@@ -18,7 +18,7 @@ set(TEST_NAMES
         "computing"
         "agent_client"
         "agent_server"
-        "agent_turn"
+        "agent_repeater"
         "async_main"
         "model_manager_sender"
         "model_manager_receiver"

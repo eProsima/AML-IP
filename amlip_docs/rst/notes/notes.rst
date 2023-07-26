@@ -41,7 +41,7 @@ This release includes the following new **AML-IP Nodes**:
 * :ref:`Agent <user_manual_nodes_agent>`: node in charge of the communication with the network.
     * :ref:`Client <user_manual_nodes_agent_client>`
     * :ref:`Server <user_manual_nodes_agent_server>`
-    * :ref:`Turn <user_manual_nodes_agent_turn>`
+    * :ref:`Repeater <user_manual_nodes_agent_repeater>`
 * :ref:`Model Manager Receiver <user_manual_nodes_model_receiver>`: node that receives statistical data from models and sends requests to those models.
 * :ref:`Model Manager Sender <user_manual_nodes_model_sender>`: node that sends statistical data from models, receives requests and sends replies to those requests.
 

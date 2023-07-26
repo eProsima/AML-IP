@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @file agent_turn.cpp
+ * @file agent_repeater.cpp
  *
  */
 
@@ -24,14 +24,14 @@
 #include <cpp_utils/Log.hpp>
 #include <ddspipe_participants/types/address/Address.hpp>
 
-#include <amlip_cpp/node/wan/TurnNode.hpp>
+#include <amlip_cpp/node/wan/RepeaterNode.hpp>
 
 int main(
         int argc,
         char** argv)
 {
 
-    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Agent Turn Node execution. Creating listening address...");
+    logUser(AMLIPCPP_MANUAL_TEST, "Starting Manual Test Agent Repeater Node execution. Creating listening address...");
 
     {
         // Create listening address
@@ -43,12 +43,12 @@ int main(
 
         logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << listening_address << ". Creating Node...");
 
-        // Create Turn Node
-        eprosima::amlip::node::agent::TurnNode turn_node(
-            "CppTurnNode_Manual",
+        // Create Repeater Node
+        eprosima::amlip::node::agent::RepeaterNode repeater_node(
+            "CppRepeaterNode_Manual",
             { listening_address });
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << turn_node << ". Waiting SIGINT (C^) to close...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << repeater_node << ". Waiting SIGINT (C^) to close...");
 
         eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
         sigint_handler.wait_for_event();
@@ -56,7 +56,7 @@ int main(
         logUser(AMLIPCPP_MANUAL_TEST, "SIGINT received. Destroying entities...");
     }
 
-    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Turn Node execution.");
+    logUser(AMLIPCPP_MANUAL_TEST, "Finishing Manual Test Repeater Node execution.");
 
     return 0;
 }

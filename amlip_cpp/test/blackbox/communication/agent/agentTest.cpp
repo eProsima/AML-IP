@@ -29,7 +29,7 @@
 #include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 #include <amlip_cpp/node/wan/ServerNode.hpp>
-#include <amlip_cpp/node/wan/TurnNode.hpp>
+#include <amlip_cpp/node/wan/RepeaterNode.hpp>
 #include <amlip_cpp/types/job/JobDataType.hpp>
 #include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 
@@ -120,9 +120,9 @@ TEST(agentTest, client_server)
 
 /**
  *     Domain [10]                                      Domain [11]
- * Main  <->  AgentClient  <->  AgentTurn  <->  AgentClient  <->  ComputingNode
+ * Main  <->  AgentClient  <->  AgentRepeater  <->  AgentClient  <->  ComputingNode
  */
-TEST(agentTest, client_turn_client)
+TEST(agentTest, client_repeater_client)
 {
     // "Global" reference to assure that messages are being sent
     std::atomic<unsigned int> n_jobs_solved(0u);
@@ -177,8 +177,8 @@ TEST(agentTest, client_turn_client)
     // No messages sent yet
     ASSERT_EQ(n_jobs_solved, 0u);
 
-    // Create Agent Turn node
-    node::agent::TurnNode turn_node("TestAgentTurn", {address});
+    // Create Agent Repeater node
+    node::agent::RepeaterNode repeater_node("TestAgentRepeater", {address});
 
     // Wait for all messages to be sent and received
     main_thread.join();
@@ -190,9 +190,9 @@ TEST(agentTest, client_turn_client)
 
 /**
  *     Domain [x > 10]                                    Domain [10]
- * Main  <->  AgentClient  <->  AgentTurn  <->  AgentClient  <->  Computing
+ * Main  <->  AgentClient  <->  AgentRepeater  <->  AgentClient  <->  Computing
  */
-TEST(agentTest, turn_n_clients)
+TEST(agentTest, repeater_n_clients)
 {
     // "Global" reference to assure that messages are being sent
     std::atomic<unsigned int> n_jobs_solved(0u);
@@ -250,8 +250,8 @@ TEST(agentTest, turn_n_clients)
     // No messages sent yet
     ASSERT_EQ(n_jobs_solved, 0u);
 
-    // Create Agent Turn node
-    node::agent::TurnNode turn_node("TestAgentTurn", {address});
+    // Create Agent Repeater node
+    node::agent::RepeaterNode repeater_node("TestAgentRepeater", {address});
 
     // Wait for all messages to be sent and received
     for (unsigned int i = 0u; i < test::N_CLIENTS; ++i)

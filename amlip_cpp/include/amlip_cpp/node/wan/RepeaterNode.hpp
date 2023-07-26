@@ -13,11 +13,11 @@
 // limitations under the License.
 
 /**
- * @file TurnNode.hpp
+ * @file RepeaterNode.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP
-#define AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP
+#ifndef AMLIPCPP__SRC_CPP_NODE_AGENT_REPEATERNODE_HPP
+#define AMLIPCPP__SRC_CPP_NODE_AGENT_REPEATERNODE_HPP
 
 #include <ddspipe_participants/types/address/Address.hpp>
 
@@ -33,16 +33,16 @@ namespace agent {
  *
  * @warning Not Thread Safe (yet) (TODO)
  */
-class TurnNode : public AgentNode
+class RepeaterNode : public AgentNode
 {
 public:
 
-    TurnNode(
+    RepeaterNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses,
             const std::set<ddspipe::participants::types::Address>& connection_addresses);
 
-    TurnNode(
+    RepeaterNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses);
 
@@ -60,4 +60,4 @@ protected:
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif /* AMLIPCPP__SRC_CPP_NODE_AGENT_TURNNODE_HPP */
+#endif /* AMLIPCPP__SRC_CPP_NODE_AGENT_REPEATERNODE_HPP */

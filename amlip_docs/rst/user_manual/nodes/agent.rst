@@ -40,7 +40,7 @@ This node acts as a communication server, waiting for other Client Nodes to conn
     :align: center
     :width: 75%
 
-.. _user_manual_nodes_agent_turn:
+.. _user_manual_nodes_agent_repeater:
 
 *************
 Repeater Node

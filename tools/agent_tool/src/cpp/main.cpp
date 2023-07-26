@@ -27,7 +27,7 @@
 
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 #include <amlip_cpp/node/wan/ServerNode.hpp>
-#include <amlip_cpp/node/wan/TurnNode.hpp>
+#include <amlip_cpp/node/wan/RepeaterNode.hpp>
 
 #include "user_interface/arguments_configuration.h"
 
@@ -220,8 +220,8 @@ int main(
                 {
                     logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << address << ". Creating Node...");
 
-                    // Create Turn Node
-                    agent_node = std::make_shared<eprosima::amlip::node::agent::TurnNode>(
+                    // Create Repeater Node
+                    agent_node = std::make_shared<eprosima::amlip::node::agent::RepeaterNode>(
                         name.c_str(),
                         addresses);
                     break;
