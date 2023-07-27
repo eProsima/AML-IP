@@ -26,11 +26,6 @@ from geometry_msgs.msg import Twist
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 import rclpy
-from rclpy.node import Node
-from rclpy.qos import QoSDurabilityPolicy
-from rclpy.qos import QoSHistoryPolicy
-from rclpy.qos import QoSProfile
-from rclpy.qos import QoSReliabilityPolicy
 
 from sensor_msgs.msg import Image
 
@@ -42,13 +37,13 @@ waiter = BooleanWaitHandler(True, False)
 DOMAIN_ID = 166
 
 
-class SubscriberImage(Node):
+class SubscriberImage(node.Node):
 
     def __init__(self):
         super().__init__('subscriber_image')
-        custom_qos_profile = QoSProfile(
+        custom_qos_profile = rclpy.qos.QoSProfile(
                             depth=4,
-                            reliability=QoSReliabilityPolicy.BEST_EFFORT)
+                            reliability=rclpy.qos.QoSReliabilityPolicy.BEST_EFFORT)
 
         self.subscription = self.create_subscription(
             Image,
@@ -71,10 +66,10 @@ class PublisherVel(Node):
 
     def __init__(self):
         super().__init__('publisher_velocity')
-        custom_qos_profile = QoSProfile(
-                            history=QoSHistoryPolicy.KEEP_ALL,
-                            durability=QoSDurabilityPolicy.TRANSIENT_LOCAL,
-                            reliability=QoSReliabilityPolicy.BEST_EFFORT)
+        custom_qos_profile = rclpy.qos.QoSProfile(
+                            history=rclpy.qos.QoSHistoryPolicy.KEEP_ALL,
+                            durability=rclpy.qos.QoSDurabilityPolicy.TRANSIENT_LOCAL,
+                            reliability=rclpy.qos.QoSReliabilityPolicy.BEST_EFFORT)
 
         self.pub = self.create_publisher(
             Twist,

@@ -9,7 +9,7 @@ Workload Distribution Scenario
 This :term:`Scenario` performs the action of distributing a high computational effort *Task* in remote
 nodes, in order to parallelize the task and do not block any other important actions that may require
 to run in the same device.
-It uses the :ref:`user_manual_dds_multiservice` communication to publish those tasks in an efficient way.
+It uses the :ref:`protocols_dds_multiservice` communication to publish those tasks in an efficient way.
 
 The *Task* distributed is the training data-set of an |aml| model.
 This model is stored in a :ref:`user_manual_nodes_main` and the training data-set is divided in different *Jobs*,

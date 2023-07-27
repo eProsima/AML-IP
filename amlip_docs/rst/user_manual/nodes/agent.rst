@@ -104,8 +104,7 @@ Steps
 Repeater Node
 *************
 
-A Repeater Node could work as a :term:`TURN` Repeater.
-This means that a Repeater Node can be used to repeat messages between networks.
+A Repeater Node can be used to repeat messages between networks, that is, the message will be forwarded using the same network interface. This is useful to communicate across LANs.
 
 .. figure:: /rst/figures/agent_nodes_repeater.png
     :align: center

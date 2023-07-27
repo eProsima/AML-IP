@@ -8,7 +8,7 @@ Collaborative Learning Scenario
 
 In this :term:`Scenario`, *Model Manager Receiver* and *Model Manager Sender* nodes working on the same problem share their locally obtained models with each other, without having to share the private datasets with which they were trained on.
 This intends to lead towards a more complex and accurate model.
-It leverages the :ref:`user_manual_dds_rpc` communication protocol/paradigm in order to exchange all required information (model requests/replies) in an efficient way.
+It leverages the :ref:`protocols_dds_rpc` communication protocol/paradigm in order to exchange all required information (model requests/replies) in an efficient way.
 
 The Model Manager Sender Nodes publish :ref:`user_manual_scenarios_collaborative_learning_statistics` 's while the Model Manager Receiver Nodes listen to them.
 When a :ref:`user_manual_nodes_model_receiver` is interested in a model based on its :ref:`user_manual_scenarios_collaborative_learning_statistics`, it sends a :ref:`user_manual_scenarios_collaborative_learning_model` request to the Model Manager Sender Node that sent the :ref:`user_manual_scenarios_collaborative_learning_statistics`.

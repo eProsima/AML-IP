@@ -8,10 +8,8 @@ Project Overview
 
 |eamlip| is a communications framework in charge of data exchange between :term:`AML` nodes
 through local or remote networks.
-It is designed to allow non-experts users to create and manage a cluster of AML nodes
-to exploit the distributed and concurrent learning capabilities of AML.
-Thus, AML-IP is a communication framework that abstracts the transport protocols from the user,
-creating a platform that communicates each node without requiring the user to be concerned about communication issues.
+It is designed to allow non-experts users to create and manage a cluster of AML nodes to exploit the distributed and concurrent learning capabilities of AML.
+Thus, AML-IP is a communication framework that abstracts the transport protocols from the user, creating a platform that communicates each node without requiring the user to be concerned about communication issues.
 It also allows the creation of complex distributed networks with one or multiple users working on the same problem.
 
 AML
@@ -62,10 +60,8 @@ C++
 ---
 
 This is the main programming language in |amlip|.
-|cpp| has been chosen because it is a very versatile and complete language that allows to easily implement complex
-concepts maintaining high performance.
-Also |fastdds| is mainly built in |cpp| and using the same programming language allows to easily interact without
-losing performance with the middleware layer.
+|cpp| has been chosen because it is a very versatile and complete language that allows to easily implement complex concepts maintaining high performance.
+Also |fastdds| is mainly built in |cpp| and using the same programming language allows to easily interact without losing performance with the middleware layer.
 
 There is a public :term:`API` found in :code:`AML-IP/amlip_cpp/include` with all the installed headers that can be used from the user side.
 The API, implementation and testing of this part of the code can be found mainly under sub-package :code:`amlip_cpp`.
@@ -76,8 +72,7 @@ Python
 This is the programming language though to be used by a final user.
 |python| has been chosen as it is easier to work with state-of-the-art :term:`ML` projects.
 
-Nodes and classes that the user needs to instantiate in order to implement their own code are parsed from
-|cpp| by using |swig| tool, giving the user a |python| API.
+Nodes and classes that the user needs to instantiate in order to implement their own code are parsed from |cpp| by using |swig| tool, giving the user a |python| API.
 The API, implementation and testing of this part of the code can be found mainly under sub-package :code:`amlip_py`.
 
 .. warning::
@@ -97,8 +92,7 @@ It is a **public** **open-source** project focused to be used by the :term:`ML` 
 The whole project is hosted on a |github| repository, and can be found in the following url: |githubpage|.
 The code project is divided in sub-packages that can be built, installed and tested independently.
 
-|amlip| is a software project that does not rely on any specific hardware or :term:`OS`,
-and does not require any physical infrastructure.
+|amlip| is a software project that does not rely on any specific hardware or Operating System, and does not require any physical infrastructure.
 The storage and CI is hosted by |github|.
 
 

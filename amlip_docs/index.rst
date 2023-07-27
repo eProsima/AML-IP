@@ -61,8 +61,6 @@
 
    Scenarios </rst/user_manual/scenarios/scenarios>
    Nodes </rst/user_manual/nodes/nodes>
-   /rst/user_manual/dds/dds
-   /rst/user_manual/user_manual_glossary
 
 
 .. _index_developer_manual:
@@ -76,6 +74,8 @@
    /rst/developer_manual/installation/sources/linux/linux
    /rst/developer_manual/installation/sources/windows/windows
    /rst/developer_manual/installation/configuration/cmake_options
+   /rst/developer_manual/technologies/technologies
+   /rst/developer_manual/protocols/protocols
 
 
 .. _index_notes:

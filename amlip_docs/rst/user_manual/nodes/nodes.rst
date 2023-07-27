@@ -48,7 +48,7 @@ Node Kind
 Each Node belongs to a specific *Kind*.
 The kind of the node identifies it, and makes it behave and perform different actions.
 There are no restrictions in the number of nodes of the same kind running in the same network.
-The kind of the nodes follows the :term:`OOP` ideas, where every Node Kind represents a *class* and can
+The kind of the nodes follows the Object Oriented Programming ideas, where every Node Kind represents a *class* and can
 inherit from other Node *classes* (e.g. every Node Kind inherits from :code:`ParentNode`);
 and each running node in the network is an *instance* of the *class* of its Kind.
 
