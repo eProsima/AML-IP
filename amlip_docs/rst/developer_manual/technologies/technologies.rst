@@ -5,8 +5,7 @@ Enabling technologies
 #####################
 
 This page describes the different technologies that support the development of the |amlip|.
-These focus on the communication between nodes, the protocols used to support such communication and the
-libraries and tools used to handle the different types of data to be transmitted.
+These focus on the communication between nodes, the protocols used to support such communication and the libraries and tools used to handle the different types of data to be transmitted.
 
 .. _technologies_dds:
 
@@ -25,4 +24,4 @@ Fast DDS
 
 |amlip| uses |efastdds|, a C++ open-source library that implements :term:`DDS` specification.
 |efastdds| has all the features and characteristics needed to power |amlip| communications.
-A whole documentation for the |fastdds| project can be found here: |FastDDSDocs|.
+A whole documentation for the |fastdds| project can be found in |FastDDSDocs|.
