@@ -24,8 +24,8 @@ set(TEST_SOURCES
 
 set(TEST_LIST
         client_server
-        client_turn_client
-        turn_n_clients
+        client_repeater_client
+        repeater_n_clients
     )
 
 set(TEST_NEEDED_SOURCES

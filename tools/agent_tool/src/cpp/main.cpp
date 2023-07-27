@@ -27,7 +27,7 @@
 
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 #include <amlip_cpp/node/wan/ServerNode.hpp>
-#include <amlip_cpp/node/wan/TurnNode.hpp>
+#include <amlip_cpp/node/wan/RepeaterNode.hpp>
 
 #include "user_interface/arguments_configuration.h"
 
@@ -124,10 +124,22 @@ int main(
                 break;
 
             case optionIndex::CONNECTION_ADDRESS:
+                if (entity_type == EntityType::SERVER)
+                {
+                    print_warning("client or repeater", opt.arg);
+                    break;
+                }
+
                 ip = std::string(opt.arg);
                 break;
 
             case optionIndex::LISTENING_ADDRESS:
+                if (entity_type == EntityType::CLIENT)
+                {
+                    print_warning("server or repeater", opt.arg);
+                    break;
+                }
+
                 ip = std::string(opt.arg);
                 break;
 
@@ -136,10 +148,22 @@ int main(
                 break;
 
             case optionIndex::CONNECTION_PORT:
+                if (entity_type == EntityType::SERVER)
+                {
+                    print_warning("client or repeater", opt.arg);
+                    break;
+                }
+
                 connection_port = strtol(opt.arg, nullptr, 10);
                 break;
 
             case optionIndex::LISTENING_PORT:
+                if (entity_type == EntityType::CLIENT)
+                {
+                    print_warning("server or repeater", opt.arg);
+                    break;
+                }
+
                 listening_port = strtol(opt.arg, nullptr, 10);
                 break;
 
@@ -220,8 +244,8 @@ int main(
                 {
                     logUser(AMLIPCPP_MANUAL_TEST, "Address where listen: " << address << ". Creating Node...");
 
-                    // Create Turn Node
-                    agent_node = std::make_shared<eprosima::amlip::node::agent::TurnNode>(
+                    // Create Repeater Node
+                    agent_node = std::make_shared<eprosima::amlip::node::agent::RepeaterNode>(
                         name.c_str(),
                         addresses);
                     break;

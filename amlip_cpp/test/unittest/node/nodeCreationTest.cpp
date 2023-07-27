@@ -18,7 +18,7 @@
 #include <amlip_cpp/node/wan/AgentNode.hpp>
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 #include <amlip_cpp/node/wan/ServerNode.hpp>
-#include <amlip_cpp/node/wan/TurnNode.hpp>
+#include <amlip_cpp/node/wan/RepeaterNode.hpp>
 
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>
@@ -98,9 +98,9 @@ TEST(NodeCreationTest, create_server)
 }
 
 /**
- * Create Turn Node
+ * Create Repeater Node
  */
-TEST(NodeCreationTest, create_turn)
+TEST(NodeCreationTest, create_repeater)
 {
     auto listening_address = eprosima::ddspipe::participants::types::Address(
         12121,
@@ -108,7 +108,7 @@ TEST(NodeCreationTest, create_turn)
         "localhost",
         eprosima::ddspipe::participants::types::TransportProtocol::udp);
 
-    node::agent::TurnNode node("TestNode", { listening_address });
+    node::agent::RepeaterNode node("TestNode", { listening_address });
 
     ASSERT_EQ(types::StateKind::running, node.current_state());
     ASSERT_EQ(types::NodeKind::agent, node.node_kind());

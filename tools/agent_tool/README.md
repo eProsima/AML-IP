@@ -50,19 +50,44 @@ General options:
                     • server -> Run an Agent Server Node.
 
                     • repeater -> Run an Agent Repeater Node.
+
+Client options:
   -n, --name <name>
                      Name (Default: agent_tool).
   -d, --domain <id>
                     DDS domain ID (Default: 0).
+  -c, --connection-address <address>
+                    Address to connect (Default: 127.0.0.1).
   -p, --connection-port <num>
                     Address connection port (Default: 12121).
+  -t, --transport <tcp|udp>
+                    Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
+
+Server options:
+  -n, --name <name>
+                     Name (Default: agent_tool).
+  -d, --domain <id>
+                    DDS domain ID (Default: 0).
+  -l, --listening-address <address>
+                    Address where listen (Default: 127.0.0.1).
   -q, --listening-port <num>
                     Address listening port (Default: 12121).
+  -t, --transport <tcp|udp>
+                    Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
+
+Repeater options:
+  -n, --name <name>
+                     Name (Default: agent_tool).
+  -d, --domain <id>
+                    DDS domain ID (Default: 0).
   -c, --connection-address <address>
                     Address to connect (Default: 127.0.0.1).
   -l, --listening-address <address>
                     Address where listen (Default: 127.0.0.1).
+  -p, --connection-port <num>
+                    Address connection port (Default: 12121).
+  -q, --listening-port <num>
+                    Address listening port (Default: 12121).
   -t, --transport <tcp|udp>
                     Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
-
 ```

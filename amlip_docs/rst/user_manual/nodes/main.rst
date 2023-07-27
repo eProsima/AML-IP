@@ -12,17 +12,12 @@ This kind of Node performs the active (client) action of :ref:`user_manual_scena
 This node is able to send different *Jobs* serialized as :ref:`user_manual_scenarios_workload_distribution_job` and it
 receives a Solution once the task has been executed as :ref:`user_manual_scenarios_workload_distribution_solution`.
 
-.. warning::
-
-    In the current release, the use of a Main node must be synchronous.
-    This means that once a job is sent, the thread must wait for the solution to arrive before sending another task.
-    In future release asynchronous methods will be available.
-
-
-Example of Usage
-================
+***********
+Synchronous
+***********
 
 This node kind does require **active** interaction with the user to perform its action.
+This means that once a job is sent, the thread must wait for the solution to arrive before sending another task.
 Users can use method :code:`request_job_solution` to send a new *Job*.
 The thread calling this method will wait until the whole process has finished and the *Solution* has arrived from the *Computing Node* in charge of this *Job*.
 By destroying the node every internal entity is correctly destroyed.
@@ -62,3 +57,51 @@ Steps
 
             # Send a Job to a remote Computing and waits for the answer
             solution, server_id = node.request_job_solution(new_job)
+
+************
+Asynchronous
+************
+
+Users can use method :code:`request_job_solution` to send a new *Job*.
+The thread calling this method must wait until the whole process has finished and the *Solution* has arrived from the :ref:`user_manual_nodes_computing` in charge of this data that will process it by the Listener or callback given, and return the Solution calculated in other thread.
+By destroying the node every internal entity is correctly destroyed.
+
+Steps
+-----
+
+* Instantiate the Asynchronous Main Node creating an object of such class with a name, a listener or callback and a domain.
+* Create a new :code:`JobDataType` from an array of bytes.
+* Send a new *Job* synchronously and wait for the solution by calling :code:`request_job_solution`.
+* Wait for the solution.
+
+.. tabs::
+
+    .. tab:: Python
+
+        .. code-block:: python
+
+            def solution_received(
+                    solution,
+                    task_id,
+                    server_id):
+                print(f'Solution received from server: {server_id}\n'
+                    f' with id: {task_id}\n'
+                    f' solution: {solution.to_string()}')
+
+            def main():
+                # Create a new Async Main Node
+                node = AsyncMainNode(
+                    'MyAsyncMainNode',
+                    callback=solution_received,
+                    domain=100)
+
+                # Create new data to be executed remotely
+                data_str = '<Job Data In Py String Async [LAMBDA]>'
+                job_data = JobDataType(data_str)
+
+                # Send data to a remote Computing Node and waits for the solution
+                task_id = main_node.request_job_solution(job_data)
+
+                # User must wait to receive solution.
+                # Out of scope, the node will be destroyed,
+                # and thus the solution will not arrive.
