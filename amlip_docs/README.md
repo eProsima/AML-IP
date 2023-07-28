@@ -3,10 +3,8 @@
 This package generates the AML-IP documentation.
 
 > :warning: **TODO**
-[Here](https://readthedocs.org/) it can be seen the online documentation hosted in
-
-[readthedocs](https://readthedocs.org/).
-This packages is powered by [sphinx](https://www.sphinx-doc.org/en/master/).
+[Here](https://aml-ip.readthedocs.io/en/latest) is the online documentation hosted in [readthedocs](https://readthedocs.org/).
+This package is powered by [sphinx](https://www.sphinx-doc.org/en/master/).
 
 ---
 
@@ -50,7 +48,3 @@ colcon test --packages-select amlip_docs --event-handler console_direct+
 * `BUILD_DOCS_TESTS`
 
 ---
-
-## Library documentation
-
-> :warning: **TODO**

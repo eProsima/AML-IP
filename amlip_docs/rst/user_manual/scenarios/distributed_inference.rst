@@ -9,7 +9,7 @@ Distributed Inference Scenario
 This :term:`Scenario` involves the action of distributing a large amount of *Data* to remote
 nodes to perform their inferences, in order to parallelize them and do not block any other important actions that may require to run in the same device.
 By performing this action, the system ensures seamless execution of multiple tasks, optimizing overall performance and resource utilization.
-It uses the :ref:`user_manual_dds_multiservice` to efficiently publish and distribute the data across remote nodes, ensuring a streamlined and effective process.
+It uses the :ref:`protocols_dds_multiservice` to efficiently publish and distribute the data across remote nodes, ensuring a streamlined and effective process.
 
 The inference is performed in a :ref:`user_manual_nodes_inference` and sent to an :ref:`user_manual_nodes_edge`.
 

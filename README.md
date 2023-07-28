@@ -1,27 +1,41 @@
-# eProsima AML-IP
 
-**Algebraic Machine Learning - Integrating Platform** project.
 
-<a href="http://www.eprosima.com"><img src=".figures/logo.png" height="120" align="left" hspace="8" vspace="2" />
-<a href="https://alma-ai.eu/"><img src=".figures/alma_logo.png" height="120" style="background-color:white;" align="left" hspace="18" vspace="2" />
+[![AML-IP](amlip_docs/rst/figures/amlip_github_banner.png)](https://alma-ai.eu/)
 
-[![License](https://img.shields.io/github/license/eProsima/AML-IP.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Releases](https://img.shields.io/github/v/release/eProsima/AML-IP?sort=semver)](https://github.com/eProsima/AML-IP/releases)
-[![Issues](https://img.shields.io/github/issues/eProsima/AML-IP.svg)](https://github.com/eProsima/AML-IP/issues)
-[![Forks](https://img.shields.io/github/forks/eProsima/AML-IP.svg)](https://github.com/eProsima/AML-IP/network/members)
-[![Stars](https://img.shields.io/github/stars/eProsima/AML-IP.svg)](https://github.com/eProsima/AML-IP/stargazers)
-[![test](https://github.com/eProsima/AML-IP/actions/workflows/test.yml/badge.svg)](https://github.com/eProsima/AML-IP/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/eProsima/AML-IP/branch/main/graph/badge.svg?token=M5Y82MGCO7)](https://codecov.io/gh/eProsima/AML-IP)
-[![Documentation Status](https://readthedocs.org/projects/aml-ip/badge/?version=latest)](https://aml-ip.readthedocs.io/en/latest/)
+<br>
 
-*eProsima AML-IP* is a communications framework in charge of data exchange between Algebraic Machine Learning (AML)
-nodes through local or remote networks.
-It is designed to allow non-experts users to create and manage a cluster of AML nodes
-to exploit the distributed and concurrent learning capabilities of AML.
-Thus, AML-IP is a communication framework that makes the transport protocols abstracted from the user,
-creating a platform that communicates each node without requiring the user to be concerned about communication issues.
+<div class="menu" align="center">
+    <strong>
+        <a href="https://eprosima.com/index.php/downloads-all">Download</a>
+        <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+        <a href="https://aml-ip.readthedocs.io/en/latest">Docs</a>
+        <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+        <a href="https://alma-ai.eu/index.php/news">News</a>
+        <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+        <a href="https://twitter.com/EProsima">Twitter</a>
+        <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+        <a href="mailto:info@eprosima.com">Contact Us</a>
+    </strong>
+</div>
 
----
+<br><br>
+
+<div class="badges" align="center">
+    <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Robotics" src="https://img.shields.io/github/license/eProsima/AML-IP.svg"/></a>
+    <a href="https://github.com/eProsima/AML-IP/releases"><img alt="Releases" src="https://img.shields.io/github/v/release/eProsima/AML-IP?sort=semver"/></a>
+    <a href="https://github.com/eProsima/AML-IP/issues"><img alt="Issues" src="https://img.shields.io/github/issues/eProsima/AML-IP.svg"/></a>
+    <a href="https://github.com/eProsima/AML-IP/network/memberss"><img alt="Forks" src="https://img.shields.io/github/forks/eProsima/AML-IP.svg"/></a>
+    <a href="https://github.com/eProsima/AML-IP/stargazerss"><img alt="Stars" src="https://img.shields.io/github/stars/eProsima/AML-IP.svg"/></a>
+    <a href="https://github.com/eProsima/AML-IP/actions/workflows/test.yml"><img alt="Testing" src="https://github.com/eProsima/AML-IP/actions/workflows/test.yml/badge.svg"/></a>
+    <a href="https://codecov.io/gh/eProsima/AML-IP"><img alt="Code Coverage" src="https://codecov.io/gh/eProsima/AML-IP/branch/main/graph/badge.svg?token=M5Y82MGCO7"/></a>
+    <a href="https://aml-ip.readthedocs.io/en/latest/"><img alt="Documentation Status" src="https://readthedocs.org/projects/aml-ip/badge/?version=latest"/></a>
+</div>
+
+<br><br>
+
+*eProsima AML-IP (Algebraic Machine Learning - Integrating Platform)* is a communications framework in charge of data exchange between Algebraic Machine Learning (AML) nodes through local or remote networks.
+It is designed to allow non-experts users to create and manage a cluster of AML nodes to exploit the distributed and concurrent learning capabilities of AML.
+Thus, AML-IP is a communication framework that makes the transport protocols abstracted from the user, creating a platform that communicates each node without requiring the user to be concerned about communication issues.
 
 ## Documentation
 
@@ -37,70 +51,6 @@ You can access the documentation online, which is hosted on [Read the Docs](http
 ## Installation Guide
 
 The instructions for installing *AML-IP* application from sources and its required dependencies are provided in the [documentation installation guide](https://aml-ip.readthedocs.io/en/latest/rst/installation/linux.html) for `Linux` or `Windows`.
-
----
-
-## Project status
-
-**This project is a work in progress and the following features presented here will be extended, updated, and improved in future versions.**
-
-### AML-IP Nodes
-
-So far, these are the Nodes supported:
-
-* `StatusNode` [C++, python] [documentation](https://aml-ip.readthedocs.io/en/latest/rst/user_manual/nodes/status.html)
-* `MainNode` [C++, python] [documentation](https://aml-ip.readthedocs.io/en/latest/rst/user_manual/nodes/main.html)
-* `ComputingNode` [C++, python] [documentation](https://aml-ip.readthedocs.io/en/latest/rst/user_manual/nodes/computing.html)
-
-### AML-IP Scenarios
-
-So far, these are the Nodes supported:
-
-* `Monitor Network` [documentation](https://aml-ip.readthedocs.io/en/latest/rst/user_manual/scenarios/monitor_state.html)
-* `Workload Distribution` [documentation](https://aml-ip.readthedocs.io/en/latest/rst/user_manual/scenarios/workload_distribution.html)
-
-### Run a demo
-
-Check the following [documentation](https://aml-ip.readthedocs.io/en/latest/rst/demo/workload_distribution.html) for a complete tutorial on how to execute a demo.
-
----
-
-## Architecture
-
-This repository is divided in sub-packages with different targets:
-
-* `amlip_cpp` Main definition and implementation of the project logic library. C++ API provided.
-* `amlip_swig` Binding from `amlip_cpp` to a Python API.
-* `amlip_py` Python API.
-* `amlip_docs` Documentation with sphinx.
-* `amlip_demo_nodes` Demonstrators and examples of *AML-IP*.
-
-### Dependencies
-
-*AML-IP* depends on several standard or eProsima projects:
-
-* Third-party libraries
-  * Dependencies to download, compile and install project:
-    * `wget`
-    * `git`
-  * Dependencies to install project:
-    * `CMake`
-    * `gcc`
-    * `python3`
-    * `pip`
-    * `colcon` [optional]
-  * Library dependencies:
-    * `Asio`
-    * `TinyXML2`
-    * `yaml-cpp`
-    * `OpenSSL` [ony with security]
-    * `GTest` [ony for test]
-* eProsima libraries
-  * `fastcdr` Fast CDR for message serialization and deserialization.
-  * `fastrtps` Fast DDS library for DDS communication.
-  * `cmake_utils` CMake utilities library.
-  * `cpp_utils` C++ utilities library.
-  * `ddsrouter_core` DDS-Router core library.
 
 ---
 
