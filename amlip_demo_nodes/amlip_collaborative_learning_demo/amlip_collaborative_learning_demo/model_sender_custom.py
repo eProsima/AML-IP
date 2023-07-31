@@ -30,17 +30,17 @@ class CustomModelReplier(ModelReplier):
 
     def fetch_model(
             self,
-            model: ModelRequestDataType) -> ModelReplyDataType:
+            request: ModelRequestDataType) -> ModelReplyDataType:
 
-        solution = ModelReplyDataType(model.to_string().upper())
+        reply = ModelReplyDataType(request.to_string().upper())
 
         print(f'Model request received from client\n'
-              f' model: {model.to_string()}\n'
-              f' solution: {solution.to_string()}')
+              f' request: {request.to_string()}\n'
+              f' reply: {reply.to_string()}')
 
         waiter.open()
 
-        return solution
+        return reply
 
 
 def main():

@@ -42,11 +42,11 @@ public:
     }
 
     virtual eprosima::amlip::types::ModelReplyDataType fetch_model (
-            const eprosima::amlip::types::ModelRequestDataType data) override
+            const eprosima::amlip::types::ModelRequestDataType request) override
     {
-        logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Processing request: " << request << " . Processing request...");
 
-        // Create new solution from data here
+        // Create new solution from request here
         eprosima::amlip::types::ModelReplyDataType solution("MOBILENET V1");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Processed model: " << solution << " . Returning model...");

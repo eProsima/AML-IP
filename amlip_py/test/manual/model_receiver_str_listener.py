@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import pickle as pkl
+
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListenerLambda
@@ -29,13 +31,27 @@ waiter = BooleanWaitHandler(True, False)
 
 def statistics_received(
         statistics: ModelStatisticsDataType) -> bool:
-    return True
+
+    data = pkl.loads(bytes(statistics.to_vector()))
+
+    print('\n\nStatistics received: \n')
+    print(data)
+    print('\n')
+
+    if (float(data['size']) < 100):
+        print('Publish request.\n')
+
+        return True
+
+    return False
 
 
 def model_received(
         model: ModelReplyDataType) -> bool:
-    print(f'Model reply received from server\n'
-          f' solution: {model.to_string()}')
+
+    print('\nReply received:\n')
+    print(model.to_string())
+    print('\n')
 
     waiter.open()
 

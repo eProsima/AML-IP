@@ -79,11 +79,11 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         void* data,
         const uint32_t size)
     : name_(name)
+    , data_(data)
+    , data_size_(size)
+    , has_been_allocated_(true)
 {
-    data_size_ = size;
-    data_ = malloc(data_size_ * sizeof(uint8_t));
-    std::memcpy(data_, data, data_size_);
-    has_been_allocated_.store(true);
+    // Do nothing
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
