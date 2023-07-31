@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class ModelSolutionDataType
+// Binding for class ModelReplyDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
@@ -24,14 +24,14 @@
 %ignore *::operator=;
 
 %{
-#include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
 
-using ModelSolutionDataType = eprosima::amlip::types::ModelSolutionDataType;
+using ModelReplyDataType = eprosima::amlip::types::ModelReplyDataType;
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+%include <amlip_cpp/types/model/ModelReplyDataType.hpp>
 
 %pythoncode %{
-ModelSolutionDataType = GenericDataType
+ModelReplyDataType = GenericDataType
 %}

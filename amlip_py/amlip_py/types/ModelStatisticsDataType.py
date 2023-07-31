@@ -26,7 +26,9 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
 
     def __init__(
             self,
-            message: (str | bytes) = None):
+            message: (str | bytes) = None,
+            data: (str | bytes) = None,
+            size: int = None):
         """
         Construct a new Model Statistics with statistics.
         Parameters
@@ -34,7 +36,11 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
         message: str or bytes
             Statistics to send to ModelManagerReceiver Node.
         """
-        if (message):
+        if size:
+            super().__init__(message, data, size)
+        elif data:
+            super().__init__(message, data)
+        elif message:
             super().__init__(message)
         else:
             super().__init__()
@@ -51,6 +57,12 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
         """Get data referenced to this Id."""
         return cpp_ModelStatisticsDataType.data(self)
 
-    def set_data(self, data):
-        """Set data referenced to this Id."""
-        cpp_ModelStatisticsDataType.data(self, data)
+    def to_string(
+            self) -> str:
+        """Serialize Inference into a string."""
+        return cpp_ModelStatisticsDataType.to_string(self)
+
+    def to_vector(
+            self) -> bytes:
+        """Serialize Inference into bytes."""
+        return cpp_ModelStatisticsDataType.to_vector(self)

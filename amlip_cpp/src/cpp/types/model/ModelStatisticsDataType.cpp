@@ -48,21 +48,64 @@ const char* ModelStatisticsDataType::TYPE_NAME_ = "AMLIP-MODEL-STATISTICS";
 ModelStatisticsDataType::ModelStatisticsDataType()
     : name_("ModelStatisticsDataTypeName")
     , has_been_allocated_(false)
+    , data_(nullptr)
+    , data_size_(0)
 {
+    // Do nothing
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         const char* name)
     : name_(name)
     , has_been_allocated_(false)
+    , data_(nullptr)
+    , data_size_(0)
 {
+    // Do nothing
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name)
     : name_(name)
     , has_been_allocated_(false)
+    , data_(nullptr)
+    , data_size_(0)
 {
+    // Do nothing
+}
+
+ModelStatisticsDataType::ModelStatisticsDataType(
+        const std::string& name,
+        void* data,
+        const uint32_t size)
+    : name_(name)
+{
+    data_size_ = size;
+    data_ = malloc(data_size_ * sizeof(uint8_t));
+    std::memcpy(data_, data, data_size_);
+    has_been_allocated_.store(true);
+}
+
+ModelStatisticsDataType::ModelStatisticsDataType(
+        const std::string& name,
+        const std::vector<ByteType>& bytes)
+    : ModelStatisticsDataType(
+        name,
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size()),
+        bytes.size())
+{
+    // Do nothing
+}
+
+ModelStatisticsDataType::ModelStatisticsDataType(
+        const std::string& name,
+        const std::string& bytes)
+    : ModelStatisticsDataType(
+        name,
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.c_str()), bytes.length()),
+        bytes.length())
+{
+    // Do nothing
 }
 
 ModelStatisticsDataType::~ModelStatisticsDataType()
@@ -226,29 +269,15 @@ void* ModelStatisticsDataType::data() const
     return data_;
 }
 
-void ModelStatisticsDataType::data(
-        const std::vector<ByteType>& bytes)
+std::string ModelStatisticsDataType::to_string() const noexcept
 {
-    data_ = utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size());
-    data_size_ = bytes.size();
-    has_been_allocated_ = true;
+    return std::string(static_cast<char*>(data_), data_size_);
 }
 
-void ModelStatisticsDataType::data(
-        const std::string& bytes)
+std::vector<ByteType> ModelStatisticsDataType::to_vector() const noexcept
 {
-    data_ = utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.c_str()), bytes.length());
-    data_size_ = bytes.length();
-    has_been_allocated_ = true;
-}
-
-void ModelStatisticsDataType::data(
-        void* data,
-        const uint32_t size)
-{
-    data_ = data;
-    data_size_ = size;
-    has_been_allocated_ = true;
+    ByteType* buffer = static_cast<ByteType*>(data_);
+    return std::vector<ByteType>(buffer, buffer + data_size_);
 }
 
 uint32_t ModelStatisticsDataType::data_size() const
@@ -286,7 +315,7 @@ void ModelStatisticsDataType::deserialize(
     dcdr >> data_size_;
 
     // Store enough space to deserialize the data
-    data_ = malloc(data_size_ * sizeof(uint8_t));
+    data_ = std::malloc(data_size_ * sizeof(uint8_t));
     // Deserialize array
     dcdr.deserializeArray(static_cast<uint8_t*>(data_), data_size_);
 

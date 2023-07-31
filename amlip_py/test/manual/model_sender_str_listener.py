@@ -16,8 +16,8 @@ from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplierLambda
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelDataType import ModelDataType
-from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
+from amlip_py.types.ModelReplyDataType import ModelReplyDataType
 
 # Domain ID
 DOMAIN_ID = 166
@@ -27,8 +27,8 @@ waiter = BooleanWaitHandler(True, False)
 
 
 def fetch_model(
-        model: ModelDataType) -> ModelSolutionDataType:
-    solution = ModelSolutionDataType(model.to_string().upper())
+        model: ModelRequestDataType) -> ModelReplyDataType:
+    solution = ModelReplyDataType(model.to_string().upper())
     print(f'Model request received from client\n'
           f' model: {model.to_string()}\n'
           f' solution: {solution.to_string()}')
@@ -53,7 +53,7 @@ def main():
     print(f'Node created: {model_sender_node.get_id()}. '
           'Already processing models.')
 
-    model_sender_node.update_statistics(
+    model_sender_node.publish_statistics(
         'ModelManagerSenderStatistics',
         'hello world')
 

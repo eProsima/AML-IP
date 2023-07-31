@@ -60,6 +60,28 @@ public:
             const char* name);
 
     /*!
+     * @brief TODO
+     */
+    AMLIP_CPP_DllAPI ModelStatisticsDataType(
+            const std::string& name,
+            void* data,
+            const uint32_t size);
+
+    /*!
+     * @brief TODO
+     */
+    AMLIP_CPP_DllAPI ModelStatisticsDataType(
+            const std::string& name,
+            const std::vector<ByteType>& bytes);
+
+        /*!
+     * @brief TODO
+     */
+    AMLIP_CPP_DllAPI ModelStatisticsDataType(
+            const std::string& name,
+            const std::string& bytes);
+
+    /*!
      * @brief Default destructor.
      */
     AMLIP_CPP_DllAPI virtual ~ModelStatisticsDataType();
@@ -145,27 +167,14 @@ public:
     AMLIP_CPP_DllAPI void* data() const;
 
     /*!
-     * @brief This function copies the value in member \c data_
-     * @param bytes New value to be copied in member id \c data_
+     * @brief Return value of attribute \c data_
      */
-    AMLIP_CPP_DllAPI void data(
-            const std::vector<ByteType>& bytes);
+    AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
     /*!
-     * @brief This function copies the value in member \c data_
-     * @param bytes New value to be copied in member id \c data_
+     * @brief Return value of attribute \c data_
      */
-    AMLIP_CPP_DllAPI void data(
-            const std::string& bytes);
-
-    /*!
-     * @brief This function copies the value in member \c data_
-     * @param data New value to be copied in member id \c data_
-     * @param size New value to be copied in member id \c data_size_
-     */
-    AMLIP_CPP_DllAPI void data(
-            void* data,
-            const uint32_t size);
+    AMLIP_CPP_DllAPI std::vector<ByteType> to_vector() const noexcept;
 
     /*!
      * @brief Return value of attribute \c data_size_
@@ -271,7 +280,7 @@ protected:
 };
 
 //! \c ModelStatisticsDataType to stream serializator
-AMLIP_CPP_DllAPI std::ostream& operator <<(
+std::ostream& operator <<(
         std::ostream& os,
         const ModelStatisticsDataType& id);
 

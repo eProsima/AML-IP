@@ -13,11 +13,11 @@
 // limitations under the License.
 
 /*!
- * @file ModelDataType.hpp
+ * @file ModelRequestDataType.hpp
  */
 
-#ifndef AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELDATATYPE_HPP
-#define AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELDATATYPE_HPP
+#ifndef AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELREQUESTDATATYPE_HPP
+#define AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELREQUESTDATATYPE_HPP
 
 #include <string>
 #include <vector>
@@ -28,10 +28,10 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-using ModelDataType = GenericDataType;
+using ModelRequestDataType = GenericDataType;
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-#endif // AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELDATATYPE_HPP
+#endif // AMLIPCPP__SRC_CPP_TYPES_MODEL_MODELREQUESTDATATYPE_HPP

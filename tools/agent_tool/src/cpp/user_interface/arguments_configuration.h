@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef EPROSIMA_AGENT_TOOL_USERINTERFACE_ARG_CONFIGURATION_H_
-#define EPROSIMA_AGENT_TOOL_USERINTERFACE_ARG_CONFIGURATION_H_
+#ifndef EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_
+#define EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_
 
 #include <iostream>
 #include <string>
@@ -182,7 +182,7 @@ const option::Descriptor usage[] = {
     /// CLIENT OPTIONS
     {UNKNOWN_OPT, 0, "", "", Arg::None, "\nClient options:"},
     { NAME, 0, "n", "name",          Arg::String,
-      "  -n, --name <name>  \t Name (Default: agent_tool)." },
+      "  -n, --name <name>  \t Name (Default: amlip_agent)." },
     { DOMAIN_ID, 0, "d", "domain",          Arg::Numeric,
       "  -d, --domain <id>  \tDDS domain ID (Default: 0)." },
     { CONNECTION_ADDRESS, 0, "c", "connection-address",          Arg::String,
@@ -231,4 +231,4 @@ void print_warning(
     std::cerr << "WARNING: " << opt << " is a " << type << " option, ignoring argument." << std::endl;
 }
 
-#endif /* EPROSIMA_AGENT_TOOL_USERINTERFACE_ARG_CONFIGURATION_H_ */
+#endif /* EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_ */

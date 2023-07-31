@@ -42,11 +42,10 @@ ModelManagerSenderNode::ModelManagerSenderNode(
                 dds::utils::MODEL_STATISTICS_TOPIC_NAME,
                 default_statistics_datawriter_qos()))
     , model_sender_(
-        participant_->create_rpc_server<types::ModelDataType,
-        types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
+        participant_->create_rpc_server<types::ModelRequestDataType,
+        types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
 {
-    statistics_.server_id(participant_->id());
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Created new ModelManager Node: " << *this << ".");
 }
 
@@ -70,31 +69,44 @@ ModelManagerSenderNode::~ModelManagerSenderNode()
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "ModelManagerSender Node Destroyed.");
 }
 
-void ModelManagerSenderNode::update_statistics(
+void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
         void* data,
         const uint32_t size)
 {
-    statistics_.name(name);
-    statistics_.data(data, size);
+    //! Statistical data from models.
+    types::ModelStatisticsDataType statistics(name, data, size);
+
+    statistics.server_id(participant_->id());
 
     // Send statistics
-    statistics_writer_->publish(statistics_);
+    statistics_writer_->publish(statistics);
 }
 
-void ModelManagerSenderNode::update_statistics(
+void ModelManagerSenderNode::publish_statistics(
+        const std::string& name,
+        const std::vector<types::ByteType>& data)
+{
+    //! Statistical data from models.
+    types::ModelStatisticsDataType statistics(name, data);
+
+    statistics.server_id(participant_->id());
+
+    // Send statistics
+    statistics_writer_->publish(statistics);
+}
+
+void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
         const std::string& data)
 {
-    update_statistics(
-        name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
-        data.length());
-}
+    //! Statistical data from models.
+    types::ModelStatisticsDataType statistics(name, data);
 
-types::ModelStatisticsDataType ModelManagerSenderNode::statistics()
-{
-    return statistics_;
+    statistics.server_id(participant_->id());
+
+    // Send statistics
+    statistics_writer_->publish(statistics);
 }
 
 void ModelManagerSenderNode::start(
@@ -136,7 +148,7 @@ void ModelManagerSenderNode::process_routine_(
     while (running_)
     {
         // Wait request
-        types::RpcRequestDataType<types::ModelDataType> request =
+        types::RpcRequestDataType<types::ModelRequestDataType> request =
                 model_sender_->get_request();
 
         if (!running_)
@@ -145,10 +157,10 @@ void ModelManagerSenderNode::process_routine_(
         }
 
         // Call callback
-        eprosima::amlip::types::ModelSolutionDataType solution =
+        eprosima::amlip::types::ModelReplyDataType solution =
                 model_replier->fetch_model(request.data());
 
-        types::RpcReplyDataType<types::ModelSolutionDataType> reply(
+        types::RpcReplyDataType<types::ModelReplyDataType> reply(
             request.client_id(),
             request.task_id(),
             participant_->id(),

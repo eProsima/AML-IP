@@ -87,8 +87,8 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/job/JobSolutionDataType.i"
 %include "amlip_swig/types/inference/InferenceDataType.i"
 %include "amlip_swig/types/inference/InferenceSolutionDataType.i"
-%include "amlip_swig/types/model/ModelDataType.i"
-%include "amlip_swig/types/model/ModelSolutionDataType.i"
+%include "amlip_swig/types/model/ModelRequestDataType.i"
+%include "amlip_swig/types/model/ModelReplyDataType.i"
 %include "amlip_swig/types/model/ModelStatisticsDataType.i"
 
 // node

@@ -32,10 +32,17 @@ namespace std {
 %ignore eprosima::amlip::types::ModelStatisticsDataType::ModelStatisticsDataType(ModelStatisticsDataType&&);
 %ignore eprosima::amlip::types::operator <<(std::ostream &,const ModelStatisticsDataType&);
 
+// Declare the to string method
+%extend eprosima::amlip::types::ModelStatisticsDataType {
+    std::string __str__() const
+    {
+        return $self->to_string();
+    }
+}
+
 %{
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
-using ModelStatisticsDataType = eprosima::amlip::types::ModelStatisticsDataType;
 %}
 
 // Include the class interfaces

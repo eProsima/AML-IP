@@ -26,8 +26,8 @@
 #include <amlip_cpp/node/ParentNode.hpp>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
-#include <amlip_cpp/types/model/ModelDataType.hpp>
-#include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
+#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 
@@ -53,7 +53,7 @@ namespace node {
 /**
  * @brief Object that listens to:
  *
- *  - new ModelDataType messages received from a \c ModelManagerReceiverNode and executes a callback.
+ *  - new ModelRequestDataType messages received from a \c ModelManagerReceiverNode and executes a callback.
  *
  * This class is supposed to be implemented by a User and be given to a \c ModelManagerSenderNode in order to process
  * the messages received from other Nodes in the network.
@@ -67,12 +67,12 @@ public:
     virtual ~ModelReplier() = default;
 
     /**
-     * @brief Method that will be called with each ModelSolutionDataType message received to calculate an answer.
+     * @brief Method that will be called with each ModelReplyDataType message received to calculate an answer.
      *
-     * @param data new ModelDataType message received.
+     * @param data new ModelRequestDataType message received.
      */
-    virtual types::ModelSolutionDataType fetch_model (
-            const types::ModelDataType data) = 0;
+    virtual types::ModelReplyDataType fetch_model (
+            const types::ModelRequestDataType data) = 0;
 };
 
 /**
@@ -115,7 +115,7 @@ public:
      * @param data New value to be copied in member id \c statistics_.data_
      * @param size New value to be copied in member id \c statistics_.data_size_
      */
-    void update_statistics(
+    void publish_statistics(
             const std::string& name,
             void* data,
             const uint32_t size);
@@ -126,17 +126,19 @@ public:
      * @param name New value to be copied in member id \c statistics_.name_
      * @param data New value to be copied in member id \c statistics_.data_
      */
-    void update_statistics(
+    void publish_statistics(
             const std::string& name,
-            const std::string& data);
+            const std::vector<types::ByteType>& data);
 
     /**
-     * @brief This function gets the value of member \c statistics_ as ModelStatisticsDataType
+     * @brief This function copies the values in member \c statistics_ and publishes them
      *
-     * @return Value of member \c statistics_ as ModelStatisticsDataType
+     * @param name New value to be copied in member id \c statistics_.name_
+     * @param data New value to be copied in member id \c statistics_.data_
      */
-    types::ModelStatisticsDataType statistics();
-
+    void publish_statistics(
+            const std::string& name,
+            const std::string& data);
 
     /**
      * @brief Process model replies
@@ -185,13 +187,11 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::RPCServer<types::ModelDataType, types::ModelSolutionDataType>> model_sender_;
+    std::shared_ptr<dds::RPCServer<types::ModelRequestDataType, types::ModelReplyDataType>> model_sender_;
 
     //! Whether the Node is currently open to receive data or it is stopped.
     std::atomic<bool> running_;
 
-    //! Statistical data from models.
-    types::ModelStatisticsDataType statistics_;
 };
 
 } /* namespace node */

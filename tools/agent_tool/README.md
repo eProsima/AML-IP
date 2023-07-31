@@ -29,7 +29,7 @@ To launch an Agent Server Node, execute:
 To launch an Agent Client Node, execute:
 
 ```sh
-  ./agent_tool -e client -c 87.216.115.84 -p 18000 -t tcp
+  ./amlip_agent -e client -c 87.216.115.84 -p 18000 -t tcp
 ```
 
 ## Arguments
@@ -53,7 +53,7 @@ General options:
 
 Client options:
   -n, --name <name>
-                     Name (Default: agent_tool).
+                     Name (Default: amlip_agent).
   -d, --domain <id>
                     DDS domain ID (Default: 0).
   -c, --connection-address <address>

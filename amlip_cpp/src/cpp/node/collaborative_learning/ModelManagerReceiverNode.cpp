@@ -32,7 +32,7 @@ namespace node {
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::AmlipIdDataType id,
-        types::ModelDataType& data,
+        types::ModelRequestDataType& data,
         uint32_t domain_id)
     : ParentNode(id, types::NodeKind::model_receiver, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 id.name().c_str()))
@@ -40,8 +40,8 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
                 dds::utils::MODEL_STATISTICS_TOPIC_NAME,
                 default_statistics_datareader_qos()))
     , model_receiver_(
-        participant_->create_rpc_client<types::ModelDataType,
-        types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
+        participant_->create_rpc_client<types::ModelRequestDataType,
+        types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
     , data_(data)
 {
@@ -50,7 +50,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::AmlipIdDataType id,
-        types::ModelDataType& data)
+        types::ModelRequestDataType& data)
     : ModelManagerReceiverNode(id, data, dds::Participant::default_domain_id())
 {
     // Do nothing
@@ -58,7 +58,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         const char* name,
-        types::ModelDataType& data,
+        types::ModelRequestDataType& data,
         uint32_t domain_id)
     : ModelManagerReceiverNode(types::AmlipIdDataType(name), data, domain_id)
 {
@@ -67,7 +67,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         const char* name,
-        types::ModelDataType& data)
+        types::ModelRequestDataType& data)
     : ModelManagerReceiverNode(name, data, dds::Participant::default_domain_id())
 {
     // Do nothing
@@ -150,7 +150,7 @@ void ModelManagerReceiverNode::process_routine_(
                 types::TaskId task_id = model_receiver_->send_request(data_, statistics.server_id());
 
                 // Wait reply
-                eprosima::amlip::types::ModelSolutionDataType model = model_receiver_->get_reply(task_id);
+                eprosima::amlip::types::ModelReplyDataType model = model_receiver_->get_reply(task_id);
 
                 if (!running_)
                 {

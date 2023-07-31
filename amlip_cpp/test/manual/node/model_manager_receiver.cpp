@@ -44,7 +44,7 @@ public:
     }
 
     virtual bool model_received (
-            const eprosima::amlip::types::ModelSolutionDataType model) override
+            const eprosima::amlip::types::ModelReplyDataType model) override
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
@@ -69,7 +69,7 @@ int main(
     {
         // Create ModelManagerReceiver Node
         eprosima::amlip::types::AmlipIdDataType id({"ModelManagerReceiver"}, {66, 66, 66, 66});
-        eprosima::amlip::types::ModelDataType data("MobileNet V1");
+        eprosima::amlip::types::ModelRequestDataType data("MobileNet V1");
         eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id, data);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");

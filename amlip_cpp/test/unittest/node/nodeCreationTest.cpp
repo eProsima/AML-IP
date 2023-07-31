@@ -177,7 +177,7 @@ TEST(NodeCreationTest, create_model_sender)
  */
 TEST(NodeCreationTest, create_model_receiver)
 {
-    eprosima::amlip::types::ModelDataType data("MobileNet V1");
+    eprosima::amlip::types::ModelRequestDataType data("MobileNet V1");
 
     node::ModelManagerReceiverNode node("TestNode", data);
 

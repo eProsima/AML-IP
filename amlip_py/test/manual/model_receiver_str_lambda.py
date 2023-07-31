@@ -16,8 +16,8 @@ from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelDataType import ModelDataType
-from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
+from amlip_py.types.ModelReplyDataType import ModelReplyDataType
 from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 # Domain ID
@@ -33,7 +33,7 @@ def statistics_received(
 
 
 def model_received(
-        model: ModelSolutionDataType) -> bool:
+        model: ModelReplyDataType) -> bool:
     print(f'Model reply received from server\n'
           f' solution: {model.to_string()}')
 
@@ -46,7 +46,7 @@ def main():
     """Execute main routine."""
 
     # Create request
-    data = ModelDataType('MobileNet V1')
+    data = ModelRequestDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
     id.set_id([66, 66, 66, 66])

@@ -43,7 +43,7 @@ public:
     }
 
     virtual bool model_received (
-            const eprosima::amlip::types::ModelSolutionDataType model) override
+            const eprosima::amlip::types::ModelReplyDataType model) override
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
@@ -64,23 +64,23 @@ public:
         // Do nothing
     }
 
-    virtual eprosima::amlip::types::ModelSolutionDataType fetch_model (
-            const eprosima::amlip::types::ModelDataType data) override
+    virtual eprosima::amlip::types::ModelReplyDataType fetch_model (
+            const eprosima::amlip::types::ModelRequestDataType data) override
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
 
-        eprosima::amlip::types::ModelSolutionDataType solution;
+        eprosima::amlip::types::ModelReplyDataType solution;
         if (data.data() == "MobileNet V1")
         {
-            solution = eprosima::amlip::types::ModelSolutionDataType("MOBILENET V1");
+            solution = eprosima::amlip::types::ModelReplyDataType("MOBILENET V1");
         }
         else if (data.data() == "MobileNet V2")
         {
-            solution = eprosima::amlip::types::ModelSolutionDataType("MOBILENET V2");
+            solution = eprosima::amlip::types::ModelReplyDataType("MOBILENET V2");
         }
         else
         {
-            solution = eprosima::amlip::types::ModelSolutionDataType("Do not have this model :,(");
+            solution = eprosima::amlip::types::ModelReplyDataType("Do not have this model :,(");
         }
         logUser(AMLIPCPP_MANUAL_TEST, "Processed model: " << solution << " . Returning model...");
 
@@ -109,7 +109,7 @@ TEST(modelManagerTest, ping_pong)
         // Create ModelManagerReceiver Node
         eprosima::amlip::types::AmlipIdDataType id_receiver({"ModelManagerReceiver"}, {66, 66, 66, 66});
         // NOTE: this data must be created before nodes or nodes must stop before this is destroyed
-        eprosima::amlip::types::ModelDataType data("MobileNet V1");
+        eprosima::amlip::types::ModelRequestDataType data("MobileNet V1");
         eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id_receiver, data);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
@@ -120,7 +120,7 @@ TEST(modelManagerTest, ping_pong)
 
         // Create statistics data
         std::string data_str = "hello world";
-        model_sender_node.update_statistics("v0", data_str);
+        model_sender_node.publish_statistics("v0", data_str);
 
         // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =

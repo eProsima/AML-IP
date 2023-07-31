@@ -15,8 +15,8 @@
 
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelDataType import ModelDataType
-from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
+from amlip_py.types.ModelReplyDataType import ModelReplyDataType
 from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 from amlip_swig import ModelManagerReceiverNode as cpp_ModelManagerReceiverNode
@@ -30,7 +30,7 @@ class ModelListener(cpp_ModelListener):
     This object must be called by the ModelManagerReceiverNode to execute
     the statistics_received method with each ModelStatisticsDataType that is
     received from node and must return true or false. Must also execute the
-    model_received method on each ModelSolutionDataType that is received from node.
+    model_received method on each ModelReplyDataType that is received from node.
     """
 
     def statistics_received(
@@ -47,7 +47,7 @@ class ModelListener(cpp_ModelListener):
 
     def model_received(
             self,
-            model: ModelSolutionDataType) -> bool:
+            model: ModelReplyDataType) -> bool:
         """
         Raise exception.
 
@@ -82,7 +82,7 @@ class ModelListenerLambda(cpp_ModelListener):
 
     def model_received(
             self,
-            model: ModelSolutionDataType) -> bool:
+            model: ModelReplyDataType) -> bool:
         """Call internal lambda."""
         return self.callback_model_(model)
 
@@ -95,7 +95,7 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
     def __init__(
             self,
             id: AmlipIdDataType | str,
-            data: ModelDataType,
+            data: ModelRequestDataType,
             domain: int = None):
 
         """
@@ -103,7 +103,7 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
         Parameters
         ----------
         id : AmlipIdDataType | str
-        data: ModelDataType
+        data: ModelRequestDataType
         domain : int
         """
 

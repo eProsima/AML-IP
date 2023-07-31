@@ -15,8 +15,8 @@
 
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelDataType import ModelDataType
-from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
+from amlip_py.types.ModelReplyDataType import ModelReplyDataType
 
 from amlip_swig import ModelManagerSenderNode as cpp_ModelManagerSenderNode
 from amlip_swig import ModelReplier as cpp_ModelReplier
@@ -27,13 +27,13 @@ class ModelReplier(cpp_ModelReplier):
     Model Replier class.
 
     This object must be called by the ModelManagerSenderNode to execute
-    the  fetch_model method with each ModelDataType request that is received
-    from node and must return the ModelSolutionDataType reply.
+    the  fetch_model method with each ModelRequestDataType request that is received
+    from node and must return the ModelReplyDataType reply.
     """
 
     def fetch_model(
             self,
-            model: ModelDataType) -> ModelSolutionDataType:
+            model: ModelRequestDataType) -> ModelReplyDataType:
         """
         Raise exception.
 
@@ -48,7 +48,7 @@ class ModelReplierLambda(cpp_ModelReplier):
     Custom ModelReplier supporting to create it with a lambda function.
 
     This object is created with a lambda function that is stored inside and used for every
-    ModelDataType message received.
+    ModelRequestDataType message received.
     """
 
     def __init__(
@@ -60,7 +60,7 @@ class ModelReplierLambda(cpp_ModelReplier):
 
     def fetch_model(
             self,
-            model: ModelDataType) -> ModelSolutionDataType:
+            model: ModelRequestDataType) -> ModelReplyDataType:
         """Call internal lambda."""
         return self.callback_(model)
 
@@ -89,12 +89,12 @@ class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
         else:
             super().__init__(id, domain)
 
-    def update_statistics(
+    def publish_statistics(
             self,
-            name: str,
-            data: str) -> None:
+            name: str | bytes,
+            data: str | bytes) -> None:
 
-        cpp_ModelManagerSenderNode.update_statistics(self, name, data)
+        cpp_ModelManagerSenderNode.publish_statistics(self, name, data)
 
     def start(
             self,
