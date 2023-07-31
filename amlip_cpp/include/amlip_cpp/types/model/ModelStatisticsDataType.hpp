@@ -81,7 +81,7 @@ public:
             const std::string& name,
             const std::vector<ByteType>& bytes);
 
-     /*!
+    /*!
      * @brief Constructor with name and data.
      * @param name New value to be copied in member id \c name_
      * @param bytes New value to be copied in member id \c data_

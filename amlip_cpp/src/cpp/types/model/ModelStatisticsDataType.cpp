@@ -47,9 +47,9 @@ const char* ModelStatisticsDataType::TYPE_NAME_ = "AMLIP-MODEL-STATISTICS";
 
 ModelStatisticsDataType::ModelStatisticsDataType()
     : name_("ModelStatisticsDataTypeName")
-    , has_been_allocated_(false)
     , data_(nullptr)
     , data_size_(0)
+    , has_been_allocated_(false)
 {
     // Do nothing
 }
@@ -57,9 +57,9 @@ ModelStatisticsDataType::ModelStatisticsDataType()
 ModelStatisticsDataType::ModelStatisticsDataType(
         const char* name)
     : name_(name)
-    , has_been_allocated_(false)
     , data_(nullptr)
     , data_size_(0)
+    , has_been_allocated_(false)
 {
     // Do nothing
 }
@@ -67,9 +67,9 @@ ModelStatisticsDataType::ModelStatisticsDataType(
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name)
     : name_(name)
-    , has_been_allocated_(false)
     , data_(nullptr)
     , data_size_(0)
+    , has_been_allocated_(false)
 {
     // Do nothing
 }
