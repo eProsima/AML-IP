@@ -191,7 +191,7 @@ const option::Descriptor usage[] = {
       "  -p, --connection-port <num>  \tAddress connection port (Default: 12121)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
-    { 0, 0, 0, 0, 0, 0 },
+
     /// SERVER OPTIONS
     {UNKNOWN_OPT, 0, "", "", Arg::None, "\nServer options:"},
     { NAME, 0, "n", "name",          Arg::String,
@@ -204,7 +204,7 @@ const option::Descriptor usage[] = {
       "  -q, --listening-port <num>  \tAddress listening port (Default: 12121)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
-    { 0, 0, 0, 0, 0, 0 },
+
     /// REPEATER OPTIONS
     {UNKNOWN_OPT, 0, "", "", Arg::None, "\nRepeater options:"},
     { NAME, 0, "n", "name",          Arg::String,
@@ -221,6 +221,7 @@ const option::Descriptor usage[] = {
       "  -q, --listening-port <num>  \tAddress listening port (Default: 12121)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
+
     { 0, 0, 0, 0, 0, 0 }
 };
 

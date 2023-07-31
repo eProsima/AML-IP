@@ -13,7 +13,7 @@
 # limitations under the License.
 
 ###############################################################################
-# Set settings for project fastddsspy_tool
+# Set settings for project agent_tool
 ###############################################################################
 
 set(MODULE_NAME

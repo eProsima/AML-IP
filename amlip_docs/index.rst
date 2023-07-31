@@ -61,6 +61,7 @@
 
    Scenarios </rst/user_manual/scenarios/scenarios>
    Nodes </rst/user_manual/nodes/nodes>
+   Tools </rst/user_manual/tools/tools>
 
 
 .. _index_developer_manual:

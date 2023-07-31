@@ -64,6 +64,9 @@ DDS
         Specification: `<https://www.omg.org/spec/DDS/>`_.
         More information in :ref:`User Manual section <technologies_dds>`.
 
+    Domain Id
+        Virtual partition for DDS networks.
+
     Endpoint
         Individual Entity that can :term:`Subscribe` or :term:`Publish` in a specific :term:`Topic`.
 
