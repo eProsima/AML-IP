@@ -49,18 +49,23 @@ public:
 
     /*!
      * @brief Constructor with name.
+     * @param name New value to be copied in member id \c name_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name);
 
     /*!
      * @brief Constructor with name given in char*.
+     * @param name New value to be copied in member id \c name_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const char* name);
 
     /*!
-     * @brief TODO
+     * @brief Constructor with name, data given in void* and data size.
+     * @param name New value to be copied in member id \c name_
+     * @param data New value to be copied in member id \c data_
+     * @param size New value to be copied in member id \c data_size_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
@@ -68,14 +73,18 @@ public:
             const uint32_t size);
 
     /*!
-     * @brief TODO
+     * @brief Constructor with name and data given in std::vector<uint8_t>.
+     * @param name New value to be copied in member id \c name_
+     * @param bytes New value to be copied in member id \c data_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
             const std::vector<ByteType>& bytes);
 
-        /*!
-     * @brief TODO
+     /*!
+     * @brief Constructor with name and data.
+     * @param name New value to be copied in member id \c name_
+     * @param bytes New value to be copied in member id \c data_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
@@ -167,12 +176,12 @@ public:
     AMLIP_CPP_DllAPI void* data() const;
 
     /*!
-     * @brief Return value of attribute \c data_
+     * @brief Return value of attribute \c data_ in std::string
      */
     AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
     /*!
-     * @brief Return value of attribute \c data_
+     * @brief Return value of attribute \c data_ in std::vector<uint8_t>
      */
     AMLIP_CPP_DllAPI std::vector<ByteType> to_vector() const noexcept;
 
