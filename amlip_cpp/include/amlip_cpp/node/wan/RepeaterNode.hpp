@@ -40,7 +40,18 @@ public:
     RepeaterNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses,
+            const std::set<ddspipe::participants::types::Address>& connection_addresses,
+            const uint32_t domain_id);
+
+    RepeaterNode(
+            const char* name,
+            const std::set<ddspipe::participants::types::Address>& listening_addresses,
             const std::set<ddspipe::participants::types::Address>& connection_addresses);
+
+    RepeaterNode(
+            const char* name,
+            const std::set<ddspipe::participants::types::Address>& listening_addresses,
+            const uint32_t domain_id);
 
     RepeaterNode(
             const char* name,
@@ -51,7 +62,8 @@ protected:
     static ddsrouter::core::DdsRouterConfiguration get_router_configuration_(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses,
-            const std::set<ddspipe::participants::types::Address>& connection_addresses);
+            const std::set<ddspipe::participants::types::Address>& connection_addresses,
+            const uint32_t domain_id);
 
 };
 

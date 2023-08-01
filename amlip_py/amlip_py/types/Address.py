@@ -27,7 +27,7 @@ class Address(cpp_Address):
             external_port: int = None,
             ip_version: int = None,
             domain: str = None,
-            transport_protocol = None):
+            transport_protocol=None):
 
         if ip and ip_version:
             super().__init__(ip, port, external_port, ip_version, transport_protocol)

@@ -41,7 +41,7 @@ class ClientNode(cpp_ClientNode):
         """
         #####
         # Parent class constructor
-        if domain is None:
-            super().__init__(name, connection_addresses)
-        else:
+        if domain:
             super().__init__(name, connection_addresses, domain)
+        else:
+            super().__init__(name, connection_addresses)

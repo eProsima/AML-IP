@@ -41,7 +41,7 @@ class ServerNode(cpp_ServerNode):
         """
         #####
         # Parent class constructor
-        if domain is None:
-            super().__init__(name, listening_addresses)
-        else:
+        if domain:
             super().__init__(name, listening_addresses, domain)
+        else:
+            super().__init__(name, listening_addresses)

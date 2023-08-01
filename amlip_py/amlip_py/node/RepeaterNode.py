@@ -29,19 +29,26 @@ class RepeaterNode(cpp_RepeaterNode):
             self,
             name: str,
             listening_addresses: Address,
-            connection_addresses: Address = None):
+            connection_addresses: Address = None,
+            domain: int = None):
         """
-        Create a new Agent Repeater Node with a given name, a listening_addresses and a connection_addresses.
+        Create a new Agent Repeater Node with a given name, a listening_addresses
+        and a connection_addresses.
 
         Parameters
         ----------
         name : str
         listening_addresses : Address
         connection_addresses : Address
+        domain : int
         """
         #####
         # Parent class constructor
-        if connection_addresses is None:
-            super().__init__(name, listening_addresses)
-        else:
+        if domain and connection_addresses:
+            super().__init__(name, listening_addresses, connection_addresses, domain)
+        if connection_addresses:
             super().__init__(name, listening_addresses, connection_addresses)
+        if domain:
+            super().__init__(name, listening_addresses, domain)
+        else:
+            super().__init__(name, listening_addresses)

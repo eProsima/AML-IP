@@ -63,6 +63,7 @@ def test_model_statistics():
     """Test creation of ModelStatisticsDataType."""
     _ = amlip_py.types.ModelStatisticsDataType.ModelStatisticsDataType()
 
+
 def test_address():
     """Test creation of Address."""
     _ = amlip_py.types.Address.Address()

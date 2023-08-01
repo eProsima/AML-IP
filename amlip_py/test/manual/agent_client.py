@@ -18,6 +18,9 @@ from amlip_py.node.ClientNode import ClientNode
 from amlip_py.types.Address import Address
 from amlip_swig import TransportProtocol_udp
 
+# Domain ID
+DOMAIN_ID = 166
+
 
 def main():
     """Execute main routine."""
@@ -26,7 +29,7 @@ def main():
     connection_address = Address(
         port=12121,
         external_port=12121,
-        domain="localhost",
+        domain='localhost',
         transport_protocol=TransportProtocol_udp)
 
     # Create node
@@ -34,7 +37,8 @@ def main():
 
     ClientNode(
         name='PyTestClientNode',
-        connection_addresses=[connection_address])
+        connection_addresses=[connection_address],
+        domain=DOMAIN_ID)
 
     print('Node created. Waiting SIGINT (C^)...')
 
@@ -44,6 +48,7 @@ def main():
     signal.pause()
 
     print('Finishing Manual Test Agent Client Node Py execution.')
+
 
 # Call main in program execution
 if __name__ == '__main__':
