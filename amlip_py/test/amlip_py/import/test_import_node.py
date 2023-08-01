@@ -20,3 +20,6 @@ import amlip_py.node.AsyncMainNode  # noqa: F401
 import amlip_py.node.AsyncComputingNode  # noqa: F401
 import amlip_py.node.ModelManagerReceiverNode  # noqa: F401
 import amlip_py.node.ModelManagerSenderNode  # noqa: F401
+import amlip_py.node.ClientNode  # noqa: F401
+import amlip_py.node.ServerNode  # noqa: F401
+import amlip_py.node.RepeaterNode  # noqa: F401

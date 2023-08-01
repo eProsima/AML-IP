@@ -56,11 +56,11 @@
 #define AMLIP_CPP_DllAPI
 
 // SWIG helper modules
-%include "pointer.i"
 %include "cpointer.i"
 %include "stdint.i"
 %include "std_array.i"
 %include "std_list.i"
+%include "std_set.i"
 %include "std_string.i"
 %include "std_shared_ptr.i"
 %include "std_vector.i"
@@ -90,6 +90,7 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/model/ModelRequestDataType.i"
 %include "amlip_swig/types/model/ModelReplyDataType.i"
 %include "amlip_swig/types/model/ModelStatisticsDataType.i"
+%include "amlip_swig/types/address/Address.i"
 
 // node
 %include "amlip_swig/node/ParentNode.i"
@@ -104,3 +105,7 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/node/AsyncInferenceNode.i"
 %include "amlip_swig/node/ModelManagerSenderNode.i"
 %include "amlip_swig/node/ModelManagerReceiverNode.i"
+%include "amlip_swig/node/AgentNode.i"
+%include "amlip_swig/node/ClientNode.i"
+%include "amlip_swig/node/ServerNode.i"
+%include "amlip_swig/node/RepeaterNode.i"
