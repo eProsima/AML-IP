@@ -72,7 +72,7 @@ int main(
     int port = 12121;
     std::string name = "amlip_agent";
     eprosima::ddspipe::participants::types::TransportProtocol transport_protocol =
-            eprosima::ddspipe::participants::types::TransportProtocol::udp;
+            eprosima::ddspipe::participants::types::TransportProtocol::tcp;
 
     // Parse example options
     argc -= (argc > 0);
