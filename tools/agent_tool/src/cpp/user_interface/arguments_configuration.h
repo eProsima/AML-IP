@@ -23,11 +23,22 @@
 #include <iostream>
 #include <string>
 
+#include <cpp_utils/Log.hpp>
+#include <cpp_utils/utils.hpp>
+#include <cpp_utils/macros/custom_enumeration.hpp>
+
 #include <optionparser.h>
 
 constexpr const char* CLIENT_ENTITY_KIND_ARG = "client";
 constexpr const char* SERVER_ENTITY_KIND_ARG = "server";
 constexpr const char* REPEATER_ENTITY_KIND_ARG = "repeater";
+
+ENUMERATION_BUILDER(
+    LogKind,
+    error,
+    warning,
+    info
+    );
 
 struct Arg : public option::Arg
 {
@@ -153,6 +164,47 @@ struct Arg : public option::Arg
         return option::ARG_ILLEGAL;
     }
 
+    static option::ArgStatus ValidOptions(
+            const std::vector<std::string>& valid_options,
+            const option::Option& option,
+            bool msg)
+    {
+        if (nullptr == option.arg)
+        {
+            if (msg)
+            {
+                print_error("Option '", option, "' requires a text argument.");
+            }
+            return option::ARG_ILLEGAL;
+        }
+
+        if (std::find(valid_options.begin(), valid_options.end(), std::string(option.arg)) != valid_options.end())
+        {
+            return option::ARG_OK;
+        }
+        else if (msg)
+        {
+            eprosima::utils::Formatter error_msg;
+            error_msg << "Option '" << option << "' requires a one of this values: {";
+            for (const auto& valid_option : valid_options)
+            {
+                error_msg << "\"" << valid_option << "\";";
+            }
+            error_msg << "}.";
+
+            logError(AMLIP_AGENT_TOOL_ARGS, error_msg);
+        }
+
+        return option::ARG_ILLEGAL;
+    }
+
+    static option::ArgStatus Log_Kind_Correct_Argument(
+            const option::Option& option,
+            bool msg)
+    {
+        return ValidOptions(string_vector_LogKind(), option, msg);
+    }
+
 };
 
 enum optionIndex
@@ -160,6 +212,9 @@ enum optionIndex
     UNKNOWN_OPT,
     ENTITY_TYPE,
     HELP,
+    ACTIVATE_DEBUG,
+    LOG_FILTER,
+    LOG_VERBOSITY,
     NAME,
     CONNECTION_PORT,
     LISTENING_PORT,
@@ -170,58 +225,72 @@ enum optionIndex
 };
 
 const option::Descriptor usage[] = {
-    { UNKNOWN_OPT, 0, "", "",               Arg::None,
-      "Usage: ./agent tool \n\nGeneral options:" },
-    { HELP, 0, "h", "help",                 Arg::None,
-      "  -h, --help  \tProduce help message." },
-    { ENTITY_TYPE, 0, "e", "entity",       Arg::EntityKind,
-      "  -e, --entity <client|server|repeater>  \tAgent Entity type (Default: client). Allowed options:\n \
-                                    \t• client -> Run an Agent Client Node.\n \
-                                    \t• server -> Run an Agent Server Node.\n \
-                                    \t• repeater -> Run an Agent Repeater Node. " },
+    { UNKNOWN_OPT, 0, "", "", Arg::None, "\nUsage: ./agent tool \n\nGeneral options:" },
+    { HELP, 0, "h", "help", Arg::None,
+      "  -h, --help \tProduce help message." },
+    { ENTITY_TYPE, 0, "e", "entity", Arg::EntityKind,
+      "  -e, --entity <client|server|repeater> \tAgent Entity type (Default: client). \n" \
+      " \tAllowed options: \n" \
+      " \t• client -> Run an Agent Client Node.\n" \
+      " \t• server -> Run an Agent Server Node.\n" \
+      " \t• repeater -> Run an Agent Repeater Node. "},
+
+    /// DEBUG OPTIONS
+    { UNKNOWN_OPT, 0, "", "", Arg::None, "\nDebug options:"},
+    { ACTIVATE_DEBUG, 0, "d", "debug", Arg::None,
+      "  -d, --debug \tSet log verbosity to Info (Using this option with --log-filter and/or --log-verbosity " \
+      "will head to undefined behaviour)." },
+    { LOG_FILTER, 0, "", "log-filter", Arg::String,
+      "      --log-filter \tSet a Regex Filter to filter by category the info and warning log entries. " \
+      "(Default = AMLIP)." },
+    { LOG_VERBOSITY, 0, "", "log-verbosity", Arg::Log_Kind_Correct_Argument,
+      "      --log-verbosity <info|warning|error> \tSet a Log Verbosity Level higher or equal the one given " \
+      "(Default: warning). " },
+
     /// CLIENT OPTIONS
-    {UNKNOWN_OPT, 0, "", "", Arg::None, "\nClient options:"},
-    { NAME, 0, "n", "name",          Arg::String,
-      "  -n, --name <name>  \t Name (Default: amlip_agent)." },
-    { DOMAIN_ID, 0, "d", "domain",          Arg::Numeric,
-      "  -d, --domain <id>  \tDDS domain ID (Default: 0)." },
-    { CONNECTION_ADDRESS, 0, "c", "connection-address",          Arg::String,
-      "  -c, --connection-address <address>  \tAddress to connect (Default: 127.0.0.1)." },
-    { CONNECTION_PORT, 0, "p", "connection-port",          Arg::Numeric,
-      "  -p, --connection-port <num>  \tAddress connection port (Default: 12121)." },
-    { TRANSPORT, 0, "t", "transport",         Arg::Transport,
-      "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
+    { UNKNOWN_OPT, 0, "", "", Arg::None, "\nClient options:"},
+    { NAME, 0, "n", "name", Arg::String,
+      "  -n, --name <name> \tName (Default: amlip_agent)." },
+    { DOMAIN_ID, 0, "d", "domain", Arg::Numeric,
+      "  -d, --domain <id> \tDDS domain ID (Default: 0)." },
+    { CONNECTION_ADDRESS, 0, "c", "connection-address", Arg::String,
+      "  -c, --connection-address <address> \tAddress to connect (Default: 127.0.0.1)." },
+    { CONNECTION_PORT, 0, "p", "connection-port", Arg::Numeric,
+      "  -p, --connection-port <num> \tAddress connection port (Default: 12121)." },
+    { TRANSPORT, 0, "t", "transport", Arg::Transport,
+      "  -t, --transport <tcp|udp> \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
 
     /// SERVER OPTIONS
-    {UNKNOWN_OPT, 0, "", "", Arg::None, "\nServer options:"},
-    { NAME, 0, "n", "name",          Arg::String,
-      "  -n, --name <name>  \t Name (Default: agent_tool)." },
-    { DOMAIN_ID, 0, "d", "domain",          Arg::Numeric,
-      "  -d, --domain <id>  \tDDS domain ID (Default: 0)." },
-    { LISTENING_ADDRESS, 0, "l", "listening-address",           Arg::String,
-      "  -l, --listening-address <address>  \tAddress where listen (Default: 127.0.0.1)." },
-    { LISTENING_PORT, 0, "q", "listening-port",          Arg::Numeric,
-      "  -q, --listening-port <num>  \tAddress listening port (Default: 12121)." },
-    { TRANSPORT, 0, "t", "transport",         Arg::Transport,
-      "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
+    { UNKNOWN_OPT, 0, "", "", Arg::None, "\nServer options:"},
+    { NAME, 0, "n", "name", Arg::String,
+      "  -n, --name <name> \tName (Default: amlip_agent)." },
+    { DOMAIN_ID, 0, "d", "domain", Arg::Numeric,
+      "  -d, --domain <id> \tDDS domain ID (Default: 0)." },
+    { LISTENING_ADDRESS, 0, "l", "listening-address", Arg::String,
+      "  -l, --listening-address <address> \tAddress where listen (Default: 127.0.0.1)." },
+    { LISTENING_PORT, 0, "q", "listening-port", Arg::Numeric,
+      "  -q, --listening-port <num> \tAddress listening port (Default: 12121)." },
+    { TRANSPORT, 0, "t", "transport", Arg::Transport,
+      "  -t, --transport <tcp|udp> \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
 
     /// REPEATER OPTIONS
-    {UNKNOWN_OPT, 0, "", "", Arg::None, "\nRepeater options:"},
-    { NAME, 0, "n", "name",          Arg::String,
-      "  -n, --name <name>  \t Name (Default: agent_tool)." },
-    { DOMAIN_ID, 0, "d", "domain",          Arg::Numeric,
-      "  -d, --domain <id>  \tDDS domain ID (Default: 0)." },
-    { CONNECTION_ADDRESS, 0, "c", "connection-address",          Arg::String,
-      "  -c, --connection-address <address>  \tAddress to connect (Default: 127.0.0.1)." },
-    { LISTENING_ADDRESS, 0, "l", "listening-address",           Arg::String,
-      "  -l, --listening-address <address>  \tAddress where listen (Default: 127.0.0.1)." },
-    { CONNECTION_PORT, 0, "p", "connection-port",          Arg::Numeric,
-      "  -p, --connection-port <num>  \tAddress connection port (Default: 12121)." },
-    { LISTENING_PORT, 0, "q", "listening-port",          Arg::Numeric,
-      "  -q, --listening-port <num>  \tAddress listening port (Default: 12121)." },
-    { TRANSPORT, 0, "t", "transport",         Arg::Transport,
-      "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
+    { UNKNOWN_OPT, 0, "", "", Arg::None, "\nRepeater options:"},
+    { NAME, 0, "n", "name", Arg::String,
+      "  -n, --name <name> \tName (Default: amlip_agent)." },
+    { DOMAIN_ID, 0, "d", "domain", Arg::Numeric,
+      "  -d, --domain <id> \tDDS domain ID (Default: 0)." },
+    { CONNECTION_ADDRESS, 0, "c", "connection-address", Arg::String,
+      "  -c, --connection-address <address> \tAddress to connect (Default: 127.0.0.1)." },
+    { LISTENING_ADDRESS, 0, "l", "listening-address", Arg::String,
+      "  -l, --listening-address <address> \tAddress where listen (Default: 127.0.0.1)." },
+    { CONNECTION_PORT, 0, "p", "connection-port", Arg::Numeric,
+      "  -p, --connection-port <num> \tAddress connection port (Default: 12121)." },
+    { LISTENING_PORT, 0, "q", "listening-port", Arg::Numeric,
+      "  -q, --listening-port <num> \tAddress listening port (Default: 12121)." },
+    { TRANSPORT, 0, "t", "transport", Arg::Transport,
+      "  -t, --transport <tcp|udp> \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
 
+    { UNKNOWN_OPT, 0, "", "", Arg::None, " \t\t\t"},
     { 0, 0, 0, 0, 0, 0 }
 };
 
@@ -230,6 +299,14 @@ void print_warning(
         const char* opt)
 {
     std::cerr << "WARNING: " << opt << " is a " << type << " option, ignoring argument." << std::endl;
+}
+
+std::ostream& operator <<(
+        std::ostream& output,
+        const option::Option& option)
+{
+    output << std::string(option.name, option.name + option.namelen);
+    return output;
 }
 
 #endif /* EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_ */

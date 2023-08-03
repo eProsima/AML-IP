@@ -23,6 +23,7 @@
 
 #include <cpp_utils/event/SignalEventHandler.hpp>
 #include <cpp_utils/Log.hpp>
+#include <cpp_utils/logging/CustomStdLogConsumer.hpp>
 #include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/ClientNode.hpp>
@@ -74,6 +75,11 @@ int main(
     eprosima::ddspipe::participants::types::TransportProtocol transport_protocol =
             eprosima::ddspipe::participants::types::TransportProtocol::tcp;
 
+    // Debug options
+    std::string log_filter = "AMLIP";
+    eprosima::fastdds::dds::Log::Kind log_verbosity = eprosima::fastdds::dds::Log::Kind::Warning;
+
+
     // Parse example options
     argc -= (argc > 0);
     argv += (argc > 0); // skip program name argv[0] if present
@@ -121,6 +127,19 @@ int main(
                     std::cerr << "ERROR: incorrect entity type. Only <client|server|repeater> accepted." << std::endl;
                     return 1;
                 }
+                break;
+
+            case optionIndex::ACTIVATE_DEBUG:
+                log_filter = "AMLIP";
+                log_verbosity = eprosima::fastdds::dds::Log::Kind::Info;
+                break;
+
+            case optionIndex::LOG_FILTER:
+                log_filter = opt.arg;
+                break;
+
+            case optionIndex::LOG_VERBOSITY:
+                log_verbosity = eprosima::fastdds::dds::Log::Kind(static_cast<int>(from_string_LogKind(opt.arg)));
                 break;
 
             case optionIndex::CONNECTION_ADDRESS:
@@ -188,6 +207,25 @@ int main(
                 return 1;
                 break;
         }
+    }
+
+    // Debug
+    {
+        // Remove every consumer
+        eprosima::utils::Log::ClearConsumers();
+
+        // Activate log with verbosity, as this will avoid running log thread with not desired kind
+        eprosima::utils::Log::SetVerbosity(log_verbosity);
+
+        eprosima::utils::Log::RegisterConsumer(
+            std::make_unique<eprosima::utils::CustomStdLogConsumer>(log_filter, log_verbosity));
+
+        // NOTE:
+        // It will not filter any log, so Fast DDS logs will be visible unless Fast DDS is compiled
+        // in non debug or with LOG_NO_INFO=ON.
+        // This is the easiest way to allow to see Warnings and Errors from Fast DDS.
+        // Change it when Log Module is independent and with more extensive API.
+        // eprosima::utils::Log::SetCategoryFilter(std::regex("(AMLIP)"));
     }
 
     {
@@ -266,6 +304,9 @@ int main(
     }
 
     logUser(AMLIPCPP_MANUAL_TEST, "Finishing Agent Node execution.");
+
+    // Force print every log before closing
+    eprosima::utils::Log::Flush();
 
     return 0;
 }

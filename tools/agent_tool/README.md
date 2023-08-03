@@ -37,57 +37,46 @@ To launch an Agent Client Node, execute:
 The arguments are read unordered:
 
 ```sh
+
 Usage: ./agent tool
 
 General options:
-  -h, --help
-                    Produce help message.
-  -e, --entity <client|server|repeater>
-                    Agent Entity type (Default: client). Allowed options:
+  -h, --help                            Produce help message.
+  -e, --entity <client|server|repeater> Agent Entity type (Default: client).
+                                        Allowed options:
+                                        • client -> Run an Agent Client Node.
+                                        • server -> Run an Agent Server Node.
+                                        • repeater -> Run an Agent Repeater Node.
 
-                    • client -> Run an Agent Client Node.
-
-                    • server -> Run an Agent Server Node.
-
-                    • repeater -> Run an Agent Repeater Node.
+Debug options:
+  -d, --debug                           Set log verbosity to Info (Using this option with --log-filter and/or --log-verbosity will head to undefined behaviour).
+      --log-filter                      Set a Regex Filter to filter by category the info and warning log entries. (Default = "AMLIP").
+      --log-verbosity <info|warning|error>
+                                        Set a Log Verbosity Level higher or equal the one given (Default: warning).
 
 Client options:
-  -n, --name <name>
-                     Name (Default: amlip_agent).
-  -d, --domain <id>
-                    DDS domain ID (Default: 0).
-  -c, --connection-address <address>
-                    Address to connect (Default: 127.0.0.1).
-  -p, --connection-port <num>
-                    Address connection port (Default: 12121).
-  -t, --transport <tcp|udp>
-                    Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
+  -n, --name <name>                     Name (Default: amlip_agent).
+  -d, --domain <id>                     DDS domain ID (Default: 0).
+  -c, --connection-address <address>    Address to connect (Default: 127.0.0.1).
+  -p, --connection-port <num>           Address connection port (Default: 12121).
+  -t, --transport <tcp|udp>             Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
 
 Server options:
-  -n, --name <name>
-                     Name (Default: agent_tool).
-  -d, --domain <id>
-                    DDS domain ID (Default: 0).
-  -l, --listening-address <address>
-                    Address where listen (Default: 127.0.0.1).
-  -q, --listening-port <num>
-                    Address listening port (Default: 12121).
-  -t, --transport <tcp|udp>
-                    Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
+  -n, --name <name>                     Name (Default: amlip_agent).
+  -d, --domain <id>                     DDS domain ID (Default: 0).
+  -l, --listening-address <address>     Address where listen (Default: 127.0.0.1).
+  -q, --listening-port <num>            Address listening port (Default: 12121).
+  -t, --transport <tcp|udp>             Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
 
 Repeater options:
-  -n, --name <name>
-                     Name (Default: agent_tool).
-  -d, --domain <id>
-                    DDS domain ID (Default: 0).
-  -c, --connection-address <address>
-                    Address to connect (Default: 127.0.0.1).
-  -l, --listening-address <address>
-                    Address where listen (Default: 127.0.0.1).
-  -p, --connection-port <num>
-                    Address connection port (Default: 12121).
-  -q, --listening-port <num>
-                    Address listening port (Default: 12121).
-  -t, --transport <tcp|udp>
-                    Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
+  -n, --name <name>                     Name (Default: amlip_agent).
+  -d, --domain <id>                     DDS domain ID (Default: 0).
+  -c, --connection-address <address>    Address to connect (Default: 127.0.0.1).
+  -l, --listening-address <address>     Address where listen (Default: 127.0.0.1).
+  -p, --connection-port <num>           Address connection port (Default: 12121).
+  -q, --listening-port <num>            Address listening port (Default: 12121).
+  -t, --transport <tcp|udp>             Use only TCPv4 or UDPv4 transport. (Default: TCPv4).
+
+
+
 ```
