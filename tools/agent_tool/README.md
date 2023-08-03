@@ -17,19 +17,19 @@
 In order to know all the possible arguments supported by this tool, use the command:
 
 ```sh
-  ./agent tool -h
+  amlip_agent -h
 ```
 
 To launch an Agent Server Node, execute:
 
 ```sh
-  ./agent tool -e server -l 87.216.115.84 -q 18000 -t tcp
+  amlip_agent -e server -l 87.216.115.84 -q 18000 -t tcp
 ```
 
 To launch an Agent Client Node, execute:
 
 ```sh
-  ./amlip_agent -e client -c 87.216.115.84 -p 18000 -t tcp
+  amlip_agent -e client -c 87.216.115.84 -p 18000 -t tcp
 ```
 
 ## Arguments

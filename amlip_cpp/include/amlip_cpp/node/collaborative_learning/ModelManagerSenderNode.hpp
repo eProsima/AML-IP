@@ -26,8 +26,8 @@
 #include <amlip_cpp/node/ParentNode.hpp>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
-#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 
@@ -109,11 +109,11 @@ public:
     AMLIP_CPP_DllAPI ~ModelManagerSenderNode();
 
     /**
-     * @brief This function copies the values in member \c statistics_ and publishes them
+     * @brief This function copies the values into a ModelStatisticsDataType object and publishes them
      *
-     * @param name New value to be copied in member id \c statistics_.name_
-     * @param data New value to be copied in member id \c statistics_.data_
-     * @param size New value to be copied in member id \c statistics_.data_size_
+     * @param name New value to be copied in member \c name_
+     * @param data New value to be copied in member \c data_
+     * @param size New value to be copied in member \c data_size_
      */
     void publish_statistics(
             const std::string& name,
@@ -121,20 +121,20 @@ public:
             const uint32_t size);
 
     /**
-     * @brief This function copies the values in member \c statistics_ and publishes them
+     * @brief This function copies the values into a ModelStatisticsDataType object and publishes them
      *
-     * @param name New value to be copied in member id \c statistics_.name_
-     * @param data New value to be copied in member id \c statistics_.data_
+     * @param name New value to be copied in member \c name_
+     * @param data New value to be copied in member \c data_
      */
     void publish_statistics(
             const std::string& name,
             const std::vector<types::ByteType>& data);
 
     /**
-     * @brief This function copies the values in member \c statistics_ and publishes them
+     * @brief This function copies the values into a ModelStatisticsDataType object and publishes them
      *
-     * @param name New value to be copied in member id \c statistics_.name_
-     * @param data New value to be copied in member id \c statistics_.data_
+     * @param name New value to be copied in member \c name_
+     * @param data New value to be copied in member \c data_
      */
     void publish_statistics(
             const std::string& name,

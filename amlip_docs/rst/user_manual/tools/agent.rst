@@ -6,7 +6,7 @@
 Agent Tool
 ##########
 
-This tool executes an :ref:`user_manual_nodes_agent` which is the main transport component that manages the dynamic discovery of *AML-IP Algebraic Nodes* deployed within a :term:`LAN` and the discovery of other AML-IP clusters over :term:`WAN`.
+This tool launches an :ref:`user_manual_nodes_agent`, which is the main transport component that manages the communication of *AML-IP Algebraic Nodes* deployed within a :term:`LAN` and the discovery of other AML-IP clusters over :term:`WAN`.
 
 Building the tool
 =================
@@ -15,9 +15,9 @@ If the tool package is not compiled, please refer to :ref:`developer_manual_inst
 
 .. code-block:: bash
 
-    colcon build --packages-up-to-regex amlip
+    colcon build --packages-up-to amlip_agent
 
-Once AML-IP packages are installed and built, import the libraries using the following command.
+Once AML-IP packages are installed and built, source the workspace using the following command.
 
 .. code-block:: bash
 
@@ -168,19 +168,19 @@ Launching an :ref:`Agent Client Node <user_manual_nodes_agent_client>` instance 
 
 .. code-block:: bash
 
-    amlip_agent -e client
+    amlip_agent -e client -c 87.111.115.111 -p 18000 -t tcp
 
 To launch an :ref:`Agent Server Node <user_manual_nodes_agent_server>`, execute:
 
 .. code-block:: bash
 
-    amlip_agent -e server
+    amlip_agent -e server -l 87.111.115.111 -q 18000 -t tcp
 
 To launch an :ref:`Agent Repeater Node <user_manual_nodes_agent_repeater>`, execute:
 
 .. code-block:: bash
 
-    amlip_agent -e repeater
+    amlip_agent -e repeater -l 87.111.115.111 -q 18000 -t tcp
 
 Close tool
 ==========

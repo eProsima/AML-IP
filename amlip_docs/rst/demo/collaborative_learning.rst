@@ -179,7 +179,7 @@ And also we specified the domain equal to the ``DOMAIN_ID`` variable.
   :language: python
   :lines: 49-56
 
-Call the ``publish_statistics()`` function, which fills the :ref:`user_manual_scenarios_collaborative_learning_statistics`  and publishes it.
+Call the ``publish_statistics()`` function, which fills a :ref:`user_manual_scenarios_collaborative_learning_statistics`  and publishes it.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
   :language: python

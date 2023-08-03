@@ -70,7 +70,8 @@ public:
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
             void* data,
-            const uint32_t size);
+            const uint32_t size,
+            bool allocated = false);
 
     /*!
      * @brief Constructor with name and data given in std::vector<uint8_t>.

@@ -77,12 +77,21 @@ ModelStatisticsDataType::ModelStatisticsDataType(
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
         void* data,
-        const uint32_t size)
+        const uint32_t size,
+        bool allocated)
     : name_(name)
-    , data_(data)
     , data_size_(size)
-    , has_been_allocated_(true)
+    , has_been_allocated_(allocated)
 {
+    if (allocated)
+    {
+        data_ = data;
+    }
+    else
+    {
+        data_ = std::malloc(size * sizeof(uint8_t));
+        std::memcpy(data_, data, size);
+    }
     // Do nothing
 }
 
@@ -92,7 +101,8 @@ ModelStatisticsDataType::ModelStatisticsDataType(
     : ModelStatisticsDataType(
         name,
         utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size()),
-        bytes.size())
+        bytes.size(),
+        true)
 {
     // Do nothing
 }
@@ -103,7 +113,8 @@ ModelStatisticsDataType::ModelStatisticsDataType(
     : ModelStatisticsDataType(
         name,
         utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.c_str()), bytes.length()),
-        bytes.length())
+        bytes.length(),
+        true)
 {
     // Do nothing
 }

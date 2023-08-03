@@ -87,26 +87,20 @@ void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
         const std::vector<types::ByteType>& data)
 {
-    //! Statistical data from models.
-    types::ModelStatisticsDataType statistics(name, data);
-
-    statistics.server_id(participant_->id());
-
-    // Send statistics
-    statistics_writer_->publish(statistics);
+    publish_statistics(
+        name,
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.data()), data.size()),
+        data.size());
 }
 
 void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
         const std::string& data)
 {
-    //! Statistical data from models.
-    types::ModelStatisticsDataType statistics(name, data);
-
-    statistics.server_id(participant_->id());
-
-    // Send statistics
-    statistics_writer_->publish(statistics);
+    publish_statistics(
+        name,
+        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
+        data.length());
 }
 
 void ModelManagerSenderNode::start(
