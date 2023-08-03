@@ -78,7 +78,7 @@ int main(
 
         // Create statistics data
         std::string data = "hello world";
-        model_sender_node.publish_statistics("v0", data);
+        model_sender_node.publish_statistics("v0", data, false);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_sender_node << ". Creating model...");
 

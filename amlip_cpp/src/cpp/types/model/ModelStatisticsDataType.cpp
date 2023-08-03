@@ -78,43 +78,44 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
         void* data,
         const uint32_t size,
-        bool allocated)
+        bool copy_data /* = true */)
     : name_(name)
     , data_size_(size)
-    , has_been_allocated_(allocated)
+    , has_been_allocated_(copy_data)
 {
-    if (allocated)
-    {
-        data_ = data;
-    }
-    else
+    if (copy_data)
     {
         data_ = std::malloc(size * sizeof(uint8_t));
         std::memcpy(data_, data, size);
     }
-    // Do nothing
+    else
+    {
+        data_ = data;
+    }
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
-        const std::vector<ByteType>& bytes)
+        const std::vector<ByteType>& bytes,
+        bool copy_data /* = true */)
     : ModelStatisticsDataType(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size()),
+        utils::cast_to_void_ptr(bytes.data()),
         bytes.size(),
-        true)
+        copy_data)
 {
     // Do nothing
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
-        const std::string& bytes)
+        const std::string& bytes,
+        bool copy_data /* = true */)
     : ModelStatisticsDataType(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.c_str()), bytes.length()),
+        utils::cast_to_void_ptr(bytes.c_str()),
         bytes.length(),
-        true)
+        copy_data)
 {
     // Do nothing
 }

@@ -114,31 +114,37 @@ public:
      * @param name New value to be copied in member \c name_
      * @param data New value to be copied in member \c data_
      * @param size New value to be copied in member \c data_size_
+     * @param copy_data
      */
     void publish_statistics(
             const std::string& name,
             void* data,
-            const uint32_t size);
+            const uint32_t size,
+            bool copy_data = true);
 
     /**
      * @brief This function copies the values into a ModelStatisticsDataType object and publishes them
      *
      * @param name New value to be copied in member \c name_
      * @param data New value to be copied in member \c data_
+     * @param copy_data
      */
     void publish_statistics(
             const std::string& name,
-            const std::vector<types::ByteType>& data);
+            const std::vector<types::ByteType>& data,
+            bool copy_data = true);
 
     /**
      * @brief This function copies the values into a ModelStatisticsDataType object and publishes them
      *
      * @param name New value to be copied in member \c name_
      * @param data New value to be copied in member \c data_
+     * @param copy_data
      */
     void publish_statistics(
             const std::string& name,
-            const std::string& data);
+            const std::string& data,
+            bool copy_data = true);
 
     /**
      * @brief Process model replies

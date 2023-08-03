@@ -72,10 +72,11 @@ ModelManagerSenderNode::~ModelManagerSenderNode()
 void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
         void* data,
-        const uint32_t size)
+        const uint32_t size,
+        bool copy_data /* = true */)
 {
     //! Statistical data from models.
-    types::ModelStatisticsDataType statistics(name, data, size);
+    types::ModelStatisticsDataType statistics(name, data, size, copy_data);
 
     statistics.server_id(participant_->id());
 
@@ -85,22 +86,26 @@ void ModelManagerSenderNode::publish_statistics(
 
 void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
-        const std::vector<types::ByteType>& data)
+        const std::vector<types::ByteType>& data,
+        bool copy_data /* = true */)
 {
     publish_statistics(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.data()), data.size()),
-        data.size());
+        utils::cast_to_void_ptr(data.data()),
+        data.size(),
+        copy_data);
 }
 
 void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
-        const std::string& data)
+        const std::string& data,
+        bool copy_data /* = true */)
 {
     publish_statistics(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
-        data.length());
+        utils::cast_to_void_ptr(data.c_str()),
+        data.length(),
+        copy_data);
 }
 
 void ModelManagerSenderNode::start(
