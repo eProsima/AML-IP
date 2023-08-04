@@ -32,9 +32,9 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
-#include <cpp_utils/utils.hpp>
-#include <cpp_utils/types/cast.hpp>
 #include <cpp_utils/Log.hpp>
+#include <cpp_utils/types/cast.hpp>
+#include <cpp_utils/utils.hpp>
 
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 

@@ -22,12 +22,11 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
-#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
-#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
-
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 
 class CustomModelReplier : public eprosima::amlip::node::ModelReplier

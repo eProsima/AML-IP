@@ -15,8 +15,8 @@
 
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelRequestDataType import ModelRequestDataType
 from amlip_py.types.ModelReplyDataType import ModelReplyDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
 
 from amlip_swig import ModelManagerSenderNode as cpp_ModelManagerSenderNode
 from amlip_swig import ModelReplier as cpp_ModelReplier

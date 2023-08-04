@@ -86,7 +86,6 @@ public:
 
         return solution;
     }
-
 };
 
 } /* namespace test */
@@ -94,11 +93,11 @@ public:
 using namespace eprosima::amlip;
 
 /**
- * Launch 1 ModelManagerReceiverNode and 1 ModelManagerSenderNode.
+ * Launch 1 ModelManagerReceiverNode and 2 ModelManagerSenderNode.
  *
  * Models will be mocked with strings.
  */
-TEST(modelManagerTest, ping_pong)
+TEST(modelManagerTimeoutReplyTest, ping_pong)
 {
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
@@ -114,35 +113,45 @@ TEST(modelManagerTest, ping_pong)
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
 
-        // Create ModelManagerSender Node
-        eprosima::amlip::types::AmlipIdDataType id_sender("ModelManagerSender");
-        eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
+        // Create ModelManagerSender Nodes
+        eprosima::amlip::types::AmlipIdDataType id_sender_1("ModelManagerSender_1");
+        eprosima::amlip::node::ModelManagerSenderNode model_sender_node_1(id_sender_1);
+
+        eprosima::amlip::types::AmlipIdDataType id_sender_2("ModelManagerSender_2");
+        eprosima::amlip::node::ModelManagerSenderNode model_sender_node_2(id_sender_2);
 
         // Create statistics data
-        std::string data_str = "hello world";
-        model_sender_node.publish_statistics("v0", data_str);
+        std::string data_str_1 = "Hello world, I'm going to die.";
+        model_sender_node_1.publish_statistics("v0", data_str_1);
 
-        // Create waiter
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
+        // Create waiter_receiver
+        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_receiver =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(waiter);
+                std::make_shared<test::TestModelListener>(waiter_receiver);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
 
+        model_sender_node_1.stop();
+
         // Start nodes
         model_receiver_node.start(listener);
-        model_sender_node.start(replier);
+
+        // Create statistics data
+        std::string data_str_2 = "Hello world, I'm working.";
+        model_sender_node_2.publish_statistics("v1", data_str_2);
+
+        model_sender_node_2.start(replier);
 
         // Wait solution
-        waiter->wait();
+        waiter_receiver->wait();
 
         // Stop nodes
         model_receiver_node.stop();
-        model_sender_node.stop();
+        model_sender_node_2.stop();
     }
     logUser(AMLIPCPP_MANUAL_TEST, "Finishing test...");
 

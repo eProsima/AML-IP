@@ -23,8 +23,8 @@
 #include <string>
 #include <vector>
 
-#include <amlip_cpp/types/InterfaceDataType.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {

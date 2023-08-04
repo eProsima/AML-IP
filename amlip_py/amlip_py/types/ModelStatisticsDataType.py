@@ -14,8 +14,9 @@
 """AML-IP Model Statistics data type API specification."""
 
 
-from amlip_swig import ModelStatisticsDataType as cpp_ModelStatisticsDataType
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
+
+from amlip_swig import ModelStatisticsDataType as cpp_ModelStatisticsDataType
 
 
 class ModelStatisticsDataType(cpp_ModelStatisticsDataType):

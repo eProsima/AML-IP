@@ -23,8 +23,9 @@
 #include <dds/DirectWriter.hpp>
 #include <dds/TargetedReader.hpp>
 
-#include <types/rpc/RpcRequestDataType.hpp>
 #include <types/rpc/RpcReplyDataType.hpp>
+#include <types/rpc/RpcRequestDataType.hpp>
+
 #include <amlip_cpp/types/id/TaskId.hpp>
 
 namespace eprosima {
@@ -107,6 +108,11 @@ protected:
     std::string topic_;
 
     std::atomic<types::TaskId> last_task_id_used_;
+
+    template <typename D, typename S>
+    friend std::ostream& operator <<(
+            std::ostream&,
+            const RPCClient<D, S>& );
 };
 
 //! \c RPCClient to stream serializator

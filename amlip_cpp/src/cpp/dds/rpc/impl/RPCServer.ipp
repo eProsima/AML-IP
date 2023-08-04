@@ -70,7 +70,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
 
         if (reason == eprosima::utils::event::AwakeReason::disabled)
         {
-            logDebug(AMLIPCPP_DDS_RPCSERVER, "ModelManager Node " << this << " finished processing data.");
+            logDebug(AMLIPCPP_DDS_RPCSERVER, *this << " finished processing data.");
 
             // Break thread execution
             break;

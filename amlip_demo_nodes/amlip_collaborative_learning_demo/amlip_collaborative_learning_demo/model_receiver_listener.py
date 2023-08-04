@@ -16,8 +16,8 @@ from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListenerLambda
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelRequestDataType import ModelRequestDataType
 from amlip_py.types.ModelReplyDataType import ModelReplyDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
 from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 # Domain ID

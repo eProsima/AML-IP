@@ -22,8 +22,8 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 
 class CustomModelListener : public eprosima::amlip::node::ModelListener

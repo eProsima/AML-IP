@@ -16,17 +16,17 @@
  * @file ModelManagerSenderNode.cpp
  */
 
-#include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
-
-#include <cpp_utils/utils.hpp>
+#include <cpp_utils/Log.hpp>
 #include <cpp_utils/types/cast.hpp>
+#include <cpp_utils/utils.hpp>
+
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 
-#include <dds/rpc/RPCClient.hpp>
-#include <dds/Participant.hpp>
-#include <dds/network_utils/topic.hpp>
 #include <dds/network_utils/model_manager.hpp>
+#include <dds/network_utils/topic.hpp>
+#include <dds/Participant.hpp>
+#include <dds/rpc/RPCClient.hpp>
 
 namespace eprosima {
 namespace amlip {
