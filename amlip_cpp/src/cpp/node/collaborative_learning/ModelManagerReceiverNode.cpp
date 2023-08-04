@@ -126,7 +126,7 @@ void ModelManagerReceiverNode::process_routine_(
 {
     while (running_)
     {
-        start_loop:
+start_loop:
 
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Waiting for statistics...");
         statistics_reader_->wait_data_available();
@@ -166,7 +166,7 @@ void ModelManagerReceiverNode::process_routine_(
 
 
             }
-            catch(const eprosima::utils::TimeoutException& e)
+            catch (const eprosima::utils::TimeoutException& e)
             {
                 std::cerr << e.what() << '\n';
                 goto start_loop;
@@ -183,7 +183,7 @@ void ModelManagerReceiverNode::process_routine_(
         }
 
     }
-    finish_routine:
+finish_routine:
 
     logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Finishing ModelManagerReceiver routine.");
 }

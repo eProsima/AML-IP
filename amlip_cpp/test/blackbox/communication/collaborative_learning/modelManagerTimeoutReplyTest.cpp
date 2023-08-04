@@ -86,6 +86,7 @@ public:
 
         return solution;
     }
+
 };
 
 } /* namespace test */

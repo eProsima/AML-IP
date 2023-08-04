@@ -99,7 +99,7 @@ Solution RPCClient<Data, Solution>::get_reply(
         {
             logDebug(AMLIPCPP_DDS_RPCCLIENT, *this << " finished waiting for data due to timeout.");
             throw eprosima::utils::TimeoutException(
-                  STR_ENTRY << *this << " finished waiting for data due to timeout.");
+                      STR_ENTRY << *this << " finished waiting for data due to timeout.");
         }
 
         try
