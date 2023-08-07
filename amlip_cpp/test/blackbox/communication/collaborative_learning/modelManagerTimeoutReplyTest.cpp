@@ -85,12 +85,12 @@ using namespace eprosima::amlip;
 /**
  * Launch 1 ModelManagerReceiverNode and 2 ModelManagerSenderNode.
  *
- * The first Sender node is going to publish its statistics and then stops.
- * Simulating when a Sender sends its statistics and the Receiver request
+ * The first Sender node publishes its statistics and then stops.
+ * Simulating when a Sender sends its statistics and the Receiver requests
  * its model, but the Receiver has already terminated, so Receiver waits for
  * REPLY_TIMEOUT_ ms before continuing to listen to other statistics.
  *
- * The second Sender is going to publishes its statistics and responds to the
+ * The second Sender publishes its statistics and responds to the
  * request from the Receiver.
  *
  * This test assesses how the ModelManagerReceiverNodes handle scenarios
@@ -136,8 +136,8 @@ TEST(modelManagerTimeoutReplyTest, ping_pong)
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
 
-        // Statistics are sent due to transient local qos event if the node the node is stopped
-        // but reader is disabled so no reply is sent
+        // Statistics are sent due to transient local qos even if the node is stopped
+        // but, since the inner RPCReader is disabled, no reply is sent
         model_sender_node_1.stop();
 
         // Start nodes

@@ -6,8 +6,8 @@
 Agent Tool
 ##########
 
-This tool launches an :ref:`user_manual_nodes_agent`, which is the node in charge of communicating a local node or AML-IP cluster with the rest of the network in :term:`WAN`s.
-It centralizes the :term:`WAN` discovery and communication, i.e. it is the bridge for all the nodes in their :term:`LAN`s with the rest of the AML-IP components.
+This tool launches an :ref:`user_manual_nodes_agent`, which is the node in charge of communicating a local node or AML-IP cluster with the rest of the network in :term:`WAN`\s.
+It centralizes the :term:`WAN` discovery and communication, i.e. it is the bridge for all the nodes in their :term:`LAN`\s with the rest of the AML-IP components.
 
 Building the tool
 =================

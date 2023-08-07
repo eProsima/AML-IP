@@ -41,7 +41,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
                 id.name().c_str()))
     , statistics_reader_(participant_->create_reader<types::ModelStatisticsDataType>(
                 dds::utils::MODEL_STATISTICS_TOPIC_NAME,
-                default_statistics_datareader_qos()))
+                default_statistics_datareader_qos()))   // TODO: parametrize constructor
     , model_receiver_(
         participant_->create_rpc_client<types::ModelRequestDataType,
         types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
@@ -194,8 +194,8 @@ eprosima::fastdds::dds::DataReaderQos ModelManagerReceiverNode::default_statisti
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
-    //! Maximum number of statistics to process at the same time
-    qos.history().depth = 10;   // TODO needs to be revisited.
+    //! Allow to process several statistics
+    qos.history().depth = 10;
 
     return qos;
 }
