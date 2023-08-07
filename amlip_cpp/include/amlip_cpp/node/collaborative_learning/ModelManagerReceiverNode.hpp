@@ -197,6 +197,9 @@ protected:
 
     //! Data to request to ModelManagerSenderNode.
     types::ModelRequestDataType data_;
+
+    //! Maximum wait reply in milliseconds (0 = no wait)
+    static const uint32_t REPLY_TIMEOUT_;        // 2500
 };
 
 } /* namespace node */

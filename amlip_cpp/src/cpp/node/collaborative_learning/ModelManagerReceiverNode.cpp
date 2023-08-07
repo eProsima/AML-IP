@@ -31,6 +31,8 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
+const uint32_t ModelManagerReceiverNode::REPLY_TIMEOUT_ = 2500;
+
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::AmlipIdDataType id,
         types::ModelRequestDataType& data,
@@ -126,14 +128,13 @@ void ModelManagerReceiverNode::process_routine_(
 {
     while (running_)
     {
-start_loop:
 
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Waiting for statistics...");
         statistics_reader_->wait_data_available();
 
         if (!running_)
         {
-            goto finish_routine;
+            break;
         }
 
         eprosima::amlip::types::ModelStatisticsDataType statistics;
@@ -146,7 +147,7 @@ start_loop:
         catch (const eprosima::utils::InconsistencyException& e)
         {
             std::cerr << e.what() << std::endl;
-            goto start_loop;
+            continue;
         }
 
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
@@ -161,20 +162,19 @@ start_loop:
             try
             {
                 // Wait reply
-                uint32_t timeout_reply = 2500;
-                model = model_receiver_->get_reply(task_id, timeout_reply);
+                model = model_receiver_->get_reply(task_id, REPLY_TIMEOUT_);
 
 
             }
             catch (const eprosima::utils::TimeoutException& e)
             {
                 std::cerr << e.what() << '\n';
-                goto start_loop;
+                continue;
             }
 
             if (!running_)
             {
-                goto finish_routine;
+                break;
             }
 
             // Call callback
@@ -183,7 +183,6 @@ start_loop:
         }
 
     }
-finish_routine:
 
     logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Finishing ModelManagerReceiver routine.");
 }
@@ -195,7 +194,8 @@ eprosima::fastdds::dds::DataReaderQos ModelManagerReceiverNode::default_statisti
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
-    qos.history().depth = 10;
+    //! Maximum number of statistics to process at the same time
+    qos.history().depth = 10;   // TODO needs to be revisited.
 
     return qos;
 }

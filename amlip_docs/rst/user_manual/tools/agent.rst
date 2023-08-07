@@ -6,7 +6,8 @@
 Agent Tool
 ##########
 
-This tool launches an :ref:`user_manual_nodes_agent`, which is the main transport component that manages the communication of *AML-IP Algebraic Nodes* deployed within a :term:`LAN` and the discovery of other AML-IP clusters over :term:`WAN`.
+This tool launches an :ref:`user_manual_nodes_agent`, which is the node in charge of communicating a local node or AML-IP cluster with the rest of the network in :term:`WAN`s.
+It centralizes the :term:`WAN` discovery and communication, i.e. it is the bridge for all the nodes in their :term:`LAN`s with the rest of the AML-IP components.
 
 Building the tool
 =================
