@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class ModelDataType
+// Binding for class ModelRequestDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
@@ -24,14 +24,14 @@
 %ignore *::operator=;
 
 %{
-#include <amlip_cpp/types/model/ModelDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 
-using ModelDataType = eprosima::amlip::types::ModelDataType;
+using ModelRequestDataType = eprosima::amlip::types::ModelRequestDataType;
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/model/ModelDataType.hpp>
+%include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 
 %pythoncode %{
-ModelDataType = GenericDataType
+ModelRequestDataType = GenericDataType
 %}

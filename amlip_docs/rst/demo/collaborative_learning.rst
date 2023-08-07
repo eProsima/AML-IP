@@ -86,7 +86,7 @@ Whenever it is ``False``, threads wait.
   :language: python
   :lines: 27
 
-The ``CustomModelListener`` class is responsible for listens to :ref:`user_manual_scenarios_collaborative_learning_statistics` and :ref:`user_manual_scenarios_collaborative_learning_solution` messages received from a :ref:`user_manual_nodes_model_sender`.
+The ``CustomModelListener`` class is responsible for listens to :ref:`user_manual_scenarios_collaborative_learning_statistics` and :ref:`user_manual_scenarios_collaborative_learning_model_reply` messages received from a :ref:`user_manual_nodes_model_sender`.
 This class is supposed to be implemented by the user in order to process the messages received from other nodes in the network.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
@@ -101,7 +101,7 @@ We define the ``main`` function.
 
 We create an instance of ``ModelManagerReceiverNode``.
 The first thing the constructor gets is the id of the participant associated with the node.
-Then the data which is a ``ModelDataType`` with the request message.
+Then the data which is a ``ModelRequestDataType`` with the request message.
 And also we specified the domain equal to the ``DOMAIN_ID`` variable.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py
@@ -158,7 +158,7 @@ Whenever it is ``False``, threads wait.
   :language: python
   :lines: 26
 
-The ``CustomModelReplier`` class is responsible for listens to :ref:`user_manual_scenarios_collaborative_learning_model` request messages received from a :ref:`user_manual_nodes_model_receiver`.
+The ``CustomModelReplier`` class is responsible for listens to :ref:`user_manual_scenarios_collaborative_learning_model_request` request messages received from a :ref:`user_manual_nodes_model_receiver`.
 This class is supposed to be implemented by the user in order to process the messages.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
@@ -179,7 +179,7 @@ And also we specified the domain equal to the ``DOMAIN_ID`` variable.
   :language: python
   :lines: 49-56
 
-Call the ``update_statistics()`` function, which fills the :ref:`user_manual_scenarios_collaborative_learning_statistics`  and publishes it.
+Call the ``publish_statistics()`` function, which fills a :ref:`user_manual_scenarios_collaborative_learning_statistics`  and publishes it.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py
   :language: python

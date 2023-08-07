@@ -11,27 +11,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""AML-IP Model data type API specification."""
+"""AML-IP Model Solution data type API specification."""
 
 
-from amlip_swig import ModelDataType as cpp_ModelDataType
+from amlip_swig import ModelReplyDataType as cpp_ModelReplyDataType
 
 
-class ModelDataType(cpp_ModelDataType):
+class ModelReplyDataType(cpp_ModelReplyDataType):
     """
-    Object that represents a Model (request) sent from a ModelManagerReceiver
-    Node to a ModelManagerSender one.
+    Object that represents a Model (reply) sent from a ModelManagerSender
+    Node to a ModelManagerReceiver one.
     """
 
     def __init__(
             self,
             message: (str | bytes) = None):
         """
-        Construct a new Model request with data.
+        Construct a new Model reply with data.
         Parameters
         ----------
         message: str or bytes
-            Data to send to ModelManagerSender Node.
+            Data to send to ModelManagerReceiver Node.
         """
         if (message):
             super().__init__(message)
@@ -41,9 +41,9 @@ class ModelDataType(cpp_ModelDataType):
     def __str__(
             self) -> str:
         """Serialize into a string."""
-        return cpp_ModelDataType.to_string(self)
+        return cpp_ModelReplyDataType.to_string(self)
 
     def to_string(
             self) -> str:
         """Serialize into a string."""
-        return cpp_ModelDataType.to_string(self)
+        return cpp_ModelReplyDataType.to_string(self)

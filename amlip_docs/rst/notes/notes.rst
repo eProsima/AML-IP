@@ -53,8 +53,8 @@ This release includes the following new **AML-IP Data Types**:
 * :ref:`Inference <user_manual_datatype_inference>`: messages that represent a partial data-set.
 * :ref:`Inference Solution <user_manual_datatype_inference_solution>`: messages that represent the inference of a data-set.
 * :ref:`Model Statistics <user_manual_scenarios_collaborative_learning_statistics>`: messages that represent statistical data from models.
-* :ref:`Model <user_manual_scenarios_collaborative_learning_model>`: messages that represent a problem model request.
-* :ref:`Model Solution <user_manual_scenarios_collaborative_learning_solution>`: messages that represent a problem reply with the requested model.
+* :ref:`Model <user_manual_scenarios_collaborative_learning_model_request>`: messages that represent a problem model request.
+* :ref:`Model Solution <user_manual_scenarios_collaborative_learning_model_reply>`: messages that represent a problem reply with the requested model.
 
 This release includes the following **Demos**:
 

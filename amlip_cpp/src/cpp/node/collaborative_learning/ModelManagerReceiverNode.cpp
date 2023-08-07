@@ -16,32 +16,35 @@
  * @file ModelManagerReceiverNode.cpp
  */
 
-#include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
+#include <cpp_utils/exception/TimeoutException.hpp>
+#include <cpp_utils/Log.hpp>
 
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 
-#include <dds/rpc/RPCClient.hpp>
-#include <dds/Participant.hpp>
 #include <dds/network_utils/model_manager.hpp>
 #include <dds/network_utils/topic.hpp>
+#include <dds/Participant.hpp>
+#include <dds/rpc/RPCClient.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 
+const uint32_t ModelManagerReceiverNode::REPLY_TIMEOUT_ = 2500;
+
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::AmlipIdDataType id,
-        types::ModelDataType& data,
+        types::ModelRequestDataType& data,
         uint32_t domain_id)
     : ParentNode(id, types::NodeKind::model_receiver, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 id.name().c_str()))
     , statistics_reader_(participant_->create_reader<types::ModelStatisticsDataType>(
                 dds::utils::MODEL_STATISTICS_TOPIC_NAME,
-                default_statistics_datareader_qos()))
+                default_statistics_datareader_qos()))   // TODO: parametrize constructor
     , model_receiver_(
-        participant_->create_rpc_client<types::ModelDataType,
-        types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
+        participant_->create_rpc_client<types::ModelRequestDataType,
+        types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
     , data_(data)
 {
@@ -50,7 +53,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         types::AmlipIdDataType id,
-        types::ModelDataType& data)
+        types::ModelRequestDataType& data)
     : ModelManagerReceiverNode(id, data, dds::Participant::default_domain_id())
 {
     // Do nothing
@@ -58,7 +61,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         const char* name,
-        types::ModelDataType& data,
+        types::ModelRequestDataType& data,
         uint32_t domain_id)
     : ModelManagerReceiverNode(types::AmlipIdDataType(name), data, domain_id)
 {
@@ -67,7 +70,7 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
         const char* name,
-        types::ModelDataType& data)
+        types::ModelRequestDataType& data)
     : ModelManagerReceiverNode(name, data, dds::Participant::default_domain_id())
 {
     // Do nothing
@@ -125,50 +128,62 @@ void ModelManagerReceiverNode::process_routine_(
 {
     while (running_)
     {
+
+        logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Waiting for statistics...");
+        statistics_reader_->wait_data_available();
+
+        if (!running_)
+        {
+            break;
+        }
+
         eprosima::amlip::types::ModelStatisticsDataType statistics;
         try
         {
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Waiting for statistics...");
-            statistics_reader_->wait_data_available();
+            // Read statistics
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
+            statistics = statistics_reader_->read();
+        }
+        catch (const eprosima::utils::InconsistencyException& e)
+        {
+            std::cerr << e.what() << std::endl;
+            continue;
+        }
+
+        logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
+                "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
+
+        if (listener->statistics_received(statistics))
+        {
+            // Send request
+            types::TaskId task_id = model_receiver_->send_request(data_, statistics.server_id());
+
+            eprosima::amlip::types::ModelReplyDataType model;
+            try
+            {
+                // Wait reply
+                model = model_receiver_->get_reply(task_id, REPLY_TIMEOUT_);
+
+
+            }
+            catch (const eprosima::utils::TimeoutException& e)
+            {
+                std::cerr << e.what() << '\n';
+                continue;
+            }
 
             if (!running_)
             {
                 break;
             }
 
-            // Read statistics
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Statistics received. Reading...");
-            statistics = statistics_reader_->read();
-
-
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
-                    "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
-
-            if (listener->statistics_received(statistics))
-            {
-                // Send request
-                types::TaskId task_id = model_receiver_->send_request(data_, statistics.server_id());
-
-                // Wait reply
-                eprosima::amlip::types::ModelSolutionDataType model = model_receiver_->get_reply(task_id);
-
-                if (!running_)
-                {
-                    break;
-                }
-
-                // Call callback
-                listener->model_received(model);
-                logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManagerReceiver Node has received a model update.");
-
-            }
-        }
-        catch (const std::exception& e)
-        {
-            std::cerr << e.what() << std::endl;
+            // Call callback
+            listener->model_received(model);
+            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManagerReceiver Node has received a model update.");
         }
 
     }
+
     logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Finishing ModelManagerReceiver routine.");
 }
 
@@ -179,7 +194,8 @@ eprosima::fastdds::dds::DataReaderQos ModelManagerReceiverNode::default_statisti
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.history().kind = eprosima::fastdds::dds::HistoryQosPolicyKind::KEEP_LAST_HISTORY_QOS;
-    qos.history().depth = 1;
+    //! Allow to process several statistics
+    qos.history().depth = 10;
 
     return qos;
 }

@@ -22,11 +22,11 @@
 #include <cpp_utils/Log.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <amlip_cpp/types/model/ModelDataType.hpp>
-#include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
-#include <dds/Participant.hpp>
+#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 
 #include <dds/network_utils/model_manager.hpp>
+#include <dds/Participant.hpp>
 
 int main(
         int argc,

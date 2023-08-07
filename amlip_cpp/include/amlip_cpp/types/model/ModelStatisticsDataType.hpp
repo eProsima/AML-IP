@@ -23,8 +23,8 @@
 #include <string>
 #include <vector>
 
-#include <amlip_cpp/types/InterfaceDataType.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
@@ -49,15 +49,52 @@ public:
 
     /*!
      * @brief Constructor with name.
+     * @param name New value to be copied in member id \c name_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name);
 
     /*!
      * @brief Constructor with name given in char*.
+     * @param name New value to be copied in member id \c name_
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const char* name);
+
+    /*!
+     * @brief Constructor with name, data given in void* and data size.
+     * @param name New value to be copied in member id \c name_
+     * @param data New value to be copied in member id \c data_
+     * @param size New value to be copied in member id \c data_size_
+     * @param copy_data
+     */
+    AMLIP_CPP_DllAPI ModelStatisticsDataType(
+            const std::string& name,
+            void* data,
+            const uint32_t size,
+            bool copy_data = true);
+
+    /*!
+     * @brief Constructor with name and data given in std::vector<uint8_t>.
+     * @param name New value to be copied in member id \c name_
+     * @param bytes New value to be copied in member id \c data_
+     * @param copy_data
+     */
+    AMLIP_CPP_DllAPI ModelStatisticsDataType(
+            const std::string& name,
+            const std::vector<ByteType>& bytes,
+            bool copy_data = true);
+
+    /*!
+     * @brief Constructor with name and data.
+     * @param name New value to be copied in member id \c name_
+     * @param bytes New value to be copied in member id \c data_
+     * @param copy_data
+     */
+    AMLIP_CPP_DllAPI ModelStatisticsDataType(
+            const std::string& name,
+            const std::string& bytes,
+            bool copy_data = true);
 
     /*!
      * @brief Default destructor.
@@ -145,27 +182,14 @@ public:
     AMLIP_CPP_DllAPI void* data() const;
 
     /*!
-     * @brief This function copies the value in member \c data_
-     * @param bytes New value to be copied in member id \c data_
+     * @brief Return value of attribute \c data_ in std::string
      */
-    AMLIP_CPP_DllAPI void data(
-            const std::vector<ByteType>& bytes);
+    AMLIP_CPP_DllAPI std::string to_string() const noexcept;
 
     /*!
-     * @brief This function copies the value in member \c data_
-     * @param bytes New value to be copied in member id \c data_
+     * @brief Return value of attribute \c data_ in std::vector<uint8_t>
      */
-    AMLIP_CPP_DllAPI void data(
-            const std::string& bytes);
-
-    /*!
-     * @brief This function copies the value in member \c data_
-     * @param data New value to be copied in member id \c data_
-     * @param size New value to be copied in member id \c data_size_
-     */
-    AMLIP_CPP_DllAPI void data(
-            void* data,
-            const uint32_t size);
+    AMLIP_CPP_DllAPI std::vector<ByteType> to_vector() const noexcept;
 
     /*!
      * @brief Return value of attribute \c data_size_
@@ -271,7 +295,7 @@ protected:
 };
 
 //! \c ModelStatisticsDataType to stream serializator
-AMLIP_CPP_DllAPI std::ostream& operator <<(
+std::ostream& operator <<(
         std::ostream& os,
         const ModelStatisticsDataType& id);
 

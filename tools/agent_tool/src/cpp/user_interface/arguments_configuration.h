@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef EPROSIMA_AGENT_TOOL_USERINTERFACE_ARG_CONFIGURATION_H_
-#define EPROSIMA_AGENT_TOOL_USERINTERFACE_ARG_CONFIGURATION_H_
+#ifndef EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_
+#define EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_
 
 #include <iostream>
 #include <string>
@@ -182,7 +182,7 @@ const option::Descriptor usage[] = {
     /// CLIENT OPTIONS
     {UNKNOWN_OPT, 0, "", "", Arg::None, "\nClient options:"},
     { NAME, 0, "n", "name",          Arg::String,
-      "  -n, --name <name>  \t Name (Default: agent_tool)." },
+      "  -n, --name <name>  \t Name (Default: amlip_agent)." },
     { DOMAIN_ID, 0, "d", "domain",          Arg::Numeric,
       "  -d, --domain <id>  \tDDS domain ID (Default: 0)." },
     { CONNECTION_ADDRESS, 0, "c", "connection-address",          Arg::String,
@@ -191,7 +191,7 @@ const option::Descriptor usage[] = {
       "  -p, --connection-port <num>  \tAddress connection port (Default: 12121)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
-    { 0, 0, 0, 0, 0, 0 },
+
     /// SERVER OPTIONS
     {UNKNOWN_OPT, 0, "", "", Arg::None, "\nServer options:"},
     { NAME, 0, "n", "name",          Arg::String,
@@ -204,7 +204,7 @@ const option::Descriptor usage[] = {
       "  -q, --listening-port <num>  \tAddress listening port (Default: 12121)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
-    { 0, 0, 0, 0, 0, 0 },
+
     /// REPEATER OPTIONS
     {UNKNOWN_OPT, 0, "", "", Arg::None, "\nRepeater options:"},
     { NAME, 0, "n", "name",          Arg::String,
@@ -221,6 +221,7 @@ const option::Descriptor usage[] = {
       "  -q, --listening-port <num>  \tAddress listening port (Default: 12121)." },
     { TRANSPORT, 0, "t", "transport",         Arg::Transport,
       "  -t, --transport <tcp|udp>  \tUse only TCPv4 or UDPv4 transport. (Default: TCPv4)." },
+
     { 0, 0, 0, 0, 0, 0 }
 };
 
@@ -231,4 +232,4 @@ void print_warning(
     std::cerr << "WARNING: " << opt << " is a " << type << " option, ignoring argument." << std::endl;
 }
 
-#endif /* EPROSIMA_AGENT_TOOL_USERINTERFACE_ARG_CONFIGURATION_H_ */
+#endif /* EPROSIMA_AMLIP_AGENT_USERINTERFACE_ARG_CONFIGURATION_H_ */

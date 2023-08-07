@@ -13,11 +13,11 @@
 # limitations under the License.
 
 ###############################################################################
-# Set settings for project fastddsspy_tool
+# Set settings for project agent_tool
 ###############################################################################
 
 set(MODULE_NAME
-    amlip_agent_tool)
+    amlip_agent)
 
 set(MODULE_SUMMARY
     "C++ application to execute an agent.")
@@ -48,7 +48,7 @@ set(MODULE_VERSION_FILE_PATH
     "../../VERSION")
 
 set(MODULE_TARGET_NAME
-    "agent_tool")
+    "amlip_agent")
 
 set(MODULE_CPP_VERSION
     C++14)

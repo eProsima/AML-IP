@@ -16,17 +16,17 @@
  * @file ModelManagerSenderNode.cpp
  */
 
-#include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
-
-#include <cpp_utils/utils.hpp>
+#include <cpp_utils/Log.hpp>
 #include <cpp_utils/types/cast.hpp>
+#include <cpp_utils/utils.hpp>
+
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 
-#include <dds/rpc/RPCClient.hpp>
-#include <dds/Participant.hpp>
-#include <dds/network_utils/topic.hpp>
 #include <dds/network_utils/model_manager.hpp>
+#include <dds/network_utils/topic.hpp>
+#include <dds/Participant.hpp>
+#include <dds/rpc/RPCClient.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -42,11 +42,10 @@ ModelManagerSenderNode::ModelManagerSenderNode(
                 dds::utils::MODEL_STATISTICS_TOPIC_NAME,
                 default_statistics_datawriter_qos()))
     , model_sender_(
-        participant_->create_rpc_server<types::ModelDataType,
-        types::ModelSolutionDataType>(dds::utils::MODEL_TOPIC_NAME))
+        participant_->create_rpc_server<types::ModelRequestDataType,
+        types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
 {
-    statistics_.server_id(participant_->id());
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Created new ModelManager Node: " << *this << ".");
 }
 
@@ -70,31 +69,43 @@ ModelManagerSenderNode::~ModelManagerSenderNode()
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "ModelManagerSender Node Destroyed.");
 }
 
-void ModelManagerSenderNode::update_statistics(
+void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
         void* data,
-        const uint32_t size)
+        const uint32_t size,
+        bool copy_data /* = true */)
 {
-    statistics_.name(name);
-    statistics_.data(data, size);
+    //! Statistical data from models.
+    types::ModelStatisticsDataType statistics(name, data, size, copy_data);
+
+    statistics.server_id(participant_->id());
 
     // Send statistics
-    statistics_writer_->publish(statistics_);
+    statistics_writer_->publish(statistics);
 }
 
-void ModelManagerSenderNode::update_statistics(
+void ModelManagerSenderNode::publish_statistics(
         const std::string& name,
-        const std::string& data)
+        const std::vector<types::ByteType>& data,
+        bool copy_data /* = true */)
 {
-    update_statistics(
+    publish_statistics(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(data.c_str()), data.length()),
-        data.length());
+        utils::cast_to_void_ptr(data.data()),
+        data.size(),
+        copy_data);
 }
 
-types::ModelStatisticsDataType ModelManagerSenderNode::statistics()
+void ModelManagerSenderNode::publish_statistics(
+        const std::string& name,
+        const std::string& data,
+        bool copy_data /* = true */)
 {
-    return statistics_;
+    publish_statistics(
+        name,
+        utils::cast_to_void_ptr(data.c_str()),
+        data.length(),
+        copy_data);
 }
 
 void ModelManagerSenderNode::start(
@@ -136,7 +147,7 @@ void ModelManagerSenderNode::process_routine_(
     while (running_)
     {
         // Wait request
-        types::RpcRequestDataType<types::ModelDataType> request =
+        types::RpcRequestDataType<types::ModelRequestDataType> request =
                 model_sender_->get_request();
 
         if (!running_)
@@ -145,10 +156,10 @@ void ModelManagerSenderNode::process_routine_(
         }
 
         // Call callback
-        eprosima::amlip::types::ModelSolutionDataType solution =
+        eprosima::amlip::types::ModelReplyDataType solution =
                 model_replier->fetch_model(request.data());
 
-        types::RpcReplyDataType<types::ModelSolutionDataType> reply(
+        types::RpcReplyDataType<types::ModelReplyDataType> reply(
             request.client_id(),
             request.task_id(),
             participant_->id(),

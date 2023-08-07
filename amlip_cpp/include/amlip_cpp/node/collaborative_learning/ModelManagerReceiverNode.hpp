@@ -26,8 +26,8 @@
 #include <amlip_cpp/node/ParentNode.hpp>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
-#include <amlip_cpp/types/model/ModelDataType.hpp>
-#include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 
@@ -54,7 +54,7 @@ namespace node {
  * @brief Object that listens to:
  *
  *  - new ModelStatisticsDataType messages received from a \c ModelManagerSenderNode and executes a callback.
- *  - new ModelSolutionDataType messages received from a \c ModelManagerSenderNode and executes a callback.
+ *  - new ModelReplyDataType messages received from a \c ModelManagerSenderNode and executes a callback.
  *
  * This class is supposed to be implemented by a User and be given to a \c ModelManagerReceiverNode in order to process
  * the messages received from other Nodes in the network.
@@ -75,12 +75,12 @@ public:
             const types::ModelStatisticsDataType statistics) = 0;
 
     /**
-     * @brief Method that will be called with each ModelSolutionDataType message received
+     * @brief Method that will be called with each ModelReplyDataType message received
      *
-     * @param model new ModelSolutionDataType message received.
+     * @param model new ModelReplyDataType message received.
      */
     virtual bool model_received (
-            const types::ModelSolutionDataType model) = 0;
+            const types::ModelReplyDataType model) = 0;
 };
 
 /**
@@ -101,7 +101,7 @@ public:
      */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             types::AmlipIdDataType id,
-            types::ModelDataType& data,
+            types::ModelRequestDataType& data,
             uint32_t domain_id);
 
     /**
@@ -112,7 +112,7 @@ public:
      */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             types::AmlipIdDataType id,
-            types::ModelDataType& data);
+            types::ModelRequestDataType& data);
 
     /**
      * @brief Construct a new ModelManagerReceiverNode Node object.
@@ -123,7 +123,7 @@ public:
      */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             const char* name,
-            types::ModelDataType& data,
+            types::ModelRequestDataType& data,
             uint32_t domain_id);
 
     /**
@@ -134,7 +134,7 @@ public:
      */
     AMLIP_CPP_DllAPI ModelManagerReceiverNode(
             const char* name,
-            types::ModelDataType& data);
+            types::ModelRequestDataType& data);
 
     /**
      * @brief Destroy the ModelManagerReceiverNode Node object
@@ -190,13 +190,16 @@ protected:
      *
      * This is created from DDS Participant in ParentNode, and its destruction is handled by ParentNode.
      */
-    std::shared_ptr<dds::RPCClient<types::ModelDataType, types::ModelSolutionDataType>> model_receiver_;
+    std::shared_ptr<dds::RPCClient<types::ModelRequestDataType, types::ModelReplyDataType>> model_receiver_;
 
     //! Whether the Node is currently open to receive data or it is stopped.
     std::atomic<bool> running_;
 
     //! Data to request to ModelManagerSenderNode.
-    types::ModelDataType data_;
+    types::ModelRequestDataType data_;
+
+    //! Maximum wait reply in milliseconds (0 = no wait)
+    static const uint32_t REPLY_TIMEOUT_;        // 2500
 };
 
 } /* namespace node */

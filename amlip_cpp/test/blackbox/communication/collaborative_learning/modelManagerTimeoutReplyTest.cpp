@@ -69,19 +69,8 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
 
-        eprosima::amlip::types::ModelReplyDataType solution;
-        if (data.to_string() == "MobileNet V1")
-        {
-            solution = eprosima::amlip::types::ModelReplyDataType("MOBILENET V1");
-        }
-        else if (data.to_string() == "MobileNet V2")
-        {
-            solution = eprosima::amlip::types::ModelReplyDataType("MOBILENET V2");
-        }
-        else
-        {
-            solution = eprosima::amlip::types::ModelReplyDataType("Do not have this model :,(");
-        }
+        eprosima::amlip::types::ModelReplyDataType solution("MOBILENET V1");
+
         logUser(AMLIPCPP_MANUAL_TEST, "Processed model: " << solution << " . Returning model...");
 
         return solution;
@@ -94,11 +83,22 @@ public:
 using namespace eprosima::amlip;
 
 /**
- * Launch 1 ModelManagerReceiverNode and 1 ModelManagerSenderNode.
+ * Launch 1 ModelManagerReceiverNode and 2 ModelManagerSenderNode.
+ *
+ * The first Sender node publishes its statistics and then stops.
+ * Simulating when a Sender sends its statistics and the Receiver requests
+ * its model, but the Receiver has already terminated, so Receiver waits for
+ * REPLY_TIMEOUT_ ms before continuing to listen to other statistics.
+ *
+ * The second Sender publishes its statistics and responds to the
+ * request from the Receiver.
+ *
+ * This test assesses how the ModelManagerReceiverNodes handle scenarios
+ * where the ModelManagerSenderNodes terminate unexpectedly.
  *
  * Models will be mocked with strings.
  */
-TEST(modelManagerTest, ping_pong)
+TEST(modelManagerTimeoutReplyTest, ping_pong)
 {
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
@@ -114,35 +114,47 @@ TEST(modelManagerTest, ping_pong)
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
 
-        // Create ModelManagerSender Node
-        eprosima::amlip::types::AmlipIdDataType id_sender("ModelManagerSender");
-        eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
+        // Create ModelManagerSender Nodes
+        eprosima::amlip::types::AmlipIdDataType id_sender_1("ModelManagerSender_1");
+        eprosima::amlip::node::ModelManagerSenderNode model_sender_node_1(id_sender_1);
+
+        eprosima::amlip::types::AmlipIdDataType id_sender_2("ModelManagerSender_2");
+        eprosima::amlip::node::ModelManagerSenderNode model_sender_node_2(id_sender_2);
 
         // Create statistics data
-        std::string data_str = "hello world";
-        model_sender_node.publish_statistics("v0", data_str);
+        std::string data_str_1 = "Hello world, I'm going to die.";
+        model_sender_node_1.publish_statistics("v0", data_str_1);
 
-        // Create waiter
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
+        // Create waiter_receiver
+        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_receiver =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(waiter);
+                std::make_shared<test::TestModelListener>(waiter_receiver);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
 
+        // Statistics are sent due to transient local qos even if the node is stopped
+        // but, since the inner RPCReader is disabled, no reply is sent
+        model_sender_node_1.stop();
+
         // Start nodes
         model_receiver_node.start(listener);
-        model_sender_node.start(replier);
+
+        // Create statistics data
+        std::string data_str_2 = "Hello world, I'm working.";
+        model_sender_node_2.publish_statistics("v1", data_str_2);
+
+        model_sender_node_2.start(replier);
 
         // Wait solution
-        waiter->wait();
+        waiter_receiver->wait();
 
         // Stop nodes
         model_receiver_node.stop();
-        model_sender_node.stop();
+        model_sender_node_2.stop();
     }
     logUser(AMLIPCPP_MANUAL_TEST, "Finishing test...");
 

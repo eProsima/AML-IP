@@ -19,6 +19,7 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_RPC_IMPL_RPCCLIENT_IPP
 #define AMLIPCPP__SRC_CPP_DDS_RPC_IMPL_RPCCLIENT_IPP
 
+#include <cpp_utils/exception/TimeoutException.hpp>
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/wait/WaitHandler.hpp>
 
@@ -89,10 +90,16 @@ Solution RPCClient<Data, Solution>::get_reply(
 
         if (reason == eprosima::utils::event::AwakeReason::disabled)
         {
-            logDebug(AMLIPCPP_DDS_RPCCLIENT, "ModelManager Node " << this << " finished processing data.");
+            logDebug(AMLIPCPP_DDS_RPCCLIENT, *this << " finished processing data.");
 
             // Break thread execution
             break;
+        }
+        else if (reason == eprosima::utils::event::AwakeReason::timeout)
+        {
+            logDebug(AMLIPCPP_DDS_RPCCLIENT, *this << " finished waiting for data due to timeout.");
+            throw eprosima::utils::TimeoutException(
+                      STR_ENTRY << *this << " finished waiting for data due to timeout.");
         }
 
         try

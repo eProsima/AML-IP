@@ -8,7 +8,7 @@ Model Manager Receiver Node
 
 This kind of Node performs the active (client) action of :ref:`user_manual_scenarios_collaborative_learning`.
 This node receives statistics about models and sends a request if it is interested in a particular one.
-Then, waits for the arrival of the requested model, serialized as :ref:`user_manual_scenarios_collaborative_learning_solution`.
+Then, waits for the arrival of the requested model, serialized as :ref:`user_manual_scenarios_collaborative_learning_model_reply`.
 
 
 Example of Usage
@@ -34,8 +34,8 @@ Steps
             #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
             #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-            #include <amlip_cpp/types/model/ModelDataType.hpp>
-            #include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+            #include <amlip_cpp/types/model/ModelRequestDataType.hpp>
+            #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
             #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
             #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
@@ -60,7 +60,7 @@ Steps
                 }
 
                 virtual bool model_received (
-                        const eprosima::amlip::types::ModelSolutionDataType model) override
+                        const eprosima::amlip::types::ModelReplyDataType model) override
                 {
                     std::cout << "Model received: " << model << " ." << std::endl;
 
@@ -76,7 +76,7 @@ Steps
             eprosima::amlip::types::AmlipIdDataType id({"ModelManagerSender"}, {10, 20, 30, 40});
 
             // Create the data
-            eprosima::amlip::types::ModelDataType data("MobileNet V1");
+            eprosima::amlip::types::ModelRequestDataType data("MobileNet V1");
 
             // Create ModelManagerReceiver Node
             eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id, data);
@@ -105,8 +105,8 @@ Steps
             from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
             from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-            from amlip_py.types.ModelDataType import ModelDataType
-            from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+            from amlip_py.types.ModelRequestDataType import ModelRequestDataType
+            from amlip_py.types.ModelReplyDataType import ModelReplyDataType
             from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
             from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListener
@@ -121,7 +121,7 @@ Steps
 
                 def model_received(
                         self,
-                        model: ModelSolutionDataType) -> bool:
+                        model: ModelReplyDataType) -> bool:
                     print(f'Model reply received from server\n'
                         f' solution: {model.to_string()}')
 
@@ -130,7 +130,7 @@ Steps
                     return True
 
             # Create the data
-            data = ModelDataType('MobileNet V1')
+            data = ModelRequestDataType('MobileNet V1')
 
             # Create the Id of the node
             id = AmlipIdDataType('ModelManagerReceiver')

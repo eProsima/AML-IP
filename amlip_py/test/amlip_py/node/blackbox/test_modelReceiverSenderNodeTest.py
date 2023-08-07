@@ -14,11 +14,11 @@
 
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
-from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplier
 from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListener
+from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplier
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelDataType import ModelDataType
-from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+from amlip_py.types.ModelReplyDataType import ModelReplyDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
 from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 # Domain ID
@@ -32,9 +32,9 @@ class CustomModelReplier(ModelReplier):
 
     def fetch_model(
             self,
-            model: ModelDataType) -> ModelSolutionDataType:
+            model: ModelRequestDataType) -> ModelReplyDataType:
 
-        solution = ModelSolutionDataType(model.to_string().upper())
+        solution = ModelReplyDataType(model.to_string().upper())
 
         print(f'Model request received from client\n'
               f' model: {model.to_string()}\n'
@@ -53,7 +53,7 @@ class CustomModelListener(ModelListener):
 
     def model_received(
             self,
-            model: ModelSolutionDataType) -> bool:
+            model: ModelReplyDataType) -> bool:
 
         print(f'Model reply received from server\n'
               f' solution: {model.to_string()}')
@@ -67,7 +67,7 @@ def main():
     """Execute main routine."""
 
     # Create request
-    data = ModelDataType('MobileNet V1')
+    data = ModelRequestDataType('MobileNet V1')
 
     id_receiver = AmlipIdDataType('ModelManagerReceiver')
     id_receiver.set_id([66, 66, 66, 66])
@@ -93,7 +93,7 @@ def main():
     print(f'Node created: {model_sender_node.get_id()}. '
           'Already processing models.')
 
-    model_sender_node.update_statistics(
+    model_sender_node.publish_statistics(
         'ModelManagerSenderStatistics',
         'hello world')
 

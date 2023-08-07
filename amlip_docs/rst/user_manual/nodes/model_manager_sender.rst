@@ -8,8 +8,8 @@ Model Manager Sender Node
 
 This kind of Node performs the passive (server) action of :ref:`user_manual_scenarios_collaborative_learning`.
 This node sends statistics about the models it manages.
-Then, waits for a Model request serialized as :ref:`user_manual_scenarios_collaborative_learning_model`.
-Once received, a user-implemented callback (`fetch_model`) is executed, whose output should be the requested model in the form of a :ref:`user_manual_scenarios_collaborative_learning_solution`.
+Then, waits for a Model request serialized as :ref:`user_manual_scenarios_collaborative_learning_model_request`.
+Once received, a user-implemented callback (`fetch_model`) is executed, whose output should be the requested model in the form of a :ref:`user_manual_scenarios_collaborative_learning_model_reply`.
 
 
 Example of Usage
@@ -35,8 +35,8 @@ Steps
             #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
             #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-            #include <amlip_cpp/types/model/ModelDataType.hpp>
-            #include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
+            #include <amlip_cpp/types/model/ModelRequestDataType.hpp>
+            #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
             #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
             #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
@@ -53,13 +53,13 @@ Steps
                     // Do nothing
                 }
 
-                virtual eprosima::amlip::types::ModelSolutionDataType fetch_model (
-                        const eprosima::amlip::types::ModelDataType data) override
+                virtual eprosima::amlip::types::ModelReplyDataType fetch_model (
+                        const eprosima::amlip::types::ModelRequestDataType data) override
                 {
                     std::cout << "Processing data: " << data << " . Processing data..." << std::endl;
 
                     // Create new solution from data here
-                    eprosima::amlip::types::ModelSolutionDataType solution("MOBILENET V1");
+                    eprosima::amlip::types::ModelReplyDataType solution("MOBILENET V1");
 
                     std::cout << "Processed model: " << solution << " . Returning model..." << std::endl;
 
@@ -79,7 +79,7 @@ Steps
 
             // Create statistics data
             std::string data = "hello world";
-            model_sender_node.update_statistics("v0", data);
+            model_sender_node.publish_statistics("v0", data);
 
             // Create waiter
             std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
@@ -105,8 +105,8 @@ Steps
             from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
             from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-            from amlip_py.types.ModelDataType import ModelDataType
-            from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+            from amlip_py.types.ModelRequestDataType import ModelRequestDataType
+            from amlip_py.types.ModelReplyDataType import ModelReplyDataType
             from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
             from amlip_py.node.ModelManagerSenderNode import ModelManagerSenderNode, ModelReplier
@@ -116,8 +116,8 @@ Steps
 
                 def fetch_model(
                         self,
-                        model: ModelDataType) -> ModelSolutionDataType:
-                    solution = ModelSolutionDataType(model.to_string().upper())
+                        model: ModelRequestDataType) -> ModelReplyDataType:
+                    solution = ModelReplyDataType(model.to_string().upper())
                     print(f'Model request received from client\n'
                         f' model: {model.to_string()}\n'
                         f' solution: {solution.to_string()}')
@@ -135,7 +135,7 @@ Steps
                 id=id,
                 domain=100)
 
-            model_sender_node.update_statistics(
+            model_sender_node.publish_statistics(
                 'ModelManagerSenderStatistics',
                 'hello world')
 

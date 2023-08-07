@@ -22,12 +22,11 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <amlip_cpp/types/model/ModelDataType.hpp>
-#include <amlip_cpp/types/model/ModelSolutionDataType.hpp>
-#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
-
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/model/ModelReplyDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 
 class CustomModelReplier : public eprosima::amlip::node::ModelReplier
@@ -41,13 +40,13 @@ public:
         // Do nothing
     }
 
-    virtual eprosima::amlip::types::ModelSolutionDataType fetch_model (
-            const eprosima::amlip::types::ModelDataType data) override
+    virtual eprosima::amlip::types::ModelReplyDataType fetch_model (
+            const eprosima::amlip::types::ModelRequestDataType request) override
     {
-        logUser(AMLIPCPP_MANUAL_TEST, "Processing data: " << data << " . Processing data...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Processing request: " << request << " . Processing request...");
 
-        // Create new solution from data here
-        eprosima::amlip::types::ModelSolutionDataType solution("MOBILENET V1");
+        // Create new solution from request here
+        eprosima::amlip::types::ModelReplyDataType solution("MOBILENET V1");
 
         logUser(AMLIPCPP_MANUAL_TEST, "Processed model: " << solution << " . Returning model...");
 
@@ -78,7 +77,7 @@ int main(
 
         // Create statistics data
         std::string data = "hello world";
-        model_sender_node.update_statistics("v0", data);
+        model_sender_node.publish_statistics("v0", data, false);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_sender_node << ". Creating model...");
 

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @file agent_tool.cpp
+ * @file main.cpp
  *
  */
 
@@ -70,7 +70,7 @@ int main(
     int connection_port = 12121;
     int listening_port = 12121;
     int port = 12121;
-    std::string name = "agent_tool";
+    std::string name = "amlip_agent";
     eprosima::ddspipe::participants::types::TransportProtocol transport_protocol =
             eprosima::ddspipe::participants::types::TransportProtocol::udp;
 

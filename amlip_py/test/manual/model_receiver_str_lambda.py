@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import pickle as pkl
+
 from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
 
 from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-from amlip_py.types.ModelDataType import ModelDataType
-from amlip_py.types.ModelSolutionDataType import ModelSolutionDataType
+from amlip_py.types.ModelReplyDataType import ModelReplyDataType
+from amlip_py.types.ModelRequestDataType import ModelRequestDataType
 from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 
 # Domain ID
@@ -29,13 +31,27 @@ waiter = BooleanWaitHandler(True, False)
 
 def statistics_received(
         statistics: ModelStatisticsDataType) -> bool:
-    return True
+
+    data = pkl.loads(bytes(statistics.to_vector()))
+
+    print('\n\nStatistics received: \n')
+    print(data)
+    print('\n')
+
+    if (float(data['size']) < 100):
+        print('Publish request.\n')
+
+        return True
+
+    return False
 
 
 def model_received(
-        model: ModelSolutionDataType) -> bool:
-    print(f'Model reply received from server\n'
-          f' solution: {model.to_string()}')
+        model: ModelReplyDataType) -> bool:
+
+    print('\nReply received:\n')
+    print(model.to_string())
+    print('\n')
 
     waiter.open()
 
@@ -46,7 +62,7 @@ def main():
     """Execute main routine."""
 
     # Create request
-    data = ModelDataType('MobileNet V1')
+    data = ModelRequestDataType('MobileNet V1')
 
     id = AmlipIdDataType('ModelManagerReceiver')
     id.set_id([66, 66, 66, 66])
