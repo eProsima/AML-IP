@@ -17,6 +17,7 @@
 
   <depend>amlip_swig</depend>
   <depend>py_utils</depend>
+  <depend>ddspipe_participants</depend>
 
   <test_depend>python3-pytest</test_depend>
 

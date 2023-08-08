@@ -21,6 +21,7 @@
   <depend>cmake_utils</depend>
   <depend>cpp_utils</depend>
   <depend>amlip_cpp</depend>
+  <depend>ddspipe_participants</depend>
 
   <test_depend>python3-pytest</test_depend>
 

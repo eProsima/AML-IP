@@ -26,13 +26,14 @@ This node acts as a communication client that connects to a Server Node.
 
 .. figure:: /rst/figures/agent_nodes_client.png
     :align: center
-    :width: 75%
+    :width: 80%
 
 Steps
 -----
 
 * Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
-* Instantiate the Client Node creating an object of such class with a name and the connection address.
+* Instantiate the ``ClientNode`` creating an object of such class with a name, a connection address and a domain.
+* Wait until ``Ctrl+C``.
 
 .. tabs::
 
@@ -50,12 +51,35 @@ Steps
             // Create Client Node
             eprosima::amlip::node::agent::ClientNode Client_node(
                 "CppClientNode_Manual",
-                { connection_address });
+                { connection_address },
+                100);
 
             // Wait until Ctrl+C
             eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
             sigint_handler.wait_for_event();
 
+    .. tab:: Python
+
+        .. code-block:: python
+
+            # Create connection address
+            connection_address = Address(
+                port=12121,
+                external_port=12121,
+                domain='localhost',
+                transport_protocol=TransportProtocol_udp)
+
+            # Create Client Node
+            ClientNode(
+                name='PyTestClientNode',
+                connection_addresses=[connection_address],
+                domain=100)
+
+            # Wait until Ctrl+C
+            def handler(signum, frame):
+                pass
+            signal.signal(signal.SIGINT, handler)
+            signal.pause()
 
 .. _user_manual_nodes_agent_server:
 
@@ -67,13 +91,14 @@ This node acts as a communication server, waiting for other Client Nodes to conn
 
 .. figure:: /rst/figures/agent_nodes_server.png
     :align: center
-    :width: 75%
+    :width: 80%
 
 Steps
 -----
 
 * Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
-* Instantiate the Server Node creating an object of such class with a name and the listening address.
+* Instantiate the ``ServerNode`` creating an object of such class with a name, a listening address and a domain.
+* Wait until ``Ctrl+C``.
 
 .. tabs::
 
@@ -91,12 +116,35 @@ Steps
             // Create Server Node
             eprosima::amlip::node::agent::ServerNode Client_node(
                 "CppServerNode_Manual",
-                { listening_address });
+                { listening_address },
+                200);
 
             // Wait until Ctrl+C
             eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
             sigint_handler.wait_for_event();
 
+    .. tab:: Python
+
+        .. code-block:: python
+
+            # Create listening address
+            listening_address = Address(
+                port=12121,
+                external_port=12121,
+                domain='localhost',
+                transport_protocol=TransportProtocol_udp)
+
+            # Create Server Node
+            ServerNode(
+                name='PyTestServerNode',
+                listening_addresses=[listening_address],
+                domain=200)
+
+            # Wait until Ctrl+C
+            def handler(signum, frame):
+                pass
+            signal.signal(signal.SIGINT, handler)
+            signal.pause()
 
 .. _user_manual_nodes_agent_repeater:
 
@@ -108,13 +156,14 @@ A Repeater Node can be used to repeat messages between networks, that is, the me
 
 .. figure:: /rst/figures/agent_nodes_repeater.png
     :align: center
-    :width: 75%
+    :width: 80%
 
 Steps
 -----
 
 * Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
-* Instantiate the Client Node creating an object of such class with a name and the listening address.
+* Instantiate the ``RepeaterNode`` creating an object of such class with a name, a listening address and a domain.
+* Wait until ``Ctrl+C``.
 
 .. tabs::
 
@@ -137,3 +186,25 @@ Steps
             // Wait until Ctrl+C
             eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
             sigint_handler.wait_for_event();
+
+    .. tab:: Python
+
+        .. code-block:: python
+
+            # Create listening address
+            listening_address = Address(
+                port=12121,
+                external_port=12121,
+                domain='localhost',
+                transport_protocol=TransportProtocol_udp)
+
+            # Create Repeater Node
+            RepeaterNode(
+                name='PyTestRepeaterNode',
+                listening_addresses=[listening_address])
+
+            # Wait until Ctrl+C
+            def handler(signum, frame):
+                pass
+            signal.signal(signal.SIGINT, handler)
+            signal.pause()

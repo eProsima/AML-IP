@@ -21,6 +21,7 @@ import amlip_py.types.TaskId
 import amlip_py.types.ModelRequestDataType
 import amlip_py.types.ModelReplyDataType
 import amlip_py.types.ModelStatisticsDataType
+import amlip_py.types.Address
 
 
 def test_id():
@@ -61,3 +62,8 @@ def test_model_solution():
 def test_model_statistics():
     """Test creation of ModelStatisticsDataType."""
     _ = amlip_py.types.ModelStatisticsDataType.ModelStatisticsDataType()
+
+
+def test_address():
+    """Test creation of Address."""
+    _ = amlip_py.types.Address.Address()
