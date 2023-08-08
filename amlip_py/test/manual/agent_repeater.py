@@ -18,9 +18,6 @@ from amlip_py.node.RepeaterNode import RepeaterNode
 from amlip_py.types.Address import Address
 from amlip_swig import TransportProtocol_udp
 
-# Domain ID
-DOMAIN_ID = 166
-
 
 def main():
     """Execute main routine."""
@@ -37,8 +34,7 @@ def main():
 
     RepeaterNode(
         name='PyTestRepeaterNode',
-        listening_addresses=[listening_address],
-        domain=DOMAIN_ID)
+        listening_addresses=[listening_address])
 
     print('Node created. Waiting SIGINT (C^)...')
 

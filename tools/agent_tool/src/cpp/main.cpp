@@ -219,13 +219,6 @@ int main(
 
         eprosima::utils::Log::RegisterConsumer(
             std::make_unique<eprosima::utils::CustomStdLogConsumer>(log_filter, log_verbosity));
-
-        // NOTE:
-        // It will not filter any log, so Fast DDS logs will be visible unless Fast DDS is compiled
-        // in non debug or with LOG_NO_INFO=ON.
-        // This is the easiest way to allow to see Warnings and Errors from Fast DDS.
-        // Change it when Log Module is independent and with more extensive API.
-        // eprosima::utils::Log::SetCategoryFilter(std::regex("(AMLIP)"));
     }
 
     {

@@ -117,7 +117,7 @@ Steps
             eprosima::amlip::node::agent::ServerNode Client_node(
                 "CppServerNode_Manual",
                 { listening_address },
-                100);
+                200);
 
             // Wait until Ctrl+C
             eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
@@ -138,7 +138,7 @@ Steps
             ServerNode(
                 name='PyTestServerNode',
                 listening_addresses=[listening_address],
-                domain=100)
+                domain=200)
 
             # Wait until Ctrl+C
             def handler(signum, frame):
@@ -181,8 +181,7 @@ Steps
             // Create Repeater Node
             eprosima::amlip::node::agent::RepeaterNode repeater_node(
                 "CppRepeaterNode_Manual",
-                { listening_address },
-                100);
+                { listening_address });
 
             // Wait until Ctrl+C
             eprosima::utils::event::SignalEventHandler<eprosima::utils::event::Signal::sigint> sigint_handler;
@@ -202,8 +201,7 @@ Steps
             # Create Repeater Node
             RepeaterNode(
                 name='PyTestRepeaterNode',
-                listening_addresses=[listening_address],
-                domain=100)
+                listening_addresses=[listening_address])
 
             # Wait until Ctrl+C
             def handler(signum, frame):

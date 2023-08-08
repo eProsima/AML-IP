@@ -33,35 +33,16 @@ namespace agent {
 RepeaterNode::RepeaterNode(
         const char* name,
         const std::set<ddspipe::participants::types::Address>& listening_addresses,
-        const std::set<ddspipe::participants::types::Address>& connection_addresses,
-        const uint32_t domain_id)
-    : AgentNode(name, get_router_configuration_(name, listening_addresses, connection_addresses, domain_id))
+        const std::set<ddspipe::participants::types::Address>& connection_addresses)
+    : AgentNode(name, get_router_configuration_(name, listening_addresses, connection_addresses))
 {
     logInfo(AMLIPCPP_NODE_REPEATER, "Created new Agent Repeater Node: " << *this << ".");
 }
 
 RepeaterNode::RepeaterNode(
         const char* name,
-        const std::set<ddspipe::participants::types::Address>& listening_addresses,
-        const std::set<ddspipe::participants::types::Address>& connection_addresses)
-    : RepeaterNode(name, listening_addresses, connection_addresses, dds::Participant::default_domain_id())
-{
-    // Do nothing
-}
-
-RepeaterNode::RepeaterNode(
-        const char* name,
-        const std::set<ddspipe::participants::types::Address>& listening_addresses,
-        const uint32_t domain_id)
-    : RepeaterNode(name, listening_addresses, {}, domain_id)
-{
-    // Do nothing
-}
-
-RepeaterNode::RepeaterNode(
-        const char* name,
         const std::set<ddspipe::participants::types::Address>& listening_addresses)
-    : RepeaterNode(name, listening_addresses, {}, dds::Participant::default_domain_id())
+    : RepeaterNode(name, listening_addresses, {})
 {
     // Do nothing
 }
@@ -69,8 +50,7 @@ RepeaterNode::RepeaterNode(
 ddsrouter::core::DdsRouterConfiguration RepeaterNode::get_router_configuration_(
         const char* name,
         const std::set<ddspipe::participants::types::Address>& listening_addresses,
-        const std::set<ddspipe::participants::types::Address>& connection_addresses,
-        const uint32_t domain_id)
+        const std::set<ddspipe::participants::types::Address>& connection_addresses)
 {
     ddsrouter::core::DdsRouterConfiguration configuration = AgentNode::default_router_configuration();
 
@@ -79,7 +59,7 @@ ddsrouter::core::DdsRouterConfiguration RepeaterNode::get_router_configuration_(
         auto conf = std::make_shared<ddspipe::participants::InitialPeersParticipantConfiguration>();
         conf->id = std::string("wan_repeater_") + name;
         conf->is_repeater = true;
-        conf->domain = domain_id;
+        conf->domain = dds::Participant::default_domain_id();
         conf->listening_addresses = listening_addresses;
         conf->connection_addresses = connection_addresses;
 
