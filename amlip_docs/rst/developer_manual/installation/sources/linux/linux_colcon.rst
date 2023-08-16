@@ -27,7 +27,7 @@ Download eProsima dependencies
 
         mkdir -p ~/AML-IP/src
         cd ~/AML-IP
-        wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+        wget https://raw.githubusercontent.com/eProsima/AML-IP/v0.1.0/amlip.repos
         vcs import src < amlip.repos
 
     .. note::

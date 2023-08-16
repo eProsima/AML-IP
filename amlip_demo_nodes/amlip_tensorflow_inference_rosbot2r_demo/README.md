@@ -37,7 +37,7 @@ Create a AML-IP-ws directory and download the repos file that will be used to in
 mkdir ~/AML-IP-ws
 cd ~/AML-IP-ws
 mkdir src
-wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+wget https://raw.githubusercontent.com/eProsima/AML-IP/v0.1.0/amlip.repos
 vcs import src < amlip.repos
 ```
 
@@ -139,7 +139,7 @@ Inference sent to client AMLEdgeNode.fb.d4.38.13.
 
 ## Docker
 
-If using Docker instead, build a Docker image from the given [Dockerfile](https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_demo/Dockerfile) with all required dependencies already installed.
+If using Docker instead, build a Docker image from the given [Dockerfile](https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_tensorflow_inference_demo/Dockerfile) with all required dependencies already installed.
 In order to do so, execute the following to build the docker image:
 
 ```bash

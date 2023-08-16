@@ -53,7 +53,7 @@ ROSbot 2R Deployment
 ====================
 
 The Docker Compose used for the demo is ``compose.yaml``.
-You can find it `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/compose.yaml>`__.
+You can find it `here <https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/compose.yaml>`__.
 
 The Docker Compose launches the following containers:
 
@@ -126,7 +126,7 @@ The Edge Node is typically located at the edge of a network or closer to the dat
 In this specific scenario, the data source is the camera of the robot.
 
 The Python code for the Edge Node is explained in the :ref:`previous tutorial <demo_inference>`, so here we will focus on the additional features added to this demo.
-You can find the complete code `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/amlip_tensorflow_inference_rosbot2r_demo/edge_node_async.py>`__.
+You can find the complete code `here <https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/amlip_tensorflow_inference_rosbot2r_demo/edge_node_async.py>`__.
 
 The next block includes the Python header files that allow the use of the AML-IP Python API and ROS 2.
 
@@ -177,7 +177,7 @@ Inference Node
 The Inference Node is responsible for making the inferences or predictions on the data it receives using a TensorFlow model.
 The Inference Node is typically a server or a computing resource equipped with high-performance hardware optimized for executing machine learning models efficiently.
 
-The Python code for the Inference Node is explained in the previous tutorial and can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/amlip_tensorflow_inference_rosbot2r_demo/inference_node_async.py>`__.
+The Python code for the Inference Node is explained in the previous tutorial and can be found `here <https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_tensorflow_inference_rosbot2r_demo/amlip_tensorflow_inference_rosbot2r_demo/inference_node_async.py>`__.
 
 Run demo
 ========

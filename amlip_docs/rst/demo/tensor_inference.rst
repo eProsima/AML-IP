@@ -97,7 +97,7 @@ Edge Node serves as the entity responsible for sending the data to be inferred t
 The Edge Node is typically located at the edge of a network or closer to the data source, such as a sensor or a device generating the data.
 
 This is the Python code for the Edge Node application.
-This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/edge_node_async.py>`__.
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/edge_node_async.py>`__.
 
 The next block includes the Python header files that allow the use of the AML-IP Python API.
 

@@ -33,7 +33,7 @@ Create a AML-IP-ws directory and download the repos file that will be used to in
 mkdir ~/AML-IP-ws
 cd ~/AML-IP-ws
 mkdir src
-wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+wget https://raw.githubusercontent.com/eProsima/AML-IP/v0.1.0/amlip.repos
 vcs import src < amlip.repos
 ```
 

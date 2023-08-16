@@ -62,7 +62,7 @@ This is the Python code for the :ref:`user_manual_nodes_model_receiver` applicat
 It does not use real *AML Models*, but strings.
 It is implemented in |python| using :code:`amlip_py` API.
 
-This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py>`__.
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_receiver_custom.py>`__.
 
 The next block includes the Python header files that allow the use of the AML-IP Python API.
 
@@ -134,7 +134,7 @@ It does not use real *AML Models*, but strings.
 It does not have a real *AML Engine* but instead the calculation is an *upper-case* conversion of the string received.
 It is implemented in |python| using :code:`amlip_py` API.
 
-This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py>`__.
+This code can be found `here <https://github.com/eProsima/AML-IP/blob/v0.1.0/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py>`__.
 
 The next block includes the Python header files that allow the use of the AML-IP Python API.
 

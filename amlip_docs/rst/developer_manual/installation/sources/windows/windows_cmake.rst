@@ -26,7 +26,7 @@ Local installation
         mkdir <path\to\user\workspace>\AML-IP\src
         mkdir <path\to\user\workspace>\AML-IP\build
         cd <path\to\user\workspace>\AML-IP
-        wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+        wget https://raw.githubusercontent.com/eProsima/AML-IP/v0.1.0/amlip.repos
         vcs import src < amlip.repos
 
 #.  Compile all dependencies using CMake_.

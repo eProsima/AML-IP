@@ -92,7 +92,7 @@ In order to build the following project and be able to operate with this demo No
 
 ```sh
 mkdir src
-wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
+wget https://raw.githubusercontent.com/eProsima/AML-IP/v0.1.0/amlip.repos
 vcs import src < amlip.repos
 colcon build --packages-up-to amlip_demo_nodes
 source install/setup.bash
