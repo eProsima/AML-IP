@@ -74,3 +74,39 @@ add_unittest_executable(
         "${TEST_LIST}"
         "${TEST_EXTRA_LIBRARIES}"
     )
+
+#####################
+## ModelStatistics ##
+#####################
+
+set(TEST_NAME modelStatisticsTest)
+
+set(TEST_SOURCES
+        modelStatisticsTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/model/ModelStatisticsDataType.cpp
+    )
+
+set(TEST_LIST
+        create_statistics
+        statistics_with_long_data
+    )
+
+set(TEST_EXTRA_LIBRARIES
+        fastcdr
+        fastrtps
+        cpp_utils
+    )
+
+set(TEST_NEEDED_SOURCES
+        resources/el_quijote.txt
+    )
+
+add_unittest_executable(
+        "${TEST_NAME}"
+        "${TEST_SOURCES}"
+        "${TEST_LIST}"
+        "${TEST_EXTRA_LIBRARIES}"
+        "${TEST_NEEDED_SOURCES}"
+    )
