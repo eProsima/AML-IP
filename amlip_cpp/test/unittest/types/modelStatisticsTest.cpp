@@ -57,28 +57,28 @@ TEST(modelStatisticsTest, create_statistics)
     ASSERT_EQ(statistics_2.data_size(), 0);
 
     ASSERT_EQ(statistics_3.name(), name);
-    ASSERT_EQ(std::string((char*)statistics_3.data()), data_str);
-    ASSERT_EQ(statistics_3.data_size(), data_str.size());
+    ASSERT_EQ(statistics_3.to_string(), data_str);
+    ASSERT_EQ(statistics_3.data_size(), data_str.length());
 
     ASSERT_EQ(statistics_4.name(), name);
-    ASSERT_EQ(std::string((char*)statistics_4.data()), data_str);
-    ASSERT_EQ(statistics_4.data_size(), data_str.size());
+    ASSERT_EQ(statistics_4.to_string(), data_str);
+    ASSERT_EQ(statistics_4.data_size(), data_str.length());
 
     ASSERT_EQ(statistics_5.name(), name);
-    ASSERT_EQ(std::string((char*)statistics_5.data()), data_str);
-    ASSERT_EQ(statistics_5.data_size(), data_str.size());
+    ASSERT_EQ(statistics_5.to_string(), data_str);
+    ASSERT_EQ(statistics_5.data_size(), data_str.length());
 
     ASSERT_EQ(statistics_6.name(), name);
-    ASSERT_EQ(std::string((char*)statistics_6.data()), data_str);
-    ASSERT_EQ(statistics_6.data_size(), data_str.size());
+    ASSERT_EQ(statistics_6.to_vector(), data_vector);
+    ASSERT_EQ(statistics_6.data_size(), data_vector.size());
 
     ASSERT_EQ(statistics_7.name(), name);
-    ASSERT_EQ(std::string((char*)statistics_7.data()), data_str);
-    ASSERT_EQ(statistics_7.data_size(), data_str.size());
+    ASSERT_EQ(statistics_7.to_vector(), data_vector);
+    ASSERT_EQ(statistics_7.data_size(), data_vector.size());
 
     ASSERT_EQ(statistics_8.name(), name);
-    ASSERT_EQ(std::string((char*)statistics_8.data()), data_str);
-    ASSERT_EQ(statistics_8.data_size(), data_str.size());
+    ASSERT_EQ(statistics_8.to_vector(), data_vector);
+    ASSERT_EQ(statistics_8.data_size(), data_vector.size());
 }
 
 /**
