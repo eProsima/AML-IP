@@ -29,7 +29,6 @@ set(TEST_LIST
     )
 
 set(TEST_NEEDED_SOURCES
-        resources/el_quijote.txt
     )
 
 add_blackbox_executable(

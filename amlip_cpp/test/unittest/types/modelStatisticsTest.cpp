@@ -90,14 +90,14 @@ TEST(modelStatisticsTest, statistics_with_long_data)
     std::string name("TestNode");
     std::string data_str;
 
-    std::ifstream file("resources/el_quijote.txt");
+    std::ifstream file("../../resources/el_quijote.txt");
     if (file.is_open())
     {
         data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
     }
     else
     {
-        throw std::runtime_error("Failed to open file: resources/el_quijote.txt");
+        throw std::runtime_error("Failed to open file: ../../resources/el_quijote.txt");
     }
 
     ModelStatisticsDataType statistics_1(name, data_str);

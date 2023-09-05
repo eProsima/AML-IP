@@ -100,7 +100,6 @@ set(TEST_EXTRA_LIBRARIES
     )
 
 set(TEST_NEEDED_SOURCES
-        resources/el_quijote.txt
     )
 
 add_unittest_executable(

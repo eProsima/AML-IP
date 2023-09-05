@@ -44,14 +44,14 @@ public:
         {
             std::string data;
 
-            std::ifstream file("resources/el_quijote.txt");
+            std::ifstream file("../../../resources/el_quijote.txt");
             if (file.is_open())
             {
                 data = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
             }
             else
             {
-                throw std::runtime_error("Failed to open file: resources/el_quijote.txt");
+                throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
             }
 
             EXPECT_EQ(statistics.to_string(), data);
@@ -220,14 +220,14 @@ TEST(modelManagerTest, long_string_statistics)
         // Create statistics data
         std::string data_str;
 
-        std::ifstream file("resources/el_quijote.txt");
+        std::ifstream file("../../../resources/el_quijote.txt");
         if (file.is_open())
         {
             data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
         }
         else
         {
-            throw std::runtime_error("Failed to open file: resources/el_quijote.txt");
+            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
         }
 
         model_sender_node.publish_statistics("v2", data_str);
@@ -289,14 +289,14 @@ TEST(modelManagerTest, long_vector_statistics)
         // Create statistics data
         std::string data_str;
 
-        std::ifstream file("resources/el_quijote.txt");
+        std::ifstream file("../../../resources/el_quijote.txt");
         if (file.is_open())
         {
             data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
         }
         else
         {
-            throw std::runtime_error("Failed to open file: resources/el_quijote.txt");
+            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
         }
 
         std::vector<eprosima::amlip::types::ByteType> data_vector;
