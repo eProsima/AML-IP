@@ -40,7 +40,7 @@ using ByteType = uint8_t;
 
 //! Number of octets conforming the alphanumerical identifier \c name_
 constexpr const uint32_t STATISTICS_NAME_SIZE = 28;
-//! todo
+//! Number of octets conforming the alphanumerical identifier \c data_
 constexpr const uint32_t DEFAULT_PREALLOCATED_SIZE_ = 16;
 
 /*!
