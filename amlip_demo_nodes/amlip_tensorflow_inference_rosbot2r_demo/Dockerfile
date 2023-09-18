@@ -42,7 +42,7 @@ RUN apt update && \
 WORKDIR /AML-IP
 RUN mkdir src && \
     git clone -b master https://github.com/eProsima/foonathan_memory_vendor.git /AML-IP/src/foonathan_memory_vendor && \
-    git clone -b master https://github.com/eProsima/Fast-CDR.git /AML-IP/src/fastcdr && \
+    git clone -b 1.1.x https://github.com/eProsima/Fast-CDR.git /AML-IP/src/fastcdr && \
     git clone -b master https://github.com/eProsima/Fast-DDS.git /AML-IP/src/fastdds && \
     git clone -b main https://github.com/eProsima/dev-utils.git /AML-IP/src/dev-utils && \
     git clone -b main https://github.com/eProsima/DDS-Pipe.git /AML-IP/src/ddspipe && \
