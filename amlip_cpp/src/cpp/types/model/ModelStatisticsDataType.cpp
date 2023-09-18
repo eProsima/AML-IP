@@ -42,7 +42,6 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-const size_t ModelStatisticsDataType::DEFAULT_PREALLOCATED_SIZE_ = 16;
 const char* ModelStatisticsDataType::TYPE_NAME_ = "AMLIP-MODEL-STATISTICS";
 
 ModelStatisticsDataType::ModelStatisticsDataType()
@@ -79,10 +78,8 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         void* data,
         const uint32_t size,
         bool copy_data /* = true */)
-    : name_(name)
-    , data_size_(size)
-    , has_been_allocated_(copy_data)
 {
+    name_ = name;
     if (copy_data)
     {
         data_ = std::malloc(size * sizeof(uint8_t));
@@ -92,6 +89,9 @@ ModelStatisticsDataType::ModelStatisticsDataType(
     {
         data_ = data;
     }
+    data_size_ = size;
+
+    has_been_allocated_.store(copy_data);
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
@@ -134,7 +134,6 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         const ModelStatisticsDataType& x)
 {
     name_ = x.name_;
-    server_id_ = x.server_id_;
 
     if (x.has_been_allocated_)
     {
@@ -152,17 +151,20 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         data_size_ = x.data_size_;
         has_been_allocated_.store(false);
     }
+
+    server_id_ = x.server_id_;
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         ModelStatisticsDataType&& x)
 {
     name_ = std::move(x.name_);
-    server_id_ = std::move(x.server_id_);
 
     this->data_ = x.data_;
     this->data_size_ = x.data_size_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
+
+    server_id_ = std::move(x.server_id_);
 
     // Restore x
     x.data_ = nullptr;
@@ -173,6 +175,7 @@ ModelStatisticsDataType::ModelStatisticsDataType(
 ModelStatisticsDataType& ModelStatisticsDataType::operator =(
         const ModelStatisticsDataType& x)
 {
+    name_ = x.name_;
 
     if (this->has_been_allocated_)
     {
@@ -196,7 +199,6 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
         has_been_allocated_.store(false);
     }
 
-    name_ = x.name_;
     server_id_ = x.server_id_;
 
     return *this;
@@ -205,6 +207,8 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
 ModelStatisticsDataType& ModelStatisticsDataType::operator =(
         ModelStatisticsDataType&& x)
 {
+    name_ = std::move(x.name_);
+
     if (this->has_been_allocated_)
     {
         free(data_);
@@ -214,13 +218,13 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
     this->data_size_ = x.data_size_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
 
+    server_id_ = std::move(x.server_id_);
+
     // Restore x
     x.data_ = nullptr;
     x.data_size_ = 0;
     x.has_been_allocated_.store(false);
 
-    name_ = std::move(x.name_);
-    server_id_ = std::move(x.server_id_);
 
     return *this;
 }
@@ -265,17 +269,6 @@ void ModelStatisticsDataType::name(
     name_ = name;
 }
 
-AmlipIdDataType ModelStatisticsDataType::server_id() const
-{
-    return server_id_;
-}
-
-void ModelStatisticsDataType::server_id(
-        const AmlipIdDataType& id)
-{
-    server_id_ = id;
-}
-
 void* ModelStatisticsDataType::data() const
 {
     return data_;
@@ -297,6 +290,17 @@ uint32_t ModelStatisticsDataType::data_size() const
     return data_size_;
 }
 
+AmlipIdDataType ModelStatisticsDataType::server_id() const
+{
+    return server_id_;
+}
+
+void ModelStatisticsDataType::server_id(
+        const AmlipIdDataType& id)
+{
+    server_id_ = id;
+}
+
 std::string ModelStatisticsDataType::type_name()
 {
     return TYPE_NAME_;
@@ -305,18 +309,18 @@ std::string ModelStatisticsDataType::type_name()
 void ModelStatisticsDataType::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
-    scdr << name_;
-    scdr << server_id_;
+    scdr << name_.c_str();
 
     scdr << data_size_;
     scdr.serializeArray(static_cast<uint8_t*>(data_), data_size_);
+
+    scdr << server_id_;
 }
 
 void ModelStatisticsDataType::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
     dcdr >> name_;
-    dcdr >> server_id_;
 
     // If data has been already allocated (it has been already deserialized), we free it
     if (has_been_allocated_)
@@ -325,7 +329,6 @@ void ModelStatisticsDataType::deserialize(
     }
 
     dcdr >> data_size_;
-
     // Store enough space to deserialize the data
     data_ = std::malloc(data_size_ * sizeof(uint8_t));
     // Deserialize array
@@ -333,6 +336,8 @@ void ModelStatisticsDataType::deserialize(
 
     // Set as this data has been allocated by this class
     has_been_allocated_.store(true);
+
+    dcdr >> server_id_;
 }
 
 void ModelStatisticsDataType::serialize_key(
@@ -344,13 +349,15 @@ size_t ModelStatisticsDataType::get_max_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                           // data_size_
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                           // take_ownership
-    // It needs an upper bound, but it will not be used
-    current_alignment += DEFAULT_PREALLOCATED_SIZE_ + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);  // data
 
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                      // server_id_
-    current_alignment += (28) + eprosima::fastcdr::Cdr::alignment(current_alignment, 28);                      // name
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               //
+    current_alignment += ((STATISTICS_NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // name
+
+    current_alignment += ((DEFAULT_PREALLOCATED_SIZE_) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);      // data
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // data_size
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // has_been_allocated_
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                           // server_id_
 
     return current_alignment - initial_alignment;
 }
@@ -360,16 +367,18 @@ size_t ModelStatisticsDataType::get_cdr_serialized_size(
         size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                           // data_size_
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                           // take_ownership
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               //
+    current_alignment += ((STATISTICS_NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // name
 
     if (data.data_size() > 0)
     {
-        current_alignment += data.data_size() + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+        current_alignment += ((data.data_size()) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // data_
     }
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // data_size
 
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                      // server_id_
-    current_alignment += (28) + eprosima::fastcdr::Cdr::alignment(current_alignment, 28);                      // name
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // has_been_allocated_
+    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                           // server_id_
 
     return current_alignment - initial_alignment;
 }
@@ -407,8 +416,8 @@ std::ostream& operator <<(
 {
     // TODO do this from utils using container_to_stream to remove final '.'
     os << "Name {" << id.name() << "}"
-       << " Server Id {" << id.server_id().to_string() << "}"
-       << " Data {" << std::string(static_cast<char*>(id.data()), id.data_size()) << "}";
+       << " Data {" << std::string(static_cast<char*>(id.data()), id.data_size()) << "}"
+       << " Server Id {" << id.server_id().to_string() << "}";
     return os;
 }
 

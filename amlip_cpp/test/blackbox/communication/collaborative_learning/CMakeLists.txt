@@ -24,6 +24,8 @@ set(TEST_SOURCES
 
 set(TEST_LIST
         ping_pong
+        long_string_statistics
+        long_vector_statistics
     )
 
 set(TEST_NEEDED_SOURCES

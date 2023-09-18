@@ -38,6 +38,16 @@ namespace types {
 
 using ByteType = uint8_t;
 
+//! Number of octets conforming the alphanumerical identifier \c name_
+constexpr const uint32_t STATISTICS_NAME_SIZE = 28;
+//! Number of octets conforming the alphanumerical identifier \c data_
+constexpr const uint32_t DEFAULT_PREALLOCATED_SIZE_ = 16;
+
+/*!
+ * @brief This class represents the structure ModelStatisticsDataType, which implements \c InterfaceDataType and hence serves
+ * as a communication interface to \c ModelStatistics class.
+ * @ingroup AMLIP
+ */
 class ModelStatisticsDataType : public InterfaceDataType
 {
 public:
@@ -164,19 +174,6 @@ public:
             const std::string& name);
 
     /*!
-     * @brief This function gets the value in member \c rand_id as array of octets
-     * @return Value of member \c rand_id_ as array of octets
-     */
-    AMLIP_CPP_DllAPI AmlipIdDataType server_id() const;
-
-    /*!
-     * @brief This function copies the value in member \c id_
-     * @param id New value to be copied in member id \c id_
-     */
-    AMLIP_CPP_DllAPI void server_id(
-            const AmlipIdDataType& id);
-
-    /*!
      * @brief Return value of attribute \c data_
      */
     AMLIP_CPP_DllAPI void* data() const;
@@ -195,6 +192,19 @@ public:
      * @brief Return value of attribute \c data_size_
      */
     AMLIP_CPP_DllAPI uint32_t data_size() const;
+
+    /*!
+     * @brief This function gets the value in member \c rand_id as array of octets
+     * @return Value of member \c rand_id_ as array of octets
+     */
+    AMLIP_CPP_DllAPI AmlipIdDataType server_id() const;
+
+    /*!
+     * @brief This function copies the value in member \c id_
+     * @param id New value to be copied in member id \c id_
+     */
+    AMLIP_CPP_DllAPI void server_id(
+            const AmlipIdDataType& id);
 
     /*!
      * @brief This function returns the name of this specific data type
@@ -287,11 +297,10 @@ protected:
     void* data_;
     uint32_t data_size_;
     std::atomic<bool> has_been_allocated_;
-    static const size_t DEFAULT_PREALLOCATED_SIZE_;
-
-    static const char* TYPE_NAME_;
 
     AmlipIdDataType server_id_;
+
+    static const char* TYPE_NAME_;
 };
 
 //! \c ModelStatisticsDataType to stream serializator
