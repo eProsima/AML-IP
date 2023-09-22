@@ -68,7 +68,7 @@ public:
      * creation failed.
      */
     DdsHandler(
-            const eprosima::fastdds::dds::DomainParticipantQos& qos,
+            eprosima::fastdds::dds::DomainParticipantQos qos,
             const DomainIdType& domain);
 
     //! DdsHandler destructor

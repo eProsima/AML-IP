@@ -39,6 +39,9 @@ Reader<T>::Reader(
 {
     auto dds_handler_locked = dds_handler.lock_with_exception();
 
+    // Set Reader properties
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
+
     datareader_ = dds_handler_locked->create_datareader<T>(
         topic_,
         qos);

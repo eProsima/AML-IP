@@ -37,6 +37,9 @@ Writer<T>::Writer(
 {
     auto dds_handler_locked = dds_handler.lock_with_exception();
 
+    // Set Writer properties
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
+
     datawriter_ = dds_handler_locked->create_datawriter<T>(
         topic_,
         qos);

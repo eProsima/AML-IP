@@ -167,6 +167,9 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataWriter> DdsHandler::creat
                   STR_ENTRY << "Failed to create DataWriter " << topic_name << " after Participant destruction.");
     }
 
+    // Set DataWriter properties
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
+
     // Create DataWriter
     eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DataWriter> datawriter(
         publisher_->create_datawriter(
@@ -222,6 +225,9 @@ eprosima::utils::LesseePtr<eprosima::fastdds::dds::DataReader> DdsHandler::creat
         throw eprosima::utils::InitializationException(
                   STR_ENTRY << "Failed to create DataReader " << topic_name << " after Participant destruction.");
     }
+
+    // Set DataReader properties
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
 
     // Create DataReader
     eprosima::utils::OwnerPtr<eprosima::fastdds::dds::DataReader> datareader(

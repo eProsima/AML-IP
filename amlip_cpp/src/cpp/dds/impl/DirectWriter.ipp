@@ -31,10 +31,14 @@ DirectWriter<T>::DirectWriter(
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler,
         eprosima::fastdds::dds::DataWriterQos qos /* = DirectWriter::default_directwriter_qos() */)
-    : topic_(topic)
-    , dds_handler_(dds_handler)
-    , qos_(qos)
 {
+    topic_ = topic;
+    dds_handler_ = dds_handler;
+
+    // Set DirectWriter properties
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
+
+    qos_ = qos;
 }
 
 template <typename T>
