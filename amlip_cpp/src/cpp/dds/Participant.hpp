@@ -105,11 +105,13 @@ public:
 
     template <typename T>
     std::shared_ptr<DirectWriter<T>> create_direct_writer(
-            const std::string& topic_name);
+            const std::string& topic_name,
+            eprosima::fastdds::dds::DataWriterQos qos = DirectWriter<T>::default_directwriter_qos());
 
     template <typename T>
     std::shared_ptr<TargetedReader<T>> create_targeted_reader(
-            const std::string& topic_name);
+            const std::string& topic_name,
+            eprosima::fastdds::dds::DataReaderQos qos = TargetedReader<T>::default_targetedreader_qos());
 
     template <typename Data, typename Solution>
     std::shared_ptr<MultiServiceClient<Data, Solution>> create_multiservice_client(

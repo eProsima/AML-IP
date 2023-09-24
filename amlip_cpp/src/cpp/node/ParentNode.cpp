@@ -25,6 +25,8 @@
 #include <dds/network_utils/dds_qos.hpp>
 #include <dds/Participant.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace node {
@@ -35,13 +37,31 @@ ParentNode::ParentNode(
         types::StateKind initial_state,
         uint32_t domain_id,
         eprosima::fastdds::dds::DomainParticipantQos qos)
-    : participant_(std::make_unique<dds::Participant>(id, qos, domain_id))
-    , status_writer_(participant_->create_writer<types::StatusDataType>(
-                dds::utils::STATUS_TOPIC_NAME,
-                dds::utils::status_writer_qos()))
-    , current_state_(initial_state)
+    : current_state_(initial_state)
     , node_kind_(node_kind)
 {
+    // Create a JSON object
+    nlohmann::json property_value;
+
+    property_value["Name"] = id.name();
+    property_value["Id"] = id.id();
+    property_value["NodeKind"] = node_kind;
+
+    // Set Node properties
+    qos.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    participant_ = std::make_unique<dds::Participant>(id, qos, domain_id);
+
+    property_value["Entity"] = "Writer";
+    property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
+
+    eprosima::fastdds::dds::DataWriterQos qos_writer = dds::utils::status_writer_qos();
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    status_writer_ = participant_->create_writer<types::StatusDataType>(
+        dds::utils::STATUS_TOPIC_NAME,
+        qos_writer);
+
     logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
     publish_status_();
 }
@@ -76,13 +96,31 @@ ParentNode::ParentNode(
         types::StateKind initial_state,
         uint32_t domain_id,
         eprosima::fastdds::dds::DomainParticipantQos qos)
-    : participant_(std::make_unique<dds::Participant>(name, qos, domain_id))
-    , status_writer_(participant_->create_writer<types::StatusDataType>(
-                dds::utils::STATUS_TOPIC_NAME,
-                dds::utils::status_writer_qos()))
-    , current_state_(initial_state)
+    : current_state_(initial_state)
     , node_kind_(node_kind)
 {
+    // Create a JSON object
+    nlohmann::json property_value;
+
+    property_value["Name"] = name;
+    property_value["Id"] = "Random Id"; // todo add id
+    property_value["NodeKind"] = node_kind;
+
+    // Set Node properties
+    qos.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    participant_ = std::make_unique<dds::Participant>(name, qos, domain_id);
+
+    property_value["Entity"] = "Writer";
+    property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
+
+    eprosima::fastdds::dds::DataWriterQos qos_writer = dds::utils::status_writer_qos();
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    status_writer_ = participant_->create_writer<types::StatusDataType>(
+        dds::utils::STATUS_TOPIC_NAME,
+        qos_writer);
+
     logDebug(AMLIPCPP_NODE_STATUS, "Created new Node: " << *this << ".");
     publish_status_();
 }

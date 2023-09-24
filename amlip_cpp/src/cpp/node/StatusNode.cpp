@@ -23,6 +23,8 @@
 #include <dds/network_utils/topic.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace node {
@@ -32,11 +34,25 @@ StatusNode::StatusNode(
         uint32_t domain_id)
     : ParentNode(name, types::NodeKind::status, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 name))
-    , status_reader_(participant_->create_reader<types::StatusDataType>(
-                dds::utils::STATUS_TOPIC_NAME,
-                dds::utils::status_reader_qos()))
     , processing_(false)
 {
+    // Create a JSON object
+    nlohmann::json property_value;
+
+    property_value["Name"] = name;
+    property_value["Id"] = "Random Id"; // todo add id
+    property_value["NodeKind"] = types::NodeKind::status;
+
+    property_value["Entity"] = "Reader";
+    property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
+
+    eprosima::fastdds::dds::DataReaderQos qos_reader = dds::utils::status_reader_qos();
+    qos_reader.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    status_reader_ = participant_->create_reader<types::StatusDataType>(
+        dds::utils::STATUS_TOPIC_NAME,
+        qos_reader);
+
     logInfo(AMLIPCPP_NODE_STATUS, "Created new Status Node: " << *this << ".");
 }
 

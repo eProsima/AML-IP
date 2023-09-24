@@ -64,7 +64,8 @@ TEST(DdsHandlerTest, create_participant)
 
     // Check that the Participant Properties are the modified qos
     const std::string* application_id =
-            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(handler.participant_->get_qos().properties(), "fastdds.application.id");
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        handler.participant_->get_qos().properties(), "fastdds.application.id");
     ASSERT_NE(application_id, nullptr);
     ASSERT_EQ(application_id->compare("AML_IP"), 0);
 }
@@ -103,7 +104,8 @@ TEST(DdsHandlerTest, create_datawriter)
 
     // Check that the Participant Properties are the modified qos
     const std::string* application_id =
-            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(datawriter_locked->get_qos().properties(), "fastdds.application.id");
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        datawriter_locked->get_qos().properties(), "fastdds.application.id");
     ASSERT_NE(application_id, nullptr);
     ASSERT_EQ(application_id->compare("AML_IP"), 0);
 
@@ -147,7 +149,8 @@ TEST(DdsHandlerTest, create_datareader)
 
     // Check that the Participant Properties are the modified qos
     const std::string* application_id =
-            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(datareader_locked->get_qos().properties(), "fastdds.application.id");
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        datareader_locked->get_qos().properties(), "fastdds.application.id");
     ASSERT_NE(application_id, nullptr);
     ASSERT_EQ(application_id->compare("AML_IP"), 0);
 
