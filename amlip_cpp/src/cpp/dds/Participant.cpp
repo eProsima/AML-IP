@@ -21,6 +21,8 @@
 #include <dds/Participant.hpp>
 #include <dds/network_utils/dds_qos.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -36,6 +38,20 @@ Participant::Participant(
     : id_(id)
 {
     logDebug(AMLIPCPP_PARTICIPANT, "Creating Participant with id " << id << " in domain " << domain << ".");
+
+    const std::string* application_metadata =
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        qos.properties(), "fastdds.application.metadata");
+
+    nlohmann::json property_value = nlohmann::json::parse(*application_metadata);
+    property_value["Id"] = id.id();
+
+    for (eprosima::fastrtps::rtps::Property& val : qos.properties().properties()) {
+        if (val == eprosima::fastrtps::rtps::Property("fastdds.application.metadata", *application_metadata, true)) {
+            val = eprosima::fastrtps::rtps::Property("fastdds.application.metadata", property_value.dump(), true); // Update the value
+            break; // Stop searching once we've found and updated the value
+        }
+    }
 
     // Set Participant name
     qos.name(id.name());

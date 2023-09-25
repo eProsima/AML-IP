@@ -40,23 +40,24 @@ ParentNode::ParentNode(
     : current_state_(initial_state)
     , node_kind_(node_kind)
 {
-    // Create a JSON object
-    nlohmann::json property_value;
+    nlohmann::json property_value_participant;
 
-    property_value["Name"] = id.name();
-    property_value["Id"] = id.id();
-    property_value["NodeKind"] = node_kind;
+    property_value_participant["Name"] = id.name();
+    property_value_participant["NodeKind"] = to_string(node_kind);
 
     // Set Node properties
-    qos.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+    qos.properties().properties().emplace_back("fastdds.application.metadata", property_value_participant.dump(), true);
 
     participant_ = std::make_unique<dds::Participant>(id, qos, domain_id);
 
-    property_value["Entity"] = "Writer";
-    property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
+    nlohmann::json property_value_writer;
+
+    property_value_writer["Internal"] = to_string(node_kind) + " Node";
+    property_value_writer["Entity"] = "Writer";
+    property_value_writer["Topic"] = dds::utils::STATUS_TOPIC_NAME;
 
     eprosima::fastdds::dds::DataWriterQos qos_writer = dds::utils::status_writer_qos();
-    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value_writer.dump(), true);
 
     status_writer_ = participant_->create_writer<types::StatusDataType>(
         dds::utils::STATUS_TOPIC_NAME,
@@ -99,23 +100,24 @@ ParentNode::ParentNode(
     : current_state_(initial_state)
     , node_kind_(node_kind)
 {
-    // Create a JSON object
-    nlohmann::json property_value;
+    nlohmann::json property_value_participant;
 
-    property_value["Name"] = name;
-    property_value["Id"] = "Random Id"; // todo add id
-    property_value["NodeKind"] = node_kind;
+    property_value_participant["Name"] = name;
+    property_value_participant["NodeKind"] = to_string(node_kind);
 
     // Set Node properties
-    qos.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+    qos.properties().properties().emplace_back("fastdds.application.metadata", property_value_participant.dump(), true);
 
     participant_ = std::make_unique<dds::Participant>(name, qos, domain_id);
 
-    property_value["Entity"] = "Writer";
-    property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
+    nlohmann::json property_value_writer;
+
+    property_value_writer["Internal"] = to_string(node_kind) + " Node";
+    property_value_writer["Entity"] = "Writer";
+    property_value_writer["Topic"] = dds::utils::STATUS_TOPIC_NAME;
 
     eprosima::fastdds::dds::DataWriterQos qos_writer = dds::utils::status_writer_qos();
-    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value_writer.dump(), true);
 
     status_writer_ = participant_->create_writer<types::StatusDataType>(
         dds::utils::STATUS_TOPIC_NAME,

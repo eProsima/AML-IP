@@ -39,10 +39,7 @@ StatusNode::StatusNode(
     // Create a JSON object
     nlohmann::json property_value;
 
-    property_value["Name"] = name;
-    property_value["Id"] = "Random Id"; // todo add id
-    property_value["NodeKind"] = types::NodeKind::status;
-
+    property_value["Internal"] = to_string(types::NodeKind::status) + " Node";
     property_value["Entity"] = "Reader";
     property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
 
