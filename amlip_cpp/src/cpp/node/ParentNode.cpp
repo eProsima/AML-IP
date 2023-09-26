@@ -57,7 +57,8 @@ ParentNode::ParentNode(
     property_value_writer["Topic"] = dds::utils::STATUS_TOPIC_NAME;
 
     eprosima::fastdds::dds::DataWriterQos qos_writer = dds::utils::status_writer_qos();
-    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value_writer.dump(), true);
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value_writer.dump(),
+            true);
 
     status_writer_ = participant_->create_writer<types::StatusDataType>(
         dds::utils::STATUS_TOPIC_NAME,
@@ -117,7 +118,8 @@ ParentNode::ParentNode(
     property_value_writer["Topic"] = dds::utils::STATUS_TOPIC_NAME;
 
     eprosima::fastdds::dds::DataWriterQos qos_writer = dds::utils::status_writer_qos();
-    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value_writer.dump(), true);
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value_writer.dump(),
+            true);
 
     status_writer_ = participant_->create_writer<types::StatusDataType>(
         dds::utils::STATUS_TOPIC_NAME,

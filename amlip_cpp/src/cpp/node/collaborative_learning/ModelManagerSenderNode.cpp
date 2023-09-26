@@ -28,6 +28,8 @@
 #include <dds/Participant.hpp>
 #include <dds/rpc/RPCClient.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace node {
@@ -38,14 +40,25 @@ ModelManagerSenderNode::ModelManagerSenderNode(
         uint32_t domain_id)
     : ParentNode(id, types::NodeKind::model_sender, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 id.name().c_str()))
-    , statistics_writer_(participant_->create_writer<types::ModelStatisticsDataType>(
-                dds::utils::MODEL_STATISTICS_TOPIC_NAME,
-                default_statistics_datawriter_qos()))
     , model_sender_(
         participant_->create_rpc_server<types::ModelRequestDataType,
         types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
 {
+    // Create a JSON object
+    nlohmann::json property_value;
+
+    property_value["Internal"] = to_string(types::NodeKind::model_sender) + " Node";
+    property_value["Entity"] = "Writer";
+    property_value["Topic"] = dds::utils::MODEL_STATISTICS_TOPIC_NAME;
+
+    eprosima::fastdds::dds::DataWriterQos qos_writer = default_statistics_datawriter_qos();
+    qos_writer.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    statistics_writer_ = participant_->create_writer<types::ModelStatisticsDataType>(
+        dds::utils::MODEL_STATISTICS_TOPIC_NAME,
+        qos_writer);
+
     logDebug(AMLIPCPP_DDS_MODELMANAGERSENDER, "Created new ModelManager Node: " << *this << ".");
 }
 

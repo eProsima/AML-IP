@@ -27,6 +27,8 @@
 #include <dds/Participant.hpp>
 #include <dds/rpc/RPCClient.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace node {
@@ -39,15 +41,26 @@ ModelManagerReceiverNode::ModelManagerReceiverNode(
         uint32_t domain_id)
     : ParentNode(id, types::NodeKind::model_receiver, types::StateKind::stopped, domain_id, dds::utils::ignore_locals_domain_participant_qos(
                 id.name().c_str()))
-    , statistics_reader_(participant_->create_reader<types::ModelStatisticsDataType>(
-                dds::utils::MODEL_STATISTICS_TOPIC_NAME,
-                default_statistics_datareader_qos()))   // TODO: parametrize constructor
     , model_receiver_(
         participant_->create_rpc_client<types::ModelRequestDataType,
         types::ModelReplyDataType>(dds::utils::MODEL_TOPIC_NAME))
     , running_(false)
     , data_(data)
 {
+    // Create a JSON object
+    nlohmann::json property_value;
+
+    property_value["Internal"] = to_string(types::NodeKind::model_receiver) + " Node";
+    property_value["Entity"] = "Reader";
+    property_value["Topic"] = dds::utils::MODEL_STATISTICS_TOPIC_NAME;
+
+    eprosima::fastdds::dds::DataReaderQos qos_reader = default_statistics_datareader_qos();
+    qos_reader.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
+
+    statistics_reader_ = participant_->create_reader<types::ModelStatisticsDataType>(
+        dds::utils::MODEL_STATISTICS_TOPIC_NAME,
+        default_statistics_datareader_qos());
+
     logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Created new ModelManagerReceiver Node: " << *this << ".");
 }
 

@@ -24,6 +24,8 @@
 #include <dds/network_utils/dds_qos.hpp>
 #include <dds/network_utils/multiservice.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -33,26 +35,7 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
-    : request_availability_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::request_availability),
-        dds_handler,
-        default_request_availability_writer_qos_()) // REQUEST_AVAILABILITY
-    , reply_available_reader_(
-        own_id,
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::reply_available),
-        dds_handler) // REPLY_AVAILABLE
-    , task_target_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_target),
-        dds_handler,
-        default_task_target_writer_qos_()) // TASK_TARGET
-    , task_data_writer_(
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_data),
-        dds_handler) // TASK_DATA
-    , task_solution_reader_(
-        own_id,
-        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
-        dds_handler) // TASK_SOLUTION
-    , should_stop_(false)
+    : should_stop_(false)
     , own_id_(own_id)
     , topic_(topic)
     , last_task_id_used_(0)
@@ -64,6 +47,71 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
     , server_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<types::MsReferenceDataType>>(0, true))
     , solution_reading_thread_(&AsyncMultiServiceClient::read_solution_, this)
 {
+    nlohmann::json property_value;
+
+    property_value["Internal"] = "AsyncMultiServiceClient Node";
+
+    property_value["Entity"] = "Writer";
+    property_value["Topic"] = utils::multiservice_topic_mangling(topic,
+                    utils::MultiServiceTopicType::request_availability);
+    eprosima::fastdds::dds::DataWriterQos qos_request_availability_writer_ = default_request_availability_writer_qos_();
+    qos_request_availability_writer_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    request_availability_writer_ = std::make_shared<Writer<types::MsRequestDataType>>(
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::request_availability),
+        dds_handler,
+        qos_request_availability_writer_); // REQUEST_AVAILABILITY
+
+    property_value["Entity"] = "TargetedReader";
+    property_value["Topic"] = utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::reply_available);
+    eprosima::fastdds::dds::DataReaderQos qos_reply_available_reader_ =
+            TargetedReader<types::MsReferenceDataType>::default_targetedreader_qos();
+    qos_reply_available_reader_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    reply_available_reader_ = std::make_shared<TargetedReader<types::MsReferenceDataType>>(
+        own_id,
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::reply_available),
+        dds_handler,
+        qos_reply_available_reader_); // REPLY_AVAILABLE
+
+    property_value["Entity"] = "Writer";
+    property_value["Topic"] = utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_target);
+    eprosima::fastdds::dds::DataWriterQos qos_task_target_writer_ = default_task_target_writer_qos_();
+    qos_task_target_writer_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    task_target_writer_ = std::make_shared<Writer<types::MsReferenceDataType>>(
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_target),
+        dds_handler,
+        qos_task_target_writer_); // TASK_TARGET
+
+    property_value["Entity"] = "DirectWriter";
+    property_value["Topic"] = utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_data);
+    eprosima::fastdds::dds::DataWriterQos qos_task_data_writer_ =
+            DirectWriter<types::MsDataType<Data>>::default_directwriter_qos();
+    qos_task_data_writer_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    task_data_writer_ = std::make_shared<DirectWriter<types::MsDataType<Data>>>(
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_data),
+        dds_handler,
+        qos_task_data_writer_); // TASK_DATA
+
+    property_value["Entity"] = "TargetedReader";
+    property_value["Topic"] = utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution);
+    eprosima::fastdds::dds::DataReaderQos qos_task_solution_reader_ =
+            TargetedReader<types::MsDataType<Solution>>::default_targetedreader_qos();
+    qos_task_solution_reader_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    task_solution_reader_ = std::make_shared<TargetedReader<types::MsDataType<Solution>>>(
+        own_id,
+        utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
+        dds_handler,
+        qos_task_solution_reader_); // TASK_SOLUTION
+
     logDebug(
         AMLIPCPP_DDS_MSASYNCCLIENT,
         "New Async MultiService Client " << *this << " created.");
@@ -195,7 +243,7 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
         types::MsRequestDataType request_data(own_id_, this_task_id);
 
         // Send request
-        request_availability_writer_.publish(request_data);
+        request_availability_writer_->publish(request_data);
 
         // WAIT FOR REPLY AVAILABLE
         // Wait for reply thread to notify a finding
@@ -223,11 +271,11 @@ void AsyncMultiServiceClient<Data, Solution>::send_request_async_routine_()
 
         // SEND TASK TARGET
         // Send the reference sent by the server
-        task_target_writer_.publish(reference);
+        task_target_writer_->publish(reference);
 
         // SEND DATA
         types::MsDataType<Data> data_(reference, *data);
-        task_data_writer_.write(server, data_);
+        task_data_writer_->write(server, data_);
 
         // WAIT FOR SOLUTION
         logDebug(AMLIPCPP_DDS_MSCLIENT, "Wait for solution of task: " << reference << " in other thread.");
@@ -242,14 +290,14 @@ void AsyncMultiServiceClient<Data, Solution>::read_replies_()
     {
         // TODO: this should not be done
         uint32_t timeout = 1000;
-        auto reason = reply_available_reader_.wait_data_available(timeout);
+        auto reason = reply_available_reader_->wait_data_available(timeout);
         if (reason != eprosima::utils::event::AwakeReason::condition_met)
         {
             continue;
         }
 
         // Get task reference
-        types::MsReferenceDataType reference = reply_available_reader_.read();
+        types::MsReferenceDataType reference = reply_available_reader_->read();
 
         if (reference.client_id() != own_id_)
         {
@@ -278,14 +326,14 @@ void AsyncMultiServiceClient<Data, Solution>::read_solution_()
     {
         // TODO: this should not be done
         uint32_t timeout = 1000;
-        auto reason = task_solution_reader_.wait_data_available(timeout);
+        auto reason = task_solution_reader_->wait_data_available(timeout);
         if (reason != eprosima::utils::event::AwakeReason::condition_met)
         {
             continue;
         }
 
         // Get task reference
-        types::MsDataType<Solution> ms_solution = task_solution_reader_.read();
+        types::MsDataType<Solution> ms_solution = task_solution_reader_->read();
 
         logDebug(AMLIPCPP_DDS_MSCLIENT, "Solution found for task: " << ms_solution.task_id() << ".");
 

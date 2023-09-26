@@ -46,8 +46,10 @@ Participant::Participant(
     nlohmann::json property_value = nlohmann::json::parse(*application_metadata);
     property_value["Id"] = id.id();
 
-    for (eprosima::fastrtps::rtps::Property& val : qos.properties().properties()) {
-        if (val == eprosima::fastrtps::rtps::Property("fastdds.application.metadata", *application_metadata, true)) {
+    for (eprosima::fastrtps::rtps::Property& val : qos.properties().properties())
+    {
+        if (val == eprosima::fastrtps::rtps::Property("fastdds.application.metadata", *application_metadata, true))
+        {
             val = eprosima::fastrtps::rtps::Property("fastdds.application.metadata", property_value.dump(), true); // Update the value
             break; // Stop searching once we've found and updated the value
         }

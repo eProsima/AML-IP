@@ -36,13 +36,12 @@ StatusNode::StatusNode(
                 name))
     , processing_(false)
 {
-    // Create a JSON object
     nlohmann::json property_value;
 
     property_value["Internal"] = to_string(types::NodeKind::status) + " Node";
+
     property_value["Entity"] = "Reader";
     property_value["Topic"] = dds::utils::STATUS_TOPIC_NAME;
-
     eprosima::fastdds::dds::DataReaderQos qos_reader = dds::utils::status_reader_qos();
     qos_reader.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
 

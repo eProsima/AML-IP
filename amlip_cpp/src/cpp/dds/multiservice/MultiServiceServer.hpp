@@ -69,15 +69,15 @@ protected:
     static eprosima::fastdds::dds::DataReaderQos default_request_availability_reader_qos_();
     static eprosima::fastdds::dds::DataReaderQos default_task_target_reader_qos_();
 
-    Reader<types::MsRequestDataType> request_availability_reader_;
+    std::shared_ptr<Reader<types::MsRequestDataType>> request_availability_reader_;
 
-    DirectWriter<types::MsReferenceDataType> reply_available_writer_;
+    std::shared_ptr<DirectWriter<types::MsReferenceDataType>> reply_available_writer_;
 
-    Reader<types::MsReferenceDataType> task_target_reader_;
+    std::shared_ptr<Reader<types::MsReferenceDataType>> task_target_reader_;
 
-    TargetedReader<types::MsDataType<Data>> task_data_reader_;
+    std::shared_ptr<TargetedReader<types::MsDataType<Data>>> task_data_reader_;
 
-    DirectWriter<types::MsDataType<Solution>> task_solution_writer_;
+    std::shared_ptr<DirectWriter<types::MsDataType<Solution>>> task_solution_writer_;
 
     types::AmlipIdDataType own_id_;
 

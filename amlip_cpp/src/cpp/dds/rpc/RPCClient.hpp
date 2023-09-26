@@ -99,9 +99,9 @@ protected:
 
     types::TaskId new_task_id_();
 
-    DirectWriter<types::RpcRequestDataType<Data>> request_writer_;
+    std::shared_ptr<DirectWriter<types::RpcRequestDataType<Data>>> request_writer_;
 
-    TargetedReader<types::RpcReplyDataType<Solution>> reply_reader_;
+    std::shared_ptr<TargetedReader<types::RpcReplyDataType<Solution>>> reply_reader_;
 
     types::AmlipIdDataType own_id_;
 

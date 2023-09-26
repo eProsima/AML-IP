@@ -23,6 +23,8 @@
 
 #include <dds/network_utils/dds_qos.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace dds {
@@ -32,18 +34,35 @@ RPCServer<Data, Solution>::RPCServer(
         const types::AmlipIdDataType& own_id,
         const std::string& topic,
         eprosima::utils::LesseePtr<DdsHandler> dds_handler)
-    : request_reader_(
+    : own_id_(own_id)
+    , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
+{
+    nlohmann::json property_value;
+
+    property_value["Internal"] = "RPCClient Node";
+
+    property_value["Entity"] = "TargetedReader";
+    property_value["Topic"] = "rpc_request_" + topic;
+    eprosima::fastdds::dds::DataReaderQos qos_request_reader_ = default_rpc_datareader_qos();
+    qos_request_reader_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    request_reader_ = std::make_shared<TargetedReader<types::RpcRequestDataType<Data>>>(
         own_id,
         "rpc_request_" + topic,
         dds_handler,
-        default_rpc_datareader_qos()) // REQUEST
-    , reply_writer_(
+        qos_request_reader_); // REQUEST
+
+    property_value["Entity"] = "DirectWriter";
+    property_value["Topic"] = "rpc_reply_" + topic;
+    eprosima::fastdds::dds::DataWriterQos qos_reply_writer_ = default_rpc_datawriter_qos();
+    qos_reply_writer_.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(),
+            true);
+
+    reply_writer_ = std::make_shared<DirectWriter<types::RpcReplyDataType<Solution>>>(
         "rpc_reply_" + topic,
         dds_handler,
-        default_rpc_datawriter_qos()) // REPLY
-    , own_id_(own_id)
-    , topic_("rpc_request_" + topic + " | rpc_reply_" + topic)
-{
+        qos_reply_writer_); // REPLY
 }
 
 template <typename Data, typename Solution>
@@ -54,7 +73,7 @@ RPCServer<Data, Solution>::~RPCServer()
 template <typename Data, typename Solution>
 void RPCServer<Data, Solution>::stop()
 {
-    request_reader_.stop();
+    request_reader_->stop();
 }
 
 template <typename Data, typename Solution>
@@ -66,7 +85,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
     {
         // Wait for request
         logDebug(AMLIPCPP_DDS_RPCSERVER, "Waiting for request in: " << own_id_ << ".");
-        eprosima::utils::event::AwakeReason reason = request_reader_.wait_data_available(timeout);
+        eprosima::utils::event::AwakeReason reason = request_reader_->wait_data_available(timeout);
 
         if (reason == eprosima::utils::event::AwakeReason::disabled)
         {
@@ -80,7 +99,7 @@ types::RpcRequestDataType<Data> RPCServer<Data, Solution>::get_request(
         {
             // Read request
             logDebug(AMLIPCPP_DDS_RPCSERVER, "Data received. Reading data...");
-            rpc_request = request_reader_.read();
+            rpc_request = request_reader_->read();
             break;
         }
         catch (const std::exception& e)
@@ -98,7 +117,7 @@ void RPCServer<Data, Solution>::send_reply(
         uint32_t timeout /* = 0 */)
 {
     // Send reply
-    reply_writer_.write(rpc_reply.client_id(), rpc_reply);
+    reply_writer_->write(rpc_reply.client_id(), rpc_reply);
 
     logDebug(AMLIPCPP_DDS_RPCSERVER, "Direct Writer has sent message: " << rpc_reply.data() << ".");
 }
