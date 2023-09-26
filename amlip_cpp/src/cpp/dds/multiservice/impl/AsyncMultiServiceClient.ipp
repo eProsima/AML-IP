@@ -39,13 +39,8 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
     , own_id_(own_id)
     , topic_(topic)
     , last_task_id_used_(0)
-    , data_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<std::shared_ptr<Data>,
-            types::TaskId>>>(0, false))
     , running_(false)
     , waiter_for_request_(0, 0)
-    , reply_reading_thread_(&AsyncMultiServiceClient::read_replies_, this)
-    , server_to_send_(std::make_unique<eprosima::utils::event::DBQueueWaitHandler<types::MsReferenceDataType>>(0, true))
-    , solution_reading_thread_(&AsyncMultiServiceClient::read_solution_, this)
 {
     nlohmann::json property_value;
 
@@ -111,6 +106,15 @@ AsyncMultiServiceClient<Data, Solution>::AsyncMultiServiceClient(
         utils::multiservice_topic_mangling(topic, utils::MultiServiceTopicType::task_solution),
         dds_handler,
         qos_task_solution_reader_); // TASK_SOLUTION
+
+    data_to_send_ = std::make_unique<eprosima::utils::event::DBQueueWaitHandler<std::pair<std::shared_ptr<Data>,
+                    types::TaskId>>>(0, false);
+
+    reply_reading_thread_ = std::thread(&AsyncMultiServiceClient::read_replies_, this);
+
+    server_to_send_ = std::make_unique<eprosima::utils::event::DBQueueWaitHandler<types::MsReferenceDataType>>(0, true);
+
+    solution_reading_thread_ = std::thread(&AsyncMultiServiceClient::read_solution_, this);
 
     logDebug(
         AMLIPCPP_DDS_MSASYNCCLIENT,

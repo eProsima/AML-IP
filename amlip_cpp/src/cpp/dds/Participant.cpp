@@ -39,20 +39,38 @@ Participant::Participant(
 {
     logDebug(AMLIPCPP_PARTICIPANT, "Creating Participant with id " << id << " in domain " << domain << ".");
 
+    // Try to find the "fastdds.application.metadata" property
     const std::string* application_metadata =
             eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
         qos.properties(), "fastdds.application.metadata");
 
-    nlohmann::json property_value = nlohmann::json::parse(*application_metadata);
-    property_value["Id"] = id.id();
-
-    for (eprosima::fastrtps::rtps::Property& val : qos.properties().properties())
+    if (application_metadata != nullptr)
     {
-        if (val == eprosima::fastrtps::rtps::Property("fastdds.application.metadata", *application_metadata, true))
+        // Parse the existing property
+        nlohmann::json property_value = nlohmann::json::parse(*application_metadata);
+
+        // Add the "Id" field in the JSON
+        property_value["Id"] = id.id();
+
+        // Iterate through properties to find and update the "fastdds.application.metadata" property
+        for (eprosima::fastrtps::rtps::Property& val : qos.properties().properties())
         {
-            val = eprosima::fastrtps::rtps::Property("fastdds.application.metadata", property_value.dump(), true); // Update the value
-            break; // Stop searching once we've found and updated the value
+            if (val == eprosima::fastrtps::rtps::Property("fastdds.application.metadata", *application_metadata, true))
+            {
+                // Update the value of the existing property
+                val = eprosima::fastrtps::rtps::Property("fastdds.application.metadata", property_value.dump(), true); // Update the value
+                break; // Stop searching once we've found and updated the value
+            }
         }
+    }
+    else
+    {
+        // Create a new JSON property with "Id" field
+        nlohmann::json property_value;
+        property_value["Id"] = id.id();
+
+        // Add the new property to the list of properties
+        qos.properties().properties().emplace_back("fastdds.application.metadata", property_value.dump(), true);
     }
 
     // Set Participant name
