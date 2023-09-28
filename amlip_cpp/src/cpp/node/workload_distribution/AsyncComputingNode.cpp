@@ -79,11 +79,13 @@ AsyncComputingNode::~AsyncComputingNode()
 void AsyncComputingNode::run()
 {
     job_server_->run(std::make_shared<TaskListenerCast>(listener_));
+    change_status_(types::StateKind::running);
 }
 
 void AsyncComputingNode::stop()
 {
     job_server_->stop();
+    change_status_(types::StateKind::stopped);
 }
 
 } /* namespace node */
