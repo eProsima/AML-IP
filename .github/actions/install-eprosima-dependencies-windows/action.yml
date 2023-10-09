@@ -29,7 +29,7 @@ runs:
     - name: Install Fast DDS
       shell: pwsh
       run: >
-        git clone https://github.com/eProsima/Fast-DDS.git;
+        git clone https://github.com/eProsima/Fast-DDS.git --branch 2.11.x;
         cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\eprosima\install `
           -DCMAKE_PREFIX_PATH=${{ github.workspace }}\eprosima\install `
           -DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
@@ -51,7 +51,7 @@ runs:
     - name: Install DDS Pipe
       shell: pwsh
       run: >
-        git clone https://github.com/eProsima/DDS-Pipe.git;
+        git clone https://github.com/eProsima/DDS-Pipe.git --branch feature/dynamic_tracks;
         "ddspipe_core;ddspipe_core ddspipe_participants;ddspipe_participants".Split(" ") | ForEach {
           $subpackage_arr =$_.Split(";")
           $subpackage= $subpackage_arr[0]
@@ -66,7 +66,7 @@ runs:
     - name: Install DDS Router
       shell: pwsh
       run: >
-        git clone https://github.com/eProsima/DDS-Router.git;
+        git clone https://github.com/eProsima/DDS-Router.git --branch feature/dynamic_tracks;
         "ddsrouter_core;ddsrouter_core".Split(" ") | ForEach {
           $subpackage_arr =$_.Split(";")
           $subpackage= $subpackage_arr[0]
