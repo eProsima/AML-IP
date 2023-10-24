@@ -17,14 +17,12 @@ ARG amlip_branch="main"
 ENV TZ=Europe/Madrid
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# Download system dependencies
 RUN apt update && \
     apt install -y software-properties-common && \
     apt update && \
     add-apt-repository ppa:deadsnakes/ppa && \
-    apt update
-
-# Download system dependencies
-RUN apt update && \
+    apt update && \
     apt install -y \
         cmake \
         g++ \
