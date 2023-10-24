@@ -12,7 +12,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
 ARG amlip_branch="main"
-ARG build_demos="false"
 
 # Avoid interactuation with installation of some package that needs the locale.
 ENV TZ=Europe/Madrid
@@ -43,8 +42,6 @@ RUN mkdir src && \
     wget https://raw.githubusercontent.com/eProsima/AML-IP/$amlip_branch/amlip.repos && \
     vcs import src < amlip.repos && \
     colcon build --packages-up-to-regex amlip
-
-RUN if [ "$build_demos" = true ] ; then colcon build --packages-up-to-regex amlip_demo_nodes ; fi
 
 # Source built workspace
 RUN echo "source /AML-IP/install/setup.bash" >> ~/.bashrc
