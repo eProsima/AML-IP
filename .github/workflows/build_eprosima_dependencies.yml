@@ -2,6 +2,31 @@ name: build_eprosima_dependencies
 
 on:
   workflow_dispatch:
+    inputs:
+      foonathan_memory_vendor_branch:
+        description: 'Branch or tag of eProsima/foonathan_memory_vendor repository (https://github.com/eProsima/foonathan_memory_vendor)'
+        required: true
+        default: 'master'
+      fastcdr_branch:
+        description: 'Branch or tag of eProsima/Fast-CDR repository (https://github.com/eProsima/Fast-CDR)'
+        required: true
+        default: '1.1.x'
+      fastdds_branch:
+        description: 'Branch or tag of eProsima/Fast-DDS repository (https://github.com/eProsima/Fast-DDS)'
+        required: true
+        default: '2.11.x'
+      utils_branch:
+        description: 'Branch or tag of eProsima/dev-utils repository (https://github.com/eProsima/dev-utils)'
+        required: true
+        default: 'main'
+      ddspipe_branch:
+        description: 'Branch or tag of eProsima/DDS-Pipe repository (https://github.com/eProsima/DDS-Pipe)'
+        required: true
+        default: 'main'
+      ddsrouter_branch:
+        description: 'Branch or tag of eProsima/DDS-Router repository (https://github.com/eProsima/DDS-Router)'
+        required: true
+        default: 'main'
   schedule:
     - cron: '0 0 * * *'
 
@@ -34,8 +59,21 @@ jobs:
 
       - name: Install eProsima dependencies
         uses: ./AML-IP/.github/actions/install-eprosima-dependencies-windows
+        env:
+          DEFAULT_FOONATHAN_BRANCH: 'master'
+          DEFAULT_FASTCDR_BRANCH: '1.1.x'
+          DEFAULT_FASTDDS_BRANCH: '2.11.x'
+          DEFAULT_UTILS_BRANCH: 'main'
+          DEFAULT_DDDSPIPE_BRANCH: 'main'
+          DEFAULT_DDSROUTER_BRANCH: 'main'
         with:
           cmake_build_type: ${{ matrix.cmake-config }}
+          foonathan_memory_vendor_branch: ${{ github.event.inputs.foonathan_memory_vendor_branch || env.DEFAULT_FOONATHAN_BRANCH }}
+          fastcdr_branch: ${{ github.event.inputs.fastcdr_branch || env.DEFAULT_FASTCDR_BRANCH }}
+          fastdds_branch: ${{ github.event.inputs.fastdds_branch || env.DEFAULT_FASTDDS_BRANCH }}
+          utils_branch: ${{ github.event.inputs.utils_branch || env.DEFAULT_UTILS_BRANCH }}
+          ddspipe_branch: ${{ github.event.inputs.ddspipe_branch || env.DEFAULT_DDDSPIPE_BRANCH }}
+          ddsrouter_branch: ${{ github.event.inputs.ddsrouter_branch || env.DEFAULT_DDSROUTER_BRANCH }}
 
       - name: Upload binaries
         uses: actions/upload-artifact@v3
@@ -67,6 +105,12 @@ jobs:
       - name: Fetch dependencies repositories
         run: |
           vcs import src <  src/AML-IP/.github/workflows/ci.repos
+          cd src/foonathan_memory_vendor && git checkout ${{ inputs.foonathan_memory_vendor_branch }} && cd ../..
+          cd src/fastcdr && git checkout ${{ inputs.fastcdr_branch }} && cd ../..
+          cd src/fastdds && git checkout ${{ inputs.fastdds_branch }} && cd ../..
+          cd src/dev-utils && git checkout ${{ inputs.utils_branch }} && cd ../..
+          cd src/ddspipe && git checkout ${{ inputs.ddspipe_branch }} && cd ../..
+          cd src/ddsrouter && git checkout ${{ inputs.ddsrouter_branch }} && cd ../..
 
       - name: Build workspace
         run: |
