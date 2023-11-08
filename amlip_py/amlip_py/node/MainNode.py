@@ -29,7 +29,8 @@ class MainNode(cpp_MainNode):
 
     def __init__(
             self,
-            name: str):
+            name: str,
+            domain: int = None):
         """
         Create a new Main Node with a given name.
 
@@ -40,7 +41,10 @@ class MainNode(cpp_MainNode):
         """
         #####
         # Parent class constructor
-        super().__init__(name)
+        if domain is None:
+            super().__init__(name)
+        else:
+            super().__init__(name, domain)
 
     def request_job_solution(
             self,

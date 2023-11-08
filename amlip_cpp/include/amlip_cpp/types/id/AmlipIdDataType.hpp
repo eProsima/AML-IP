@@ -22,6 +22,7 @@
 #ifndef AMLIP__SRC_CPP_TYPES_AMLIPIDDATATYPE_HPP
 #define AMLIP__SRC_CPP_TYPES_AMLIPIDDATATYPE_HPP
 
+#include <cstdint>
 #include <array>
 #include <limits>
 #include <ostream>
