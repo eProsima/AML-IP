@@ -35,3 +35,18 @@ The following diagram illustrates the flow of the implementation:
 .. figure:: /rst/figures/rpc_diagram.png
     :align: center
     :width: 100%
+
+.. _protocols_dds_properties:
+
+DDS Entities properties
+-----------------------
+
+Every |amlip| entity within the |amlip| network is associated with predefined properties that encompass the entity's identification and metadata.
+
+* The :code:`fastdds.application.metadata` property provides detailed information about the entity:
+
+    * Internal: define the name of the node.
+    * Entity: expound the DDS entity.
+    * Topic: define the topic name.
+
+* The :code:`fastdds.application.id` property designates the DDS application to which the entity belongs, in this case :code:`AML_IP`.
