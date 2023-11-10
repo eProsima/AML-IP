@@ -43,10 +43,37 @@ DDS Entities properties
 
 Every |amlip| entity within the |amlip| network is associated with predefined properties that encompass the entity's identification and metadata.
 
-* The :code:`fastdds.application.metadata` property provides detailed information about the entity:
+* The :code:`fastdds.application.metadata` property is a :code:`JSON` object that provides detailed information about the entity:
 
-    * Internal: define the name of the node.
+    * Internal: Specifies the name of the node.
     * Entity: expound the DDS entity.
     * Topic: define the topic name.
 
-* The :code:`fastdds.application.id` property designates the DDS application to which the entity belongs, in this case :code:`AML_IP`.
+* The :code:`fastdds.application.id` property uniquely identifies the DDS application to which the entity belongs, in this case :code:`AML_IP`.
+
+For a practical illustration, consider a `Writer` in a `TestNode` publishing on the `/test` topic.
+The corresponding C++ code snippet for configuring the DataWriter QoS properties is as follows:
+
+.. code-block:: cpp
+
+    nlohmann::json property_value;
+
+    property_value["Internal"] = "TestNode";
+    property_value["Entity"] = "Writer";
+    property_value["Topic"] = "/test";
+
+    eprosima::fastdds::dds::DataWriterQos qos_request_availability_writer_ = default_request_availability_writer_qos_();
+
+    qos_request_availability_writer_.properties().properties().emplace_back("fastdds.application.metadata",
+            property_value.dump(), true);
+
+    qos_request_availability_writer_.properties().properties().emplace_back("fastdds.application.id",
+            "AML_IP", true);
+
+To retrieve the QoS, the following code can be used:
+
+.. code-block:: cpp
+
+    const std::string* application_id =
+                eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+            datareader_locked->get_qos().properties(), "fastdds.application.id");
