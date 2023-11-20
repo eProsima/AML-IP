@@ -4,8 +4,7 @@
 
 .. comment the include of forthcoming when new info is added
 
-..
-    .. include:: forthcoming_version.rst
+.. include:: forthcoming_version.rst
 
 ##############
 Version v0.1.0

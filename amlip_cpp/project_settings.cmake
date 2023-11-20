@@ -23,15 +23,19 @@ set(MODULE_SUMMARY
     "C++ library for DDS Entities and Nodes for AML-IP implementation.")
 
 set(MODULE_FIND_PACKAGES
-        fastcdr
-        fastrtps
-        cpp_utils
-        ddspipe_core
-        ddspipe_participants
-        ddsrouter_core
-    )
+    fastcdr
+    fastrtps
+    cpp_utils
+    ddspipe_core
+    ddspipe_participants
+    ddsrouter_core)
 
 set(MODULE_DEPENDENCIES
-        $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
-        ${MODULE_FIND_PACKAGES}
-    )
+    $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
+    ${MODULE_FIND_PACKAGES})
+
+set(MODULE_THIRDPARTY_HEADERONLY
+    nlohmann-json)
+
+set(MODULE_THIRDPARTY_PATH
+    "../thirdparty")

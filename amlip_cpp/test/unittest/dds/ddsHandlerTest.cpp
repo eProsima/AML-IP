@@ -52,6 +52,7 @@ TEST(DdsHandlerTest, create_participant)
 
     // Create QoS
     eprosima::fastdds::dds::DomainParticipantQos qos;
+
     qos.name(name_);
 
     // Create Handler with internal participant
@@ -60,6 +61,13 @@ TEST(DdsHandlerTest, create_participant)
     // Check the internal values
     ASSERT_EQ(handler.participant_->get_domain_id(), domain_);
     ASSERT_EQ(handler.participant_->get_qos().name().to_string(), name_);
+
+    // Check that the Participant Properties are the modified qos
+    const std::string* application_id =
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        handler.participant_->get_qos().properties(), "fastdds.application.id");
+    ASSERT_NE(application_id, nullptr);
+    ASSERT_EQ(application_id->compare("AML_IP"), 0);
 }
 
 /**
@@ -78,6 +86,7 @@ TEST(DdsHandlerTest, create_datawriter)
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.ownership().kind = eprosima::fastdds::dds::OwnershipQosPolicyKind::EXCLUSIVE_OWNERSHIP_QOS;
+
     // Create in place listener
     eprosima::fastdds::dds::DataWriterListener listener;
 
@@ -92,7 +101,17 @@ TEST(DdsHandlerTest, create_datawriter)
     auto datawriter_locked = datawriter.lock();
     ASSERT_TRUE(datawriter_locked);
     ASSERT_EQ(datawriter_locked->get_topic()->get_name(), utils::topic_name_mangling(topic_name_));
+
+    // Check that the Participant Properties are the modified qos
+    const std::string* application_id =
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        datawriter_locked->get_qos().properties(), "fastdds.application.id");
+    ASSERT_NE(application_id, nullptr);
+    ASSERT_EQ(application_id->compare("AML_IP"), 0);
+
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
     ASSERT_EQ(datawriter_locked->get_qos(), qos);
+
     ASSERT_EQ(datawriter_locked->get_listener(), &listener);
 }
 
@@ -112,6 +131,7 @@ TEST(DdsHandlerTest, create_datareader)
     qos.durability().kind = eprosima::fastdds::dds::DurabilityQosPolicyKind::TRANSIENT_LOCAL_DURABILITY_QOS;
     qos.reliability().kind = eprosima::fastdds::dds::ReliabilityQosPolicyKind::RELIABLE_RELIABILITY_QOS;
     qos.ownership().kind = eprosima::fastdds::dds::OwnershipQosPolicyKind::EXCLUSIVE_OWNERSHIP_QOS;
+
     // Create in place listener
     eprosima::fastdds::dds::DataReaderListener listener;
 
@@ -126,7 +146,18 @@ TEST(DdsHandlerTest, create_datareader)
     auto datareader_locked = datareader.lock();
     ASSERT_TRUE(datareader_locked);
     ASSERT_EQ(datareader_locked->get_topicdescription()->get_name(), utils::topic_name_mangling(topic_name_));
+
+    // Check that the Participant Properties are the modified qos
+    const std::string* application_id =
+            eprosima::fastrtps::rtps::PropertyPolicyHelper::find_property(
+        datareader_locked->get_qos().properties(), "fastdds.application.id");
+    ASSERT_NE(application_id, nullptr);
+    ASSERT_EQ(application_id->compare("AML_IP"), 0);
+
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
     ASSERT_EQ(datareader_locked->get_qos(), qos);
+
+
     ASSERT_EQ(datareader_locked->get_listener(), &listener);
 }
 

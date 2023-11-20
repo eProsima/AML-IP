@@ -112,9 +112,9 @@ protected:
 
     types::TaskId new_task_id_();
 
-    TargetedReader<types::RpcRequestDataType<Data>> request_reader_;
+    std::shared_ptr<TargetedReader<types::RpcRequestDataType<Data>>> request_reader_;
 
-    DirectWriter<types::RpcReplyDataType<Solution>> reply_writer_;
+    std::shared_ptr<DirectWriter<types::RpcReplyDataType<Solution>>> reply_writer_;
 
     types::AmlipIdDataType own_id_;
 

@@ -113,15 +113,15 @@ protected:
     static eprosima::fastdds::dds::DataWriterQos default_request_availability_writer_qos_();
     static eprosima::fastdds::dds::DataWriterQos default_task_target_writer_qos_();
 
-    Writer<types::MsRequestDataType> request_availability_writer_;
+    std::shared_ptr<Writer<types::MsRequestDataType>> request_availability_writer_;
 
-    TargetedReader<types::MsReferenceDataType> reply_available_reader_;
+    std::shared_ptr<TargetedReader<types::MsReferenceDataType>> reply_available_reader_;
 
-    Writer<types::MsReferenceDataType> task_target_writer_;
+    std::shared_ptr<Writer<types::MsReferenceDataType>> task_target_writer_;
 
-    DirectWriter<types::MsDataType<Data>> task_data_writer_;
+    std::shared_ptr<DirectWriter<types::MsDataType<Data>>> task_data_writer_;
 
-    TargetedReader<types::MsDataType<Solution>> task_solution_reader_;
+    std::shared_ptr<TargetedReader<types::MsDataType<Solution>>> task_solution_reader_;
 
     std::atomic<bool> should_stop_;
 

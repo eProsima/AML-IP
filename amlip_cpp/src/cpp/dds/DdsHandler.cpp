@@ -30,10 +30,13 @@ namespace dds {
 using namespace eprosima::fastdds::dds;
 
 DdsHandler::DdsHandler(
-        const eprosima::fastdds::dds::DomainParticipantQos& qos,
+        eprosima::fastdds::dds::DomainParticipantQos qos,
         const DomainIdType& domain)
 {
     logDebug(AMLIPCPP_DDSHANDLER, "Creating DdsHandler in domain " << domain << ".");
+
+    // Set Participant properties
+    qos.properties().properties().emplace_back("fastdds.application.id", "AML_IP", true);
 
     // CREATE FASTDDS DOMAIN PARTICIPANT
     participant_.reset(

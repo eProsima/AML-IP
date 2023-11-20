@@ -55,6 +55,7 @@ set(TEST_NAME DdsHandlerTest)
 set(TEST_SOURCES
         ddsHandlerTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/DdsHandler.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/dds/Participant.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/network_utils/dds_qos.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/dds/network_utils/topic.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
