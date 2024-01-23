@@ -16,20 +16,11 @@
  * @file ModelStatisticsDataType.cpp
  */
 
-
-#include <fastcdr/Cdr.h>
-
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
-
 #include <algorithm>
 #include <array>
 #include <chrono>
-#include <iomanip>
 #include <random>
-#include <sstream>
 #include <stdlib.h>
-#include <string>
 #include <utility>
 
 #include <cpp_utils/Log.hpp>
@@ -37,6 +28,8 @@ using namespace eprosima::fastcdr::exception;
 #include <cpp_utils/utils.hpp>
 
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -263,10 +256,21 @@ std::string ModelStatisticsDataType::name() const
     return name_;
 }
 
+std::string& ModelStatisticsDataType::name()
+{
+    return name_;
+}
+
 void ModelStatisticsDataType::name(
         const std::string& name)
 {
     name_ = name;
+}
+
+void ModelStatisticsDataType::data(
+        void* data)
+{
+    data_ = data;
 }
 
 void* ModelStatisticsDataType::data() const
@@ -290,7 +294,17 @@ uint32_t ModelStatisticsDataType::data_size() const
     return data_size_;
 }
 
+uint32_t& ModelStatisticsDataType::data_size()
+{
+    return data_size_;
+}
+
 AmlipIdDataType ModelStatisticsDataType::server_id() const
+{
+    return server_id_;
+}
+
+AmlipIdDataType& ModelStatisticsDataType::server_id()
 {
     return server_id_;
 }
@@ -306,38 +320,15 @@ std::string ModelStatisticsDataType::type_name()
     return TYPE_NAME_;
 }
 
-void ModelStatisticsDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
+bool ModelStatisticsDataType::has_been_allocated() const
 {
-    scdr << name_.c_str();
-
-    scdr << data_size_;
-    scdr.serializeArray(static_cast<uint8_t*>(data_), data_size_);
-
-    scdr << server_id_;
+    return has_been_allocated_.load();
 }
 
-void ModelStatisticsDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
+void ModelStatisticsDataType::has_been_allocated(
+        bool take_ownership)
 {
-    dcdr >> name_;
-
-    // If data has been already allocated (it has been already deserialized), we free it
-    if (has_been_allocated_)
-    {
-        free(data_);
-    }
-
-    dcdr >> data_size_;
-    // Store enough space to deserialize the data
-    data_ = std::malloc(data_size_ * sizeof(uint8_t));
-    // Deserialize array
-    dcdr.deserializeArray(static_cast<uint8_t*>(data_), data_size_);
-
-    // Set as this data has been allocated by this class
-    has_been_allocated_.store(true);
-
-    dcdr >> server_id_;
+    has_been_allocated_.store(take_ownership);
 }
 
 void ModelStatisticsDataType::serialize_key(
@@ -424,3 +415,6 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include  <types/model/impl/ModelStatisticsDataTypeCdrAux.ipp>

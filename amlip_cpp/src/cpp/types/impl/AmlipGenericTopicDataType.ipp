@@ -25,10 +25,9 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_IMPL_AMLIPGENERICTOPICDATATYPE_IPP
 #define AMLIPCPP__SRC_CPP_TYPES_IMPL_AMLIPGENERICTOPICDATATYPE_IPP
 
-#include <fastcdr/FastBuffer.h>
-#include <fastcdr/Cdr.h>
-
 #include <types/AmlipGenericTopicDataType.hpp>
+
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -36,6 +35,8 @@ namespace types {
 
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 using InstanceHandle_t = eprosima::fastrtps::rtps::InstanceHandle_t;
+using DataRepresentationId_t = eprosima::fastdds::dds::DataRepresentationId_t;
+
 
 template <class T>
 AmlipGenericTopicDataType<T>::AmlipGenericTopicDataType()
@@ -63,30 +64,33 @@ AmlipGenericTopicDataType<T>::~AmlipGenericTopicDataType()
 template <class T>
 bool AmlipGenericTopicDataType<T>::serialize(
         void* data,
-        SerializedPayload_t* payload)
+        SerializedPayload_t* payload,
+        DataRepresentationId_t data_representation)
 {
     T* p_type = static_cast<T*>(data);
 
     // Object that manages the raw buffer.
     eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->max_size);
     // Object that serializes the data.
-    eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+    eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN,
+            data_representation == DataRepresentationId_t::XCDR_DATA_REPRESENTATION ?
+            eprosima::fastcdr::CdrVersion::XCDRv1 : eprosima::fastcdr::CdrVersion::XCDRv2);
     payload->encapsulation = ser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-    // Serialize encapsulation
-    ser.serialize_encapsulation();
 
     try
     {
+        // Serialize encapsulation
+        ser.serialize_encapsulation();
         // Serialize the object.
-        p_type->serialize(ser);
+        ser << *p_type;
     }
-    catch (eprosima::fastcdr::exception::NotEnoughMemoryException& /*exception*/)
+    catch (eprosima::fastcdr::exception::Exception& /*exception*/)
     {
         return false;
     }
 
     // Get the serialized length
-    payload->length = static_cast<uint32_t>(ser.getSerializedDataLength());
+    payload->length = static_cast<uint32_t>(ser.get_serialized_data_length());
     return true;
 }
 
@@ -95,25 +99,25 @@ bool AmlipGenericTopicDataType<T>::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    T* p_type = static_cast<T*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        T* p_type = static_cast<T*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
-        p_type->deserialize(deser);
+        deser >> *p_type;
     }
-    catch (eprosima::fastcdr::exception::NotEnoughMemoryException& /*exception*/)
+    catch (eprosima::fastcdr::exception::Exception& /*exception*/)
     {
         return false;
     }
@@ -123,13 +127,27 @@ bool AmlipGenericTopicDataType<T>::deserialize(
 
 template <class T>
 std::function<uint32_t()> AmlipGenericTopicDataType<T>::getSerializedSizeProvider(
-        void* data)
+        void* data,
+        DataRepresentationId_t data_representation)
 {
-    return [data]() -> uint32_t
+    return [data, data_representation]() -> uint32_t
            {
-               return static_cast<uint32_t>(T::get_cdr_serialized_size(*static_cast<T*>(data))) +
-                      4u /*encapsulation*/;
+               try
+               {
+                   eprosima::fastcdr::CdrSizeCalculator calculator(
+                       data_representation == DataRepresentationId_t::XCDR_DATA_REPRESENTATION ?
+                       eprosima::fastcdr::CdrVersion::XCDRv1 :eprosima::fastcdr::CdrVersion::XCDRv2);
+                   size_t current_alignment {0};
+                   return static_cast<uint32_t>(calculator.calculate_serialized_size(
+                              *static_cast<T*>(data), current_alignment)) +
+                          4u /*encapsulation*/;
+               }
+               catch (eprosima::fastcdr::exception::Exception& /*exception*/)
+               {
+                   return 0;
+               }
            };
+
 }
 
 template <class T>
@@ -155,7 +173,7 @@ bool AmlipGenericTopicDataType<T>::getKey(
     if (force_md5 || T::get_key_max_cdr_serialized_size() > 16)
     {
         md5_.init();
-        md5_.update(key_buffer_, static_cast<unsigned int>(ser.getSerializedDataLength()));
+        md5_.update(key_buffer_, static_cast<unsigned int>(ser.get_serialized_data_length()));
         md5_.finalize();
         for (uint8_t i = 0; i < 16; ++i)
         {

@@ -24,19 +24,13 @@ char dummy;
 }  // namespace
 #endif  // _WINID_SIZE
 
-#include <fastcdr/Cdr.h>
-
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
-
-#include <array>
-#include <stdlib.h>
-
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/types/cast.hpp>
 #include <cpp_utils/utils.hpp>
 
 #include <amlip_cpp/types/GenericDataType.hpp>
+
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -49,10 +43,11 @@ GenericDataType::GenericDataType(
         void* data,
         const uint32_t size,
         bool take_ownership /* = false */)
-    : data_(data)
-    , data_size_(size)
-    , has_been_allocated_(take_ownership)
 {
+    data_size_ = size;
+    data_ = malloc(size * sizeof(uint8_t));
+    std::memcpy(data_, data, size);
+    has_been_allocated_.store(take_ownership);
 }
 
 GenericDataType::GenericDataType()
@@ -184,6 +179,12 @@ bool GenericDataType::operator !=(
     return !(*this == x);
 }
 
+void GenericDataType::data(
+        void* data)
+{
+    data_ = data;
+}
+
 void* GenericDataType::data() const
 {
     return data_;
@@ -194,36 +195,25 @@ uint32_t GenericDataType::data_size() const
     return data_size_;
 }
 
+uint32_t& GenericDataType::data_size()
+{
+    return data_size_;
+}
+
 std::string GenericDataType::type_name()
 {
     return TYPE_NAME_;
 }
 
-void GenericDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
+bool GenericDataType::has_been_allocated() const
 {
-    scdr << data_size_;
-    scdr.serializeArray(static_cast<uint8_t*>(data_), data_size_);
+    return has_been_allocated_.load();
 }
 
-void GenericDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
+void GenericDataType::has_been_allocated(
+        bool take_ownership)
 {
-    // If data has been already allocated (it has been already deserialized), we free it
-    if (has_been_allocated_)
-    {
-        free(data_);
-    }
-
-    dcdr >> data_size_;
-
-    // Store enough space to deserialize the data
-    data_ = malloc(data_size_ * sizeof(uint8_t));
-    // Deserialize array
-    dcdr.deserializeArray(static_cast<uint8_t*>(data_), data_size_);
-
-    // Set as this data has been allocated by this class
-    has_been_allocated_.store(true);
+    has_been_allocated_.store(take_ownership);
 }
 
 void GenericDataType::serialize_key(
@@ -310,3 +300,6 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include <types/impl/GenericDataTypeCdrAux.ipp>

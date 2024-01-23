@@ -33,7 +33,7 @@ TEST(amlipIdTest, create_id)
     AmlipIdDataType id = AmlipIdDataType::new_unique_id(name);
 
     ASSERT_TRUE(id.is_defined());
-    ASSERT_EQ(id.name(), name.substr(0, eprosima::amlip::types::NAME_SIZE));
+    ASSERT_EQ(id.name(), name);
 }
 
 /**
@@ -60,7 +60,8 @@ TEST(amlipIdTest, serialization_deserialization)
     AmlipIdDataType id = AmlipIdDataType("TestNode");
     AmlipGenericTopicDataType<AmlipIdDataType> data_type;
 
-    SerializedPayload_t payload = SerializedPayload_t(64);
+    SerializedPayload_t payload(static_cast<uint32_t>(data_type.getSerializedSizeProvider(static_cast<AmlipIdDataType*>(
+                &id))()));
 
     data_type.serialize(static_cast<AmlipIdDataType*>(&id), &payload);
 

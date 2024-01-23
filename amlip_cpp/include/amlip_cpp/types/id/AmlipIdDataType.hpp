@@ -30,12 +30,6 @@
 
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
-namespace eprosima {
-namespace fastcdr {
-class Cdr;
-} // namespace fastcdr
-} // namespace eprosima
-
 
 namespace eprosima {
 namespace amlip {
@@ -156,6 +150,13 @@ public:
             const std::array<uint8_t, NAME_SIZE>& name);
 
     /*!
+     * @brief This function copies the value in member \c name_
+     * @param name New value to be copied in member id \c name_
+     */
+    AMLIP_CPP_DllAPI void name(
+            const std::string& name);
+
+    /*!
      * @brief This function gets the value in member \c name as array of octets
      * @return Value of member \c name_ as array of octets
      */
@@ -166,6 +167,12 @@ public:
      * @return Value of member \c rand_id_ as array of octets
      */
     AMLIP_CPP_DllAPI std::array<uint8_t, RAND_SIZE> id() const;
+
+    /*!
+     * @brief This function returns reference to \c rand_id_
+     * @return Reference to \c rand_id_
+     */
+    AMLIP_CPP_DllAPI std::array<uint8_t, RAND_SIZE>& id();
 
     /*!
      * @brief This function copies the value in member \c rand_id_
@@ -220,20 +227,6 @@ public:
 
     /////
     // InterfaceDataType methods
-
-    /*!
-     * @brief This function serializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function deserializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
@@ -324,6 +317,14 @@ protected:
      */
     AMLIP_CPP_DllAPI static std::array<uint8_t, NAME_SIZE> str_name_to_array_(
             const std::string& name);
+
+    /*!
+     * @brief This function converts a vector of octets of fixed size to a string.
+     * @param name Value to be converted given as vector of octets of fixed size
+     * @return Converted value to a string
+     */
+    AMLIP_CPP_DllAPI static std::string array_name_to_str_(
+            const std::array<uint8_t, NAME_SIZE>& name);
 
     /*!
      * @brief This function generates a random name as a fixed-length array of octets
