@@ -13,14 +13,14 @@
 // limitations under the License.
 
 /*!
- * @file StatusDataType.cpp
+ * @file StatusDataTypev1.cpp
  */
 
 #include <amlip_cpp/types/status/StatusDataType.hpp>
 
-#if FASTCDR_VERSION_MAJOR > 1
+#if FASTCDR_VERSION_MAJOR == 1
 
-#include <fastdds/rtps/common/CdrSerialization.hpp>
+#include <fastcdr/Cdr.h>
 
 #include <cpp_utils/utils.hpp>
 
@@ -65,27 +65,12 @@ AmlipIdDataType StatusDataType::id() const noexcept
     return id_;
 }
 
-AmlipIdDataType& StatusDataType::id() noexcept
-{
-    return id_;
-}
-
 NodeKind StatusDataType::node_kind() const noexcept
 {
     return node_kind_;
 }
 
-NodeKind& StatusDataType::node_kind() noexcept
-{
-    return node_kind_;
-}
-
 StateKind StatusDataType::state() const noexcept
-{
-    return state_;
-}
-
-StateKind& StatusDataType::state() noexcept
 {
     return state_;
 }
@@ -98,6 +83,32 @@ bool StatusDataType::is_defined() const noexcept
 std::string StatusDataType::to_string() const noexcept
 {
     return utils::generic_to_string(*this);
+}
+
+void StatusDataType::serialize(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+    scdr << id_;
+    scdr << (uint32_t)node_kind_;
+    scdr << (uint32_t)state_;
+}
+
+void StatusDataType::deserialize(
+        eprosima::fastcdr::Cdr& dcdr)
+{
+    dcdr >> id_;
+
+    {
+        uint32_t enum_value = 0;
+        dcdr >> enum_value;
+        node_kind_ = (NodeKind)enum_value;
+    }
+
+    {
+        uint32_t enum_value = 0;
+        dcdr >> enum_value;
+        state_ = (StateKind)enum_value;
+    }
 }
 
 void StatusDataType::serialize_key(
@@ -168,7 +179,4 @@ std::ostream& operator <<(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-// Include auxiliary functions like for serializing/deserializing.
-#include  <types/status/impl/StatusDataTypeCdrAux.ipp>
-
-#endif // FASTCDR_VERSION_MAJOR > 1
+#endif // FASTCDR_VERSION_MAJOR == 1

@@ -13,13 +13,12 @@
 // limitations under the License.
 
 /*!
- * @file MsRequestDataType.hpp
+ * @file MsRequestDataTypev1.hpp
  */
 
 #include <fastcdr/config.h>
-#include "MsRequestDataTypev1.hpp"
 
-#if FASTCDR_VERSION_MAJOR > 1
+#if FASTCDR_VERSION_MAJOR == 1
 
 #ifndef AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
 #define AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
@@ -33,6 +32,11 @@
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
+namespace eprosima {
+namespace fastcdr {
+class Cdr;
+} // namespace fastcdr
+} // namespace eprosima
 
 namespace eprosima {
 namespace amlip {
@@ -119,13 +123,8 @@ public:
     /*!
      * TODO
      */
-    AmlipIdDataType& client_id();
-
-    /*!
-     * TODO
-     */
     void client_id(
-            AmlipIdDataType& new_value);
+            const AmlipIdDataType& new_value);
 
     /*!
      * TODO
@@ -135,17 +134,25 @@ public:
     /*!
      * TODO
      */
-    TaskId& task_id();
-
-    /*!
-     * TODO
-     */
     void task_id(
-            TaskId& new_value);
+            const TaskId& new_value);
 
     /////
     // InterfaceDataType methods
 
+    /*!
+     * @brief This function serializes an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+    /*!
+     * @brief This function deserializes an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
@@ -237,4 +244,4 @@ std::ostream& operator <<(
 
 #endif // AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
 
-#endif // FASTCDR_VERSION_MAJOR > 1
+#endif // FASTCDR_VERSION_MAJOR == 1

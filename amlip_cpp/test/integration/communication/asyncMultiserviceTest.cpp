@@ -447,6 +447,8 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
     }
 }
 
+#if FASTCDR_VERSION_MAJOR > 1
+
 namespace eprosima {
 namespace fastcdr {
 
@@ -546,6 +548,8 @@ void deserialize(
 
 } // namespace fastcdr
 } // namespace eprosima
+
+#endif // FASTCDR_VERSION_MAJOR > 1
 
 int main(
         int argc,

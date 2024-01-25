@@ -47,3 +47,4 @@ namespace std {
 
 // Include the class interfaces
 %include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+%include <amlip_cpp/types/id/AmlipIdDataTypev1.hpp>

@@ -179,6 +179,8 @@ TEST(MultiServiceTest, communicate_service_n_to_n)
     }
 }
 
+#if FASTCDR_VERSION_MAJOR > 1
+
 #include <fastcdr/exceptions/BadParamException.h>
 using namespace eprosima::fastcdr::exception;
 
@@ -281,6 +283,8 @@ void deserialize(
 
 } // namespace fastcdr
 } // namespace eprosima
+
+#endif // FASTCDR_VERSION_MAJOR > 1
 
 int main(
         int argc,

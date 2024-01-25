@@ -16,6 +16,11 @@
  * @file MsReferenceDataType.hpp
  */
 
+#include <fastcdr/config.h>
+#include "MsReferenceDataTypev1.hpp"
+
+#if FASTCDR_VERSION_MAJOR > 1
+
 #ifndef AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
 #define AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
 
@@ -215,3 +220,5 @@ std::ostream& operator <<(
 } /* namespace eprosima */
 
 #endif // AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+
+#endif // FASTCDR_VERSION_MAJOR > 1

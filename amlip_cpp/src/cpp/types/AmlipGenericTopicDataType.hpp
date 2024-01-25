@@ -19,7 +19,10 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_AMLIPGENERICTOPICDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_AMLIPGENERICTOPICDATATYPE_HPP
 
+#include <fastdds/dds/core/policy/QosPolicies.hpp>
 #include <fastdds/dds/topic/TopicDataType.hpp>
+#include <fastdds/rtps/common/InstanceHandle.h>
+#include <fastdds/rtps/common/SerializedPayload.h>
 #include <fastrtps/utils/md5.h>
 
 #include <cpp_utils/macros/macros.hpp>

@@ -13,13 +13,12 @@
 // limitations under the License.
 
 /*!
- * @file TemplatesDataType.hpp
+ * @file TemplatesDataTypev1.hpp
  */
 
 #include <fastcdr/config.h>
-#include "TemplatesDataTypev1.hpp"
 
-#if FASTCDR_VERSION_MAJOR > 1
+#if FASTCDR_VERSION_MAJOR == 1
 
 #ifndef AMLIPCPP_TYPES_TEMPLATESDATATYPE_HPP
 #define AMLIPCPP_TYPES_TEMPLATESDATATYPE_HPP
@@ -29,6 +28,12 @@
 #include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
+namespace eprosima {
+namespace fastcdr {
+// Forward declaration of the CDR class
+class Cdr;
+} // namespace fastcdr
+} // namespace eprosima
 
 namespace eprosima {
 namespace amlip {
@@ -61,16 +66,29 @@ public:
             MsReferenceDataType&& reference,
             T&& data);
 
+    /*!
+     * @brief This function serializes an object using CDR serialization.
+     *
+     * @param cdr CDR serialization object.
+     */
+    virtual void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+    /*!
+     * @brief This function deserializes an object using CDR serialization.
+     *
+     * @param cdr CDR serialization object.
+     */
+    virtual void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      *
      * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
      */
     virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
+            eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -155,8 +173,6 @@ public:
     static std::string type_name();
 
     const T& data() const;
-
-    T& data();
 
     void data(
             T new_value);
@@ -257,11 +273,6 @@ public:
     AmlipIdDataType client_id() const;
 
     /*!
-     * @brief Returns reference of attribute \c client_id_
-     */
-    AmlipIdDataType& client_id();
-
-    /*!
      * @brief This function copies the value in member \c client_id_
      * @param new_value New value to be copied in member id \c client_id_
      */
@@ -274,11 +285,6 @@ public:
     TaskId task_id() const;
 
     /*!
-     * @brief Returns reference of attribute \c task_id_
-     */
-    TaskId& task_id();
-
-    /*!
      * @brief This function copies the value in member \c task_id_
      * @param new_value New value to be copied in member id \c task_id_
      */
@@ -286,14 +292,9 @@ public:
             const TaskId& new_value);
 
     /*!
-     * @brief Returns value of attribute \c server_id_
+     * @brief Return value of attribute \c server_id_
      */
     AmlipIdDataType server_id() const;
-
-    /*!
-     * @brief Returns reference of attribute \c server_id_
-     */
-    AmlipIdDataType& server_id();
 
     /*!
      * @brief This function copies the value in member \c server_id_
@@ -306,14 +307,28 @@ public:
     // InterfaceDataType methods
 
     /*!
+     * @brief This function serializes an object using CDR serialization.
+     *
+     * @param cdr CDR serialization object.
+     */
+    virtual void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+    /*!
+     * @brief This function deserializes an object using CDR serialization.
+     *
+     * @param cdr CDR serialization object.
+     */
+    virtual void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
+
+    /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      *
      * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
      */
     virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
+            eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -401,8 +416,6 @@ public:
      * @brief Return value of attribute \c data_
      */
     const T& data() const;
-
-    T& data();
 
     /*!
      * @brief This function copies the value in member \c data_
@@ -515,14 +528,9 @@ public:
             const RpcReplyDataType& x) const;
 
     /*!
-     * @brief Returns value of attribute \c client_id_
+     * @brief Return value of attribute \c client_id_
      */
     AmlipIdDataType client_id() const;
-
-    /*!
-     * @brief Returns reference of attribute \c client_id_
-     */
-    AmlipIdDataType& client_id();
 
     /*!
      * @brief This function copies the value in member \c client_id_
@@ -532,14 +540,9 @@ public:
             const AmlipIdDataType& new_value);
 
     /*!
-     * @brief Returns value of attribute \c task_id_
+     * @brief Return value of attribute \c task_id_
      */
     TaskId task_id() const;
-
-    /*!
-     * @brief Returns reference of attribute \c task_id_
-     */
-    TaskId& task_id();
 
     /*!
      * @brief This function copies the value in member \c task_id_
@@ -549,14 +552,9 @@ public:
             const TaskId& new_value);
 
     /*!
-     * @brief Returns value of attribute \c server_id_
+     * @brief Return value of attribute \c server_id_
      */
     AmlipIdDataType server_id() const;
-
-    /*!
-     * @brief Returns reference of attribute \c server_id_
-     */
-    AmlipIdDataType& server_id();
 
     /*!
      * @brief This function copies the value in member \c server_id_
@@ -569,14 +567,28 @@ public:
     // InterfaceDataType methods
 
     /*!
+     * @brief This function serializes an object using CDR serialization.
+     *
+     * @param cdr CDR serialization object.
+     */
+    virtual void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+    /*!
+     * @brief This function deserializes an object using CDR serialization.
+     *
+     * @param cdr CDR serialization object.
+     */
+    virtual void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
+
+    /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      *
      * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
      */
     virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
+            eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -665,8 +677,6 @@ public:
      */
     const T& data() const;
 
-    T& data();
-
     /*!
      * @brief This function copies the value in member \c data_
      * @param new_value New value to be copied in member id \c data_
@@ -697,11 +707,8 @@ std::ostream& operator <<(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-// Include auxiliary functions like for serializing/deserializing.
-#include <amlip_cpp/types/impl/TemplatesDataTypeCdrAux.ipp>
-
-#include <amlip_cpp/types/impl/TemplatesDataType.ipp>
+#include <amlip_cpp/types/impl/TemplatesDataTypev1.ipp>
 
 #endif // AMLIPCPP_TYPES_TEMPLATESDATATYPE_HPP
 
-#endif // FASTCDR_VERSION_MAJOR > 1
+#endif // FASTCDR_VERSION_MAJOR == 1

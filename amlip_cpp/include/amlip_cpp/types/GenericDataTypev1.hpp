@@ -13,14 +13,13 @@
 // limitations under the License.
 
 /*!
- * @file GenericDataType.hpp
+ * @file GenericDataTypev1.hpp
  * This header file contains the declaration of a generic type that contains void* data.
  */
 
 #include <fastcdr/config.h>
-#include "GenericDataTypev1.hpp"
 
-#if FASTCDR_VERSION_MAJOR > 1
+#if FASTCDR_VERSION_MAJOR == 1
 
 #ifndef AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
 #define AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
@@ -31,6 +30,12 @@
 
 #include <amlip_cpp/library/library_dll.h>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
+
+namespace eprosima {
+namespace fastcdr {
+class Cdr;
+} // namespace fastcdr
+} // namespace eprosima
 
 
 namespace eprosima {
@@ -121,46 +126,36 @@ public:
             const GenericDataType& x) const;
 
     /*!
-     * @brief This function copies the value in member \c data_
-     * @param data New value to be copied in member id \c data_
-     */
-    AMLIP_CPP_DllAPI void data(
-            void* data);
-
-    /*!
-     * @brief Returns value of attribute \c data_
+     * @brief Return value of attribute \c data_
      */
     AMLIP_CPP_DllAPI void* data() const;
 
     /*!
-     * @brief Returns value of attribute \c data_size_
+     * @brief Return value of attribute \c data__size_
      */
     AMLIP_CPP_DllAPI uint32_t data_size() const;
-
-    /*!
-     * @brief Returns reference to attribute \c data_size_
-     */
-    AMLIP_CPP_DllAPI uint32_t& data_size();
 
     /*!
      * @brief This function returns the name of this specific data type
      */
     AMLIP_CPP_DllAPI static std::string type_name();
 
-    /*!
-     * @brief This function returns value of attribute \c has_been_allocated_
-     */
-    AMLIP_CPP_DllAPI bool has_been_allocated() const;
-
-    /*!
-     * @brief This function copies the value in member \c has_been_allocated_
-     * @param take_ownership New value to be copied in member \c has_been_allocated_
-     */
-    AMLIP_CPP_DllAPI void has_been_allocated(
-            bool take_ownership);
-
     /////
     // InterfaceDataType methods
+
+    /*!
+     * @brief This function serializes an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    AMLIP_CPP_DllAPI void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+    /*!
+     * @brief This function deserializes an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    AMLIP_CPP_DllAPI void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
@@ -252,4 +247,4 @@ std::ostream& operator <<(
 
 #endif // AMLIP__SRC_CPP_TYPES_GENERICDATATYPE_HPP
 
-#endif // FASTCDR_VERSION_MAJOR > 1
+#endif // FASTCDR_VERSION_MAJOR == 1

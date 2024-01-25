@@ -15,6 +15,8 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+
 #include <dds/DdsHandler.hpp>
 #include <dds/Participant.hpp>
 

@@ -13,17 +13,20 @@
 // limitations under the License.
 
 /*!
- * @file TemplatesDataType.ipp
+ * @file TemplatesDataTypev1.ipp
  */
 
-#if FASTCDR_VERSION_MAJOR > 1
+#if FASTCDR_VERSION_MAJOR == 1
 
 #ifndef AMLIPCPP_TYPES_TEMPLATESDATATYPE_IPP
 #define AMLIPCPP_TYPES_TEMPLATESDATATYPE_IPP
 
+#include <fastdds/rtps/common/CdrSerialization.hpp>
+
 namespace eprosima {
 namespace amlip {
 namespace types {
+
 
 template <typename T>
 const char* MsDataType<T>::DATA_TYPE_PREFIX_NAME_ = "ms_data_";
@@ -60,6 +63,22 @@ MsDataType<T>::MsDataType(
     : MsReferenceDataType(std::move(reference))
     , data_(std::move(data))
 {
+}
+
+template <typename T>
+void MsDataType<T>::serialize(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+    MsReferenceDataType::serialize(scdr);
+    scdr << data_;
+}
+
+template <typename T>
+void MsDataType<T>::deserialize(
+        eprosima::fastcdr::Cdr& dcdr)
+{
+    MsReferenceDataType::deserialize(dcdr);
+    dcdr >> data_;
 }
 
 template <typename T>
@@ -147,12 +166,6 @@ std::string MsDataType<T>::type_name()
 
 template <typename T>
 const T& MsDataType<T>::data() const
-{
-    return data_;
-}
-
-template <typename T>
-T& MsDataType<T>::data()
 {
     return data_;
 }
@@ -282,12 +295,6 @@ AmlipIdDataType RpcRequestDataType<T>::client_id() const
 }
 
 template <typename T>
-AmlipIdDataType& RpcRequestDataType<T>::client_id()
-{
-    return client_id_;
-}
-
-template <typename T>
 void RpcRequestDataType<T>::client_id(
         const AmlipIdDataType& new_value)
 {
@@ -296,12 +303,6 @@ void RpcRequestDataType<T>::client_id(
 
 template <typename T>
 TaskId RpcRequestDataType<T>::task_id() const
-{
-    return task_id_;
-}
-
-template <typename T>
-TaskId& RpcRequestDataType<T>::task_id()
 {
     return task_id_;
 }
@@ -320,16 +321,30 @@ AmlipIdDataType RpcRequestDataType<T>::server_id() const
 }
 
 template <typename T>
-AmlipIdDataType& RpcRequestDataType<T>::server_id()
-{
-    return server_id_;
-}
-
-template <typename T>
 void RpcRequestDataType<T>::server_id(
         const AmlipIdDataType& new_value)
 {
     server_id_ = new_value;
+}
+
+template <typename T>
+void RpcRequestDataType<T>::serialize(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+    scdr << client_id_;
+    scdr << task_id_;
+    scdr << server_id_;
+    scdr << data_;
+}
+
+template <typename T>
+void RpcRequestDataType<T>::deserialize(
+        eprosima::fastcdr::Cdr& dcdr)
+{
+    dcdr >> client_id_;
+    dcdr >> task_id_;
+    dcdr >> server_id_;
+    dcdr >> data_;
 }
 
 template <typename T>
@@ -421,12 +436,6 @@ std::string RpcRequestDataType<T>::type_name()
 
 template <typename T>
 const T& RpcRequestDataType<T>::data() const
-{
-    return data_;
-}
-
-template <typename T>
-T& RpcRequestDataType<T>::data()
 {
     return data_;
 }
@@ -564,12 +573,6 @@ AmlipIdDataType RpcReplyDataType<T>::client_id() const
 }
 
 template <typename T>
-AmlipIdDataType& RpcReplyDataType<T>::client_id()
-{
-    return client_id_;
-}
-
-template <typename T>
 void RpcReplyDataType<T>::client_id(
         const AmlipIdDataType& new_value)
 {
@@ -578,12 +581,6 @@ void RpcReplyDataType<T>::client_id(
 
 template <typename T>
 TaskId RpcReplyDataType<T>::task_id() const
-{
-    return task_id_;
-}
-
-template <typename T>
-TaskId& RpcReplyDataType<T>::task_id()
 {
     return task_id_;
 }
@@ -602,16 +599,30 @@ AmlipIdDataType RpcReplyDataType<T>::server_id() const
 }
 
 template <typename T>
-AmlipIdDataType& RpcReplyDataType<T>::server_id()
-{
-    return server_id_;
-}
-
-template <typename T>
 void RpcReplyDataType<T>::server_id(
         const AmlipIdDataType& new_value)
 {
     server_id_ = new_value;
+}
+
+template <typename T>
+void RpcReplyDataType<T>::serialize(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+    scdr << client_id_;
+    scdr << task_id_;
+    scdr << server_id_;
+    scdr << data_;
+}
+
+template <typename T>
+void RpcReplyDataType<T>::deserialize(
+        eprosima::fastcdr::Cdr& dcdr)
+{
+    dcdr >> client_id_;
+    dcdr >> task_id_;
+    dcdr >> server_id_;
+    dcdr >> data_;
 }
 
 template <typename T>
@@ -708,12 +719,6 @@ const T& RpcReplyDataType<T>::data() const
 }
 
 template <typename T>
-T& RpcReplyDataType<T>::data()
-{
-    return data_;
-}
-
-template <typename T>
 void RpcReplyDataType<T>::data(
         T new_value)
 {
@@ -735,4 +740,4 @@ std::ostream& operator <<(
 
 #endif // AMLIPCPP_TYPES_TEMPLATESDATATYPE_IPP
 
-#endif // FASTCDR_VERSION_MAJOR > 1
+#endif // FASTCDR_VERSION_MAJOR == 1

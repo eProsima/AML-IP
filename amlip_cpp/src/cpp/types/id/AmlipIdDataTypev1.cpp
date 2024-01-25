@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*!
- * @file AmlipIdDataType.cpp
+ * @file AmlipIdDataTypev1.cpp
  */
 
 #ifdef _WINID_SIZE
@@ -25,18 +25,24 @@ char dummy;     // TODO: Check whether this is actually useful and remove if not
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
-#if FASTCDR_VERSION_MAJOR > 1
+#if FASTCDR_VERSION_MAJOR == 1
+
+#include <fastcdr/Cdr.h>
+
+#include <fastcdr/exceptions/BadParamException.h>
+using namespace eprosima::fastcdr::exception;
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <iomanip>
 #include <random>
+#include <sstream>
+#include <string>
 #include <utility>
 
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/math/random/TSafeRandomManager.hpp>
-
-#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -147,7 +153,15 @@ bool AmlipIdDataType::operator <(
 
 std::string AmlipIdDataType::name() const
 {
-    return array_name_to_str_(name_);
+    auto it = std::find(name_.begin(), name_.end(), '\0');
+    if (it != name_.end())
+    {
+        return std::string(std::begin(name_), it);
+    }
+    else
+    {
+        return std::string(std::begin(name_), std::end(name_));
+    }
 }
 
 void AmlipIdDataType::name(
@@ -156,23 +170,12 @@ void AmlipIdDataType::name(
     name_ = name;
 }
 
-void AmlipIdDataType::name(
-        const std::string& name)
-{
-    name_ = str_name_to_array_(name);
-}
-
 std::array<uint8_t, NAME_SIZE> AmlipIdDataType::base64_name() const
 {
     return name_;
 }
 
 std::array<uint8_t, RAND_SIZE> AmlipIdDataType::id() const
-{
-    return rand_id_;
-}
-
-std::array<uint8_t, RAND_SIZE>& AmlipIdDataType::id()
 {
     return rand_id_;
 }
@@ -257,20 +260,6 @@ std::array<uint8_t, NAME_SIZE> AmlipIdDataType::str_name_to_array_(
     return char_name_to_array_(name.c_str());
 }
 
-std::string AmlipIdDataType::array_name_to_str_(
-        const std::array<uint8_t, NAME_SIZE>& name)
-{
-    auto it = std::find(name.begin(), name.end(), '\0');
-    if (it != name.end())
-    {
-        return std::string(std::begin(name), it);
-    }
-    else
-    {
-        return std::string(std::begin(name), std::end(name));
-    }
-}
-
 std::array<uint8_t, NAME_SIZE> AmlipIdDataType::random_name_()
 {
     // make sure a random seed is properly set in the main scope
@@ -298,6 +287,20 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
     }
 
     return rand_id;
+}
+
+void AmlipIdDataType::serialize(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+    scdr << name_;
+    scdr << rand_id_;
+}
+
+void AmlipIdDataType::deserialize(
+        eprosima::fastcdr::Cdr& dcdr)
+{
+    dcdr >> name_;
+    dcdr >> rand_id_;
 }
 
 void AmlipIdDataType::serialize_key(
@@ -362,7 +365,4 @@ std::ostream& operator <<(
 } /* namespace amlip */
 } /* namespace eprosima */
 
-// Include auxiliary functions like for serializing/deserializing.
-#include  <types/id/impl/AmlipIdDataTypeCdrAux.ipp>
-
-#endif // FASTCDR_VERSION_MAJOR > 1
+#endif // FASTCDR_VERSION_MAJOR == 1
