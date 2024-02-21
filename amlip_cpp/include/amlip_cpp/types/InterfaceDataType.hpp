@@ -48,26 +48,6 @@ class AMLIP_CPP_DllAPI InterfaceDataType
 public:
 
     /*!
-     * @brief This function serializes an object using CDR serialization.
-     *
-     * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    virtual void serialize(
-            eprosima::fastcdr::Cdr& cdr) const = 0;
-
-    /*!
-     * @brief This function deserializes an object using CDR serialization.
-     *
-     * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    virtual void deserialize(
-            eprosima::fastcdr::Cdr& cdr) = 0;
-
-    /*!
      * @brief This function serializes the key members of an object using CDR serialization.
      *
      * @param cdr CDR serialization object.

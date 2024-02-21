@@ -19,6 +19,19 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_PARTICIPANT_HPP
 #define AMLIPCPP__SRC_CPP_DDS_PARTICIPANT_HPP
 
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <dds/multiservice/MultiServiceClient.hpp>
+#include <dds/multiservice/MultiServiceServer.hpp>
+#include <dds/multiservice/AsyncMultiServiceClient.hpp>
+#include <dds/multiservice/AsyncMultiServiceServer.hpp>
+#include <dds/rpc/RPCClient.hpp>
+#include <dds/rpc/RPCServer.hpp>
+#include <dds/DdsHandler.hpp>
+#include <dds/DirectWriter.hpp>
+#include <dds/Reader.hpp>
+#include <dds/TargetedReader.hpp>
+#include <dds/Writer.hpp>
+
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
@@ -27,19 +40,6 @@
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 
 #include <cpp_utils/memory/owner_ptr.hpp>
-
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <dds/DdsHandler.hpp>
-#include <dds/DirectWriter.hpp>
-#include <dds/Reader.hpp>
-#include <dds/TargetedReader.hpp>
-#include <dds/Writer.hpp>
-#include <dds/multiservice/MultiServiceClient.hpp>
-#include <dds/multiservice/MultiServiceServer.hpp>
-#include <dds/multiservice/AsyncMultiServiceClient.hpp>
-#include <dds/multiservice/AsyncMultiServiceServer.hpp>
-#include <dds/rpc/RPCClient.hpp>
-#include <dds/rpc/RPCServer.hpp>
 
 namespace eprosima {
 namespace amlip {

@@ -1,4 +1,4 @@
-// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2022 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,15 @@
 // limitations under the License.
 
 /*!
- * @file RpcReplyDataType.hpp
+ * @file MsRequestDataTypev1.hpp
  */
 
-#ifndef AMLIPCPP_TYPES_RPCREPLYDATATYPE_HPP
-#define AMLIPCPP_TYPES_RPCREPLYDATATYPE_HPP
+#include <fastcdr/config.h>
+
+#if FASTCDR_VERSION_MAJOR == 1
+
+#ifndef AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
+#define AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
 
 #include <array>
 #include <limits>
@@ -30,7 +34,6 @@
 
 namespace eprosima {
 namespace fastcdr {
-// Forward declaration of the CDR class
 class Cdr;
 } // namespace fastcdr
 } // namespace eprosima
@@ -39,216 +42,165 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-
-template <typename T>
-class RpcReplyDataType : public InterfaceDataType
+/*!
+ * TODO
+ */
+class MsRequestDataType : public InterfaceDataType
 {
-
-    FORCE_TEMPLATE_SUBCLASS(types::InterfaceDataType, T);
-
 public:
 
     /**
-     * @brief Default constructor.
+     * TODO
      */
-    RpcReplyDataType();
+    MsRequestDataType();
 
-    /**
-     * @brief Construct a new RpcReplyDataType object.
-     *
-     * @param client_id Id of the Participant (associated with the RPC Client)
-     * @param task_id Id of the task
-     * @param server_id Id of the Participant (associated with the RPC Server)
-     * @param data
-     *
+    /*!
+     * @brief Constructor with name.
      */
-    RpcReplyDataType(
-            const AmlipIdDataType& client_id,
-            const TaskId& task_id,
-            const AmlipIdDataType& server_id,
-            const T& data);
+    MsRequestDataType(
+            const AmlipIdDataType client_id,
+            const TaskId& task_id);
 
     /*!
      * @brief Default destructor.
      */
-    virtual ~RpcReplyDataType();
+    virtual ~MsRequestDataType();
 
     /*!
      * @brief Copy constructor.
-     * @param x Reference to the object RpcReplyDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    RpcReplyDataType(
-            const RpcReplyDataType& x);
+    MsRequestDataType(
+            const MsRequestDataType& x);
 
     /*!
      * @brief Move constructor.
-     * @param x Reference to the object RpcReplyDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    RpcReplyDataType(
-            RpcReplyDataType&& x);
+    MsRequestDataType(
+            MsRequestDataType&& x);
 
     /*!
      * @brief Copy assignment.
-     * @param x Reference to the object RpcReplyDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    RpcReplyDataType& operator =(
-            const RpcReplyDataType& x);
+    MsRequestDataType& operator =(
+            const MsRequestDataType& x);
 
     /*!
      * @brief Move assignment.
-     * @param x Reference to the object RpcReplyDataType that will be copied.
+     * @param x Reference to the object MsRequestDataType that will be copied.
      */
-    RpcReplyDataType& operator =(
-            RpcReplyDataType&& x);
+    MsRequestDataType& operator =(
+            MsRequestDataType&& x);
 
     /*!
      * @brief Comparison operator.
-     * @param x RpcReplyDataType object to compare.
+     * @param x MsRequestDataType object to compare.
      */
     bool operator ==(
-            const RpcReplyDataType& x) const;
+            const MsRequestDataType& x) const;
 
     /*!
      * @brief Comparison operator.
-     * @param x RpcReplyDataType object to compare.
+     * @param x MsRequestDataType object to compare.
      */
     bool operator !=(
-            const RpcReplyDataType& x) const;
+            const MsRequestDataType& x) const;
 
     /*!
      * @brief Comparison operator.
-     * @param x RpcReplyDataType object to compare.
+     * @param x MsRequestDataType object to compare.
      */
     bool operator <(
-            const RpcReplyDataType& x) const;
+            const MsRequestDataType& x) const;
 
     /*!
-     * @brief Return value of attribute \c client_id_
+     * TODO
      */
     AmlipIdDataType client_id() const;
 
     /*!
-     * @brief This function copies the value in member \c client_id_
-     * @param new_value New value to be copied in member id \c client_id_
+     * TODO
      */
     void client_id(
             const AmlipIdDataType& new_value);
 
     /*!
-     * @brief Return value of attribute \c task_id_
+     * TODO
      */
     TaskId task_id() const;
 
     /*!
-     * @brief This function copies the value in member \c task_id_
-     * @param new_value New value to be copied in member id \c task_id_
+     * TODO
      */
     void task_id(
             const TaskId& new_value);
-
-    /*!
-     * @brief Return value of attribute \c server_id_
-     */
-    AmlipIdDataType server_id() const;
-
-    /*!
-     * @brief This function copies the value in member \c server_id_
-     * @param new_value New value to be copied in member id \c server_id_
-     */
-    void server_id(
-            const AmlipIdDataType& new_value);
 
     /////
     // InterfaceDataType methods
 
     /*!
      * @brief This function serializes an object using CDR serialization.
-     *
      * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
      */
-    virtual void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
+    void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
-     *
      * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
      */
-    virtual void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
+    void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
-     *
      * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
      */
-    virtual void serialize_key(
+    void serialize_key(
             eprosima::fastcdr::Cdr& cdr) const override;
 
     /*!
      * @brief This function returns the maximum serialized size of an object
      * depending on the buffer alignment.
-     *
      * @param current_alignment Buffer alignment.
-     *
      * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
      */
     static size_t get_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function returns the serialized size of a data depending on the buffer alignment.
-
      * @param data Data which is calculated its serialized size.
      * @param current_alignment Buffer alignment.
-     *
      * @return Serialized size.
-     *
-     * @warning this method must be overriden in child class.
      */
     static size_t get_cdr_serialized_size(
-            const RpcReplyDataType& data,
+            const MsRequestDataType& data,
             size_t current_alignment = 0);
 
     /*!
      * @brief This function returns the maximum serialized size of the Key of an object
      * depending on the buffer alignment.
-     *
      * @param current_alignment Buffer alignment.
-     *
      * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
      */
     static size_t get_key_max_cdr_serialized_size(
             size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
-     *
-     * @warning this method must be overriden in child class.
      */
     static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
-     *
-     * @warning this method must be overriden in child class.
      */
     static bool is_bounded();
 
     /**
      * @brief Whether the type is plain
-     *
-     * @warning this method must be overriden in child class.
      */
     static bool is_plain();
 
@@ -260,8 +212,6 @@ public:
      * @param memory already allocated memory for the new data
      *
      * @return true if the construction was successful, false otherwise
-     *
-     * @warning this method must be overriden in child class.
      */
     static bool construct_sample(
             void* memory);
@@ -273,42 +223,25 @@ public:
      */
     static std::string type_name();
 
-    /*!
-     * @brief Return value of attribute \c data_
-     */
-    const T& data() const;
-
-    /*!
-     * @brief This function copies the value in member \c data_
-     * @param new_value New value to be copied in member id \c data_
-     */
-    void data(
-            T new_value);
-
 protected:
 
     AmlipIdDataType client_id_;
 
     TaskId task_id_;
 
-    AmlipIdDataType server_id_;
+    static const char* DATA_TYPE_NAME_; // "ms_request"
 
-    static const char* DATA_TYPE_PREFIX_NAME_;
-
-    T data_;
 };
 
-//! \c RpcReplyDataType to stream serializator
-template <typename T>
+//! \c MsRequestDataType to stream serializator
 std::ostream& operator <<(
         std::ostream& os,
-        const RpcReplyDataType<T>& reply);
+        const MsRequestDataType& request);
 
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
 
-// Include implementation template file
-#include <types/rpc/impl/RpcReplyDataType.ipp>
+#endif // AMLIP__SRC_CPP_TYPES_MSREQUESTDATATYPE_HPP
 
-#endif // AMLIPCPP_TYPES_RPCREPLYDATATYPE_HPP
+#endif // FASTCDR_VERSION_MAJOR == 1

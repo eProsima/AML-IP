@@ -16,10 +16,9 @@
  * @file MsReferenceDataType.cpp
  */
 
-#include <fastcdr/Cdr.h>
+#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
 
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
+#if FASTCDR_VERSION_MAJOR > 1
 
 #include <algorithm>
 #include <array>
@@ -27,7 +26,7 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
-#include <types/multiservice/MsReferenceDataType.hpp>
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -133,24 +132,15 @@ AmlipIdDataType MsReferenceDataType::server_id() const
     return server_id_;
 }
 
+AmlipIdDataType& MsReferenceDataType::server_id()
+{
+    return server_id_;
+}
+
 void MsReferenceDataType::server_id(
         const AmlipIdDataType& new_value)
 {
     server_id_ = new_value;
-}
-
-void MsReferenceDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
-{
-    MsRequestDataType::serialize(scdr);
-    scdr << server_id_;
-}
-
-void MsReferenceDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
-{
-    MsRequestDataType::deserialize(dcdr);
-    dcdr >> server_id_;
 }
 
 void MsReferenceDataType::serialize_key(
@@ -229,3 +219,8 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include  <types/multiservice/impl/MsReferenceDataTypeCdrAux.ipp>
+
+#endif // FASTCDR_VERSION_MAJOR > 1

@@ -13,8 +13,12 @@
 // limitations under the License.
 
 /*!
- * @file MsReferenceDataType.hpp
+ * @file MsReferenceDataTypev1.hpp
  */
+
+#include <fastcdr/config.h>
+
+#if FASTCDR_VERSION_MAJOR == 1
 
 #ifndef AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
 #define AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
@@ -25,7 +29,7 @@
 #include <string>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
-#include <types/multiservice/MsRequestDataType.hpp>
+#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
 
 namespace eprosima {
 namespace fastcdr {
@@ -130,14 +134,14 @@ public:
      * @param cdr CDR serialization object.
      */
     void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
+            eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
+            eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
@@ -228,3 +232,5 @@ std::ostream& operator <<(
 } /* namespace eprosima */
 
 #endif // AMLIP__SRC_CPP_TYPES_MSREFERENCEDATATYPE_HPP
+
+#endif // FASTCDR_VERSION_MAJOR == 1

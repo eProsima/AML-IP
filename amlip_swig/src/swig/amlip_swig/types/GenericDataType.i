@@ -36,5 +36,7 @@ namespace std {
 #include <amlip_cpp/types/GenericDataType.hpp>
 %}
 
+%include <fastcdr/config.h>
+
 // Include the class interfaces
 %include <amlip_cpp/types/GenericDataType.hpp>

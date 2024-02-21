@@ -19,7 +19,10 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_AMLIPGENERICTOPICDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_AMLIPGENERICTOPICDATATYPE_HPP
 
+#include <fastdds/dds/core/policy/QosPolicies.hpp>
 #include <fastdds/dds/topic/TopicDataType.hpp>
+#include <fastdds/rtps/common/InstanceHandle.h>
+#include <fastdds/rtps/common/SerializedPayload.h>
 #include <fastrtps/utils/md5.h>
 
 #include <cpp_utils/macros/macros.hpp>
@@ -70,7 +73,15 @@ public:
     //! \c serialize method overriden from \c TopicDataType
     virtual bool serialize(
             void* data,
-            eprosima::fastrtps::rtps::SerializedPayload_t* payload) override;
+            eprosima::fastrtps::rtps::SerializedPayload_t* payload) override
+    {
+        return serialize(data, payload, eprosima::fastdds::dds::DEFAULT_DATA_REPRESENTATION);
+    }
+
+    virtual bool serialize(
+            void* data,
+            eprosima::fastrtps::rtps::SerializedPayload_t* payload,
+            eprosima::fastdds::dds::DataRepresentationId_t data_representation) override;
 
     //! \c deserialize method overriden from \c TopicDataType
     virtual bool deserialize(
@@ -79,7 +90,14 @@ public:
 
     //! \c getSerializedSizeProvider method overriden from \c TopicDataType
     virtual std::function<uint32_t()> getSerializedSizeProvider(
-            void* data) override;
+            void* data) override
+    {
+        return getSerializedSizeProvider(data, eprosima::fastdds::dds::DEFAULT_DATA_REPRESENTATION);
+    }
+
+    virtual std::function<uint32_t()> getSerializedSizeProvider(
+            void* data,
+            eprosima::fastdds::dds::DataRepresentationId_t data_representation) override;
 
     //! \c getKey method overriden from \c TopicDataType
     virtual bool getKey(
