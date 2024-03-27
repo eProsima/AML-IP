@@ -4,10 +4,10 @@
   <name>amlip_swig_js</name>
   <version>0.1.0</version>
   <description>
-    eprosima AML IP SWIG
+    eProsima AML IP JavaScript wrapper with SWIG
   </description>
   <maintainer email="RaulSanchezMateos@eprosima.com">Raul Sánchez-Mateos</maintainer>
-  <maintainer email="irenebm@eprosima.com">Irene Bandera</maintainer>
+  <maintainer email="irenebandera@eprosima.com">Irene Bandera</maintainer>
   <maintainer email="juanlopez@eprosima.com">Juan López</maintainer>
   <license file="LICENSE">Apache 2.0</license>
 
@@ -16,12 +16,13 @@
   <url type="repository">https://github.com/eProsima/AML-IP</url>
 
   <buildtool_depend>cmake</buildtool_depend>
-  <!-- <buildtool_depend>ament_cmake_python</buildtool_depend> -->
 
   <depend>cmake_utils</depend>
   <depend>cpp_utils</depend>
   <depend>amlip_cpp</depend>
   <depend>ddspipe_participants</depend>
+
+  <test_depend>jest</test_depend>
 
   <export>
     <build_type>cmake</build_type>

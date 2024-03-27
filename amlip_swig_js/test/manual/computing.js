@@ -12,22 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-////////////////////////////////////////////////////////
-// Binding for class JobSolutionDataType
-////////////////////////////////////////////////////////
+const amlip_swig_js = require('/home/irenebm/eprosima/annapurna/AML-IP-ws/src/amlip/amlip_swig_js/build/Release/amlip_swig_js.node');
 
-// Import parent class
-%import(module="amlip_swig_js") "amlip_cpp/types/GenericDataType.hpp";
+console.log('Starting Manual Test Computing Node JS execution. Creating Node...')
 
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
+const computing_node = new amlip_swig_js.ComputingNode('computing_node_test');
+console.log('Node created.')
 
-%{
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+var job_listener = new amlip_swig_js.JobListenerJS()
+console.log('JobListenerJS created.')
 
-using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
-%}
+console.log('Processing job...')
+computing_node.process_job(job_listener)
 
-// Include the class interfaces
-%include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+console.log('Solution sent to client.')
+
+console.log('Finishing Manual Test Computing Node JS execution.')

@@ -12,24 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Test that importing amlip_swig_js does not give any error.
-
 const assert = require('assert');
 
-try {
-    require('/home/irenebm/eprosima/annapurna/AML-IP-ws/install/amlip_swig_js/lib/node_modules/amlip_swig_js/amlip_swig_js.so');
-} catch (error) {
-    console.error('Error importing amlip_swig_js:', error);
-    assert(false, 'Error importing amlip_swig_js')
-}
-
-// try {
-//     require('/home/irenebm/eprosima/annapurna/AML-IP-ws/install/amlip_swig_js/lib/node_modules/amlip_swig_js/amlip_swig_js.so');
-//     // If the module imports without throwing an error, the test passes
-//     expect(true).toBe(true);
-// } catch (error) {
-//     // If an error occurs during import, fail the test and log the error
-//     console.error('Error importing amlip_swig_js:', error);
-//     // Fail the test explicitly
-//     expect(true).toBe(false);
-// }
+// Test that importing amlip_swig_js does not give any error.
+test('Import amlip_swig_js module', () => {
+    console.log('TEST: Import amlip_swig_js module')
+    try {
+        require('/home/irenebm/eprosima/annapurna/AML-IP-ws/src/amlip/amlip_swig_js/build/Release/amlip_swig_js.node');
+        // If the module imports without throwing an error, the test passes
+        assert(true, 'amlip_swig_js module imports without errors')
+        console.log('amlip_swig_js module imports without errors')
+    } catch (error) {
+        // If an error occurs during import, fail the test and log the error
+        console.error('Error importing amlip_swig_js:', error);
+        assert(false, 'Error importing amlip_swig_js')
+    }
+});

@@ -35,21 +35,18 @@ if(UNIX AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     set_property(TARGET ${PROJECT_NAME} PROPERTY SWIG_COMPILE_DEFINITIONS SWIGWORDSIZE64)
 endif()
 
-target_link_libraries(${PROJECT_NAME}
-        amlip_cpp
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    amlip_cpp
     )
-
-SET (JAVASCRIPT_MODULE_PATH
-    ${LIB_INSTALL_DIR}/node_modules/${PROJECT_NAME}
-)
 
 # Install
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}-targets
-        DESTINATION ${JAVASCRIPT_MODULE_PATH}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
+
 get_property(support_files TARGET ${PROJECT_NAME} PROPERTY SWIG_SUPPORT_FILES)
-install(FILES ${support_files} DESTINATION ${JAVASCRIPT_MODULE_PATH})
+install(FILES ${support_files} DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-targets.cmake)
 

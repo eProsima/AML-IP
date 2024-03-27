@@ -13,21 +13,38 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobSolutionDataType
+// Binding for class ModelStatisticsDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_swig_js") "amlip_cpp/types/GenericDataType.hpp";
+%import(module="amlip_swig_js") "amlip_cpp/types/InterfaceDataType.hpp";
+
+namespace std {
+   %template(bytes) vector<uint8_t>;
+}
 
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
 
-%{
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+// Ignore overloaded methods that have no application on Python
+// Otherwise they will issue a warning
+%ignore eprosima::amlip::types::ModelStatisticsDataType::ModelStatisticsDataType(ModelStatisticsDataType&&);
+%ignore eprosima::amlip::types::operator <<(std::ostream &,const ModelStatisticsDataType&);
 
-using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
+// Declare the to string method
+%extend eprosima::amlip::types::ModelStatisticsDataType {
+    std::string __str__() const
+    {
+        return $self->to_string();
+    }
+}
+
+%{
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+%include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+%include <amlip_cpp/types/model/ModelStatisticsDataTypev1.hpp>
