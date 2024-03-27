@@ -59,7 +59,7 @@ jobs:
             select -first 1 id | % { "fastdds_job_id=" + $_.id } | Out-File $env:GITHUB_ENV -Append
 
       - name: Download eProsima dependencies
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow: build_eprosima_dependencies.yml
           path: ${{ github.workspace }}\..\eprosima\install
@@ -132,7 +132,7 @@ jobs:
           echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
 
       - name: Download eProsima dependencies
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow: build_eprosima_dependencies.yml
           path: /home/runner/work/eprosima/install
@@ -260,7 +260,7 @@ jobs:
           echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
 
       - name: Download eProsima dependencies
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow: build_eprosima_dependencies.yml
           path: /home/runner/work/eprosima/install
@@ -356,7 +356,7 @@ jobs:
           echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
 
       - name: Download eProsima dependencies
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow: build_eprosima_dependencies.yml
           path: /home/runner/work/eprosima/install
@@ -437,7 +437,7 @@ jobs:
           echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
 
       - name: Download eProsima dependencies
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow: build_eprosima_dependencies.yml
           path: /home/runner/work/eprosima/install
@@ -523,7 +523,7 @@ jobs:
           echo "eprosima_dependencies_job_id=${JOB_ID}" >> $GITHUB_ENV
 
       - name: Download eProsima dependencies
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow: build_eprosima_dependencies.yml
           path: /home/runner/work/eprosima/install
