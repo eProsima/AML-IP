@@ -19,10 +19,10 @@
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/exception/InconsistencyException.hpp>
 
-#include <dds/multiservice/AsyncMultiServiceClient.hpp>
+#include <amlip_cpp/node/AsyncEdgeNode.hpp>
+
 #include <dds/Participant.hpp>
 #include <dds/network_utils/topic.hpp>
-#include <amlip_cpp/node/AsyncEdgeNode.hpp>
 
 namespace eprosima {
 namespace amlip {

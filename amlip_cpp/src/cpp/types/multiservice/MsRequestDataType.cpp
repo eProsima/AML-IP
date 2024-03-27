@@ -16,10 +16,9 @@
  * @file MsRequestDataType.cpp
  */
 
-#include <fastcdr/Cdr.h>
+#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
 
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
+#if FASTCDR_VERSION_MAJOR > 1
 
 #include <algorithm>
 #include <array>
@@ -27,7 +26,7 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
-#include <types/multiservice/MsRequestDataType.hpp>
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -117,8 +116,13 @@ AmlipIdDataType MsRequestDataType::client_id() const
     return client_id_;
 }
 
+AmlipIdDataType& MsRequestDataType::client_id()
+{
+    return client_id_;
+}
+
 void MsRequestDataType::client_id(
-        const AmlipIdDataType& new_value)
+        AmlipIdDataType& new_value)
 {
     client_id_ = new_value;
 }
@@ -128,24 +132,15 @@ TaskId MsRequestDataType::task_id() const
     return task_id_;
 }
 
+TaskId& MsRequestDataType::task_id()
+{
+    return task_id_;
+}
+
 void MsRequestDataType::task_id(
-        const TaskId& new_value)
+        TaskId& new_value)
 {
     task_id_ = new_value;
-}
-
-void MsRequestDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
-{
-    scdr << client_id_;
-    scdr << task_id_;
-}
-
-void MsRequestDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
-{
-    dcdr >> client_id_;
-    dcdr >> task_id_;
 }
 
 void MsRequestDataType::serialize_key(
@@ -216,3 +211,8 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include  <types/multiservice/impl/MsRequestDataTypeCdrAux.ipp>
+
+#endif // FASTCDR_VERSION_MAJOR > 1

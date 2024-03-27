@@ -22,6 +22,7 @@ set(TEST_SOURCES
         amlipIdTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataTypev1.cpp
     )
 
 set(TEST_LIST
@@ -53,7 +54,9 @@ set(TEST_SOURCES
         genericDataTypeTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataTypev1.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/GenericDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/GenericDataTypev1.cpp
     )
 
 set(TEST_LIST
@@ -85,7 +88,9 @@ set(TEST_SOURCES
         modelStatisticsTest.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/InterfaceDataType.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/id/AmlipIdDataTypev1.cpp
         ${PROJECT_SOURCE_DIR}/src/cpp/types/model/ModelStatisticsDataType.cpp
+        ${PROJECT_SOURCE_DIR}/src/cpp/types/model/ModelStatisticsDataTypev1.cpp
     )
 
 set(TEST_LIST

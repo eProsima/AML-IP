@@ -45,3 +45,4 @@
 
 // Include needed headers
 %include <amlip_cpp/types/status/StatusDataType.hpp>
+%include <amlip_cpp/types/status/StatusDataTypev1.hpp>

@@ -19,14 +19,12 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS__RPC_RPCCLIENT_HPP
 #define AMLIPCPP__SRC_CPP_DDS__RPC_RPCCLIENT_HPP
 
+#include <amlip_cpp/types/TemplatesDataType.hpp>
+#include <amlip_cpp/types/id/TaskId.hpp>
+
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/TargetedReader.hpp>
-
-#include <types/rpc/RpcReplyDataType.hpp>
-#include <types/rpc/RpcRequestDataType.hpp>
-
-#include <amlip_cpp/types/id/TaskId.hpp>
 
 namespace eprosima {
 namespace amlip {

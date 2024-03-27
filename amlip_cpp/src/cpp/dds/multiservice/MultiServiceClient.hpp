@@ -19,14 +19,16 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_MULTISERVICECLIENT_HPP
 
+#include <amlip_cpp/types/TemplatesDataType.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <amlip_cpp/types/multiservice/MsRequestDataType.hpp>
+#include <amlip_cpp/types/multiservice/MsReferenceDataType.hpp>
+
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
-#include <types/multiservice/MsDataType.hpp>
-#include <types/multiservice/MsRequestDataType.hpp>
-#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {
