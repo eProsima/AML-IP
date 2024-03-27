@@ -76,7 +76,7 @@ jobs:
           ddsrouter_branch: ${{ github.event.inputs.ddsrouter_branch || env.DEFAULT_DDSROUTER_BRANCH }}
 
       - name: Upload binaries
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_${{ matrix.cmake-config }}_eprosima_dependencies_install
           path: ${{ github.workspace }}\eprosima\install
@@ -137,7 +137,7 @@ jobs:
           colcon build --event-handlers=console_direct+
 
       - name: Upload binaries
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_eprosima_dependencies_install
           path: install
