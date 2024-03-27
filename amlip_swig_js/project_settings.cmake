@@ -13,7 +13,7 @@
 # limitations under the License.
 
 ###############################################################################
-# Set settings for project amlip_swig for SWIG code
+# Set settings for project amlip_swig_js for SWIG code
 ###############################################################################
 
 set(MODULE_NAME
@@ -23,13 +23,20 @@ set(MODULE_SUMMARY
     "SWIG library to create python bindings from amlip_cpp.")
 
 set(MODULE_FIND_PACKAGES
-        amlip_cpp
         cpp_utils
         ddspipe_core
         ddspipe_participants
         ddsrouter_core
+        amlip_cpp
     )
 
 set(MODULE_DEPENDENCIES
         ${MODULE_FIND_PACKAGES}
     )
+
+set(MODULE_THIRDPARTY_HEADERONLY
+        node
+    )
+
+set(MODULE_THIRDPARTY_PATH
+    "../thirdparty")

@@ -13,15 +13,43 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class MainNode
+// Binding for class StatusNode
 ////////////////////////////////////////////////////////
 
 // Import parent class
 %import(module="amlip_swig_js") "amlip_cpp/node/ParentNode.hpp";
 
+%ignore eprosima::amlip::node::StatusListener;
+
+// Ignore the process_status_async function with std::function
+%ignore eprosima::amlip::node::StatusNode::process_status_async(const std::function<void(const types::StatusDataType&)>&);
+
 %{
-#include <amlip_cpp/node/workload_distribution/MainNode.hpp>
+#include <amlip_cpp/node/StatusNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/node/workload_distribution/MainNode.hpp>
+%include <amlip_cpp/node/StatusNode.hpp>
+
+%inline %{
+
+class StatusListenerJS : public eprosima::amlip::node::StatusListener
+{
+public:
+
+    StatusListenerJS()
+    {
+        // Do nothing
+    }
+
+    virtual ~StatusListenerJS()
+    {
+        // Do nothing
+    }
+
+    void status_received(const eprosima::amlip::types::StatusDataType& status) const override
+    {
+        std::cout << "Status received : " << status << std::endl;
+    }
+};
+%}

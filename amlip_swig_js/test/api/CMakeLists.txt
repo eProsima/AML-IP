@@ -13,11 +13,13 @@
 # limitations under the License.
 
 # Add API Tests
-add_test(
+add_custom_target(run_js_tests
     NAME
         api_tests
     COMMAND
-        node ${CMAKE_CURRENT_SOURCE_DIR}/import_test.js
+        bash -c "npm install && npm run test"
     WORKING_DIRECTORY
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${PROJECT_SOURCE_DIR}
+    COMMENT
+        "Running JavaScript tests with Jest"
 )

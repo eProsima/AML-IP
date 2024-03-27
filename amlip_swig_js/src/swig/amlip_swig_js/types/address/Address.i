@@ -13,21 +13,18 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobSolutionDataType
+// Binding for class Address
 ////////////////////////////////////////////////////////
 
-// Import parent class
-%import(module="amlip_swig_js") "amlip_cpp/types/GenericDataType.hpp";
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
+// Any macro used on the header files will give an error if it is not redefined here
+#define DDSPIPE_PARTICIPANTS_DllAPI
 
 %{
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
-
-using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
+#include <ddspipe_participants/types/address/Address.hpp>
 %}
 
+// Ignore overloaded methods that have no application on Python
+%ignore eprosima::ddspipe::participants::types::operator <<(std::ostream &,const Address&);
+
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+%include <ddspipe_participants/types/address/Address.hpp>

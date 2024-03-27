@@ -69,16 +69,6 @@ include(${SWIG_USE_FILE})
 
 set(CMAKE_SWIG_FLAGS "")
 
-# Set the path to the language-specific module file (e.g., for JavaScript)
-# find_package(Javascript REQUIRED)
-# list(APPEND CMAKE_MODULE_PATH
-#     ${CMAKE_CURRENT_SOURCE_DIR}/node_modules/node-cmake
-# )
-# find_package(NodeJS REQUIRED)
-# include_directories(/usr/include/nodejs)
-include_directories(/home/irenebm/.nvm/versions/node/v11.15.0/include/node/)
-# Set the path to the language-specific module file (e.g., for JavaScript)
-
 add_subdirectory(src/swig)
 
 ###############################################################################

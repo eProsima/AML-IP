@@ -13,15 +13,44 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class MainNode
+// Binding for class ComputingNode
 ////////////////////////////////////////////////////////
 
 // Import parent class
 %import(module="amlip_swig_js") "amlip_cpp/node/ParentNode.hpp";
 
+%ignore eprosima::amlip::node::JobListener;
+
 %{
-#include <amlip_cpp/node/workload_distribution/MainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/node/workload_distribution/MainNode.hpp>
+%include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
+
+%inline %{
+
+class JobListenerJS : public eprosima::amlip::node::JobListener
+{
+public:
+    JobListenerJS()
+    {
+        // Do nothing
+    }
+
+    virtual ~JobListenerJS()
+    {
+        // Do nothing
+    }
+
+    virtual eprosima::amlip::types::JobSolutionDataType process_job(const eprosima::amlip::types::JobDataType& job) const
+    {
+        std::string job_solution = job.to_string();
+        std::transform(job_solution.begin(), job_solution.end(), job_solution.begin(),
+                    [](unsigned char c){ return std::tolower(c); }
+                    );
+        return eprosima::amlip::types::JobSolutionDataType(job_solution);
+    }
+};
+
+%}

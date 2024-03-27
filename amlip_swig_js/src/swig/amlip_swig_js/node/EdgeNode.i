@@ -13,21 +13,15 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobSolutionDataType
+// Binding for class EdgeNode
 ////////////////////////////////////////////////////////
 
 // Import parent class
-%import(module="amlip_swig_js") "amlip_cpp/types/GenericDataType.hpp";
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
+%import(module="amlip_swig_js") "amlip_cpp/node/ParentNode.hpp";
 
 %{
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
-
-using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
+#include <amlip_cpp/node/EdgeNode.hpp>
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+%include <amlip_cpp/node/EdgeNode.hpp>

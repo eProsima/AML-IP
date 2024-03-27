@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////
-// Binding for class JobSolutionDataType
+// Binding for class ModelRequestDataType
 ////////////////////////////////////////////////////////
 
 // Import parent class
@@ -24,10 +24,10 @@
 %ignore *::operator=;
 
 %{
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+#include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 
-using JobSolutionDataType = eprosima::amlip::types::JobSolutionDataType;
+using ModelRequestDataType = eprosima::amlip::types::ModelRequestDataType;
 %}
 
 // Include the class interfaces
-%include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+%include <amlip_cpp/types/model/ModelRequestDataType.hpp>

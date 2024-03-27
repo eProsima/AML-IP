@@ -1,4 +1,4 @@
-// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2024 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,9 +18,6 @@
 
 // Import parent class
 %import(module="amlip_swig_js") "amlip_cpp/types/InterfaceDataType.hpp";
-
-// Include the class interfaces
-// %include <amlip_cpp/types/id/StatusDataType.hpp>
 
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
