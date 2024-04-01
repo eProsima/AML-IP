@@ -15,11 +15,11 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <fastdds/rtps/common/SerializedPayload.h>
-
-#include <types/AmlipGenericTopicDataType.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/GenericDataType.hpp>
+#include <types/AmlipGenericTopicDataType.hpp>
+
+#include <fastdds/rtps/common/SerializedPayload.h>
 
 using namespace eprosima::amlip::types;
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;

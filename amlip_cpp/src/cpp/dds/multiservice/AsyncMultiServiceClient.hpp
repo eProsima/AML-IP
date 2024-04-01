@@ -24,14 +24,15 @@
 #include <cpp_utils/wait/CounterWaitHandler.hpp>
 #include <cpp_utils/types/Atomicable.hpp>
 
+#include <types/TemplatesDataType.hpp>
+#include <types/multiservice/MsRequestDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
+
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
-#include <types/multiservice/MsDataType.hpp>
-#include <types/multiservice/MsRequestDataType.hpp>
-#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

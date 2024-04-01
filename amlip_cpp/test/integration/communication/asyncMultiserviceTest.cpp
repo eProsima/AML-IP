@@ -19,9 +19,10 @@
 #include <cpp_utils/types/Atomicable.hpp>
 #include <cpp_utils/wait/IntWaitHandler.hpp>
 
-#include <dds/Participant.hpp>
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/GenericDataType.hpp>
+
+#include <dds/Participant.hpp>
 
 namespace test {
 
@@ -445,6 +446,106 @@ TEST(asyncMultiServiceTest, communicate_service_n_to_n)
         }
     }
 }
+
+namespace eprosima {
+namespace fastcdr {
+
+template<>
+size_t calculate_serialized_size(
+        eprosima::fastcdr::CdrSizeCalculator& calculator,
+        const test::TestDataType& data,
+        size_t& current_alignment)
+{
+    static_cast<void>(data);
+
+    eprosima::fastcdr::EncodingAlgorithmFlag previous_encoding = calculator.get_encoding();
+    size_t calculated_size {calculator.begin_calculate_type_serialized_size(
+                                eprosima::fastcdr::CdrVersion::XCDRv2 == calculator.get_cdr_version() ?
+                                eprosima::fastcdr::EncodingAlgorithmFlag::DELIMIT_CDR2 :
+                                eprosima::fastcdr::EncodingAlgorithmFlag::PLAIN_CDR,
+                                current_alignment)};
+
+
+    calculated_size += calculator.calculate_member_serialized_size(eprosima::fastcdr::MemberId(0),
+                    data.data_size(), current_alignment);
+
+    calculated_size += calculator.calculate_member_serialized_size(eprosima::fastcdr::MemberId(1),
+                    data.has_been_allocated(), current_alignment);
+
+    calculated_size += calculator.calculate_array_serialized_size(static_cast<uint8_t*>(data.data()),
+                    data.data_size(), current_alignment);
+
+    calculated_size += calculator.end_calculate_type_serialized_size(previous_encoding, current_alignment);
+
+    return calculated_size;
+}
+
+template<>
+void serialize(
+        eprosima::fastcdr::Cdr& scdr,
+        const test::TestDataType& data)
+{
+    eprosima::fastcdr::Cdr::state current_state(scdr);
+    scdr.begin_serialize_type(current_state,
+            eprosima::fastcdr::CdrVersion::XCDRv2 == scdr.get_cdr_version() ?
+            eprosima::fastcdr::EncodingAlgorithmFlag::DELIMIT_CDR2 :
+            eprosima::fastcdr::EncodingAlgorithmFlag::PLAIN_CDR);
+
+    scdr
+        << eprosima::fastcdr::MemberId(0) << data.data_size()
+        << eprosima::fastcdr::MemberId(1) << data.has_been_allocated()
+    ;
+    scdr.serialize_array(static_cast<uint8_t*>(data.data()), data.data_size());
+    scdr.end_serialize_type(current_state);
+}
+
+template<>
+void deserialize(
+        eprosima::fastcdr::Cdr& cdr,
+        test::TestDataType& data)
+{
+    // If data has been already allocated (it has been already deserialized), we free it
+    if (data.has_been_allocated())
+    {
+        free(data.data());
+    }
+
+    cdr.deserialize_type(eprosima::fastcdr::CdrVersion::XCDRv2 == cdr.get_cdr_version() ?
+            eprosima::fastcdr::EncodingAlgorithmFlag::DELIMIT_CDR2 :
+            eprosima::fastcdr::EncodingAlgorithmFlag::PLAIN_CDR,
+            [&data](eprosima::fastcdr::Cdr& dcdr, const eprosima::fastcdr::MemberId& mid) -> bool
+            {
+                bool ret_value = true;
+                switch (mid.id)
+                {
+                    case 0:
+                        dcdr >> data.data_size();
+                        break;
+
+                    case 1:
+                        bool aux;
+                        dcdr >> aux;
+                        data.has_been_allocated(aux);
+                        break;
+
+                    case 2:
+
+                        // Store enough space to deserialize the data
+                        data.data(malloc(data.data_size() * sizeof(uint8_t)));
+                        // Deserialize array
+                        dcdr.deserialize_array(static_cast<uint8_t*>(data.data()), data.data_size());
+                        break;
+
+                    default:
+                        ret_value = false;
+                        break;
+                }
+                return ret_value;
+            });
+}
+
+} // namespace fastcdr
+} // namespace eprosima
 
 int main(
         int argc,

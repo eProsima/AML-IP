@@ -21,6 +21,7 @@
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 
@@ -145,6 +146,8 @@ TEST(modelManagerTest, ping_pong)
         eprosima::amlip::types::AmlipIdDataType id_sender("ModelManagerSender");
         eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
 
+        logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
+
         // Create statistics data
         std::string data_str = "hello world";
         model_sender_node.publish_statistics("v1", data_str);
@@ -200,7 +203,6 @@ TEST(modelManagerTest, long_string_statistics)
         eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
-
 
         // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =

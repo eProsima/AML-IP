@@ -21,14 +21,14 @@
 
 #include <functional>
 
-#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
-
-#include <amlip_cpp/node/ParentNode.hpp>
-
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
 #include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+#include <amlip_cpp/node/ParentNode.hpp>
+
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
 
 // Forward declaration of dds classes

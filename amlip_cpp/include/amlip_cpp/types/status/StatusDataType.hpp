@@ -22,6 +22,8 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 
+#include <fastcdr/config.h>
+
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 #include <amlip_cpp/types/status/NodeKind.hpp>
@@ -71,11 +73,20 @@ public:
     //! Get id value
     AMLIP_CPP_DllAPI AmlipIdDataType id() const noexcept;
 
+    //! Get reference id value
+    AMLIP_CPP_DllAPI AmlipIdDataType& id() noexcept;
+
     //! Get Node Kind value
     AMLIP_CPP_DllAPI NodeKind node_kind() const noexcept;
 
+    //! Get reference Node Kind value
+    AMLIP_CPP_DllAPI NodeKind& node_kind() noexcept;
+
     //! Get State Kind value
     AMLIP_CPP_DllAPI StateKind state() const noexcept;
+
+    //! Get reference State Kind value
+    AMLIP_CPP_DllAPI StateKind& state() noexcept;
 
     //! Whether this object is correctly defined, thus none of its internal variables are undefined.
     AMLIP_CPP_DllAPI bool is_defined() const noexcept;
@@ -85,20 +96,6 @@ public:
 
     /////
     // InterfaceDataType methods
-
-    /*!
-     * @brief This function serializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function deserializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
 
     /*!
      * @brief This function serializes the key members of an object using CDR serialization.
