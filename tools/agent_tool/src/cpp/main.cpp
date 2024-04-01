@@ -23,7 +23,7 @@
 
 #include <cpp_utils/event/SignalEventHandler.hpp>
 #include <cpp_utils/Log.hpp>
-#include <cpp_utils/logging/CustomStdLogConsumer.hpp>
+#include <cpp_utils/logging/StdLogConsumer.hpp>
 #include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/ClientNode.hpp>
@@ -211,14 +211,25 @@ int main(
 
     // Debug
     {
+        eprosima::utils::BaseLogConfiguration log_configuration;
+
+        eprosima::utils::LogFilter filter;
+
+        filter[eprosima::fastdds::dds::Log::Kind::Error].set_value(log_filter);
+        filter[eprosima::fastdds::dds::Log::Kind::Warning].set_value(log_filter);
+        filter[eprosima::fastdds::dds::Log::Kind::Info].set_value(log_filter);
+
+        log_configuration.set(filter);
+        log_configuration.set(log_verbosity);
+
         // Remove every consumer
         eprosima::utils::Log::ClearConsumers();
 
         // Activate log with verbosity, as this will avoid running log thread with not desired kind
-        eprosima::utils::Log::SetVerbosity(log_verbosity);
+        eprosima::utils::Log::SetVerbosity(log_configuration.verbosity);
 
         eprosima::utils::Log::RegisterConsumer(
-            std::make_unique<eprosima::utils::CustomStdLogConsumer>(log_filter, log_verbosity));
+            std::make_unique<eprosima::utils::StdLogConsumer>(&log_configuration));
     }
 
     {
