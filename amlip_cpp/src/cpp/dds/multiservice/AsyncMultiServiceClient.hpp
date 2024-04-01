@@ -19,6 +19,8 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_ASYNCMULTISERVICECLIENT_HPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_ASYNCMULTISERVICECLIENT_HPP
 
+#include <thread>
+
 #include <cpp_utils/wait/DBQueueWaitHandler.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 #include <cpp_utils/wait/CounterWaitHandler.hpp>

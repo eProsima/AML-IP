@@ -19,6 +19,8 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_ASYNCMULTISERVICESERVER_HPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_ASYNCMULTISERVICESERVER_HPP
 
+#include <thread>
+
 #include <types/TemplatesDataType.hpp>
 #include <types/multiservice/MsRequestDataType.hpp>
 #include <types/multiservice/MsReferenceDataType.hpp>

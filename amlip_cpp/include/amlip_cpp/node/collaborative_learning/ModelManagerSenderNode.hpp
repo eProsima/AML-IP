@@ -20,6 +20,7 @@
 #define AMLIPCPP__SRC_CPP_NODE_MODELMANAGERSENDERNODE_HPP
 
 #include <functional>
+#include <thread>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
