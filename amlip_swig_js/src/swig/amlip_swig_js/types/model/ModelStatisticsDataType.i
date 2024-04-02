@@ -47,4 +47,3 @@ namespace std {
 
 // Include the class interfaces
 %include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
-%include <amlip_cpp/types/model/ModelStatisticsDataTypev1.hpp>
