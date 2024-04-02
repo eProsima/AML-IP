@@ -158,9 +158,11 @@ TEST(NodeCreationTest, create_computing)
 TEST(NodeCreationTest, create_model_sender)
 {
     // Create statistics data
-    eprosima::amlip::types::AmlipIdDataType id({"TestNode"}, {66, 11, 77, 44});
+    std::array<uint8_t, 28> name = {'T', 'e', 's', 't', 'N', 'o', 'd', 'e'};
+    std::array<uint8_t, 4> id = {66, 11, 77, 44};
+    eprosima::amlip::types::AmlipIdDataType amlip_id(name, id);
 
-    node::ModelManagerSenderNode node(id);
+    node::ModelManagerSenderNode node(amlip_id);
 
     ASSERT_EQ(types::StateKind::stopped, node.current_state());
     ASSERT_EQ(types::NodeKind::model_sender, node.node_kind());
