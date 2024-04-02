@@ -18,6 +18,24 @@
                 "-Ax64",
                 "-T host=x64"
             ]
+        },
+        "amlip_py":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_CXX_FLAGS='/WX /EHsc'",
+                "-Ax64",
+                "-T host=x64"
+            ]
+        },
+        "amlip_agent":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_CXX_FLAGS='/WX /EHsc'",
+                "-Ax64",
+                "-T host=x64"
+            ]
         }
     }
 }
