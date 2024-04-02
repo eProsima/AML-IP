@@ -40,6 +40,17 @@ runs:
   using: composite
   steps:
 
+    - name: Install swig in windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: choco install swig --allow-downgrade --version=4.0.2.04082020
+
+    - name: Install apt dependencies
+      uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
+      if: runner.os == 'Linux'
+      with:
+        packages: swig
+
     - name: Install Fast DDS dependencies
       uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
       with:
