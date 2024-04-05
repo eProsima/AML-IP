@@ -16,10 +16,7 @@
  * @file MsRequestDataType.cpp
  */
 
-#include <fastcdr/Cdr.h>
-
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
+#include <types/multiservice/MsRequestDataType.hpp>
 
 #include <algorithm>
 #include <array>
@@ -27,13 +24,13 @@ using namespace eprosima::fastcdr::exception;
 #include <string>
 #include <utility>
 
-#include <types/multiservice/MsRequestDataType.hpp>
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
-const char* MsRequestDataType::DATA_TYPE_NAME_ = "ms_request";
+const char* MsRequestDataType::TYPE_NAME_ = "ms_request";
 
 MsRequestDataType::MsRequestDataType()
 {
@@ -117,8 +114,13 @@ AmlipIdDataType MsRequestDataType::client_id() const
     return client_id_;
 }
 
+AmlipIdDataType& MsRequestDataType::client_id()
+{
+    return client_id_;
+}
+
 void MsRequestDataType::client_id(
-        const AmlipIdDataType& new_value)
+        AmlipIdDataType& new_value)
 {
     client_id_ = new_value;
 }
@@ -128,59 +130,15 @@ TaskId MsRequestDataType::task_id() const
     return task_id_;
 }
 
+TaskId& MsRequestDataType::task_id()
+{
+    return task_id_;
+}
+
 void MsRequestDataType::task_id(
-        const TaskId& new_value)
+        TaskId& new_value)
 {
     task_id_ = new_value;
-}
-
-void MsRequestDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
-{
-    scdr << client_id_;
-    scdr << task_id_;
-}
-
-void MsRequestDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
-{
-    dcdr >> client_id_;
-    dcdr >> task_id_;
-}
-
-void MsRequestDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t MsRequestDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-    return current_alignment - initial_alignment;
-}
-
-size_t MsRequestDataType::get_cdr_serialized_size(
-        const MsRequestDataType&,
-        size_t current_alignment)
-{
-    // As the data type is plain, the max size and the size for a data is the same
-    return get_max_cdr_serialized_size(current_alignment);
-}
-
-size_t MsRequestDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool MsRequestDataType::is_key_defined()
-{
-    return false;
 }
 
 bool MsRequestDataType::is_bounded()
@@ -202,7 +160,7 @@ bool MsRequestDataType::construct_sample(
 
 std::string MsRequestDataType::type_name()
 {
-    return DATA_TYPE_NAME_;
+    return TYPE_NAME_;
 }
 
 std::ostream& operator <<(
@@ -216,3 +174,6 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include  <types/multiservice/impl/MsRequestDataTypeCdrAux.ipp>

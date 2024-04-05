@@ -20,15 +20,16 @@
 #define AMLIPCPP__SRC_CPP_NODE_MODELMANAGERSENDERNODE_HPP
 
 #include <functional>
-
-#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-
-#include <amlip_cpp/node/ParentNode.hpp>
+#include <thread>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
 #include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+#include <amlip_cpp/node/ParentNode.hpp>
+
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 
 
 // Forward declaration of dds classes

@@ -22,6 +22,7 @@
 
 #include <cpp_utils/event/SignalEventHandler.hpp>
 #include <cpp_utils/Log.hpp>
+
 #include <ddspipe_participants/types/address/Address.hpp>
 
 #include <amlip_cpp/node/wan/RepeaterNode.hpp>

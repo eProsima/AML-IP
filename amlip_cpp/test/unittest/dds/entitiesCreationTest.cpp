@@ -15,8 +15,11 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <dds/Participant.hpp>
+#include <cpp_utils/macros/macros.hpp>
+
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+
+#include <dds/Participant.hpp>
 
 using namespace eprosima::amlip::dds;
 using namespace eprosima::amlip;

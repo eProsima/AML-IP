@@ -21,6 +21,7 @@
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 
@@ -40,6 +41,8 @@ public:
     virtual bool statistics_received (
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received: " << statistics << " .");
+
         if (strcmp(statistics.name().c_str(), "v2") == 0)
         {
             std::string data;
@@ -57,16 +60,9 @@ public:
             EXPECT_EQ(statistics.to_string(), data);
             EXPECT_EQ(statistics.data_size(), data.length());
 
-            waiter_->open();
-
-            return false;
         }
-        else
-        {
-            // Decide if we want the model based on the statistics received
-            return true;
-        }
-
+        // Decide if we want the model based on the statistics received
+        return true;
     }
 
     virtual bool model_received (
@@ -139,14 +135,17 @@ TEST(modelManagerTest, ping_pong)
         eprosima::amlip::types::ModelRequestDataType data("MobileNet V1");
         eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id_receiver, data);
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating sender...");
 
         // Create ModelManagerSender Node
         eprosima::amlip::types::AmlipIdDataType id_sender("ModelManagerSender");
         eprosima::amlip::node::ModelManagerSenderNode model_sender_node(id_sender);
 
+        logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
+
         // Create statistics data
         std::string data_str = "hello world";
+        logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v1", data_str);
 
         // Create waiter
@@ -184,8 +183,19 @@ TEST(modelManagerTest, long_string_statistics)
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
-
         // Managers always send same model in this test
+
+        std::string data_str;
+        std::ifstream file("../../../resources/el_quijote.txt");
+        if (file.is_open())
+        {
+            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+        }
+        else
+        {
+            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
+        }
+        eprosima::amlip::types::ModelStatisticsDataType::max_cdr_typesize_ += data_str.length();
 
         // Create ModelManagerReceiver Node
         eprosima::amlip::types::AmlipIdDataType id_receiver("ModelManagerReceiver");
@@ -193,7 +203,7 @@ TEST(modelManagerTest, long_string_statistics)
         eprosima::amlip::types::ModelRequestDataType data("MobileNet V2");
         eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id_receiver, data);
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Node receiver created: " << model_receiver_node << ". Creating sender...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating sender...");
 
         // Create ModelManagerSender Node
         eprosima::amlip::types::AmlipIdDataType id_sender("ModelManagerSender");
@@ -201,6 +211,9 @@ TEST(modelManagerTest, long_string_statistics)
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
 
+        // Create statistics data
+        logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
+        model_sender_node.publish_statistics("v2", data_str, data_str.length());
 
         // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
@@ -216,21 +229,6 @@ TEST(modelManagerTest, long_string_statistics)
         // Start nodes
         model_receiver_node.start(listener);
         model_sender_node.start(replier);
-
-        // Create statistics data
-        std::string data_str;
-
-        std::ifstream file("../../../resources/el_quijote.txt");
-        if (file.is_open())
-        {
-            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
-        }
-        else
-        {
-            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
-        }
-
-        model_sender_node.publish_statistics("v2", data_str);
 
         // Wait solution
         waiter->wait();
@@ -253,8 +251,19 @@ TEST(modelManagerTest, long_vector_statistics)
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
-
         // Managers always send same model in this test
+
+        std::string data_str;
+        std::ifstream file("../../../resources/el_quijote.txt");
+        if (file.is_open())
+        {
+            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+        }
+        else
+        {
+            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
+        }
+        eprosima::amlip::types::ModelStatisticsDataType::max_cdr_typesize_ += data_str.length();
 
         // Create ModelManagerReceiver Node
         eprosima::amlip::types::AmlipIdDataType id_receiver("ModelManagerReceiver");
@@ -262,7 +271,7 @@ TEST(modelManagerTest, long_vector_statistics)
         eprosima::amlip::types::ModelRequestDataType data("MobileNet V2");
         eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id_receiver, data);
 
-        logUser(AMLIPCPP_MANUAL_TEST, "Node receiver created: " << model_receiver_node << ". Creating sender...");
+        logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating sender...");
 
         // Create ModelManagerSender Node
         eprosima::amlip::types::AmlipIdDataType id_sender("ModelManagerSender");
@@ -270,6 +279,15 @@ TEST(modelManagerTest, long_vector_statistics)
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
 
+        // Create statistics data
+        std::vector<eprosima::amlip::types::ByteType> data_vector;
+
+        for (char c : data_str)
+        {
+            data_vector.push_back(static_cast<eprosima::amlip::types::ByteType>(c));
+        }
+        logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
+        model_sender_node.publish_statistics("v2", data_vector);
 
         // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
@@ -285,28 +303,6 @@ TEST(modelManagerTest, long_vector_statistics)
         // Start nodes
         model_receiver_node.start(listener);
         model_sender_node.start(replier);
-
-        // Create statistics data
-        std::string data_str;
-
-        std::ifstream file("../../../resources/el_quijote.txt");
-        if (file.is_open())
-        {
-            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
-        }
-        else
-        {
-            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
-        }
-
-        std::vector<eprosima::amlip::types::ByteType> data_vector;
-
-        for (char c : data_str)
-        {
-            data_vector.push_back(static_cast<eprosima::amlip::types::ByteType>(c));
-        }
-
-        model_sender_node.publish_statistics("v2", data_vector);
 
         // Wait solution
         waiter->wait();

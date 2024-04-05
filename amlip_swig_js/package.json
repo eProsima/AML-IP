@@ -1,0 +1,28 @@
+{
+  "name": "amlip_swig_js",
+  "version": "1.0.0",
+  "description": "todo",
+  "main": "index.js",
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)",
+      "**/**_test.js"
+    ]
+  },
+  "scripts": {
+    "install": "bash -c 'source ../../../install/setup.bash && node-gyp rebuild'",
+    "test": "bash -c 'source ../../../install/setup.bash && jest'"
+  },
+  "gypfile": true,
+  "author": "Irene Bandera Moreno",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "node-gyp": "^10.1.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

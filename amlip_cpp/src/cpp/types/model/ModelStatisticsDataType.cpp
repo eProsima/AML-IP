@@ -17,32 +17,27 @@
  */
 
 
-#include <fastcdr/Cdr.h>
-
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
+#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
 
 #include <algorithm>
 #include <array>
 #include <chrono>
-#include <iomanip>
 #include <random>
-#include <sstream>
 #include <stdlib.h>
-#include <string>
 #include <utility>
 
 #include <cpp_utils/Log.hpp>
 #include <cpp_utils/types/cast.hpp>
 #include <cpp_utils/utils.hpp>
 
-#include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
 const char* ModelStatisticsDataType::TYPE_NAME_ = "AMLIP-MODEL-STATISTICS";
+uint32_t ModelStatisticsDataType::max_cdr_typesize_ = 264UL;
 
 ModelStatisticsDataType::ModelStatisticsDataType()
     : name_("ModelStatisticsDataTypeName")
@@ -263,10 +258,21 @@ std::string ModelStatisticsDataType::name() const
     return name_;
 }
 
+std::string& ModelStatisticsDataType::name()
+{
+    return name_;
+}
+
 void ModelStatisticsDataType::name(
         const std::string& name)
 {
     name_ = name;
+}
+
+void ModelStatisticsDataType::data(
+        void* data)
+{
+    data_ = data;
 }
 
 void* ModelStatisticsDataType::data() const
@@ -290,7 +296,17 @@ uint32_t ModelStatisticsDataType::data_size() const
     return data_size_;
 }
 
+uint32_t& ModelStatisticsDataType::data_size()
+{
+    return data_size_;
+}
+
 AmlipIdDataType ModelStatisticsDataType::server_id() const
+{
+    return server_id_;
+}
+
+AmlipIdDataType& ModelStatisticsDataType::server_id()
 {
     return server_id_;
 }
@@ -306,92 +322,15 @@ std::string ModelStatisticsDataType::type_name()
     return TYPE_NAME_;
 }
 
-void ModelStatisticsDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
+bool ModelStatisticsDataType::has_been_allocated() const
 {
-    scdr << name_.c_str();
-
-    scdr << data_size_;
-    scdr.serializeArray(static_cast<uint8_t*>(data_), data_size_);
-
-    scdr << server_id_;
+    return has_been_allocated_.load();
 }
 
-void ModelStatisticsDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
+void ModelStatisticsDataType::has_been_allocated(
+        bool take_ownership)
 {
-    dcdr >> name_;
-
-    // If data has been already allocated (it has been already deserialized), we free it
-    if (has_been_allocated_)
-    {
-        free(data_);
-    }
-
-    dcdr >> data_size_;
-    // Store enough space to deserialize the data
-    data_ = std::malloc(data_size_ * sizeof(uint8_t));
-    // Deserialize array
-    dcdr.deserializeArray(static_cast<uint8_t*>(data_), data_size_);
-
-    // Set as this data has been allocated by this class
-    has_been_allocated_.store(true);
-
-    dcdr >> server_id_;
-}
-
-void ModelStatisticsDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t ModelStatisticsDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               //
-    current_alignment += ((STATISTICS_NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // name
-
-    current_alignment += ((DEFAULT_PREALLOCATED_SIZE_) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);      // data
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // data_size
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // has_been_allocated_
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                           // server_id_
-
-    return current_alignment - initial_alignment;
-}
-
-size_t ModelStatisticsDataType::get_cdr_serialized_size(
-        const ModelStatisticsDataType& data,
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               //
-    current_alignment += ((STATISTICS_NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // name
-
-    if (data.data_size() > 0)
-    {
-        current_alignment += ((data.data_size()) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // data_
-    }
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // data_size
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // has_been_allocated_
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                           // server_id_
-
-    return current_alignment - initial_alignment;
-}
-
-size_t ModelStatisticsDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool ModelStatisticsDataType::is_key_defined()
-{
-    return false;
+    has_been_allocated_.store(take_ownership);
 }
 
 bool ModelStatisticsDataType::is_bounded()
@@ -424,3 +363,6 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include  <types/model/impl/ModelStatisticsDataTypeCdrAux.ipp>

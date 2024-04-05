@@ -18,20 +18,21 @@
 #include <atomic>
 #include <thread>
 
-#include <fastrtps/Domain.h>
-
-#include <cpp_utils/utils.hpp>
-#include <cpp_utils/Log.hpp>
-
-#include <ddspipe_participants/types/address/Address.hpp>
+#include <amlip_cpp/types/job/JobDataType.hpp>
+#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
 
 #include <amlip_cpp/node/workload_distribution/MainNode.hpp>
 #include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 #include <amlip_cpp/node/wan/ServerNode.hpp>
 #include <amlip_cpp/node/wan/RepeaterNode.hpp>
-#include <amlip_cpp/types/job/JobDataType.hpp>
-#include <amlip_cpp/types/job/JobSolutionDataType.hpp>
+
+#include <fastrtps/Domain.h>
+
+#include <cpp_utils/utils.hpp>
+#include <cpp_utils/Log.hpp>
+
+#include <ddspipe_participants/types/address/Address.hpp>
 
 namespace test {
 

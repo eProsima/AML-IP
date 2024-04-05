@@ -18,15 +18,15 @@
 #include <algorithm>
 #include <thread>
 
+#include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/AsyncComputingNode.hpp>
+
 #include <cpp_utils/math/math_extension.hpp>
 #include <cpp_utils/time/time_utils.hpp>
 #include <cpp_utils/time/Timer.hpp>
 #include <cpp_utils/utils.hpp>
 #include <cpp_utils/types/Atomicable.hpp>
 #include <cpp_utils/wait/IntWaitHandler.hpp>
-
-#include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
-#include <amlip_cpp/node/workload_distribution/AsyncComputingNode.hpp>
 
 using namespace eprosima::amlip;
 

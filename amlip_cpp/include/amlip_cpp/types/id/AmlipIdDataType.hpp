@@ -28,13 +28,9 @@
 #include <ostream>
 #include <string>
 
-#include <amlip_cpp/types/InterfaceDataType.hpp>
+#include <fastcdr/config.h>
 
-namespace eprosima {
-namespace fastcdr {
-class Cdr;
-} // namespace fastcdr
-} // namespace eprosima
+#include <amlip_cpp/types/InterfaceDataType.hpp>
 
 
 namespace eprosima {
@@ -156,6 +152,13 @@ public:
             const std::array<uint8_t, NAME_SIZE>& name);
 
     /*!
+     * @brief This function copies the value in member \c name_
+     * @param name New value to be copied in member id \c name_
+     */
+    AMLIP_CPP_DllAPI void name(
+            const std::string& name);
+
+    /*!
      * @brief This function gets the value in member \c name as array of octets
      * @return Value of member \c name_ as array of octets
      */
@@ -166,6 +169,12 @@ public:
      * @return Value of member \c rand_id_ as array of octets
      */
     AMLIP_CPP_DllAPI std::array<uint8_t, RAND_SIZE> id() const;
+
+    /*!
+     * @brief This function returns reference to \c rand_id_
+     * @return Reference to \c rand_id_
+     */
+    AMLIP_CPP_DllAPI std::array<uint8_t, RAND_SIZE>& id();
 
     /*!
      * @brief This function copies the value in member \c rand_id_
@@ -221,60 +230,6 @@ public:
     /////
     // InterfaceDataType methods
 
-    /*!
-     * @brief This function serializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function deserializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
-
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     * @return Serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
-            const AmlipIdDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     */
-    AMLIP_CPP_DllAPI static bool is_key_defined();
-
     /**
      * @brief Whether the type is bounded
      */
@@ -296,6 +251,10 @@ public:
      */
     AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
+
+    static constexpr uint32_t max_cdr_typesize_ {132UL};
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
 
 protected:
 
@@ -324,6 +283,14 @@ protected:
      */
     AMLIP_CPP_DllAPI static std::array<uint8_t, NAME_SIZE> str_name_to_array_(
             const std::string& name);
+
+    /*!
+     * @brief This function converts a vector of octets of fixed size to a string.
+     * @param name Value to be converted given as vector of octets of fixed size
+     * @return Converted value to a string
+     */
+    AMLIP_CPP_DllAPI static std::string array_name_to_str_(
+            const std::array<uint8_t, NAME_SIZE>& name);
 
     /*!
      * @brief This function generates a random name as a fixed-length array of octets
