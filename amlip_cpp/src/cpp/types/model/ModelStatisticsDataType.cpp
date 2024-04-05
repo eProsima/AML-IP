@@ -37,6 +37,7 @@ namespace amlip {
 namespace types {
 
 const char* ModelStatisticsDataType::TYPE_NAME_ = "AMLIP-MODEL-STATISTICS";
+uint32_t ModelStatisticsDataType::max_cdr_typesize_ = 264UL;
 
 ModelStatisticsDataType::ModelStatisticsDataType()
     : name_("ModelStatisticsDataTypeName")
@@ -330,60 +331,6 @@ void ModelStatisticsDataType::has_been_allocated(
         bool take_ownership)
 {
     has_been_allocated_.store(take_ownership);
-}
-
-void ModelStatisticsDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t ModelStatisticsDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               //
-    current_alignment += ((STATISTICS_NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // name
-
-    current_alignment += ((DEFAULT_PREALLOCATED_SIZE_) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);      // data
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // data_size
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // has_been_allocated_
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                           // server_id_
-
-    return current_alignment - initial_alignment;
-}
-
-size_t ModelStatisticsDataType::get_cdr_serialized_size(
-        const ModelStatisticsDataType& data,
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               //
-    current_alignment += ((STATISTICS_NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // name
-
-    if (data.data_size() > 0)
-    {
-        current_alignment += ((data.data_size()) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);    // data_
-    }
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // data_size
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);                               // has_been_allocated_
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);                           // server_id_
-
-    return current_alignment - initial_alignment;
-}
-
-size_t ModelStatisticsDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool ModelStatisticsDataType::is_key_defined()
-{
-    return false;
 }
 
 bool ModelStatisticsDataType::is_bounded()

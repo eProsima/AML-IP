@@ -27,7 +27,13 @@
 
 #include <fastdds/rtps/common/CdrSerialization.hpp>
 
-#include <types/AmlipGenericTopicDataType.hpp>
+#include <types/id/AmlipIdDataTypeCdrAux.hpp>
+#include <types/GenericDataTypeCdrAux.hpp>
+#include <types/TemplatesDataTypeCdrAux.hpp>
+#include <types/model/ModelStatisticsDataTypeCdrAux.hpp>
+#include <types/multiservice/MsReferenceDataTypeCdrAux.hpp>
+#include <types/multiservice/MsRequestDataTypeCdrAux.hpp>
+#include <types/status/StatusDataTypeCdrAux.hpp>
 
 namespace eprosima {
 namespace amlip {
@@ -41,12 +47,11 @@ template <class T>
 AmlipGenericTopicDataType<T>::AmlipGenericTopicDataType()
 {
     setName(T::type_name().c_str());
-    auto type_size = T::get_max_cdr_serialized_size();
-    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
-    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
-    m_isGetKeyDefined = T::is_key_defined();
-    size_t keyLength = T::get_key_max_cdr_serialized_size() > 16 ?
-            T::get_key_max_cdr_serialized_size() : 16;
+    uint32_t type_size = T::max_cdr_typesize_;
+    type_size += static_cast<uint32_t>(eprosima::fastcdr::Cdr::alignment(type_size, 4)); /* possible submessage alignment */
+    m_typeSize = type_size + 4; /*encapsulation*/
+    m_isGetKeyDefined = false;
+    uint32_t keyLength = T::max_key_cdr_typesize_ > 16 ? T::max_key_cdr_typesize_ : 16;
     key_buffer_ = reinterpret_cast<unsigned char*>(malloc(keyLength));
     memset(key_buffer_, 0, keyLength);
 }
@@ -167,13 +172,12 @@ bool AmlipGenericTopicDataType<T>::getKey(
 
     // Object that manages the raw buffer.
     eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(key_buffer_),
-            T::get_key_max_cdr_serialized_size());
+            T::max_key_cdr_typesize_);
 
     // Object that serializes the data.
     eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::BIG_ENDIANNESS);
-    static_cast<void>(ser);
-    static_cast<void>(*p_type);
-    if (force_md5 || T::get_key_max_cdr_serialized_size() > 16)
+    eprosima::fastcdr::serialize_key(ser, *p_type);
+    if (force_md5 || T::max_key_cdr_typesize_ > 16)
     {
         md5_.init();
         md5_.update(key_buffer_, static_cast<unsigned int>(ser.get_serialized_data_length()));

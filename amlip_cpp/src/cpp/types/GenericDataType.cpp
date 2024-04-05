@@ -40,7 +40,7 @@ namespace amlip {
 namespace types {
 
 const char* GenericDataType::TYPE_NAME_ = "GENERIC";
-const size_t GenericDataType::DEFAULT_PREALLOCATED_SIZE_ = 16;
+uint32_t GenericDataType::max_cdr_typesize_ = 132UL;
 
 GenericDataType::GenericDataType(
         void* data,
@@ -219,52 +219,6 @@ void GenericDataType::has_been_allocated(
     has_been_allocated_.store(take_ownership);
 }
 
-void GenericDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t GenericDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    // It needs an upper bound, but it will not be used
-    current_alignment += DEFAULT_PREALLOCATED_SIZE_ + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-
-    return current_alignment - initial_alignment;
-}
-
-size_t GenericDataType::get_cdr_serialized_size(
-        const GenericDataType& data,
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-    if (data.data_size() > 0)
-    {
-        current_alignment += data.data_size() + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-    }
-
-    return current_alignment - initial_alignment;
-}
-
-size_t GenericDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool GenericDataType::is_key_defined()
-{
-    return false;
-}
-
 bool GenericDataType::is_bounded()
 {
     return false;
@@ -305,4 +259,4 @@ std::ostream& operator <<(
 } /* namespace eprosima */
 
 // Include auxiliary functions like for serializing/deserializing.
-#include <amlip_cpp/types/impl/GenericDataTypeCdrAux.ipp>
+#include <types/impl/GenericDataTypeCdrAux.ipp>

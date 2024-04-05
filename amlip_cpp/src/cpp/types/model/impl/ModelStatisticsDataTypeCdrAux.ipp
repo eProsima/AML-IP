@@ -127,5 +127,13 @@ AMLIP_CPP_DllAPI void deserialize(
     data.has_been_allocated(true);
 }
 
+void serialize_key(
+        eprosima::fastcdr::Cdr& scdr,
+        const amlip::types::ModelStatisticsDataType& data)
+{
+    static_cast<void>(scdr);
+    static_cast<void>(data);
+}
+
 } /* namespace fastcdr */
 } /* namespace eprosima */

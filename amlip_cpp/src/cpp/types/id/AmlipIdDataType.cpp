@@ -301,39 +301,6 @@ std::array<uint8_t, RAND_SIZE> AmlipIdDataType::random_id_()
     return rand_id;
 }
 
-void AmlipIdDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t AmlipIdDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-    current_alignment += ((NAME_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-    current_alignment += ((RAND_SIZE) * 1) + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-    return current_alignment - initial_alignment;
-}
-
-size_t AmlipIdDataType::get_cdr_serialized_size(
-        const AmlipIdDataType&,
-        size_t current_alignment)
-{
-    // As the data type is plain, the max size and the size for a data is the same
-    return get_max_cdr_serialized_size(current_alignment);
-}
-
-size_t AmlipIdDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool AmlipIdDataType::is_key_defined()
-{
-    return false;
-}
-
 bool AmlipIdDataType::is_bounded()
 {
     return true;

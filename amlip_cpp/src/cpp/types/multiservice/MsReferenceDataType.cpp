@@ -30,7 +30,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-const char* MsReferenceDataType::DATA_TYPE_NAME_ = "ms_reference";
+const char* MsReferenceDataType::TYPE_NAME_ = "ms_reference";
 
 MsReferenceDataType::MsReferenceDataType()
 {
@@ -141,42 +141,6 @@ void MsReferenceDataType::server_id(
     server_id_ = new_value;
 }
 
-void MsReferenceDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t MsReferenceDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-size_t MsReferenceDataType::get_cdr_serialized_size(
-        const MsReferenceDataType& request,
-        size_t current_alignment)
-{
-    // As the data type is plain, the max size and the size for a data is the same
-    return get_max_cdr_serialized_size(current_alignment);
-}
-
-size_t MsReferenceDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool MsReferenceDataType::is_key_defined()
-{
-    return false;
-}
-
 bool MsReferenceDataType::is_bounded()
 {
     return true;
@@ -196,7 +160,7 @@ bool MsReferenceDataType::construct_sample(
 
 std::string MsReferenceDataType::type_name()
 {
-    return DATA_TYPE_NAME_;
+    return TYPE_NAME_;
 }
 
 MsRequestDataType MsReferenceDataType::request() const

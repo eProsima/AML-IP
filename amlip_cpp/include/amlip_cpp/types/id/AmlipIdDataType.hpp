@@ -230,46 +230,6 @@ public:
     /////
     // InterfaceDataType methods
 
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     * @return Serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
-            const AmlipIdDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     */
-    AMLIP_CPP_DllAPI static bool is_key_defined();
-
     /**
      * @brief Whether the type is bounded
      */
@@ -291,6 +251,10 @@ public:
      */
     AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
+
+    static constexpr uint32_t max_cdr_typesize_ {132UL};
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
 
 protected:
 

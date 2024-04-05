@@ -30,7 +30,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-const char* MsRequestDataType::DATA_TYPE_NAME_ = "ms_request";
+const char* MsRequestDataType::TYPE_NAME_ = "ms_request";
 
 MsRequestDataType::MsRequestDataType()
 {
@@ -141,41 +141,6 @@ void MsRequestDataType::task_id(
     task_id_ = new_value;
 }
 
-void MsRequestDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t MsRequestDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-    return current_alignment - initial_alignment;
-}
-
-size_t MsRequestDataType::get_cdr_serialized_size(
-        const MsRequestDataType&,
-        size_t current_alignment)
-{
-    // As the data type is plain, the max size and the size for a data is the same
-    return get_max_cdr_serialized_size(current_alignment);
-}
-
-size_t MsRequestDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool MsRequestDataType::is_key_defined()
-{
-    return false;
-}
-
 bool MsRequestDataType::is_bounded()
 {
     return true;
@@ -195,7 +160,7 @@ bool MsRequestDataType::construct_sample(
 
 std::string MsRequestDataType::type_name()
 {
-    return DATA_TYPE_NAME_;
+    return TYPE_NAME_;
 }
 
 std::ostream& operator <<(

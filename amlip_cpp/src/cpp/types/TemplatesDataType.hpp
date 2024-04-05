@@ -58,62 +58,8 @@ public:
             MsReferenceDataType&& reference,
             T&& data);
 
-
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     *
-     * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     *
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_cdr_serialized_size(
-            const MsDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     *
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static bool is_key_defined();
+    /////
+    // InterfaceDataType methods
 
     /**
      * @brief Whether the type is bounded
@@ -157,9 +103,13 @@ public:
     void data(
             T new_value);
 
+    static uint32_t max_cdr_typesize_;
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
+
 protected:
 
-    static const char* DATA_TYPE_PREFIX_NAME_;
+    static const char* TYPE_NAME_;
 
     T data_;
 };
@@ -301,62 +251,6 @@ public:
     /////
     // InterfaceDataType methods
 
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     *
-     * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     *
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_cdr_serialized_size(
-            const RpcRequestDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     *
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static bool is_key_defined();
-
     /**
      * @brief Whether the type is bounded
      *
@@ -406,6 +300,10 @@ public:
     void data(
             T new_value);
 
+    static uint32_t max_cdr_typesize_;
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
+
 protected:
 
     AmlipIdDataType client_id_;
@@ -414,7 +312,7 @@ protected:
 
     AmlipIdDataType server_id_;
 
-    static const char* DATA_TYPE_PREFIX_NAME_; // "rpc_request"
+    static const char* TYPE_NAME_; // "rpc_request"
 
     T data_;
 
@@ -563,62 +461,6 @@ public:
     /////
     // InterfaceDataType methods
 
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     *
-     * @param cdr CDR serialization object.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    virtual void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     *
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_cdr_serialized_size(
-            const RpcReplyDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     *
-     * @param current_alignment Buffer alignment.
-     *
-     * @return Maximum serialized size.
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     *
-     * @warning this method must be overriden in child class.
-     */
-    static bool is_key_defined();
-
     /**
      * @brief Whether the type is bounded
      *
@@ -668,6 +510,10 @@ public:
     void data(
             T new_value);
 
+    static uint32_t max_cdr_typesize_;
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
+
 protected:
 
     AmlipIdDataType client_id_;
@@ -676,7 +522,7 @@ protected:
 
     AmlipIdDataType server_id_;
 
-    static const char* DATA_TYPE_PREFIX_NAME_;
+    static const char* TYPE_NAME_;
 
     T data_;
 };

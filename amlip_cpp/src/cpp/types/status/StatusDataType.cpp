@@ -26,7 +26,7 @@ namespace eprosima {
 namespace amlip {
 namespace types {
 
-const char* StatusDataType::DATA_TYPE_NAME_ = "status";
+const char* StatusDataType::TYPE_NAME_ = "status";
 
 StatusDataType::StatusDataType(
         const AmlipIdDataType& id,
@@ -98,41 +98,6 @@ std::string StatusDataType::to_string() const noexcept
     return utils::generic_to_string(*this);
 }
 
-void StatusDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t StatusDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-    return current_alignment - initial_alignment;
-}
-
-size_t StatusDataType::get_cdr_serialized_size(
-        const StatusDataType&,
-        size_t current_alignment)
-{
-    return get_max_cdr_serialized_size(current_alignment);
-}
-
-size_t StatusDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool StatusDataType::is_key_defined()
-{
-    return false;
-}
-
 bool StatusDataType::is_bounded()
 {
     return true;
@@ -151,7 +116,7 @@ bool StatusDataType::construct_sample(
 
 std::string StatusDataType::type_name()
 {
-    return DATA_TYPE_NAME_;
+    return TYPE_NAME_;
 }
 
 std::ostream& operator <<(

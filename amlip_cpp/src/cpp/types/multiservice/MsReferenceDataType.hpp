@@ -125,46 +125,6 @@ public:
     /////
     // InterfaceDataType methods
 
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     * @return Serialized size.
-     */
-    static size_t get_cdr_serialized_size(
-            const MsReferenceDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     */
-    static bool is_key_defined();
-
     /**
      * @brief Whether the type is bounded
      */
@@ -197,11 +157,16 @@ public:
     //! Return the Request related with this reference
     MsRequestDataType request() const;
 
+    static constexpr uint32_t max_cdr_typesize_ {168UL};
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
+
 protected:
 
     AmlipIdDataType server_id_;
 
-    static const char* DATA_TYPE_NAME_; // "ms_reference"
+    static const char* TYPE_NAME_; // "ms_reference"
+
 };
 
 //! \c MsReferenceDataType to stream serializator

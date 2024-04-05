@@ -123,5 +123,13 @@ AMLIP_CPP_DllAPI void deserialize(
             });
 }
 
+void serialize_key(
+        eprosima::fastcdr::Cdr& scdr,
+        const amlip::types::GenericDataType& data)
+{
+    static_cast<void>(scdr);
+    static_cast<void>(data);
+}
+
 } /* namespace fastcdr */
 } /* namespace eprosima */

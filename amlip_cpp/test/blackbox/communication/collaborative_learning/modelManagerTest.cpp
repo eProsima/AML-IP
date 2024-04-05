@@ -145,6 +145,7 @@ TEST(modelManagerTest, ping_pong)
 
         // Create statistics data
         std::string data_str = "hello world";
+        logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v1", data_str);
 
         // Create waiter
@@ -182,8 +183,19 @@ TEST(modelManagerTest, long_string_statistics)
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
-
         // Managers always send same model in this test
+
+        std::string data_str;
+        std::ifstream file("../../../resources/el_quijote.txt");
+        if (file.is_open())
+        {
+            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+        }
+        else
+        {
+            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
+        }
+        eprosima::amlip::types::ModelStatisticsDataType::max_cdr_typesize_ += data_str.length();
 
         // Create ModelManagerReceiver Node
         eprosima::amlip::types::AmlipIdDataType id_receiver("ModelManagerReceiver");
@@ -200,18 +212,6 @@ TEST(modelManagerTest, long_string_statistics)
         logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
 
         // Create statistics data
-        std::string data_str;
-
-        std::ifstream file("../../../resources/el_quijote.txt");
-        if (file.is_open())
-        {
-            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
-        }
-        else
-        {
-            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
-        }
-
         logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v2", data_str, data_str.length());
 
@@ -251,8 +251,19 @@ TEST(modelManagerTest, long_vector_statistics)
     // Activate log
     eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
-
         // Managers always send same model in this test
+
+        std::string data_str;
+        std::ifstream file("../../../resources/el_quijote.txt");
+        if (file.is_open())
+        {
+            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+        }
+        else
+        {
+            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
+        }
+        eprosima::amlip::types::ModelStatisticsDataType::max_cdr_typesize_ += data_str.length();
 
         // Create ModelManagerReceiver Node
         eprosima::amlip::types::AmlipIdDataType id_receiver("ModelManagerReceiver");
@@ -269,25 +280,13 @@ TEST(modelManagerTest, long_vector_statistics)
         logUser(AMLIPCPP_MANUAL_TEST, "Node sender created: " << model_sender_node << ".");
 
         // Create statistics data
-        std::string data_str;
-
-        std::ifstream file("../../../resources/el_quijote.txt");
-        if (file.is_open())
-        {
-            data_str = std::string((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
-        }
-        else
-        {
-            throw std::runtime_error("Failed to open file: ../../../resources/el_quijote.txt");
-        }
-
         std::vector<eprosima::amlip::types::ByteType> data_vector;
 
         for (char c : data_str)
         {
             data_vector.push_back(static_cast<eprosima::amlip::types::ByteType>(c));
         }
-
+        logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v2", data_vector);
 
         // Create waiter

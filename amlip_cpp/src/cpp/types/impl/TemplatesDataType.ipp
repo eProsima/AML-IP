@@ -24,7 +24,9 @@ namespace amlip {
 namespace types {
 
 template <typename T>
-const char* MsDataType<T>::DATA_TYPE_PREFIX_NAME_ = "ms_data_";
+const char* MsDataType<T>::TYPE_NAME_ = "ms_data_";
+template <typename T>
+uint32_t MsDataType<T>::max_cdr_typesize_ = 400UL;
 
 template <typename T>
 MsDataType<T>::MsDataType()
@@ -61,52 +63,6 @@ MsDataType<T>::MsDataType(
 }
 
 template <typename T>
-void MsDataType<T>::serialize_key(
-        eprosima::fastcdr::Cdr& cdr) const
-{
-}
-
-template <typename T>
-size_t MsDataType<T>::get_max_cdr_serialized_size(
-        size_t current_alignment /* = 0 */)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += MsReferenceDataType::get_max_cdr_serialized_size(current_alignment);
-
-    current_alignment += T::get_max_cdr_serialized_size(current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-template <typename T>
-size_t MsDataType<T>::get_cdr_serialized_size(
-        const MsDataType& data,
-        size_t current_alignment /* = 0 */)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += MsReferenceDataType::get_cdr_serialized_size(data, current_alignment);
-
-    current_alignment += T::get_cdr_serialized_size(data.data(), current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-template <typename T>
-size_t MsDataType<T>::get_key_max_cdr_serialized_size(
-        size_t current_alignment /* = 0 */)
-{
-    return current_alignment;
-}
-
-template <typename T>
-bool MsDataType<T>::is_key_defined()
-{
-    return false;
-}
-
-template <typename T>
 bool MsDataType<T>::is_bounded()
 {
     return T::is_bounded();
@@ -137,7 +93,7 @@ template <typename T>
 std::string MsDataType<T>::type_name()
 {
     // NOTE: there is no easy way to concatenate 2 const chars
-    std::string result(DATA_TYPE_PREFIX_NAME_);
+    std::string result(TYPE_NAME_);
     result.append(T::type_name());
 
     return result;
@@ -163,7 +119,9 @@ void MsDataType<T>::data(
 }
 
 template <typename T>
-const char* RpcRequestDataType<T>::DATA_TYPE_PREFIX_NAME_ = "rpc_request";
+const char* RpcRequestDataType<T>::TYPE_NAME_ = "rpc_request";
+template <typename T>
+uint32_t RpcRequestDataType<T>::max_cdr_typesize_ = 400UL;
 
 template <typename T>
 RpcRequestDataType<T>::RpcRequestDataType()
@@ -331,56 +289,6 @@ void RpcRequestDataType<T>::server_id(
 }
 
 template <typename T>
-void RpcRequestDataType<T>::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-template <typename T>
-size_t RpcRequestDataType<T>::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-
-    current_alignment += T::get_max_cdr_serialized_size(current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-template <typename T>
-size_t RpcRequestDataType<T>::get_cdr_serialized_size(
-        const RpcRequestDataType& data,
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-
-    current_alignment += T::get_cdr_serialized_size(data.data(), current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-template <typename T>
-size_t RpcRequestDataType<T>::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-template <typename T>
-bool RpcRequestDataType<T>::is_key_defined()
-{
-    return false;
-}
-
-template <typename T>
 bool RpcRequestDataType<T>::is_bounded()
 {
     return T::is_bounded();
@@ -411,7 +319,7 @@ template <typename T>
 std::string RpcRequestDataType<T>::type_name()
 {
     // NOTE: there is no easy way to concatenate 2 const chars
-    std::string result(DATA_TYPE_PREFIX_NAME_);
+    std::string result(TYPE_NAME_);
     result.append(T::type_name());
 
     return result;
@@ -446,7 +354,9 @@ std::ostream& operator <<(
 }
 
 template <typename T>
-const char* RpcReplyDataType<T>::DATA_TYPE_PREFIX_NAME_ = "rpc_reply";
+const char* RpcReplyDataType<T>::TYPE_NAME_ = "rpc_reply";
+template <typename T>
+uint32_t RpcReplyDataType<T>::max_cdr_typesize_ = 400UL;
 
 template <typename T>
 RpcReplyDataType<T>::RpcReplyDataType()
@@ -613,56 +523,6 @@ void RpcReplyDataType<T>::server_id(
 }
 
 template <typename T>
-void RpcReplyDataType<T>::serialize_key(
-        eprosima::fastcdr::Cdr& cdr) const
-{
-}
-
-template <typename T>
-size_t RpcReplyDataType<T>::get_max_cdr_serialized_size(
-        size_t current_alignment /* = 0 */)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-
-    current_alignment += T::get_max_cdr_serialized_size(current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-template <typename T>
-size_t RpcReplyDataType<T>::get_cdr_serialized_size(
-        const RpcReplyDataType& data,
-        size_t current_alignment /* = 0 */)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += AmlipIdDataType::get_max_cdr_serialized_size(current_alignment);
-
-    current_alignment += T::get_cdr_serialized_size(data.data(), current_alignment);
-
-    return current_alignment - initial_alignment;
-}
-
-template <typename T>
-size_t RpcReplyDataType<T>::get_key_max_cdr_serialized_size(
-        size_t current_alignment /* = 0 */)
-{
-    return current_alignment;
-}
-
-template <typename T>
-bool RpcReplyDataType<T>::is_key_defined()
-{
-    return false;
-}
-
-template <typename T>
 bool RpcReplyDataType<T>::is_bounded()
 {
     return T::is_bounded();
@@ -693,7 +553,7 @@ template <typename T>
 std::string RpcReplyDataType<T>::type_name()
 {
     // NOTE: there is no easy way to concatenate 2 const chars
-    std::string result(DATA_TYPE_PREFIX_NAME_);
+    std::string result(TYPE_NAME_);
     result.append(T::type_name());
 
     return result;

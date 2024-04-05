@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*!
- * @file TemplatesDataTypeCdrAux.cpp
+ * @file TemplatesDataTypeCdrAux.ipp
  */
 
 #pragma once
@@ -176,6 +176,15 @@ AMLIP_CPP_DllAPI void deserialize(
 }
 
 template <typename T>
+void serialize_key(
+        eprosima::fastcdr::Cdr& scdr,
+        const amlip::types::MsDataType<T>& data)
+{
+    static_cast<void>(scdr);
+    static_cast<void>(data);
+}
+
+template <typename T>
 AMLIP_CPP_DllAPI size_t calculate_serialized_size(
         eprosima::fastcdr::CdrSizeCalculator& calculator,
         const amlip::types::RpcRequestDataType<T>& data,
@@ -264,6 +273,15 @@ AMLIP_CPP_DllAPI void deserialize(
 }
 
 template <typename T>
+void serialize_key(
+        eprosima::fastcdr::Cdr& scdr,
+        const amlip::types::RpcRequestDataType<T>& data)
+{
+    static_cast<void>(scdr);
+    static_cast<void>(data);
+}
+
+template <typename T>
 AMLIP_CPP_DllAPI size_t calculate_serialized_size(
         eprosima::fastcdr::CdrSizeCalculator& calculator,
         const amlip::types::RpcReplyDataType<T>& data,
@@ -349,6 +367,15 @@ AMLIP_CPP_DllAPI void deserialize(
                 }
                 return ret_value;
             });
+}
+
+template <typename T>
+void serialize_key(
+        eprosima::fastcdr::Cdr& scdr,
+        const amlip::types::RpcReplyDataType<T>& data)
+{
+    static_cast<void>(scdr);
+    static_cast<void>(data);
 }
 
 } /* namespace fastcdr */
