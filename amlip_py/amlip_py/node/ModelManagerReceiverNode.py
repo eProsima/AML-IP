@@ -13,6 +13,7 @@
 # limitations under the License.
 """AML-IP Model Manager Receiver Node API specification."""
 
+from typing import Union
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.ModelReplyDataType import ModelReplyDataType
@@ -94,7 +95,7 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
 
     def __init__(
             self,
-            id: AmlipIdDataType | str,
+            id: Union[AmlipIdDataType, str],
             data: ModelRequestDataType,
             domain: int = None):
 
@@ -102,7 +103,7 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
         Create a new Model Manager Receiver Node with a given id.
         Parameters
         ----------
-        id : AmlipIdDataType | str
+        id : Union[AmlipIdDataType, str]
         data: ModelRequestDataType
         domain : int
         """

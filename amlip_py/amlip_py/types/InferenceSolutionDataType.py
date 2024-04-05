@@ -13,6 +13,7 @@
 # limitations under the License.
 """AML-IP Solution data type API specification."""
 
+from typing import Union
 
 from amlip_swig import InferenceSolutionDataType as cpp_InferenceSolutionDataType
 
@@ -24,7 +25,7 @@ class InferenceSolutionDataType(cpp_InferenceSolutionDataType):
 
     def __init__(
             self,
-            message: (str | bytes) = None):
+            message: Union[bytes, str] = None):
         """
         Construct a new Inference with name.
         Parameters

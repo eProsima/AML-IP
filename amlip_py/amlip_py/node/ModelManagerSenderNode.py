@@ -13,6 +13,7 @@
 # limitations under the License.
 """AML-IP Model Manager Sender Node API specification."""
 
+from typing import Union
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 from amlip_py.types.ModelReplyDataType import ModelReplyDataType
@@ -91,8 +92,8 @@ class ModelManagerSenderNode(cpp_ModelManagerSenderNode):
 
     def publish_statistics(
             self,
-            name: str | bytes,
-            data: str | bytes) -> None:
+            name: Union[bytes, str],
+            data: Union[bytes, str]) -> None:
 
         cpp_ModelManagerSenderNode.publish_statistics(self, name, data)
 

@@ -13,6 +13,7 @@
 # limitations under the License.
 """AML-IP Model Solution data type API specification."""
 
+from typing import Union
 
 from amlip_swig import ModelReplyDataType as cpp_ModelReplyDataType
 
@@ -25,7 +26,7 @@ class ModelReplyDataType(cpp_ModelReplyDataType):
 
     def __init__(
             self,
-            message: (str | bytes) = None):
+            message: Union[bytes, str] = None):
         """
         Construct a new Model reply with data.
         Parameters
