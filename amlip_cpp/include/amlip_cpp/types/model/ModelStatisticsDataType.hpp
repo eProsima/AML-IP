@@ -262,7 +262,7 @@ public:
     AMLIP_CPP_DllAPI static bool construct_sample(
             void* memory);
 
-    static uint32_t max_cdr_typesize_;
+    AMLIP_CPP_DllAPI static uint32_t max_cdr_typesize_;
 
     static constexpr uint32_t max_key_cdr_typesize_ {0UL};
 

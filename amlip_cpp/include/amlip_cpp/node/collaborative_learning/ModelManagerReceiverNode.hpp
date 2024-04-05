@@ -149,7 +149,7 @@ public:
      *
      * @throw InconsistencyException if node is already running.
      */
-    void start(
+    AMLIP_CPP_DllAPI void start(
             std::shared_ptr<ModelListener> listener);
 
     /**
@@ -157,7 +157,7 @@ public:
      *
      * If not processing data, do nothing.
      */
-    void stop();
+    AMLIP_CPP_DllAPI void stop();
 
 protected:
 
