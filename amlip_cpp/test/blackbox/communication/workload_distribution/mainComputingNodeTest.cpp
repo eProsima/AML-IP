@@ -86,7 +86,8 @@ TEST(MainComputingNodeTest, one_main_one_computing)
 
     // Create job data and process request from main
     std::string data_sent_str("test_data");
-    types::JobDataType job_data(static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
+    types::JobDataType job_data(static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size(),
+            true);
     types::JobSolutionDataType solution = main_node.request_job_solution(job_data);
 
     // Wait for computing to process job
@@ -146,7 +147,7 @@ TEST(MainComputingNodeTest, n_main_one_computing)
                     {
                         std::string data_sent_str("test_data" + std::to_string(i));
                         types::JobDataType job_data(
-                            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
+                            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size(), true);
                         types::JobSolutionDataType solution = main_node_to_process->request_job_solution(job_data);
 
                         // Check solution is upper case of data sent
@@ -212,7 +213,7 @@ TEST(MainComputingNodeTest, one_main_n_computing)
     {
         std::string data_sent_str("test_data" + std::to_string(i));
         types::JobDataType job_data(
-            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size());
+            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size(), true);
 
         types::JobSolutionDataType solution = main_node.request_job_solution(job_data);
 

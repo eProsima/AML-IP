@@ -34,7 +34,7 @@ GenericDataType generic_void_serialization_deserialization(
         void* bytes_to_serialize,
         size_t data_size)
 {
-    GenericDataType generic_type(bytes_to_serialize, data_size);
+    GenericDataType generic_type(bytes_to_serialize, data_size, true);
     AmlipGenericTopicDataType<GenericDataType> topic_data_type;
 
     // Payload to store serialized data

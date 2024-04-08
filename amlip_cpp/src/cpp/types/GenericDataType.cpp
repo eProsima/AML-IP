@@ -47,8 +47,12 @@ GenericDataType::GenericDataType(
         const uint32_t size,
         bool take_ownership /* = false */)
 {
+    if (take_ownership)
+    {
+        data_ = malloc(size);
+    }
+
     data_size_ = size;
-    data_ = malloc(size * sizeof(uint8_t));
     std::memcpy(data_, data, size);
     has_been_allocated_.store(take_ownership);
 }
@@ -93,59 +97,43 @@ GenericDataType::GenericDataType(
 {
     if (x.has_been_allocated_)
     {
-        logWarning(
-            AMLIPCPP_TYPES_GENERIC,
-            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
-        data_size_ = x.data_size_;
-        data_ = malloc(data_size_ * sizeof(uint8_t));
-        std::memcpy(data_, x.data_, data_size_);
-        has_been_allocated_.store(true);
+        data_ = malloc(x.data_size_);
     }
-    else
-    {
-        data_ = x.data_;
-        data_size_ = x.data_size_;
-        has_been_allocated_.store(false);
-    }
+
+    data_size_ = x.data_size_;
+    std::memcpy(data_, x.data_, data_size_);
+    has_been_allocated_.store(x.has_been_allocated_.load());
 }
 
 GenericDataType::GenericDataType(
         GenericDataType&& x)
 {
-    this->data_ = x.data_;
     this->data_size_ = x.data_size_;
+    this->data_ = x.data_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
 
     // Restore x
-    x.data_ = nullptr;
     x.data_size_ = 0;
+    x.data_ = nullptr;
     x.has_been_allocated_.store(false);
 }
 
 GenericDataType& GenericDataType::operator =(
         const GenericDataType& x)
 {
-    if (this->has_been_allocated_)
+    if (has_been_allocated_)
     {
         free(data_);
     }
 
     if (x.has_been_allocated_)
     {
-        logWarning(
-            AMLIPCPP_TYPES_GENERIC,
-            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
-        data_size_ = x.data_size_;
-        data_ = malloc(data_size_ * sizeof(uint8_t));
-        std::memcpy(data_, x.data_, data_size_);
-        has_been_allocated_.store(true);
+        data_ = malloc(x.data_size_);
     }
-    else
-    {
-        data_ = x.data_;
-        data_size_ = x.data_size_;
-        has_been_allocated_.store(false);
-    }
+
+    data_size_ = x.data_size_;
+    std::memcpy(data_, x.data_, data_size_);
+    has_been_allocated_.store(x.has_been_allocated_.load());
 
     return *this;
 }
@@ -158,13 +146,13 @@ GenericDataType& GenericDataType::operator =(
         free(data_);
     }
 
-    this->data_ = x.data_;
     this->data_size_ = x.data_size_;
+    this->data_ = x.data_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
 
     // Restore x
-    x.data_ = nullptr;
     x.data_size_ = 0;
+    x.data_ = nullptr;
     x.has_been_allocated_.store(false);
 
     return *this;
