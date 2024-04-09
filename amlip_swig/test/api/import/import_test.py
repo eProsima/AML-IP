@@ -13,3 +13,8 @@
 # limitations under the License.
 """Test that importing amlip_swig does not give any error."""
 import amlip_swig  # noqa: F401
+
+
+def test_import():
+    """Test that importing amlip_swig does not give any error."""
+    pass
