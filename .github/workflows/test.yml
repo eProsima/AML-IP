@@ -58,7 +58,7 @@ jobs:
 
       - name: Compile and run tests
         id: compile_and_test
-        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
+        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@main
         with:
           colcon_meta_file: ${{ github.workspace }}/src/.github/workflows/configurations/${{ runner.os }}/colcon.meta
           packages_names: ${{ env.code_packages_names }}
