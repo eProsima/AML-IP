@@ -40,6 +40,12 @@ runs:
   using: composite
   steps:
 
+    - name: Install OpenSSL
+      uses: eProsima/eprosima-CI/windows/install_openssl@v0
+      if: runner.os == 'Windows'
+      with:
+        version: '3.1.1'
+
     - name: Install Asio and TinyXML2
       if: runner.os == 'Windows'
       shell: pwsh
