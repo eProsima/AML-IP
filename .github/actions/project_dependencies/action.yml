@@ -102,7 +102,6 @@ runs:
         workflow_conclusion: completed
 
     - name: Fetch DDS Router repositories in ubuntu
-      if: runner.os == 'Linux'
       shell: bash
       run: |
 
@@ -111,25 +110,8 @@ runs:
         echo "Downloading following dependencies:"
         echo "  - DDS Router: ${{ inputs.ddsrouter_branch }}"
 
-        mkdir -p ${{ github.workspace }}
-        cd ${{ github.workspace }}
+        cd src
         git clone --branch ${{ inputs.ddsrouter_branch }} https://github.com/eProsima/DDS-Router.git
+        cd ..
 
         echo "::endgroup::"
-
-    - name: Fetch DDS Router repositories in windows
-      if: runner.os == 'Windows'
-      shell: pwsh
-      run: |
-
-        "::group::Manually clone DDS Router repository"
-
-        Write-Host 'Downloading following dependencies:'
-        Write-Host '  - DDS Router: ${{ inputs.ddsrouter_branch }}'
-
-        New-Item -ItemType Directory -Force -Path ${{ github.workspace }}
-        Set-Location -Path ${{ github.workspace }}
-
-        git clone --branch ${{ inputs.ddsrouter_branch }} https://github.com/eProsima/DDS-Router.git
-
-        "::endgroup::"
