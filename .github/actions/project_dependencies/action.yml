@@ -101,17 +101,10 @@ runs:
         secret_token: ${{ inputs.secret_token }}
         workflow_conclusion: completed
 
-    - name: Fetch DDS Router repositories in ubuntu
+    - name: Fetch DDS Router repositories
       shell: bash
       run: |
-
-        echo "::group::Manually clone DDS Router repository"
-
-        echo "Downloading following dependencies:"
-        echo "  - DDS Router: ${{ inputs.ddsrouter_branch }}"
 
         cd src
         git clone --branch ${{ inputs.ddsrouter_branch }} https://github.com/eProsima/DDS-Router.git
         cd ..
-
-        echo "::endgroup::"

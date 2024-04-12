@@ -18,7 +18,7 @@ on:
     - cron: '0 1 * * *'
 
 env:
-  code_packages_names: 'amlip_cpp amlip_py amlip_swig amlip_agent'
+  code_packages_names: 'amlip_cpp amlip_swig amlip_py amlip_agent'
   docs_packages_names: 'amlip_docs'
   default_dependencies_artifact_postfix: '_nightly'
 
@@ -46,7 +46,7 @@ jobs:
       - name: Sync repository
         uses: eProsima/eProsima-CI/external/checkout@v0
         with:
-          path: ${{ github.workspace }}/src
+          path: src
 
       - name: Download dependencies and install requirements
         uses: ./src/.github/actions/project_dependencies
@@ -58,13 +58,15 @@ jobs:
 
       - name: Compile and run tests
         id: compile_and_test
-        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@main
+        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
         with:
-          packages_names: ${{ env.code_packages_names }}
-          cmake_args: -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.cmake_build_type }}
-          workspace_dependencies: ${{ github.workspace }}/install
-          ctest_args: --label-exclude "xfail"
           colcon_meta_file: ${{ github.workspace }}/src/.github/workflows/configurations/${{ runner.os }}/colcon.meta
+          packages_names: ${{ env.code_packages_names }}
+          cmake_build_type: ${{ matrix.cmake_build_type }}
+          cmake_args: -DBUILD_TESTS=ON
+          ctest_args: --label-exclude "xfail"
+          workspace: ${{ github.workspace }}
+          workspace_dependencies: ${{ github.workspace }}/install
 
       - name: Test Report
         uses: eProsima/eProsima-CI/external/test-reporter@main
