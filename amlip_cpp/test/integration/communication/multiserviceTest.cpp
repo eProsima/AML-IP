@@ -15,7 +15,6 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <cpp_utils/Log.hpp>
 #include <cpp_utils/utils.hpp>
 
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>

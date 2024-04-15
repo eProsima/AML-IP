@@ -124,7 +124,7 @@ using namespace eprosima::amlip;
 TEST(modelManagerTest, ping_pong)
 {
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
 
         // Managers always send same model in this test
@@ -181,7 +181,7 @@ TEST(modelManagerTest, ping_pong)
 TEST(modelManagerTest, long_string_statistics)
 {
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
         // Managers always send same model in this test
 
@@ -249,7 +249,7 @@ TEST(modelManagerTest, long_string_statistics)
 TEST(modelManagerTest, long_vector_statistics)
 {
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
         // Managers always send same model in this test
 

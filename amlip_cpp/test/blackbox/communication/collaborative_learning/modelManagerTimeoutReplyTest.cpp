@@ -101,7 +101,7 @@ using namespace eprosima::amlip;
 TEST(modelManagerTimeoutReplyTest, ping_pong)
 {
     // Activate log
-    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
 
         // Managers always send same model in this test
