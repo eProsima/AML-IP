@@ -107,7 +107,7 @@ jobs:
       - name: Sync repository
         uses: eProsima/eProsima-CI/external/checkout@v0
         with:
-          path: ${{ github.workspace }}/src
+          path: src
 
       - name: Download dependencies and install requirements
         uses: ./src/.github/actions/project_dependencies
@@ -122,8 +122,11 @@ jobs:
         uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@main
         with:
           packages_names: ${{ env.code_packages_names }}
-          workspace_dependencies: ${{ github.workspace }}/install
+          cmake_build_type: Release
+          cmake_args: -DBUILD_TESTS=ON
           ctest_args: --label-regex "xfail"
+          workspace: ${{ github.workspace }}
+          workspace_dependencies: ${{ github.workspace }}/install
 
       - name: Test Report
         uses: eProsima/eProsima-CI/external/test-reporter@main
@@ -146,7 +149,7 @@ jobs:
       - name: Sync repository
         uses: eProsima/eProsima-CI/external/checkout@v0
         with:
-          path: ${{ github.workspace }}/src
+          path: src
 
       - name: Download dependencies and install requirements
         uses: ./src/.github/actions/project_dependencies
@@ -161,6 +164,7 @@ jobs:
         uses: eProsima/eProsima-CI/multiplatform/asan_build_test@main
         with:
           packages_names: ${{ env.code_packages_names }}
+          workspace: ${{ github.workspace }}
           workspace_dependencies: ${{ github.workspace }}/install
 
       - name: Test Report
@@ -183,7 +187,7 @@ jobs:
       - name: Sync repository
         uses: eProsima/eProsima-CI/external/checkout@v0
         with:
-          path: ${{ github.workspace }}/src
+          path: src
 
       - name: Download dependencies and install requirements
         uses: ./src/.github/actions/project_dependencies
@@ -197,6 +201,7 @@ jobs:
         uses: eProsima/eProsima-CI/multiplatform/clang_build_test@v0
         with:
           packages_names: ${{ env.code_packages_names }}
+          workspace: ${{ github.workspace }}
           workspace_dependencies: ${{ github.workspace }}/install
 
 
@@ -212,7 +217,7 @@ jobs:
       - name: Sync repository
         uses: eProsima/eProsima-CI/external/checkout@v0
         with:
-          path: ${{ github.workspace }}/src
+          path: src
 
       - name: Download dependencies and install requirements
         uses: ./src/.github/actions/project_dependencies
@@ -226,6 +231,7 @@ jobs:
         uses: eProsima/eProsima-CI/ubuntu/coverage_build_test_upload@main
         with:
           packages_names: ${{ env.code_packages_names }}
+          workspace: ${{ github.workspace }}
           workspace_dependencies: ${{ github.workspace }}/install
           codecov_token: ${{ secrets.CODECOV_TOKEN }}
           codecov_fix_file_path: ${{ github.workspace }}/src/codecov.yml
