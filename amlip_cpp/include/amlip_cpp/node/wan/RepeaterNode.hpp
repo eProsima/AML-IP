@@ -37,12 +37,12 @@ class RepeaterNode : public AgentNode
 {
 public:
 
-    RepeaterNode(
+    AMLIP_CPP_DllAPI RepeaterNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses,
             const std::set<ddspipe::participants::types::Address>& connection_addresses);
 
-    RepeaterNode(
+    AMLIP_CPP_DllAPI RepeaterNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses);
 

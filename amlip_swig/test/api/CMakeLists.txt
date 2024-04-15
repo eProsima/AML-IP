@@ -12,12 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Add API Tests
+# Add import test
 add_test(
     NAME
-        api_tests
+        import_test
     COMMAND
         ${Python3_EXECUTABLE} -m pytest -vrP
     WORKING_DIRECTORY
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/import
+)
+
+# Add types test
+add_test(
+    NAME
+        types_tests
+    COMMAND
+        ${Python3_EXECUTABLE} -m pytest -vrP
+    WORKING_DIRECTORY
+        ${CMAKE_CURRENT_SOURCE_DIR}/types
 )

@@ -1,0 +1,110 @@
+name: build_amlip_dependencies
+description: Common first step for all jobs. Checkout repository, download dependencies and install required packages.
+
+inputs:
+
+  ddsrouter_branch:
+    description: >
+      Branch, tag or commit of eProsima/DDS-Router repository.
+      Check available branches in https://github.com/eProsima/DDS-Router.
+    required: false
+    default: main
+
+  os:
+    description: Specify runs-on machine to download specific artifact
+    required: true
+
+  cmake_build_type:
+    description: Specify cmake_build_type option to download specific artifact
+    required: true
+
+  dependencies_artifact_postfix:
+    description: Specify artifact postfix in case it wants to use a manual one
+    required: false
+    default: _nightly
+
+  target_workspace:
+    description: Specify directory to download dependencies
+    required: false
+    default: ${{ github.workspace }}/install
+
+  # This must be passed as an argument because actions do not access to workflow secrets:
+  # Unrecognized named-value: 'secrets'. https://github.com/orgs/community/discussions/27054
+  # Pass argument {{ secrets.GITHUB_TOKEN }} from workflow
+  secret_token:
+    description: 'Secret token to authenticate the WebRequest so it not get a rate limit error.'
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+
+    - name: Install OpenSSL
+      uses: eProsima/eprosima-CI/windows/install_openssl@v0
+      if: runner.os == 'Windows'
+      with:
+        version: '3.1.1'
+
+    - name: Install Asio and TinyXML2
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        mkdir "$pwdpath/choco_packages"
+        Invoke-WebRequest -Uri https://github.com/ros2/choco-packages/releases/download/2020-02-24/asio.1.12.1.nupkg -OutFile "$pwdpath/choco_packages/asio.1.12.1.nupkg"
+        Invoke-WebRequest -Uri https://github.com/ros2/choco-packages/releases/download/2020-02-24/tinyxml2.6.0.0.nupkg -OutFile "$pwdpath/choco_packages/tinyxml2.6.0.0.nupkg"
+        choco install -y -s "$pwdpath/choco_packages" asio tinyxml2
+        Set-Item -Force -Path "env:PATH" -Value "C:\ProgramData\chocolatey\lib\asio;C:\ProgramData\chocolatey\lib\tinyxml2;C:\ProgramData\chocolatey\lib\tinyxml2\lib;$env:PATH"
+        echo "PATH=$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Install swig
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: choco install swig --allow-downgrade --version=4.0.2.04082020
+
+    - name: Install apt dependencies
+      uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
+      if: runner.os == 'Linux'
+      with:
+        packages: libasio-dev libtinyxml2-dev libpython3-dev swig
+
+    - name: Setup Python version
+      uses: eProsima/eProsima-CI/external/setup-python@v0
+      if: runner.os == 'Windows'
+      with:
+        python-version: '3.11'
+
+    - name: Install Python dependencies
+      uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
+      if: runner.os == 'Windows'
+      with:
+        packages: pytest pywin32
+
+    - name: Install Fast DDS dependencies
+      uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
+      with:
+        cmake_build_type: ${{ inputs.cmake_build_type }}
+
+    - name: Install yaml cpp dependency
+      uses: eProsima/eProsima-CI/multiplatform/install_yamlcpp@v0
+      with:
+        cmake_build_type: ${{ inputs.cmake_build_type }}
+
+    # In DDS Pipe artifact there are included Fast DDS and dev-utils
+    - name: Download dependencies artifact
+      uses: eProsima/eProsima-CI/multiplatform/download_dependency@v0
+      with:
+        artifact_name: built_ddspipe_${{ inputs.os }}_${{ inputs.cmake_build_type }}${{ inputs.dependencies_artifact_postfix }}
+        workflow_source: build_ddspipe.yml
+        workflow_source_repository: eProsima/eProsima-CI
+        target_workspace: ${{ inputs.target_workspace }}
+        secret_token: ${{ inputs.secret_token }}
+        workflow_conclusion: completed
+
+    - name: Fetch DDS Router repositories
+      shell: bash
+      run: |
+
+        cd src
+        git clone --branch ${{ inputs.ddsrouter_branch }} https://github.com/eProsima/DDS-Router.git
+        cd ..

@@ -24,10 +24,7 @@ char dummy;
 }  // namespace
 #endif  // _WINID_SIZE
 
-#include <fastcdr/Cdr.h>
-
-#include <fastcdr/exceptions/BadParamException.h>
-using namespace eprosima::fastcdr::exception;
+#include <amlip_cpp/types/GenericDataType.hpp>
 
 #include <array>
 #include <stdlib.h>
@@ -36,23 +33,28 @@ using namespace eprosima::fastcdr::exception;
 #include <cpp_utils/types/cast.hpp>
 #include <cpp_utils/utils.hpp>
 
-#include <amlip_cpp/types/GenericDataType.hpp>
+#include <fastdds/rtps/common/CdrSerialization.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace types {
 
 const char* GenericDataType::TYPE_NAME_ = "GENERIC";
-const size_t GenericDataType::DEFAULT_PREALLOCATED_SIZE_ = 16;
+uint32_t GenericDataType::max_cdr_typesize_ = 132UL;
 
 GenericDataType::GenericDataType(
         void* data,
         const uint32_t size,
         bool take_ownership /* = false */)
-    : data_(data)
-    , data_size_(size)
-    , has_been_allocated_(take_ownership)
 {
+    if (take_ownership)
+    {
+        data_ = malloc(size);
+    }
+
+    data_size_ = size;
+    std::memcpy(data_, data, size);
+    has_been_allocated_.store(take_ownership);
 }
 
 GenericDataType::GenericDataType()
@@ -95,59 +97,43 @@ GenericDataType::GenericDataType(
 {
     if (x.has_been_allocated_)
     {
-        logWarning(
-            AMLIPCPP_TYPES_GENERIC,
-            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
-        data_size_ = x.data_size_;
-        data_ = malloc(data_size_ * sizeof(uint8_t));
-        std::memcpy(data_, x.data_, data_size_);
-        has_been_allocated_.store(true);
+        data_ = malloc(x.data_size_);
     }
-    else
-    {
-        data_ = x.data_;
-        data_size_ = x.data_size_;
-        has_been_allocated_.store(false);
-    }
+
+    data_size_ = x.data_size_;
+    std::memcpy(data_, x.data_, data_size_);
+    has_been_allocated_.store(x.has_been_allocated_.load());
 }
 
 GenericDataType::GenericDataType(
         GenericDataType&& x)
 {
-    this->data_ = x.data_;
     this->data_size_ = x.data_size_;
+    this->data_ = x.data_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
 
     // Restore x
-    x.data_ = nullptr;
     x.data_size_ = 0;
+    x.data_ = nullptr;
     x.has_been_allocated_.store(false);
 }
 
 GenericDataType& GenericDataType::operator =(
         const GenericDataType& x)
 {
-    if (this->has_been_allocated_)
+    if (has_been_allocated_)
     {
         free(data_);
     }
 
     if (x.has_been_allocated_)
     {
-        logWarning(
-            AMLIPCPP_TYPES_GENERIC,
-            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
-        data_size_ = x.data_size_;
-        data_ = malloc(data_size_ * sizeof(uint8_t));
-        std::memcpy(data_, x.data_, data_size_);
-        has_been_allocated_.store(true);
+        data_ = malloc(x.data_size_);
     }
-    else
-    {
-        data_ = x.data_;
-        data_size_ = x.data_size_;
-        has_been_allocated_.store(false);
-    }
+
+    data_size_ = x.data_size_;
+    std::memcpy(data_, x.data_, data_size_);
+    has_been_allocated_.store(x.has_been_allocated_.load());
 
     return *this;
 }
@@ -160,13 +146,13 @@ GenericDataType& GenericDataType::operator =(
         free(data_);
     }
 
-    this->data_ = x.data_;
     this->data_size_ = x.data_size_;
+    this->data_ = x.data_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
 
     // Restore x
-    x.data_ = nullptr;
     x.data_size_ = 0;
+    x.data_ = nullptr;
     x.has_been_allocated_.store(false);
 
     return *this;
@@ -184,6 +170,12 @@ bool GenericDataType::operator !=(
     return !(*this == x);
 }
 
+void GenericDataType::data(
+        void* data)
+{
+    data_ = data;
+}
+
 void* GenericDataType::data() const
 {
     return data_;
@@ -194,82 +186,25 @@ uint32_t GenericDataType::data_size() const
     return data_size_;
 }
 
+uint32_t& GenericDataType::data_size()
+{
+    return data_size_;
+}
+
 std::string GenericDataType::type_name()
 {
     return TYPE_NAME_;
 }
 
-void GenericDataType::serialize(
-        eprosima::fastcdr::Cdr& scdr) const
+bool GenericDataType::has_been_allocated() const
 {
-    scdr << data_size_;
-    scdr.serializeArray(static_cast<uint8_t*>(data_), data_size_);
+    return has_been_allocated_.load();
 }
 
-void GenericDataType::deserialize(
-        eprosima::fastcdr::Cdr& dcdr)
+void GenericDataType::has_been_allocated(
+        bool take_ownership)
 {
-    // If data has been already allocated (it has been already deserialized), we free it
-    if (has_been_allocated_)
-    {
-        free(data_);
-    }
-
-    dcdr >> data_size_;
-
-    // Store enough space to deserialize the data
-    data_ = malloc(data_size_ * sizeof(uint8_t));
-    // Deserialize array
-    dcdr.deserializeArray(static_cast<uint8_t*>(data_), data_size_);
-
-    // Set as this data has been allocated by this class
-    has_been_allocated_.store(true);
-}
-
-void GenericDataType::serialize_key(
-        eprosima::fastcdr::Cdr&) const
-{
-}
-
-size_t GenericDataType::get_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    // It needs an upper bound, but it will not be used
-    current_alignment += DEFAULT_PREALLOCATED_SIZE_ + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-
-    return current_alignment - initial_alignment;
-}
-
-size_t GenericDataType::get_cdr_serialized_size(
-        const GenericDataType& data,
-        size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-    if (data.data_size() > 0)
-    {
-        current_alignment += data.data_size() + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-    }
-
-    return current_alignment - initial_alignment;
-}
-
-size_t GenericDataType::get_key_max_cdr_serialized_size(
-        size_t current_alignment)
-{
-    return current_alignment;
-}
-
-bool GenericDataType::is_key_defined()
-{
-    return false;
+    has_been_allocated_.store(take_ownership);
 }
 
 bool GenericDataType::is_bounded()
@@ -310,3 +245,6 @@ std::ostream& operator <<(
 } /* namespace types */
 } /* namespace amlip */
 } /* namespace eprosima */
+
+// Include auxiliary functions like for serializing/deserializing.
+#include <types/impl/GenericDataTypeCdrAux.ipp>

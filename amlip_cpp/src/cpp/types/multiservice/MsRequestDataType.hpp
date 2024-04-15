@@ -24,15 +24,12 @@
 #include <ostream>
 #include <string>
 
+#include <fastcdr/config.h>
+
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 
-namespace eprosima {
-namespace fastcdr {
-class Cdr;
-} // namespace fastcdr
-} // namespace eprosima
 
 namespace eprosima {
 namespace amlip {
@@ -119,8 +116,13 @@ public:
     /*!
      * TODO
      */
+    AmlipIdDataType& client_id();
+
+    /*!
+     * TODO
+     */
     void client_id(
-            const AmlipIdDataType& new_value);
+            AmlipIdDataType& new_value);
 
     /*!
      * TODO
@@ -130,65 +132,16 @@ public:
     /*!
      * TODO
      */
+    TaskId& task_id();
+
+    /*!
+     * TODO
+     */
     void task_id(
-            const TaskId& new_value);
+            TaskId& new_value);
 
     /////
     // InterfaceDataType methods
-
-    /*!
-     * @brief This function serializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function deserializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
-
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     * @return Serialized size.
-     */
-    static size_t get_cdr_serialized_size(
-            const MsRequestDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     */
-    static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
@@ -219,13 +172,17 @@ public:
      */
     static std::string type_name();
 
+    static constexpr uint32_t max_cdr_typesize_ {136UL};
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
+
 protected:
 
     AmlipIdDataType client_id_;
 
     TaskId task_id_;
 
-    static const char* DATA_TYPE_NAME_; // "ms_request"
+    static const char* TYPE_NAME_; // "ms_request"
 
 };
 

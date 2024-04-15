@@ -13,6 +13,7 @@
 # limitations under the License.
 """AML-IP Model data type API specification."""
 
+from typing import Union
 
 from amlip_swig import ModelRequestDataType as cpp_ModelRequestDataType
 
@@ -25,7 +26,7 @@ class ModelRequestDataType(cpp_ModelRequestDataType):
 
     def __init__(
             self,
-            message: (str | bytes) = None):
+            message: Union[bytes, str] = None):
         """
         Construct a new Model request with data.
         Parameters

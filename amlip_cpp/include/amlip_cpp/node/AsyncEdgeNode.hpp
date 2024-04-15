@@ -22,10 +22,10 @@
 
 #include <functional>
 
-#include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/inference/InferenceDataType.hpp>
 #include <amlip_cpp/types/inference/InferenceSolutionDataType.hpp>
+#include <amlip_cpp/node/ParentNode.hpp>
 
 // Forward declaration of dds classes
 namespace eprosima {

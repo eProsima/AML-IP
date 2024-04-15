@@ -110,14 +110,14 @@ public:
      *
      * @throw if node is already running.
      */
-    void run();
+    AMLIP_CPP_DllAPI void run();
 
     /**
      * @brief Stop processing data.
      *
      * If not processing data, do nothing.
      */
-    void stop();
+    AMLIP_CPP_DllAPI void stop();
 
 protected:
 

@@ -37,12 +37,12 @@ class ServerNode : public AgentNode
 {
 public:
 
-    ServerNode(
+    AMLIP_CPP_DllAPI ServerNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses,
             const uint32_t domain_id);
 
-    ServerNode(
+    AMLIP_CPP_DllAPI ServerNode(
             const char* name,
             const std::set<ddspipe::participants::types::Address>& listening_addresses);
 

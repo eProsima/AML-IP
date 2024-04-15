@@ -20,15 +20,16 @@
 #define AMLIPCPP__SRC_CPP_NODE_MODELMANAGERSENDERNODE_HPP
 
 #include <functional>
-
-#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-
-#include <amlip_cpp/node/ParentNode.hpp>
+#include <thread>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
 #include <amlip_cpp/types/model/ModelReplyDataType.hpp>
 #include <amlip_cpp/types/model/ModelRequestDataType.hpp>
 #include <amlip_cpp/types/model/ModelStatisticsDataType.hpp>
+
+#include <amlip_cpp/node/ParentNode.hpp>
+
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 
 
 // Forward declaration of dds classes
@@ -116,7 +117,7 @@ public:
      * @param size New value to be copied in member \c data_size_
      * @param copy_data
      */
-    void publish_statistics(
+    AMLIP_CPP_DllAPI void publish_statistics(
             const std::string& name,
             void* data,
             const uint32_t size,
@@ -129,7 +130,7 @@ public:
      * @param data New value to be copied in member \c data_
      * @param copy_data
      */
-    void publish_statistics(
+    AMLIP_CPP_DllAPI void publish_statistics(
             const std::string& name,
             const std::vector<types::ByteType>& data,
             bool copy_data = true);
@@ -141,7 +142,7 @@ public:
      * @param data New value to be copied in member \c data_
      * @param copy_data
      */
-    void publish_statistics(
+    AMLIP_CPP_DllAPI void publish_statistics(
             const std::string& name,
             const std::string& data,
             bool copy_data = true);
@@ -151,7 +152,7 @@ public:
      *
      * @throw InconsistencyException if node is already running.
      */
-    void start(
+    AMLIP_CPP_DllAPI void start(
             std::shared_ptr<ModelReplier> model_replier);
 
     /**
@@ -159,7 +160,7 @@ public:
      *
      * If not processing data, do nothing.
      */
-    void stop();
+    AMLIP_CPP_DllAPI void stop();
 
 protected:
 

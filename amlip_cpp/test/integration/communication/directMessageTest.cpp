@@ -15,10 +15,9 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <cpp_utils/Log.hpp>
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 #include <dds/Participant.hpp>
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

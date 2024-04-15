@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-%module(directors="1", threads="1") amlip_swig
+%module(directors="1", threads="1", moduleimport="if __import__('os').name == 'nt': import win32api; win32api.LoadLibrary('$<TARGET_FILE_NAME:amlip_cpp>')\nif __package__ or '.' in __name__:\n    from . import _amlip_swig\nelse:\n    import _amlip_swig") amlip_swig
 
 // Handle exceptions on python callbacks and send them back to C++ so that they can be catched
 // Also, add some meaningful description of the error

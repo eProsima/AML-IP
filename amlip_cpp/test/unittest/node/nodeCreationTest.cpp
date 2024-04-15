@@ -15,35 +15,29 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
-#include <amlip_cpp/node/wan/AgentNode.hpp>
-#include <amlip_cpp/node/wan/ClientNode.hpp>
-#include <amlip_cpp/node/wan/ServerNode.hpp>
-#include <amlip_cpp/node/wan/RepeaterNode.hpp>
+#include <cpp_utils/macros/macros.hpp>
+
+#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 
 #include <amlip_cpp/node/ParentNode.hpp>
 #include <amlip_cpp/node/StatusNode.hpp>
 
-#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
+#include <amlip_cpp/node/wan/ClientNode.hpp>
+#include <amlip_cpp/node/wan/RepeaterNode.hpp>
+#include <amlip_cpp/node/wan/ServerNode.hpp>
 #include <amlip_cpp/node/workload_distribution/MainNode.hpp>
-#include <amlip_cpp/node/workload_distribution/AsyncComputingNode.hpp>
-#include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
-
-#include <amlip_cpp/node/EdgeNode.hpp>
-#include <amlip_cpp/node/InferenceNode.hpp>
-#include <amlip_cpp/node/AsyncEdgeNode.hpp>
-#include <amlip_cpp/node/AsyncInferenceNode.hpp>
-
+#include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 
-#include <amlip_cpp/types/id/AmlipIdDataType.hpp>
+#include <dds/Participant.hpp>
 
 namespace eprosima {
 namespace amlip {
 namespace node {
 namespace test {
 
-class DummyNode : public ParentNode
+class DummyNode : public eprosima::amlip::node::ParentNode
 {
 public:
 
@@ -164,9 +158,11 @@ TEST(NodeCreationTest, create_computing)
 TEST(NodeCreationTest, create_model_sender)
 {
     // Create statistics data
-    eprosima::amlip::types::AmlipIdDataType id({"TestNode"}, {66, 11, 77, 44});
+    std::array<uint8_t, 28> name = {'T', 'e', 's', 't', 'N', 'o', 'd', 'e'};
+    std::array<uint8_t, 4> id = {66, 11, 77, 44};
+    eprosima::amlip::types::AmlipIdDataType amlip_id(name, id);
 
-    node::ModelManagerSenderNode node(id);
+    node::ModelManagerSenderNode node(amlip_id);
 
     ASSERT_EQ(types::StateKind::stopped, node.current_state());
     ASSERT_EQ(types::NodeKind::model_sender, node.node_kind());

@@ -22,6 +22,8 @@
 #ifndef AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 #define AMLIPCPP__SRC_CPP_TYPES_STATUSDATATYPE_HPP
 
+#include <fastcdr/config.h>
+
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 #include <amlip_cpp/types/InterfaceDataType.hpp>
 #include <amlip_cpp/types/status/NodeKind.hpp>
@@ -71,11 +73,20 @@ public:
     //! Get id value
     AMLIP_CPP_DllAPI AmlipIdDataType id() const noexcept;
 
+    //! Get reference id value
+    AMLIP_CPP_DllAPI AmlipIdDataType& id() noexcept;
+
     //! Get Node Kind value
     AMLIP_CPP_DllAPI NodeKind node_kind() const noexcept;
 
+    //! Get reference Node Kind value
+    AMLIP_CPP_DllAPI NodeKind& node_kind() noexcept;
+
     //! Get State Kind value
     AMLIP_CPP_DllAPI StateKind state() const noexcept;
+
+    //! Get reference State Kind value
+    AMLIP_CPP_DllAPI StateKind& state() noexcept;
 
     //! Whether this object is correctly defined, thus none of its internal variables are undefined.
     AMLIP_CPP_DllAPI bool is_defined() const noexcept;
@@ -85,60 +96,6 @@ public:
 
     /////
     // InterfaceDataType methods
-
-    /*!
-     * @brief This function serializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function deserializes an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void deserialize(
-            eprosima::fastcdr::Cdr& cdr) override;
-
-    /*!
-     * @brief This function serializes the key members of an object using CDR serialization.
-     * @param cdr CDR serialization object.
-     */
-    AMLIP_CPP_DllAPI void serialize_key(
-            eprosima::fastcdr::Cdr& cdr) const override;
-
-    /*!
-     * @brief This function returns the maximum serialized size of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the serialized size of a data depending on the buffer alignment.
-     * @param data Data which is calculated its serialized size.
-     * @param current_alignment Buffer alignment.
-     * @return Serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_cdr_serialized_size(
-            const StatusDataType& data,
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function returns the maximum serialized size of the Key of an object
-     * depending on the buffer alignment.
-     * @param current_alignment Buffer alignment.
-     * @return Maximum serialized size.
-     */
-    AMLIP_CPP_DllAPI static size_t get_key_max_cdr_serialized_size(
-            size_t current_alignment = 0);
-
-    /*!
-     * @brief This function tells you if the Key has been defined for this type
-     */
-    AMLIP_CPP_DllAPI static bool is_key_defined();
 
     /**
      * @brief Whether the type is bounded
@@ -169,6 +126,10 @@ public:
      */
     AMLIP_CPP_DllAPI static std::string type_name();
 
+    static constexpr uint32_t max_cdr_typesize_ {140UL};
+
+    static constexpr uint32_t max_key_cdr_typesize_ {0UL};
+
 protected:
 
     //! Internal variable Id
@@ -180,8 +141,8 @@ protected:
     //! Internal variable State Kind
     StateKind state_;
 
-    //! Name of the DDSDataType for topics that uses this Data Type
-    static const char* DATA_TYPE_NAME_; // "status"
+    static const char* TYPE_NAME_;
+
 };
 
 //! \c StatusDataType to stream serializator

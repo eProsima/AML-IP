@@ -19,19 +19,22 @@
 #ifndef AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_ASYNCMULTISERVICECLIENT_HPP
 #define AMLIPCPP__SRC_CPP_DDS_MULTISERVICE_ASYNCMULTISERVICECLIENT_HPP
 
+#include <thread>
+
 #include <cpp_utils/wait/DBQueueWaitHandler.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 #include <cpp_utils/wait/CounterWaitHandler.hpp>
 #include <cpp_utils/types/Atomicable.hpp>
+
+#include <types/TemplatesDataType.hpp>
+#include <types/multiservice/MsRequestDataType.hpp>
+#include <types/multiservice/MsReferenceDataType.hpp>
 
 #include <dds/DdsHandler.hpp>
 #include <dds/DirectWriter.hpp>
 #include <dds/Reader.hpp>
 #include <dds/TargetedReader.hpp>
 #include <dds/Writer.hpp>
-#include <types/multiservice/MsDataType.hpp>
-#include <types/multiservice/MsRequestDataType.hpp>
-#include <types/multiservice/MsReferenceDataType.hpp>
 
 namespace eprosima {
 namespace amlip {

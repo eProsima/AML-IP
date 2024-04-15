@@ -13,6 +13,7 @@
 # limitations under the License.
 """AML-IP Model Statistics data type API specification."""
 
+from typing import Union
 
 from amlip_py.types.AmlipIdDataType import AmlipIdDataType
 
@@ -27,8 +28,8 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
 
     def __init__(
             self,
-            message: (str | bytes) = None,
-            data: (str | bytes) = None,
+            message: Union[bytes, str] = None,
+            data: Union[bytes, str] = None,
             size: int = None):
         """
         Construct a new Model Statistics with statistics.
