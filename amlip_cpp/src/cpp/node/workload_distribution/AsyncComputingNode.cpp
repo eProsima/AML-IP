@@ -72,7 +72,10 @@ AsyncComputingNode::AsyncComputingNode(
 
 AsyncComputingNode::~AsyncComputingNode()
 {
-    stop();
+    if (current_state_ == types::StateKind::running)
+    {
+        stop();
+    }
     logDebug(AMLIPCPP_NODE_ASYNCCOMPUTING, "Destroying Async Computing Node: " << *this << ".");
 }
 

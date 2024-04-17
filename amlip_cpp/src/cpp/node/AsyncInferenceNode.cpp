@@ -80,7 +80,10 @@ AsyncInferenceNode::AsyncInferenceNode(
 
 AsyncInferenceNode::~AsyncInferenceNode()
 {
-    stop();
+    if (current_state_ == types::StateKind::running)
+    {
+        stop();
+    }
     logDebug(AMLIPCPP_NODE_ASYNCINFERENCE, "Destroying Async Inference Node: " << *this << ".");
 }
 
