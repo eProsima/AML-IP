@@ -81,6 +81,10 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         data_ = std::malloc(size);
         std::memcpy(data_, data, size);
     }
+    else
+    {
+        data_ = data;
+    }
 
     data_size_ = size;
     has_been_allocated_.store(take_ownership);
@@ -92,7 +96,7 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         bool take_ownership /* = true */)
     : ModelStatisticsDataType(
         name,
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size()),
+        static_cast<void*>((char*)bytes.data()),
         bytes.size(),
         take_ownership)
 {
@@ -132,6 +136,10 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         data_ = malloc(x.data_size_);
         std::memcpy(data_, x.data_, x.data_size_);
     }
+    else
+    {
+        data_ = x.data_;
+    }
 
     server_id_ = x.server_id_;
     data_size_ = x.data_size_;
@@ -167,6 +175,10 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
     {
         data_ = malloc(x.data_size_);
         std::memcpy(data_, x.data_, x.data_size_);
+    }
+    else
+    {
+        data_ = x.data_;
     }
 
     data_size_ = x.data_size_;
