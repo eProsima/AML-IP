@@ -107,7 +107,7 @@ void AsyncInferenceNode::stop()
     if (current_state_ == types::StateKind::stopped)
     {
         throw utils::InconsistencyException(
-              STR_ENTRY << "Async Inference Node " << this << " is already stopped.");
+                  STR_ENTRY << "Async Inference Node " << this << " is already stopped.");
     }
     else
     {
