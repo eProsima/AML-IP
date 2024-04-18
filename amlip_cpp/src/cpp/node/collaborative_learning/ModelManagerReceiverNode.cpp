@@ -33,6 +33,7 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
+std::mutex ModelManagerReceiverNode::mutex_;
 const uint32_t ModelManagerReceiverNode::REPLY_TIMEOUT_ = 2500;
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(
@@ -139,6 +140,9 @@ void ModelManagerReceiverNode::stop()
 
 void ModelManagerReceiverNode::request_model()
 {
+    // Acquire mutex to protect access to statistics_
+    std::unique_lock<std::mutex> lock(mutex_);
+
     if (!running_)
     {
         throw utils::InconsistencyException(
@@ -175,7 +179,6 @@ void ModelManagerReceiverNode::process_routine_()
 {
     while (running_)
     {
-
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Waiting for statistics...");
         statistics_reader_->wait_data_available();
 
@@ -200,13 +203,16 @@ void ModelManagerReceiverNode::process_routine_()
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
                 "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
 
-        if (listener_->statistics_received(statistics))
         {
-            // Save statistics
-            statistics_ = statistics;
+            // Acquire mutex to protect access to statistics_
+            std::unique_lock<std::mutex> lock(mutex_);
+            if (listener_->statistics_received(statistics))
+            {
+                // Save statistics
+                statistics_ = statistics;
 
+            }
         }
-
     }
 
     logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Finishing ModelManagerReceiver routine.");
