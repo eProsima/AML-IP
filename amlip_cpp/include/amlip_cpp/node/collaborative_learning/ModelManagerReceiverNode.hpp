@@ -159,6 +159,12 @@ public:
      */
     AMLIP_CPP_DllAPI void stop();
 
+    /**
+     * @brief Request the model that is associated with the given statistics.
+     *
+     */
+    AMLIP_CPP_DllAPI void request_model();
+
 protected:
 
     static eprosima::fastdds::dds::DataReaderQos default_statistics_datareader_qos();
@@ -169,10 +175,8 @@ protected:
      * Function to run from a thread.
      * It waits in \c statistics_reader_ to have messages to read.
      *
-     * @param listener listener to call
      */
-    void process_routine_(
-            std::shared_ptr<ModelListener> listener);
+    void process_routine_();
 
     /**
      * @brief Thread that waits for new data to be available.
@@ -198,6 +202,12 @@ protected:
 
     //! Data to request to ModelManagerSenderNode.
     types::ModelRequestDataType data_;
+
+    //! Statistics data received from ModelManagerSenderNode.
+    types::ModelStatisticsDataType statistics_;
+
+    //! Listener to call when new data is received.
+    std::shared_ptr<ModelListener> listener_;
 
     //! Maximum wait reply in milliseconds (0 = no wait)
     static const uint32_t REPLY_TIMEOUT_;        // 2500

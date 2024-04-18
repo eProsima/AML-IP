@@ -110,12 +110,13 @@ void ModelManagerReceiverNode::start(
 
     if (!running_.exchange(true))
     {
+        listener_ = listener;
+
         change_status_(types::StateKind::running);
 
         receiving_thread_ = std::thread(
             &ModelManagerReceiverNode::process_routine_,
-            this,
-            listener);
+            this);
     }
     else
     {
@@ -136,8 +137,41 @@ void ModelManagerReceiverNode::stop()
     }
 }
 
-void ModelManagerReceiverNode::process_routine_(
-        std::shared_ptr<ModelListener> listener)
+void ModelManagerReceiverNode::request_model()
+{
+    if (!running_)
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "ModelManagerReceiver node " << this << " is not processing data.");
+    }
+
+    if (statistics_.data() == nullptr)
+    {
+        logError(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "No statistics received yet.");
+        return;
+    }
+
+    // Send request
+    types::TaskId task_id = model_receiver_->send_request(data_, statistics_.server_id());
+
+    eprosima::amlip::types::ModelReplyDataType model;
+    try
+    {
+        // Wait reply
+        model = model_receiver_->get_reply(task_id, REPLY_TIMEOUT_);
+    }
+    catch (const eprosima::utils::TimeoutException& e)
+    {
+        std::cerr << e.what() << '\n';
+        return;
+    }
+
+    // Call callback
+    listener_->model_received(model);
+    logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManagerReceiver Node has received a model update.");
+}
+
+void ModelManagerReceiverNode::process_routine_()
 {
     while (running_)
     {
@@ -166,33 +200,11 @@ void ModelManagerReceiverNode::process_routine_(
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
                 "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
 
-        if (listener->statistics_received(statistics))
+        if (listener_->statistics_received(statistics))
         {
-            // Send request
-            types::TaskId task_id = model_receiver_->send_request(data_, statistics.server_id());
+            // Save statistics
+            statistics_ = statistics;
 
-            eprosima::amlip::types::ModelReplyDataType model;
-            try
-            {
-                // Wait reply
-                model = model_receiver_->get_reply(task_id, REPLY_TIMEOUT_);
-
-
-            }
-            catch (const eprosima::utils::TimeoutException& e)
-            {
-                std::cerr << e.what() << '\n';
-                continue;
-            }
-
-            if (!running_)
-            {
-                break;
-            }
-
-            // Call callback
-            listener->model_received(model);
-            logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "ModelManagerReceiver Node has received a model update.");
         }
 
     }
