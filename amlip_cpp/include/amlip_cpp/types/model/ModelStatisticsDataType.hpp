@@ -68,35 +68,35 @@ public:
      * @param name New value to be copied in member id \c name_
      * @param data New value to be copied in member id \c data_
      * @param size New value to be copied in member id \c data_size_
-     * @param copy_data
+     * @param take_ownership
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
             void* data,
             const uint32_t size,
-            bool copy_data = true);
+            bool take_ownership = true);
 
     /*!
      * @brief Constructor with name and data given in std::vector<uint8_t>.
      * @param name New value to be copied in member id \c name_
      * @param bytes New value to be copied in member id \c data_
-     * @param copy_data
+     * @param take_ownership
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
             const std::vector<ByteType>& bytes,
-            bool copy_data = true);
+            bool take_ownership = true);
 
     /*!
      * @brief Constructor with name and data.
      * @param name New value to be copied in member id \c name_
      * @param bytes New value to be copied in member id \c data_
-     * @param copy_data
+     * @param take_ownership
      */
     AMLIP_CPP_DllAPI ModelStatisticsDataType(
             const std::string& name,
             const std::string& bytes,
-            bool copy_data = true);
+            bool take_ownership = true);
 
     /*!
      * @brief Default destructor.
