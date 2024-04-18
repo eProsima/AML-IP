@@ -25,7 +25,8 @@ from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 DOMAIN_ID = 166
 
 # Variable to wait to the model request
-waiter = BooleanWaitHandler(True, False)
+waiter_statistics = BooleanWaitHandler(True, False)
+waiter_model = BooleanWaitHandler(True, False)
 
 
 class CustomModelReplier(ModelReplier):
@@ -49,6 +50,8 @@ class CustomModelListener(ModelListener):
             self,
             statistics: ModelStatisticsDataType) -> bool:
 
+        waiter_statistics.open()
+
         return True
 
     def model_received(
@@ -58,14 +61,17 @@ class CustomModelListener(ModelListener):
         print(f'Model reply received from server\n'
               f' solution: {model.to_string()}')
 
-        waiter.open()
+        waiter_model.open()
 
         return True
 
 
-def main():
-    """Execute main routine."""
+def test_one_model_receiver_one_model_sender():
+    """
+    Create 1 Model Manager Sender Node and 1 Model Manager Receiver Node.
 
+    The
+    """
     # Create request
     data = ModelRequestDataType('MobileNet V1')
 
@@ -103,15 +109,17 @@ def main():
     model_sender_node.start(
         listener=CustomModelReplier())
 
-    # Wait for the solution to be sent
-    waiter.wait()
+    # Wait statistics
+    waiter_statistics.wait()
+
+    # do something...
+    # decide to request the model
+    model_receiver_node.request_model()
+
+    # Wait model
+    waiter_model.wait()
 
     model_receiver_node.stop()
     model_sender_node.stop()
 
     print('Finishing Manual Test Model Manager Sender Node Py execution.')
-
-
-# Call main in program execution
-if __name__ == '__main__':
-    main()

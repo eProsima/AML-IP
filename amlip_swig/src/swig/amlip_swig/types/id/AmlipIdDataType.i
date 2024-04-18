@@ -19,6 +19,9 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
+%template(rand_id) std::array<uint8_t, 4>;
+%template(name) std::array<uint8_t, 28>;
+
 // Assignemt operators are ignored, as there is no such thing in Python.
 // Trying to export them issues a warning
 %ignore *::operator=;
@@ -34,22 +37,6 @@
     std::string __str__() const
     {
         return $self->to_string();
-    }
-}
-
-%extend std::array<uint8_t, 28>
-{
-    const uint8_t* get_buffer() const
-    {
-        return self->data();
-    }
-}
-
-%extend std::array<uint8_t, 4>
-{
-    const uint8_t* get_buffer() const
-    {
-        return self->data();
     }
 }
 

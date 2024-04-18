@@ -147,6 +147,11 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
         """Stop this entity if it is running. Do nothing otherwise."""
         cpp_ModelManagerReceiverNode.stop(self)
 
+    def request_model(
+            self) -> None:
+        """Request the model to the Model Manager Sender."""
+        cpp_ModelManagerReceiverNode.request_model(self)
+
     def get_id(
             self) -> AmlipIdDataType:
         """Get AMLIP id of the node."""

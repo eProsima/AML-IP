@@ -24,23 +24,28 @@ import amlip_py.node.ClientNode  # noqa: F401
 import amlip_py.node.ServerNode  # noqa: F401
 import amlip_py.node.RepeaterNode  # noqa: F401
 
+
 def test_computing_node():
     """Test creation of ComputingNode."""
     _ = amlip_py.node.ComputingNode.ComputingNode('test_node')
+
 
 def test_main_node():
     """Test creation of MainNode."""
     _ = amlip_py.node.MainNode.MainNode('test_node')
 
+
 def test_status_node():
     """Test creation of StatusNode."""
     _ = amlip_py.node.StatusNode.StatusNode('test_node')
+
 
 def test_model_manager_receiver_node():
     """Test creation of ModelManagerReceiverNode."""
     id = amlip_py.types.AmlipIdDataType.AmlipIdDataType()
     data = amlip_py.types.ModelRequestDataType.ModelRequestDataType()
     _ = amlip_py.node.ModelManagerReceiverNode.ModelManagerReceiverNode(id, data)
+
 
 def test_model_manager_sender_node():
     """Test creation of ModelManagerSenderNode."""

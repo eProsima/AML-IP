@@ -26,7 +26,8 @@ from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 DOMAIN_ID = 166
 
 # Variable to wait to the model reply
-waiter = BooleanWaitHandler(True, False)
+waiter_statistics = BooleanWaitHandler(True, False)
+waiter_model = BooleanWaitHandler(True, False)
 
 
 class CustomModelListener(ModelListener):
@@ -43,7 +44,7 @@ class CustomModelListener(ModelListener):
 
         if (float(data['size']) < 100):
             print('Publish request.\n')
-
+            waiter_statistics.open()
             return True
 
         return False
@@ -56,7 +57,7 @@ class CustomModelListener(ModelListener):
         print(model.to_string())
         print('\n')
 
-        waiter.open()
+        waiter_model.open()
 
         return True
 
@@ -83,8 +84,15 @@ def main():
     model_receiver_node.start(
         listener=CustomModelListener())
 
-    # Wait for reply
-    waiter.wait()
+    # Wait statistics
+    waiter_statistics.wait()
+
+    # do something...
+    # decide to request the model
+    model_receiver_node.request_model()
+
+    # Wait model
+    waiter_model.wait()
 
     model_receiver_node.stop()
 
