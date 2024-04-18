@@ -31,14 +31,17 @@ class CustomModelListener : public eprosima::amlip::node::ModelListener
 public:
 
     CustomModelListener(
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter)
-        : waiter_(waiter)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics,
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_model)
+        : waiter_statistics_(waiter_statistics)
+        , waiter_model_(waiter_model)
     {
     }
 
     virtual bool statistics_received (
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
+        waiter_statistics_->open();
         // Decide if we want the model based on the statistics received
         return true;
     }
@@ -48,12 +51,13 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-        waiter_->open();
+        waiter_model_->open();
 
         return true;
     }
 
-    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_;
+    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
+    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_model_;
 };
 
 int main(
@@ -74,17 +78,28 @@ int main(
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
 
-        // Create waiter
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
+        // Create waiters
+        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
+                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
+
+        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_model =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<CustomModelListener> listener =
-                std::make_shared<CustomModelListener>(waiter);
+                std::make_shared<CustomModelListener>(wait_statistics, wait_model);
+
         model_receiver_node.start(listener);
 
-        // Wait solution
-        waiter->wait();
+        // Wait statistics
+        wait_statistics->wait();
+
+        // do something...
+        // decide to request the model
+        model_receiver_node.request_model();
+
+        // Wait model
+        wait_model->wait();
 
         model_receiver_node.stop();
 
