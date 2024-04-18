@@ -163,7 +163,7 @@ jobs:
         id: compile_and_test
         uses: eProsima/eProsima-CI/multiplatform/asan_build_test@main
         with:
-          packages_names: ${{ env.code_packages_names }}
+          packages_names: amlip_cpp amlip_agent
           workspace: ${{ github.workspace }}
           workspace_dependencies: ${{ github.workspace }}/install
 
