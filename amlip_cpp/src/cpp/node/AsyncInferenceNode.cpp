@@ -89,15 +89,32 @@ AsyncInferenceNode::~AsyncInferenceNode()
 
 void AsyncInferenceNode::run()
 {
-    inference_server_->run(std::make_shared<TaskListenerCast>(listener_));
-    change_status_(types::StateKind::running);
+    if (current_state_ == types::StateKind::running)
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Async Inference Node " << this << " is already running.");
+    }
+    else
+    {
+        logInfo(AMLIPCPP_NODE_ASYNCINFERENCE, "Running Async Inference Node: " << *this << ".");
+        inference_server_->run(std::make_shared<TaskListenerCast>(listener_));
+        change_status_(types::StateKind::running);
+    }
 }
 
 void AsyncInferenceNode::stop()
 {
-
-    inference_server_->stop();
-    change_status_(types::StateKind::stopped);
+    if (current_state_ == types::StateKind::stopped)
+    {
+        throw utils::InconsistencyException(
+              STR_ENTRY << "Async Inference Node " << this << " is already stopped.");
+    }
+    else
+    {
+        logInfo(AMLIPCPP_NODE_ASYNCINFERENCE, "Stopping Async Inference Node: " << *this << ".");
+        inference_server_->stop();
+        change_status_(types::StateKind::stopped);
+    }
 }
 
 } /* namespace node */
