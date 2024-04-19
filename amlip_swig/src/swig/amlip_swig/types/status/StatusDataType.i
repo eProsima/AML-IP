@@ -22,7 +22,12 @@
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::StatusDataType::StatusDataType(StatusDataType&&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const StatusDataType&);
+%ignore eprosima::amlip::types::StatusDataType::id();
+%rename("%s") eprosima::amlip::types::StatusDataType::id() const;
+%ignore eprosima::amlip::types::StatusDataType::node_kind();
+%rename("%s") eprosima::amlip::types::StatusDataType::node_kind() const;
+%ignore eprosima::amlip::types::StatusDataType::state();
+%rename("%s") eprosima::amlip::types::StatusDataType::state() const;
 
 // Declare the to string method
 %extend eprosima::amlip::types::StatusDataType {

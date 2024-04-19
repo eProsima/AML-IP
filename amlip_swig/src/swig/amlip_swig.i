@@ -51,10 +51,6 @@
 #include <exception>
 %}
 
-// Macro delcarations
-// Any macro used on the header files will give an error if it is not redefined here
-#define AMLIP_CPP_DllAPI
-
 // SWIG helper modules
 %include "cpointer.i"
 %include "stdint.i"
@@ -70,6 +66,14 @@
 %ignore *::operator=;
 %ignore *::operator++;
 %ignore *::operator!;
+%ignore *::operator<<;
+
+// Macro delcarations
+// Any macro used on the header files will give an error if it is not redefined here
+#define AMLIP_CPP_DllAPI
+
+// Defined template for std::vector<uint8_t>
+%template(bytes) std::vector<uint8_t>;
 
 // IMPORTANT: the order of these includes is relevant, and must keep same order of cpp declarations.
 // types
@@ -88,6 +92,9 @@
 %include "amlip_swig/types/model/ModelReplyDataType.i"
 %include "amlip_swig/types/model/ModelStatisticsDataType.i"
 %include "amlip_swig/types/address/Address.i"
+
+// Define template for std::set<eprosima::ddspipe::participants::types::Address>
+%template(addresses) std::set<eprosima::ddspipe::participants::types::Address>;
 
 // node
 %include "amlip_swig/node/ParentNode.i"

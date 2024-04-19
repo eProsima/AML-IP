@@ -19,14 +19,15 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
-namespace std {
-   %template(bytes) vector<uint8_t>;
-}
-
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::ModelStatisticsDataType::ModelStatisticsDataType(ModelStatisticsDataType&&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const ModelStatisticsDataType&);
+%ignore eprosima::amlip::types::ModelStatisticsDataType::name();
+%rename("%s") eprosima::amlip::types::ModelStatisticsDataType::name() const;
+%ignore eprosima::amlip::types::ModelStatisticsDataType::data_size();
+%rename("%s") eprosima::amlip::types::ModelStatisticsDataType::data_size() const;
+%ignore eprosima::amlip::types::ModelStatisticsDataType::server_id();
+%rename("%s") eprosima::amlip::types::ModelStatisticsDataType::server_id() const;
 
 // Declare the to string method
 %extend eprosima::amlip::types::ModelStatisticsDataType {

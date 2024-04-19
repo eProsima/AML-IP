@@ -23,8 +23,5 @@
 #include <ddspipe_participants/types/address/Address.hpp>
 %}
 
-// Ignore overloaded methods that have no application on Python
-%ignore eprosima::ddspipe::participants::types::operator <<(std::ostream &,const Address&);
-
 // Include the class interfaces
 %include <ddspipe_participants/types/address/Address.hpp>

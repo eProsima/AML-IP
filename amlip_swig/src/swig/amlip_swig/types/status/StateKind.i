@@ -21,7 +21,6 @@
 
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const StateKind&);
 %ignore eprosima::amlip::types::to_string(const StateKind&);
 
 %{
