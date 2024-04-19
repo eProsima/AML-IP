@@ -19,9 +19,6 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
-%template(rand_id) std::array<uint8_t, 4>;
-%template(name) std::array<uint8_t, 28>;
-
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(AmlipIdDataType&&);
@@ -29,17 +26,12 @@
 %ignore eprosima::amlip::types::AmlipIdDataType::id();
 %rename("%s") eprosima::amlip::types::AmlipIdDataType::id() const;
 
-// Declare the to string method
-%extend eprosima::amlip::types::AmlipIdDataType {
-    std::string __str__() const
-    {
-        return $self->to_string();
-    }
-}
-
 %{
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 %}
+
+%template(name) std::array<uint8_t, 28>;
+%template(id) std::array<uint8_t, 4>;
 
 // Include the class interfaces
 %include <amlip_cpp/types/id/AmlipIdDataType.hpp>
