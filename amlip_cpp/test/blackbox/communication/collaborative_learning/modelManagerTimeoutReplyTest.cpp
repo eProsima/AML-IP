@@ -108,7 +108,7 @@ using namespace eprosima::amlip;
 TEST(modelManagerTimeoutReplyTest, ping_pong)
 {
     // Activate log
-    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
 
         // Managers always send same model in this test
@@ -153,25 +153,28 @@ TEST(modelManagerTimeoutReplyTest, ping_pong)
         // Start nodes
         model_receiver_node.start(listener);
 
+        // Wait statistics
+        wait_statistics->wait();
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received.");
+
+        // do something...
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        // decide to request the model
+        model_receiver_node.request_model();
+
+        wait_statistics->close(); // Close to wait for next statistics
+
         // Create statistics data
         std::string data_str_2 = "Hello world, I'm working.";
         model_sender_node_2.publish_statistics("v1", data_str_2);
 
         model_sender_node_2.start(replier);
 
-        // Wait statistics
-        wait_statistics->wait();
-        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received.");
-        // do something...
-        // decide to request the model
-        model_receiver_node.request_model();
-
-        wait_statistics->close(); // Close to wait for next statistics
-
         wait_statistics->wait();
         logUser(AMLIPCPP_MANUAL_TEST, "Statistics received. Requesting model...");
 
         // do something...
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
         // decide to request the model
         model_receiver_node.request_model();
 
