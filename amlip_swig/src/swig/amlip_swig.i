@@ -65,14 +65,11 @@
 %include "std_shared_ptr.i"
 %include "std_vector.i"
 
-// Definition of internal types
-typedef short int16_t;
-typedef int int32_t;
-typedef long int64_t;
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long uint64_t;
+// Some operators are ignored, as there is no such thing in Python.
+// Trying to export them issues a warning
+%ignore *::operator=;
+%ignore *::operator++;
+%ignore *::operator!;
 
 // IMPORTANT: the order of these includes is relevant, and must keep same order of cpp declarations.
 // types

@@ -19,13 +19,6 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
-// Include the class interfaces
-// %include <amlip_cpp/types/id/StatusDataType.hpp>
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
-
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::StatusDataType::StatusDataType(StatusDataType&&);

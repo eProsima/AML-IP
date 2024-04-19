@@ -22,10 +22,6 @@
 %template(rand_id) std::array<uint8_t, 4>;
 %template(name) std::array<uint8_t, 28>;
 
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
-
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::AmlipIdDataType::AmlipIdDataType(AmlipIdDataType&&);
