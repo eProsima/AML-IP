@@ -70,6 +70,7 @@
 
 // Macro delcarations
 // Any macro used on the header files will give an error if it is not redefined here
+#define DDSPIPE_PARTICIPANTS_DllAPI
 #define AMLIP_CPP_DllAPI
 
 // Defined template for std::vector<uint8_t>
