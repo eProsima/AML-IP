@@ -36,7 +36,7 @@ class ModelListener(cpp_ModelListener):
 
     def statistics_received(
             self,
-            statistics: ModelStatisticsDataType) -> bool:
+            statistics: ModelStatisticsDataType):
         """
         Raise exception.
 
@@ -77,7 +77,7 @@ class ModelListenerLambda(cpp_ModelListener):
 
     def statistics_received(
             self,
-            statistics: ModelStatisticsDataType) -> bool:
+            statistics: ModelStatisticsDataType):
         """Call internal lambda."""
         return self.callback_statistics_(statistics)
 
@@ -148,9 +148,10 @@ class ModelManagerReceiverNode(cpp_ModelManagerReceiverNode):
         cpp_ModelManagerReceiverNode.stop(self)
 
     def request_model(
-            self) -> None:
+            self,
+            server_id: AmlipIdDataType) -> None:
         """Request the model to the Model Manager Sender."""
-        cpp_ModelManagerReceiverNode.request_model(self)
+        cpp_ModelManagerReceiverNode.request_model(self, server_id)
 
     def get_id(
             self) -> AmlipIdDataType:

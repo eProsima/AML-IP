@@ -26,7 +26,6 @@ DOMAIN_ID = 166
 
 # Variable to wait to the model request
 waiter_statistics = BooleanWaitHandler(True, False)
-waiter_model = BooleanWaitHandler(True, False)
 
 
 class CustomModelReplier(ModelReplier):
@@ -48,11 +47,14 @@ class CustomModelListener(ModelListener):
 
     def statistics_received(
             self,
-            statistics: ModelStatisticsDataType) -> bool:
+            statistics: ModelStatisticsDataType):
+
+        print(f'Model statistics received from server\n'
+              f' statistics: {statistics.to_string()}')
+
+        self.server_id = statistics.server_id()
 
         waiter_statistics.open()
-
-        return True
 
     def model_received(
             self,
@@ -60,8 +62,6 @@ class CustomModelListener(ModelListener):
 
         print(f'Model reply received from server\n'
               f' solution: {model.to_string()}')
-
-        waiter_model.open()
 
         return True
 
@@ -114,10 +114,7 @@ def test_one_model_receiver_one_model_sender():
 
     # do something...
     # decide to request the model
-    model_receiver_node.request_model()
-
-    # Wait model
-    waiter_model.wait()
+    model_receiver_node.request_model(model_receiver_node.listener_.server_id)
 
     model_receiver_node.stop()
     model_sender_node.stop()

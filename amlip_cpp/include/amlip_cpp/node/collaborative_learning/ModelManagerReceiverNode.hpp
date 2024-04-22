@@ -73,7 +73,7 @@ public:
      *
      * @param statistics new ModelStatisticsDataType message received.
      */
-    virtual bool statistics_received (
+    virtual void statistics_received (
             const types::ModelStatisticsDataType statistics) = 0;
 
     /**
@@ -163,8 +163,11 @@ public:
     /**
      * @brief Request the model that is associated with the given statistics.
      *
+     * @param server_id Id of the server to request the model.
+     *
      */
-    AMLIP_CPP_DllAPI void request_model();
+    AMLIP_CPP_DllAPI void request_model(
+            types::AmlipIdDataType server_id);
 
 protected:
 

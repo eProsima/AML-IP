@@ -15,8 +15,6 @@
 
 from typing import Union
 
-from amlip_py.types.AmlipIdDataType import AmlipIdDataType
-
 from amlip_swig import ModelStatisticsDataType as cpp_ModelStatisticsDataType
 
 
@@ -46,18 +44,6 @@ class ModelStatisticsDataType(cpp_ModelStatisticsDataType):
             super().__init__(message)
         else:
             super().__init__()
-
-    def get_name(self) -> str:
-        """Get name referenced to this Id."""
-        return cpp_ModelStatisticsDataType.name(self)
-
-    def get_server_id(self) -> AmlipIdDataType:
-        """Get server Id referenced to this Id."""
-        return cpp_ModelStatisticsDataType.server_id(self)
-
-    def get_data(self):
-        """Get data referenced to this Id."""
-        return cpp_ModelStatisticsDataType.data(self)
 
     def to_string(
             self) -> str:

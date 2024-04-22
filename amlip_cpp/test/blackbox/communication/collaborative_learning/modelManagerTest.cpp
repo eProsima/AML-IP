@@ -40,7 +40,7 @@ public:
     {
     }
 
-    virtual bool statistics_received (
+    virtual void statistics_received (
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Statistics received: " << statistics << " .");
@@ -64,11 +64,11 @@ public:
 
         }
 
+        server_id = statistics.server_id();
+
         waiter_statistics_->open();
 
         logUser(AMLIPCPP_MANUAL_TEST, "Opening statistics waiter...");
-        // Decide if we want the model based on the statistics received
-        return true;
     }
 
     virtual bool model_received (
@@ -83,6 +83,8 @@ public:
 
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_model_;
+
+    eprosima::amlip::types::AmlipIdDataType server_id;
 };
 
 class TestModelReplier : public eprosima::amlip::node::ModelReplier
@@ -178,7 +180,7 @@ TEST(modelManagerTest, ping_pong)
 
         // do something...
         // decide to request the model
-        model_receiver_node.request_model();
+        model_receiver_node.request_model(listener->server_id);
 
         // Wait model
         wait_model->wait();
@@ -255,7 +257,7 @@ TEST(modelManagerTest, long_string_statistics)
 
         // do something...
         // decide to request the model
-        model_receiver_node.request_model();
+        model_receiver_node.request_model(listener->server_id);
 
         // Wait model
         wait_model->wait();
@@ -339,7 +341,7 @@ TEST(modelManagerTest, long_vector_statistics)
 
         // do something...
         // decide to request the model
-        model_receiver_node.request_model();
+        model_receiver_node.request_model(listener->server_id);
 
         // Wait model
         wait_model->wait();

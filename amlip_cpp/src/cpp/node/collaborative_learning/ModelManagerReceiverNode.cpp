@@ -138,25 +138,17 @@ void ModelManagerReceiverNode::stop()
     }
 }
 
-void ModelManagerReceiverNode::request_model()
+void ModelManagerReceiverNode::request_model(
+        types::AmlipIdDataType server_id)
 {
-    // Acquire mutex to protect access to statistics_
-    std::unique_lock<std::mutex> lock(mutex_);
-
     if (!running_)
     {
         throw utils::InconsistencyException(
                   STR_ENTRY << "ModelManagerReceiver node " << this << " is not processing data.");
     }
 
-    if (statistics_.data() == nullptr)
-    {
-        logError(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "No statistics received yet.");
-        return;
-    }
-
     // Send request
-    types::TaskId task_id = model_receiver_->send_request(data_, statistics_.server_id());
+    types::TaskId task_id = model_receiver_->send_request(data_, server_id);
 
     eprosima::amlip::types::ModelReplyDataType model;
     try
@@ -203,16 +195,7 @@ void ModelManagerReceiverNode::process_routine_()
         logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER,
                 "ModelManagerReceiver Node " << *this << " read statistics :" << statistics << ".");
 
-        {
-            // Acquire mutex to protect access to statistics_
-            std::unique_lock<std::mutex> lock(mutex_);
-            if (listener_->statistics_received(statistics))
-            {
-                // Save statistics
-                statistics_ = statistics;
-
-            }
-        }
+        listener_->statistics_received(statistics);
     }
 
     logDebug(AMLIPCPP_NODE_MODELMANAGERRECEIVER, "Finishing ModelManagerReceiver routine.");

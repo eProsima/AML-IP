@@ -27,14 +27,13 @@ DOMAIN_ID = 166
 
 # Variable to wait to the model reply
 waiter_statistics = BooleanWaitHandler(True, False)
-waiter_model = BooleanWaitHandler(True, False)
 
 
 class CustomModelListener(ModelListener):
 
     def statistics_received(
             self,
-            statistics: ModelStatisticsDataType) -> bool:
+            statistics: ModelStatisticsDataType):
 
         data = pkl.loads(bytes(statistics.to_vector()))
 
@@ -43,11 +42,8 @@ class CustomModelListener(ModelListener):
         print('\n')
 
         if (float(data['size']) < 100):
-            print('Publish request.\n')
+            self.server_id = statistics.server_id()
             waiter_statistics.open()
-            return True
-
-        return False
 
     def model_received(
             self,
@@ -56,8 +52,6 @@ class CustomModelListener(ModelListener):
         print('\nReply received:\n')
         print(model.to_string())
         print('\n')
-
-        waiter_model.open()
 
         return True
 
@@ -89,10 +83,7 @@ def main():
 
     # do something...
     # decide to request the model
-    model_receiver_node.request_model()
-
-    # Wait model
-    waiter_model.wait()
+    model_receiver_node.request_model(model_receiver_node.listener_.server_id)
 
     model_receiver_node.stop()
 

@@ -38,12 +38,17 @@ public:
     {
     }
 
-    virtual bool statistics_received (
+    virtual void statistics_received (
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received: " << statistics << " .");
+
+
+        server_id = statistics.server_id();
+
         waiter_statistics_->open();
-        // Decide if we want the model based on the statistics received
-        return true;
+
+        logUser(AMLIPCPP_MANUAL_TEST, "Opening statistics waiter...");
     }
 
     virtual bool model_received (
@@ -58,6 +63,8 @@ public:
 
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_model_;
+
+    eprosima::amlip::types::AmlipIdDataType server_id;
 };
 
 int main(
@@ -96,7 +103,7 @@ int main(
 
         // do something...
         // decide to request the model
-        model_receiver_node.request_model();
+        model_receiver_node.request_model(listener->server_id);
 
         // Wait model
         wait_model->wait();

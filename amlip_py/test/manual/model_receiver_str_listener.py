@@ -27,11 +27,12 @@ DOMAIN_ID = 166
 
 # Variable to wait to the model reply
 waiter_statistics = BooleanWaitHandler(True, False)
-waiter_model = BooleanWaitHandler(True, False)
+# Variable to store the server id of the statistics
+server_id = None
 
 
 def statistics_received(
-        statistics: ModelStatisticsDataType) -> bool:
+        statistics: ModelStatisticsDataType):
 
     data = pkl.loads(bytes(statistics.to_vector()))
 
@@ -40,11 +41,9 @@ def statistics_received(
     print('\n')
 
     if (float(data['size']) < 100):
-        print('Publish request.\n')
+        global server_id
+        server_id = statistics.server_id()
         waiter_statistics.open()
-        return True
-
-    return False
 
 
 def model_received(
@@ -53,8 +52,6 @@ def model_received(
     print('\nReply received:\n')
     print(model.to_string())
     print('\n')
-
-    waiter_model.open()
 
     return True
 
@@ -86,10 +83,7 @@ def main():
 
     # do something...
     # decide to request the model
-    model_receiver_node.request_model()
-
-    # Wait model
-    waiter_model.wait()
+    model_receiver_node.request_model(server_id)
 
     model_receiver_node.stop()
 
