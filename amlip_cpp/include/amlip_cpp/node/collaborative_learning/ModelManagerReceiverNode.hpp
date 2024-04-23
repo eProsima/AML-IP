@@ -160,10 +160,15 @@ public:
     AMLIP_CPP_DllAPI void stop();
 
     /**
-     * @brief Request the model that is associated with the given statistics.
+     * @brief Requests a model update from the ModelManagerSender node associated with the provided server ID.
      *
-     * @param server_id Id of the server to request the model.
+     * This function initiates a request to the ModelManagerSender node identified by the given server ID,
+     * asking for its latest model. Upon receiving the model, it invokes the listener to handle the received
+     * model. If the request times out, it logs an error message.
      *
+     * @param server_id ID of the server from which to request the model.
+     *
+     * @throw utils::InconsistencyException if the node is already running.
      */
     AMLIP_CPP_DllAPI void request_model(
             types::AmlipIdDataType server_id);
