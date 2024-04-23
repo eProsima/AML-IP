@@ -72,20 +72,41 @@ AsyncComputingNode::AsyncComputingNode(
 
 AsyncComputingNode::~AsyncComputingNode()
 {
-    stop();
+    if (current_state_ == types::StateKind::running)
+    {
+        stop();
+    }
     logDebug(AMLIPCPP_NODE_ASYNCCOMPUTING, "Destroying Async Computing Node: " << *this << ".");
 }
 
 void AsyncComputingNode::run()
 {
-    job_server_->run(std::make_shared<TaskListenerCast>(listener_));
-    change_status_(types::StateKind::running);
+    if (current_state_ == types::StateKind::running)
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Async Computing Node " << this << " is already running.");
+    }
+    else
+    {
+        logInfo(AMLIPCPP_NODE_ASYNCCOMPUTING, "Running Async Computing Node: " << *this << ".");
+        job_server_->run(std::make_shared<TaskListenerCast>(listener_));
+        change_status_(types::StateKind::running);
+    }
 }
 
 void AsyncComputingNode::stop()
 {
-    job_server_->stop();
-    change_status_(types::StateKind::stopped);
+    if (current_state_ == types::StateKind::stopped)
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Async Computing Node " << this << " is already stopped.");
+    }
+    else
+    {
+        logInfo(AMLIPCPP_NODE_ASYNCCOMPUTING, "Stopping Async Computing Node: " << *this << ".");
+        job_server_->stop();
+        change_status_(types::StateKind::stopped);
+    }
 }
 
 } /* namespace node */
