@@ -33,7 +33,6 @@ namespace eprosima {
 namespace amlip {
 namespace node {
 
-std::mutex ModelManagerReceiverNode::mutex_;
 const uint32_t ModelManagerReceiverNode::REPLY_TIMEOUT_ = 2500;
 
 ModelManagerReceiverNode::ModelManagerReceiverNode(

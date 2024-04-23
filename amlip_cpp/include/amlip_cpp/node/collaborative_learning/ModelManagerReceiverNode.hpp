@@ -20,7 +20,6 @@
 #define AMLIPCPP__SRC_CPP_NODE_MODELMANAGERRECEIVERNODE_HPP
 
 #include <functional>
-#include <mutex>
 #include <thread>
 
 #include <amlip_cpp/types/id/TaskId.hpp>
@@ -212,9 +211,6 @@ protected:
 
     //! Listener to call when new data is received.
     std::shared_ptr<ModelListener> listener_;
-
-    // Mutex to protect the access to the shared data statistics_
-    static std::mutex mutex_;
 
     //! Maximum wait reply in milliseconds (0 = no wait)
     static const uint32_t REPLY_TIMEOUT_;        // 2500
