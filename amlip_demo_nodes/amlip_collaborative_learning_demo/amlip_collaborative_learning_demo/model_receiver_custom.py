@@ -23,7 +23,7 @@ from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 # Domain ID
 DOMAIN_ID = 166
 
-# Variable to wait to the model reply
+# Variable to wait for the statistics
 waiter = BooleanWaitHandler(True, False)
 
 
@@ -31,9 +31,14 @@ class CustomModelListener(ModelListener):
 
     def statistics_received(
             self,
-            statistics: ModelStatisticsDataType) -> bool:
+            statistics: ModelStatisticsDataType):
 
-        return True
+        print(f'Statistics received: {statistics.to_string()}')
+
+        # Store the server id of the statistics
+        self.server_id = statistics.server_id()
+
+        waiter.open()
 
     def model_received(
             self,
@@ -41,8 +46,6 @@ class CustomModelListener(ModelListener):
 
         print(f'Model reply received from server\n'
               f' solution: {model.to_string()}')
-
-        waiter.open()
 
         return True
 
@@ -69,8 +72,11 @@ def main():
     model_receiver_node.start(
         listener=CustomModelListener())
 
-    # Wait for reply
+    # Wait statistics
     waiter.wait()
+
+    # Request model
+    model_receiver_node.request_model(model_receiver_node.listener_.server_id)
 
     model_receiver_node.stop()
 
