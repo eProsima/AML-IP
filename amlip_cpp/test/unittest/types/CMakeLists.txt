@@ -60,6 +60,7 @@ set(TEST_LIST
         generic_serialization_deserialization_int
         generic_serialization_deserialization_str
         generic_serialization_deserialization_amlipIdDataType
+        create_data_type
     )
 
 set(TEST_EXTRA_LIBRARIES

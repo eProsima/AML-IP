@@ -114,6 +114,67 @@ TEST(genericDataTypeTest, generic_serialization_deserialization_amlipIdDataType)
 }
 
 
+/**
+ * Test GenericDataType construction
+ *
+ */
+TEST(genericDataTypeTest, create_data_type)
+{
+    std::string data_str("Testing generic type");
+    std::vector<ByteType> data_vector;
+
+    for (char c : data_str)
+    {
+        data_vector.push_back(static_cast<ByteType>(c));
+    }
+
+    GenericDataType generic_type_1;
+    GenericDataType generic_type_2(data_vector);
+    GenericDataType generic_type_3(data_str);
+    GenericDataType generic_type_4(static_cast<void*>((char*)data_vector.data()), data_vector.size());
+    GenericDataType generic_type_5(static_cast<void*>((char*)data_vector.data()), data_vector.size(), true);
+    GenericDataType generic_type_6(static_cast<void*>((char*)data_vector.data()), data_vector.size(), false);
+    GenericDataType generic_type_7(static_cast<void*>((char*)data_str.c_str()), data_str.size());
+    GenericDataType generic_type_8(static_cast<void*>((char*)data_str.c_str()), data_str.size(), true);
+    GenericDataType generic_type_9(static_cast<void*>((char*)data_str.c_str()), data_str.size(), false);
+
+    ASSERT_EQ(generic_type_1.data(), nullptr);
+    ASSERT_EQ(generic_type_1.data_size(), 0);
+    ASSERT_EQ(generic_type_1.has_been_allocated(), false);
+
+    ASSERT_EQ(generic_type_2.to_vector(), data_vector);
+    ASSERT_EQ(generic_type_2.data_size(), data_vector.size());
+    ASSERT_EQ(generic_type_2.has_been_allocated(), true);
+
+    ASSERT_EQ(generic_type_3.to_string(), data_str);
+    ASSERT_EQ(generic_type_3.data_size(), data_str.size());
+    ASSERT_EQ(generic_type_3.has_been_allocated(), true);
+
+    ASSERT_EQ(generic_type_4.to_vector(), data_vector);
+    ASSERT_EQ(generic_type_4.data_size(), data_vector.size());
+    ASSERT_EQ(generic_type_4.has_been_allocated(), false);
+
+    ASSERT_EQ(generic_type_5.to_vector(), data_vector);
+    ASSERT_EQ(generic_type_5.data_size(), data_vector.size());
+    ASSERT_EQ(generic_type_5.has_been_allocated(), true);
+
+    ASSERT_EQ(generic_type_6.to_vector(), data_vector);
+    ASSERT_EQ(generic_type_6.data_size(), data_vector.size());
+    ASSERT_EQ(generic_type_6.has_been_allocated(), false);
+
+    ASSERT_EQ(generic_type_7.to_string(), data_str);
+    ASSERT_EQ(generic_type_7.data_size(), data_str.size());
+    ASSERT_EQ(generic_type_7.has_been_allocated(), false);
+
+    ASSERT_EQ(generic_type_8.to_string(), data_str);
+    ASSERT_EQ(generic_type_8.data_size(), data_str.size());
+    ASSERT_EQ(generic_type_8.has_been_allocated(), true);
+
+    ASSERT_EQ(generic_type_9.to_string(), data_str);
+    ASSERT_EQ(generic_type_9.data_size(), data_str.size());
+    ASSERT_EQ(generic_type_9.has_been_allocated(), false);
+}
+
 int main(
         int argc,
         char** argv)

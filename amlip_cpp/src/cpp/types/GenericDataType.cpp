@@ -50,10 +50,14 @@ GenericDataType::GenericDataType(
     if (take_ownership)
     {
         data_ = malloc(size);
+        std::memcpy(data_, data, size);
+    }
+    else
+    {
+        data_ = data;
     }
 
     data_size_ = size;
-    std::memcpy(data_, data, size);
     has_been_allocated_.store(take_ownership);
 }
 
@@ -65,7 +69,7 @@ GenericDataType::GenericDataType()
 GenericDataType::GenericDataType(
         const std::vector<ByteType>& bytes)
     : GenericDataType(
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.data()), bytes.size()),
+        static_cast<void*>((char*)bytes.data()),
         bytes.size(),
         true)
 {
@@ -75,8 +79,8 @@ GenericDataType::GenericDataType(
 GenericDataType::GenericDataType(
         const std::string& bytes)
     : GenericDataType(
-        utils::copy_to_void_ptr(utils::cast_to_void_ptr(bytes.c_str()), bytes.length()),
-        bytes.length(),
+        static_cast<void*>((char*)bytes.c_str()),
+        bytes.size(),
         true)
 {
     // Do nothing
@@ -98,10 +102,14 @@ GenericDataType::GenericDataType(
     if (x.has_been_allocated_)
     {
         data_ = malloc(x.data_size_);
+        std::memcpy(data_, x.data_, x.data_size_);
+    }
+    else
+    {
+        data_ = x.data_;
     }
 
     data_size_ = x.data_size_;
-    std::memcpy(data_, x.data_, data_size_);
     has_been_allocated_.store(x.has_been_allocated_.load());
 }
 
@@ -129,10 +137,14 @@ GenericDataType& GenericDataType::operator =(
     if (x.has_been_allocated_)
     {
         data_ = malloc(x.data_size_);
+        std::memcpy(data_, x.data_, x.data_size_);
+    }
+    else
+    {
+        data_ = x.data_;
     }
 
     data_size_ = x.data_size_;
-    std::memcpy(data_, x.data_, data_size_);
     has_been_allocated_.store(x.has_been_allocated_.load());
 
     return *this;

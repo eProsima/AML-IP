@@ -34,12 +34,8 @@ types::JobSolutionDataType computing_process_routine(
     // Convert str to uppercase
     std::transform(data_str.begin(), data_str.end(), data_str.begin(), ::toupper);
 
-    // Create solution
-    char* solution_data = static_cast<char*>(malloc(job_data.data_size()));
-    memcpy(solution_data, data_str.c_str(), job_data.data_size());
-
     // Create solution data type and give ownership
-    types::JobSolutionDataType solution(solution_data, job_data.data_size(), true);
+    types::JobSolutionDataType solution(data_str);
 
     return solution;
 }
@@ -86,8 +82,7 @@ TEST(MainComputingNodeTest, one_main_one_computing)
 
     // Create job data and process request from main
     std::string data_sent_str("test_data");
-    types::JobDataType job_data(static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size(),
-            true);
+    types::JobDataType job_data(data_sent_str);
     types::JobSolutionDataType solution = main_node.request_job_solution(job_data);
 
     // Wait for computing to process job
@@ -146,8 +141,7 @@ TEST(MainComputingNodeTest, n_main_one_computing)
                     [main_node_to_process, i]()
                     {
                         std::string data_sent_str("test_data" + std::to_string(i));
-                        types::JobDataType job_data(
-                            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size(), true);
+                        types::JobDataType job_data(data_sent_str);
                         types::JobSolutionDataType solution = main_node_to_process->request_job_solution(job_data);
 
                         // Check solution is upper case of data sent
@@ -212,8 +206,7 @@ TEST(MainComputingNodeTest, one_main_n_computing)
     for (uint32_t i = 0; i < node::test::NUMBER_OF_NODES_IN_TEST; ++i)
     {
         std::string data_sent_str("test_data" + std::to_string(i));
-        types::JobDataType job_data(
-            static_cast<void*>(const_cast<char*>(data_sent_str.c_str())), data_sent_str.size(), true);
+        types::JobDataType job_data(data_sent_str);
 
         types::JobSolutionDataType solution = main_node.request_job_solution(job_data);
 
