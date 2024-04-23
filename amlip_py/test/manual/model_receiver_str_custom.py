@@ -25,7 +25,7 @@ from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 # Domain ID
 DOMAIN_ID = 166
 
-# Variable to wait to the model reply
+# Variable to wait for the statistics
 waiter_statistics = BooleanWaitHandler(True, False)
 
 

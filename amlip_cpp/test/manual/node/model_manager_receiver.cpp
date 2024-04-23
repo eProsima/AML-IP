@@ -31,10 +31,8 @@ class CustomModelListener : public eprosima::amlip::node::ModelListener
 public:
 
     CustomModelListener(
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics,
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_model)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics)
         : waiter_statistics_(waiter_statistics)
-        , waiter_model_(waiter_model)
     {
     }
 
@@ -56,13 +54,10 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-        waiter_model_->open();
-
         return true;
     }
 
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
-    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_model_;
 
     eprosima::amlip::types::AmlipIdDataType server_id;
 };
@@ -85,16 +80,13 @@ int main(
 
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
 
-        // Create waiters
+        // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
-                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
-
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_model =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<CustomModelListener> listener =
-                std::make_shared<CustomModelListener>(wait_statistics, wait_model);
+                std::make_shared<CustomModelListener>(wait_statistics);
 
         model_receiver_node.start(listener);
 
@@ -104,9 +96,6 @@ int main(
         // do something...
         // decide to request the model
         model_receiver_node.request_model(listener->server_id);
-
-        // Wait model
-        wait_model->wait();
 
         model_receiver_node.stop();
 

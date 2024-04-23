@@ -30,10 +30,8 @@ class TestModelListener : public eprosima::amlip::node::ModelListener
 public:
 
     TestModelListener(
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics,
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_model)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics)
         : waiter_statistics_(waiter_statistics)
-        , waiter_model_(waiter_model)
     {
     }
 
@@ -54,13 +52,10 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-        waiter_model_->open();
-
         return true;
     }
 
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
-    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_model_;
 
     eprosima::amlip::types::AmlipIdDataType server_id;
 };
@@ -135,16 +130,13 @@ TEST(modelManagerTimeoutReplyTest, ping_pong)
         std::string data_str_1 = "Hello world, I'm going to die.";
         model_sender_node_1.publish_statistics("v0", data_str_1);
 
-        // Create waiters receivers
+        // Create waiter receiver
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
-                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
-
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_model =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(wait_statistics, wait_model);
+                std::make_shared<test::TestModelListener>(wait_statistics);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
@@ -180,9 +172,6 @@ TEST(modelManagerTimeoutReplyTest, ping_pong)
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
         // decide to request the model
         model_receiver_node.request_model(listener->server_id);
-
-        // Wait model
-        wait_model->wait();
 
         // Stop nodes
         model_receiver_node.stop();

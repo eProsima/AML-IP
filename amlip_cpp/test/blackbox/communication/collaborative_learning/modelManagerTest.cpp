@@ -33,10 +33,8 @@ class TestModelListener : public eprosima::amlip::node::ModelListener
 public:
 
     TestModelListener(
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics,
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_model)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics)
         : waiter_statistics_(waiter_statistics)
-        , waiter_model_(waiter_model)
     {
     }
 
@@ -76,13 +74,10 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-        waiter_model_->open();
-
         return true;
     }
 
     std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
-    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_model_;
 
     eprosima::amlip::types::AmlipIdDataType server_id;
 };
@@ -157,16 +152,13 @@ TEST(modelManagerTest, ping_pong)
         logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v1", data_str);
 
-        // Create waiters
+        // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
-                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
-
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_model =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(wait_statistics, wait_model);
+                std::make_shared<test::TestModelListener>(wait_statistics);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
@@ -181,9 +173,6 @@ TEST(modelManagerTest, ping_pong)
         // do something...
         // decide to request the model
         model_receiver_node.request_model(listener->server_id);
-
-        // Wait model
-        wait_model->wait();
 
         // Stop nodes
         model_receiver_node.stop();
@@ -234,16 +223,13 @@ TEST(modelManagerTest, long_string_statistics)
         logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v2", data_str, data_str.length());
 
-        // Create waiters
+        // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
-                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
-
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_model =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(wait_statistics, wait_model);
+                std::make_shared<test::TestModelListener>(wait_statistics);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
@@ -258,9 +244,6 @@ TEST(modelManagerTest, long_string_statistics)
         // do something...
         // decide to request the model
         model_receiver_node.request_model(listener->server_id);
-
-        // Wait model
-        wait_model->wait();
 
         // Stop nodes
         model_receiver_node.stop();
@@ -318,16 +301,13 @@ TEST(modelManagerTest, long_vector_statistics)
         logUser(AMLIPCPP_MANUAL_TEST, "Publishing statistics...");
         model_sender_node.publish_statistics("v2", data_vector);
 
-        // Create waiters
+        // Create waiter
         std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
-                std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
-
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_model =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(wait_statistics, wait_model);
+                std::make_shared<test::TestModelListener>(wait_statistics);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
@@ -342,9 +322,6 @@ TEST(modelManagerTest, long_vector_statistics)
         // do something...
         // decide to request the model
         model_receiver_node.request_model(listener->server_id);
-
-        // Wait model
-        wait_model->wait();
 
         // Stop nodes
         model_receiver_node.stop();
