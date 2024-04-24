@@ -25,15 +25,15 @@ from amlip_py.types.ModelStatisticsDataType import ModelStatisticsDataType
 # Domain ID
 DOMAIN_ID = 166
 
-# Variable to wait to the model reply
-waiter = BooleanWaitHandler(True, False)
+# Variable to wait for the statistics
+waiter_statistics = BooleanWaitHandler(True, False)
 
 
 class CustomModelListener(ModelListener):
 
     def statistics_received(
             self,
-            statistics: ModelStatisticsDataType) -> bool:
+            statistics: ModelStatisticsDataType):
 
         data = pkl.loads(bytes(statistics.to_vector()))
 
@@ -42,11 +42,8 @@ class CustomModelListener(ModelListener):
         print('\n')
 
         if (float(data['size']) < 100):
-            print('Publish request.\n')
-
-            return True
-
-        return False
+            self.server_id = statistics.server_id()
+            waiter_statistics.open()
 
     def model_received(
             self,
@@ -55,8 +52,6 @@ class CustomModelListener(ModelListener):
         print('\nReply received:\n')
         print(model.to_string())
         print('\n')
-
-        waiter.open()
 
         return True
 
@@ -83,8 +78,12 @@ def main():
     model_receiver_node.start(
         listener=CustomModelListener())
 
-    # Wait for reply
-    waiter.wait()
+    # Wait statistics
+    waiter_statistics.wait()
+
+    # do something...
+    # decide to request the model
+    model_receiver_node.request_model(model_receiver_node.listener_.server_id)
 
     model_receiver_node.stop()
 

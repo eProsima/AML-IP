@@ -31,16 +31,22 @@ class CustomModelListener : public eprosima::amlip::node::ModelListener
 public:
 
     CustomModelListener(
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter)
-        : waiter_(waiter)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics)
+        : waiter_statistics_(waiter_statistics)
     {
     }
 
-    virtual bool statistics_received (
+    virtual void statistics_received (
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
-        // Decide if we want the model based on the statistics received
-        return true;
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received: " << statistics << " .");
+
+
+        server_id = statistics.server_id();
+
+        waiter_statistics_->open();
+
+        logUser(AMLIPCPP_MANUAL_TEST, "Opening statistics waiter...");
     }
 
     virtual bool model_received (
@@ -48,12 +54,12 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-        waiter_->open();
-
         return true;
     }
 
-    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_;
+    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
+
+    eprosima::amlip::types::AmlipIdDataType server_id;
 };
 
 int main(
@@ -75,16 +81,21 @@ int main(
         logUser(AMLIPCPP_MANUAL_TEST, "Node created: " << model_receiver_node << ". Creating model...");
 
         // Create waiter
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
+        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<CustomModelListener> listener =
-                std::make_shared<CustomModelListener>(waiter);
+                std::make_shared<CustomModelListener>(wait_statistics);
+
         model_receiver_node.start(listener);
 
-        // Wait solution
-        waiter->wait();
+        // Wait statistics
+        wait_statistics->wait();
+
+        // do something...
+        // decide to request the model
+        model_receiver_node.request_model(listener->server_id);
 
         model_receiver_node.stop();
 

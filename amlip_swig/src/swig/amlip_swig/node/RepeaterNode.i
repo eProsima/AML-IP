@@ -21,10 +21,6 @@
 
 %ignore eprosima::amlip::node::agent::RepeaterNode::get_router_configuration_();
 
-namespace std {
-   %template(addresses) set<eprosima::ddspipe::participants::types::Address>;
-}
-
 %{
 #include <amlip_cpp/node/wan/RepeaterNode.hpp>
 

@@ -19,18 +19,11 @@
 // Import parent class
 %import(module="amlip_swig") "amlip_cpp/types/InterfaceDataType.hpp";
 
-namespace std {
-   %template(bytes) vector<uint8_t>;
-}
-
-// Assignemt operators are ignored, as there is no such thing in Python.
-// Trying to export them issues a warning
-%ignore *::operator=;
-
 // Ignore overloaded methods that have no application on Python
 // Otherwise they will issue a warning
 %ignore eprosima::amlip::types::GenericDataType::GenericDataType(GenericDataType&&);
-%ignore eprosima::amlip::types::operator <<(std::ostream &,const GenericDataType&);
+%ignore eprosima::amlip::types::GenericDataType::data_size();
+%rename("%s") eprosima::amlip::types::GenericDataType::data_size() const;
 
 %{
 #include <amlip_cpp/types/GenericDataType.hpp>

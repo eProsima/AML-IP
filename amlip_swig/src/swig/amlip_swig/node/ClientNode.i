@@ -21,10 +21,6 @@
 
 %ignore eprosima::amlip::node::agent::ClientNode::get_router_configuration_();
 
-namespace std {
-   %template(addresses) set<eprosima::ddspipe::participants::types::Address>;
-}
-
 %{
 #include <amlip_cpp/node/wan/ClientNode.hpp>
 

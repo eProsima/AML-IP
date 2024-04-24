@@ -83,15 +83,3 @@ class StatusDataType(cpp_StatusDataType):
             super().__init__()
         else:
             super().__init__(id, node_kind, state)
-
-    def get_id(self) -> AmlipIdDataType:
-        """Get Id associated with this Status."""
-        return cpp_StatusDataType.id(self)
-
-    def get_node_kind(self) -> NodeKind:
-        """Get Node Kind associated with this Status."""
-        return cpp_StatusDataType.node_kind(self)
-
-    def get_status_kind(self) -> StateKind:
-        """Get Status Kind associated with this Status."""
-        return cpp_StatusDataType.status_kind(self)

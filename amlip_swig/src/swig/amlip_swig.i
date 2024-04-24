@@ -51,10 +51,6 @@
 #include <exception>
 %}
 
-// Macro delcarations
-// Any macro used on the header files will give an error if it is not redefined here
-#define AMLIP_CPP_DllAPI
-
 // SWIG helper modules
 %include "cpointer.i"
 %include "stdint.i"
@@ -65,14 +61,20 @@
 %include "std_shared_ptr.i"
 %include "std_vector.i"
 
-// Definition of internal types
-typedef short int16_t;
-typedef int int32_t;
-typedef long int64_t;
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long uint64_t;
+// Some operators are ignored, as there is no such thing in Python.
+// Trying to export them issues a warning
+%ignore *::operator=;
+%ignore *::operator++;
+%ignore *::operator!;
+%ignore *::operator<<;
+
+// Macro delcarations
+// Any macro used on the header files will give an error if it is not redefined here
+#define DDSPIPE_PARTICIPANTS_DllAPI
+#define AMLIP_CPP_DllAPI
+
+// Defined template for std::vector<uint8_t>
+%template(bytes) std::vector<uint8_t>;
 
 // IMPORTANT: the order of these includes is relevant, and must keep same order of cpp declarations.
 // types
@@ -91,6 +93,9 @@ typedef unsigned long uint64_t;
 %include "amlip_swig/types/model/ModelReplyDataType.i"
 %include "amlip_swig/types/model/ModelStatisticsDataType.i"
 %include "amlip_swig/types/address/Address.i"
+
+// Define template for std::set<eprosima::ddspipe::participants::types::Address>
+%template(addresses) std::set<eprosima::ddspipe::participants::types::Address>;
 
 // node
 %include "amlip_swig/node/ParentNode.i"

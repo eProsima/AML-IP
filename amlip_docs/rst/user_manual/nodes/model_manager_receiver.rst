@@ -21,7 +21,8 @@ Steps
 * Create the data to request.
 * Instantiate the ModelManagerReceiver Node creating an object of such class with the Id and data previously created.
 * Start the execution of the node.
-* Wait for a model reply.
+* Wait for statistics.
+* Request the model.
 * Stop the execution of the node.
 
 
@@ -52,9 +53,14 @@ Steps
                     // Do nothing
                 }
 
-                virtual bool statistics_received (
+                virtual void statistics_received (
                         const eprosima::amlip::types::ModelStatisticsDataType statistics) override
                 {
+                    // Save the server id
+                    server_id = statistics.server_id();
+
+                    waiter_->open();
+
                     // Always request model
                     return true;
                 }
@@ -64,12 +70,11 @@ Steps
                 {
                     std::cout << "Model received: " << model << " ." << std::endl;
 
-                    waiter_->open();
-
                     return true;
                 }
 
                 std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_;
+                eprosima::amlip::types::AmlipIdDataType server_id;
             };
 
             // Create the Id of the node
@@ -81,7 +86,7 @@ Steps
             // Create ModelManagerReceiver Node
             eprosima::amlip::node::ModelManagerReceiverNode model_receiver_node(id, data);
 
-            // Create waiter
+            // Create waiter to wait for statistics
             std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
@@ -92,8 +97,13 @@ Steps
             // Start execution
             model_receiver_node.start(listener);
 
-            // Wait for solution
+            // Wait for statistics
             waiter->wait();
+
+            // ... do something ...
+
+            // Request the model
+            model_receiver_node.request_model(listener->server_id);
 
             // Stop execution
             model_receiver_node.stop();
@@ -111,21 +121,24 @@ Steps
 
             from amlip_py.node.ModelManagerReceiverNode import ModelManagerReceiverNode, ModelListener
 
+            # Variable to wait for the statistics
+            waiter = BooleanWaitHandler(True, False)
 
             class CustomModelListener(ModelListener):
 
                 def statistics_received(
                         self,
                         statistics: ModelStatisticsDataType) -> bool:
+
+                    waiter.open()
+
                     return True
 
                 def model_received(
                         self,
                         model: ModelReplyDataType) -> bool:
                     print(f'Model reply received from server\n'
-                        f' solution: {model.to_string()}')
-
-                    waiter.open()
+                          f' solution: {model.to_string()}')
 
                     return True
 
@@ -146,8 +159,13 @@ Steps
             model_receiver_node.start(
                 listener=CustomModelListener())
 
-            # Wait for solution
+            # Wait statistics
             waiter.wait()
+
+            # ... do something ...
+
+            # Request the model
+            model_receiver_node.request_model(model_receiver_node.listener_.server_id)
 
             # Stop execution
             model_receiver_node.stop()

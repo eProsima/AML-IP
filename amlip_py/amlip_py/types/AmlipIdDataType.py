@@ -29,10 +29,6 @@ class AmlipIdDataType(cpp_AmlipIdDataType):
         else:
             super().__init__()
 
-    def get_name(self) -> str:
-        """Get name referenced to this Id."""
-        return cpp_AmlipIdDataType.name()
-
     def is_defined(self) -> bool:
         """Wether the Id is defined."""
         return cpp_AmlipIdDataType.is_defined(self)

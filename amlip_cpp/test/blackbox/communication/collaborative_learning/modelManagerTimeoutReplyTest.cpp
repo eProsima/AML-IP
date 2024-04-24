@@ -30,16 +30,21 @@ class TestModelListener : public eprosima::amlip::node::ModelListener
 public:
 
     TestModelListener(
-            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter)
-        : waiter_(waiter)
+            const std::shared_ptr<eprosima::utils::event::BooleanWaitHandler>& waiter_statistics)
+        : waiter_statistics_(waiter_statistics)
     {
     }
 
-    virtual bool statistics_received (
+    virtual void statistics_received (
             const eprosima::amlip::types::ModelStatisticsDataType statistics) override
     {
-        // Decide if we want the model based on the statistics received
-        return true;
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received: " << statistics << " .");
+
+        server_id = statistics.server_id();
+
+        waiter_statistics_->open();
+
+        logUser(AMLIPCPP_MANUAL_TEST, "Opening statistics waiter...");
     }
 
     virtual bool model_received (
@@ -47,12 +52,12 @@ public:
     {
         logUser(AMLIPCPP_MANUAL_TEST, "Model received: " << model << " .");
 
-        waiter_->open();
-
         return true;
     }
 
-    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_;
+    std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_statistics_;
+
+    eprosima::amlip::types::AmlipIdDataType server_id;
 };
 
 class TestModelReplier : public eprosima::amlip::node::ModelReplier
@@ -101,7 +106,7 @@ using namespace eprosima::amlip;
 TEST(modelManagerTimeoutReplyTest, ping_pong)
 {
     // Activate log
-    // eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
     {
 
         // Managers always send same model in this test
@@ -125,13 +130,13 @@ TEST(modelManagerTimeoutReplyTest, ping_pong)
         std::string data_str_1 = "Hello world, I'm going to die.";
         model_sender_node_1.publish_statistics("v0", data_str_1);
 
-        // Create waiter_receiver
-        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> waiter_receiver =
+        // Create waiter receiver
+        std::shared_ptr<eprosima::utils::event::BooleanWaitHandler> wait_statistics =
                 std::make_shared<eprosima::utils::event::BooleanWaitHandler>(false, true);
 
         // Create listener
         std::shared_ptr<test::TestModelListener> listener =
-                std::make_shared<test::TestModelListener>(waiter_receiver);
+                std::make_shared<test::TestModelListener>(wait_statistics);
 
         std::shared_ptr<test::TestModelReplier> replier =
                 std::make_shared<test::TestModelReplier>();
@@ -143,14 +148,30 @@ TEST(modelManagerTimeoutReplyTest, ping_pong)
         // Start nodes
         model_receiver_node.start(listener);
 
+        // Wait statistics
+        wait_statistics->wait();
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received.");
+
+        // do something...
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        // decide to request the model
+        model_receiver_node.request_model(listener->server_id);
+
+        wait_statistics->close(); // Close to wait for next statistics
+
         // Create statistics data
         std::string data_str_2 = "Hello world, I'm working.";
         model_sender_node_2.publish_statistics("v1", data_str_2);
 
         model_sender_node_2.start(replier);
 
-        // Wait solution
-        waiter_receiver->wait();
+        wait_statistics->wait();
+        logUser(AMLIPCPP_MANUAL_TEST, "Statistics received. Requesting model...");
+
+        // do something...
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        // decide to request the model
+        model_receiver_node.request_model(listener->server_id);
 
         // Stop nodes
         model_receiver_node.stop();

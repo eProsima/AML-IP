@@ -72,32 +72,33 @@ ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
         void* data,
         const uint32_t size,
-        bool copy_data /* = true */)
+        bool take_ownership /* = true */)
 {
     name_ = name;
-    if (copy_data)
+
+    if (take_ownership)
     {
-        data_ = std::malloc(size * sizeof(uint8_t));
+        data_ = std::malloc(size);
         std::memcpy(data_, data, size);
     }
     else
     {
         data_ = data;
     }
-    data_size_ = size;
 
-    has_been_allocated_.store(copy_data);
+    data_size_ = size;
+    has_been_allocated_.store(take_ownership);
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
         const std::vector<ByteType>& bytes,
-        bool copy_data /* = true */)
+        bool take_ownership /* = true */)
     : ModelStatisticsDataType(
         name,
-        utils::cast_to_void_ptr(bytes.data()),
+        static_cast<void*>((char*)bytes.data()),
         bytes.size(),
-        copy_data)
+        take_ownership)
 {
     // Do nothing
 }
@@ -105,12 +106,12 @@ ModelStatisticsDataType::ModelStatisticsDataType(
 ModelStatisticsDataType::ModelStatisticsDataType(
         const std::string& name,
         const std::string& bytes,
-        bool copy_data /* = true */)
+        bool take_ownership /* = true */)
     : ModelStatisticsDataType(
         name,
-        utils::cast_to_void_ptr(bytes.c_str()),
-        bytes.length(),
-        copy_data)
+        static_cast<void*>((char*)bytes.c_str()),
+        bytes.size(),
+        take_ownership)
 {
     // Do nothing
 }
@@ -132,34 +133,27 @@ ModelStatisticsDataType::ModelStatisticsDataType(
 
     if (x.has_been_allocated_)
     {
-        logWarning(
-            AMLIPCPP_TYPES_GENERIC,
-            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
-        data_size_ = x.data_size_;
-        data_ = malloc(data_size_ * sizeof(uint8_t));
-        std::memcpy(data_, x.data_, data_size_);
-        has_been_allocated_.store(true);
+        data_ = malloc(x.data_size_);
+        std::memcpy(data_, x.data_, x.data_size_);
     }
     else
     {
         data_ = x.data_;
-        data_size_ = x.data_size_;
-        has_been_allocated_.store(false);
     }
 
     server_id_ = x.server_id_;
+    data_size_ = x.data_size_;
+    has_been_allocated_.store(x.has_been_allocated_.load());
 }
 
 ModelStatisticsDataType::ModelStatisticsDataType(
         ModelStatisticsDataType&& x)
 {
-    name_ = std::move(x.name_);
-
+    this->name_ = std::move(x.name_);
     this->data_ = x.data_;
     this->data_size_ = x.data_size_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
-
-    server_id_ = std::move(x.server_id_);
+    this->server_id_ = std::move(x.server_id_);
 
     // Restore x
     x.data_ = nullptr;
@@ -172,29 +166,24 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
 {
     name_ = x.name_;
 
-    if (this->has_been_allocated_)
+    if (has_been_allocated_)
     {
         free(data_);
     }
 
     if (x.has_been_allocated_)
     {
-        logWarning(
-            AMLIPCPP_TYPES_GENERIC,
-            "Copying a GenericDataType with data that has been allocated from this class. The data will be copied.");
-        data_size_ = x.data_size_;
-        data_ = malloc(data_size_ * sizeof(uint8_t));
-        std::memcpy(data_, x.data_, data_size_);
-        has_been_allocated_.store(true);
+        data_ = malloc(x.data_size_);
+        std::memcpy(data_, x.data_, x.data_size_);
     }
     else
     {
         data_ = x.data_;
-        data_size_ = x.data_size_;
-        has_been_allocated_.store(false);
     }
 
+    data_size_ = x.data_size_;
     server_id_ = x.server_id_;
+    has_been_allocated_.store(x.has_been_allocated_.load());
 
     return *this;
 }
@@ -202,7 +191,7 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
 ModelStatisticsDataType& ModelStatisticsDataType::operator =(
         ModelStatisticsDataType&& x)
 {
-    name_ = std::move(x.name_);
+    this->name_ = std::move(x.name_);
 
     if (this->has_been_allocated_)
     {
@@ -212,14 +201,12 @@ ModelStatisticsDataType& ModelStatisticsDataType::operator =(
     this->data_ = x.data_;
     this->data_size_ = x.data_size_;
     this->has_been_allocated_.store(x.has_been_allocated_.load());
-
-    server_id_ = std::move(x.server_id_);
+    this->server_id_ = std::move(x.server_id_);
 
     // Restore x
     x.data_ = nullptr;
     x.data_size_ = 0;
     x.has_been_allocated_.store(false);
-
 
     return *this;
 }
