@@ -4,73 +4,76 @@
 
 .. comment the include of forthcoming when new info is added
 
-.. include:: forthcoming_version.rst
+.. .. include:: forthcoming_version.rst
 
 ##############
-Version v0.1.0
+Version v0.2.0
 ##############
 
-This is the first release of eProsima *AML-IP* (Algebraic Machine Learning - Integrating Platform).
+This release adds new **features**:
 
-This release includes the following **User Interface features**:
+* Implement asynchronous request model in ``ModelManagerReceiver``.
+* Add ``fastdds.application.id`` property to participants and endpoints.
+* Add ``fastdds.application.metadata`` property to participants and endpoints.
+* Add ``MainNode`` costructor with ``domain`` parameter in Python bindings.
+* Add Python bindings for Agent Nodes.
+* Rename ``agent_tool`` package to ``amlip_agent``.
 
-* C++ API
-* Python API
-* Add implementation of DDS entities.
-* Add implementation of Multiservice protocol.
-* Add implementation of Asynchronous Multiservice protocol.
-* New internal package :code:`amlip_demo_nodes` to include the demos packages.
-* Dockerfile for creating a docker image with AML-IP.
-* Add Custom RPC communication over DDS.
+This includes the following **Bugfixes**:
 
-This release supports the following **Deployment Scenarios**:
+* Update ``AsyncComputingNode`` and ``AsyncInferenceNode`` to only stop if the current state is running and only run if the current state is stopped.
+* ASAN (Address Sanitizer) fixes.
+* Fix allowlist namespacing in ``AgentNode``.
+* Call change status in ``AsyncComputingNode``.
 
-* :ref:`Monitor State <user_manual_scenarios_status>`
-* :ref:`Workload Distribution <user_manual_scenarios_workload_distribution>`
-* :ref:`Collaborative Learning <user_manual_scenarios_collaborative_learning>`
-* :ref:`Distributed Inference <user_manual_scenarios_distributed_inference>`
+This release includes the following **CI improvements**:
 
-This release includes the following new **AML-IP Nodes**:
+* Migrate CI actions to use eProsima-CI.
+* Include branch environment variables in CI configuration.
 
-* :ref:`Status <user_manual_nodes_status>`: node that listens to other nodes status.
-* :ref:`Main <user_manual_nodes_main>`: node that sends training data and collects the solution to that data.
-* :ref:`Computing <user_manual_nodes_computing>`: node that waits for training data and retrieves a solution.
-* :ref:`Edge <user_manual_nodes_edge>`: node that sends data and waits for the inferred solution.
-* :ref:`Inference <user_manual_nodes_inference>`: node that waits for data and retrieves an inference.
-* :ref:`Agent <user_manual_nodes_agent>`: node in charge of the communication with the network.
-    * :ref:`Client <user_manual_nodes_agent_client>`
-    * :ref:`Server <user_manual_nodes_agent_server>`
-    * :ref:`Repeater <user_manual_nodes_agent_repeater>`
-* :ref:`Model Manager Receiver <user_manual_nodes_model_receiver>`: node that receives statistical data from models and sends requests to those models.
-* :ref:`Model Manager Sender <user_manual_nodes_model_sender>`: node that sends statistical data from models, receives requests and sends replies to those requests.
+This release add new **Documentation features**:
 
-This release includes the following new **AML-IP Data Types**:
+* Add instructions to build the Docker image.
+* Add ``Agent Tool`` section.
+* Add ``Enabling Technologies`` and ``Internal Protocols`` sections.
 
-* :ref:`Status <user_manual_status_data_type>`: status messages sent by each node with its id, type and current state.
-* :ref:`Job <user_manual_scenarios_workload_distribution_job>`: messages that represent training data.
-* :ref:`Job Solution <user_manual_scenarios_workload_distribution_solution>`: messages that represent the solution for a given set of training data.
-* :ref:`Inference <user_manual_datatype_inference>`: messages that represent a partial data-set.
-* :ref:`Inference Solution <user_manual_datatype_inference_solution>`: messages that represent the inference of a data-set.
-* :ref:`Model Statistics <user_manual_scenarios_collaborative_learning_statistics>`: messages that represent statistical data from models.
-* :ref:`Model <user_manual_scenarios_collaborative_learning_model_request>`: messages that represent a problem model request.
-* :ref:`Model Solution <user_manual_scenarios_collaborative_learning_model_reply>`: messages that represent a problem reply with the requested model.
+This release includes the following *Dependencies Update*:
 
-This release includes the following **Demos**:
+.. list-table::
+    :header-rows: 1
 
-* :ref:`demo_collaborative_learning`
-* :ref:`demo_inference`
-* :ref:`demo_rosbot2r_inference`
-* :ref:`demo_workload_distribution`
+    *   -
+        - Repository
+        - Old Version
+        - New Version
+    *   - Foonathan Memory Vendor
+        - `eProsima/foonathan_memory_vendor <https://github.com/eProsima/foonathan_memory_vendor>`_
+        - `v1.3.1 <https://github.com/eProsima/foonathan_memory_vendor/releases/tag/v1.3.1>`_
+        - `v1.3.1 <https://github.com/eProsima/foonathan_memory_vendor/releases/tag/v1.3.1>`_
+    *   - Fast CDR
+        - `eProsima/Fast-CDR <https://github.com/eProsima/Fast-CDR>`_
+        - `v2.1.2 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.1.2>`_
+        - `v2.2.1 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.2.1>`_
+    *   - Fast DDS
+        - `eProsima/Fast-DDS <https://github.com/eProsima/Fast-DDS>`_
+        - `v2.13.1 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.13.1>`_
+        - `v2.14.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.14.0>`_
+    *   - Dev Utils
+        - `eProsima/dev-utils <https://github.com/eProsima/dev-utils>`_
+        - `v0.5.0 <https://github.com/eProsima/dev-utils/releases/tag/v0.5.0>`_
+        - `v0.6.0 <https://github.com/eProsima/dev-utils/releases/tag/v0.6.0>`_
+    *   - DDS Pipe
+        - `eProsima/DDS-Pipe <https://github.com/eProsima/DDS-Pipe.git>`_
+        - `v0.3.0 <https://github.com/eProsima/DDS-Pipe/releases/tag/v0.3.0>`__
+        - `v0.4.0 <https://github.com/eProsima/DDS-Pipe/releases/tag/v0.4.0>`__
+    *   - DDS Router
+        - `eProsima/DDS-Router <https://github.com/eProsima/DDS-Router.git>`_
+        - `v2.1.0 <https://github.com/eProsima/DDS-Router/releases/tag/v2.1.0>`__
+        - `v2.2.0 <https://github.com/eProsima/DDS-Router/releases/tag/v2.2.0>`__
 
-This release includes the following **Documentation features**:
 
-* This same Documentation
-* API Code Documentation
+#################
+Previous Versions
+#################
 
-This release includes the following **Continuous Integration features**:
-
-* Continuous Integration deployment in `GitHub Actions <https://github.com/eProsima/AML-IP/actions>`_.
-* Compile with *-Wall* flag *Clang* job.
-* Add *Address Sanitizer* check to all tests.
-* Add Python Liner test to the Python API.
-* Disable Data Sharing from test.
+.. include:: previous_versions/v0.1.0.rst
