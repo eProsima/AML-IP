@@ -44,7 +44,15 @@ Build packages
 
     .. code-block:: bash
 
-        colcon build --packages-up-to amlip_cpp
+        colcon build --packages-up-to-regex amlip
+
+.. note::
+
+    Not all the sub-packages of all the dependencies are required.
+    In order to build only the packages required, use the colcon_ option :code:`--packages-up-to <package-to-build>`.
+    *e.g. the* |amlip| *C++ library is completely built using* :code:`--packages-up-to amlip_cpp`
+    For more details about the colcon_ available arguments, please refer to `packages selection <https://colcon.readthedocs.io/en/released/reference/package-selection-arguments.html>`_
+    page of the colcon_ manual.
 
 .. note::
 
@@ -53,6 +61,28 @@ Build packages
     `CMake specific arguments <https://colcon.readthedocs.io/en/released/reference/verb/build.html#cmake-specific-arguments>`_
     page of the colcon_ manual.
     For more details about the available CMake_ options, please refer to the :ref:`cmake_options` section.
+
+
+Run Tests
+---------
+
+Tests are not automatically built within the |amlip| project.
+Use CMake_ option `BUILD_TESTS` when building the project in order to activate tests.
+This could also be done by a `colcon.meta file <https://colcon.readthedocs.io/en/released/user/configuration.html#meta-files>`_
+to only activate tests in the desired packages.
+
+#.  Build the packages with tests:
+
+    .. code-block:: bash
+
+        colcon build --packages-select-regex amlip --cmake-args "-DBUILD_TESTS=ON"
+
+
+#.  Run tests. Use :code:`--packages-select <package-name>` to only execute tests of a specific package:
+
+    .. code-block:: bash
+
+        colcon test --event-handlers=console_direct+ --packages-select amlip_cpp
 
 
 Source installation
@@ -78,3 +108,19 @@ its tools, use the following command:
 
 .. _colcon: https://colcon.readthedocs.io/en/released/
 .. _CMake: https://cmake.org
+
+Build demos
+===========
+
+There is a demo sub-package that can be installed along with the project.
+In order to install this package use one of these 2 commands:
+
+.. code-block:: bash
+
+    # To build all sub-packages
+    colcon build
+
+.. code-block:: bash
+
+    # To only build demo package and its dependencies
+    colcon build --packages-up-to amlip_demo_nodes

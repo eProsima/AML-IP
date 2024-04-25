@@ -63,7 +63,7 @@ Local installation
                 -DCMAKE_PREFIX_PATH=<path\to\user\workspace>\AML-IP\install
             cmake --build . --config Release --target install
 
-    * `Dev Utils <https://github.com/eProsima/dev-utils>`_
+    *   `Dev Utils <https://github.com/eProsima/dev-utils>`_
 
         .. code-block:: bash
 
@@ -100,12 +100,23 @@ Local installation
     .. code-block:: bash
 
         # amlip_cpp
-        cd <path\to\user\workspace>\AML-IP
-        mkdir build\amlip_cpp
-        cd build\amlip_cpp
-        cmake <path\to\user\workspace>\AML-IP\src\amlip\amlip_cpp ^
-            -DCMAKE_INSTALL_PREFIX=<path\to\user\workspace>\AML-IP\install -DCMAKE_PREFIX_PATH=<path\to\user\workspace>\AML-IP\install
-        cmake --build . --config Release --target install
+        cd ~/AML-IP
+        mkdir build/amlip_cpp
+        cd build/amlip_cpp
+        cmake ~/AML-IP/src/amlip/amlip_cpp -DCMAKE_INSTALL_PREFIX=~/AML-IP/install -DCMAKE_PREFIX_PATH=~/AML-IP/install
+        cmake --build . --target install
+
+        # amlip_swig
+        cd ~/AML-IP
+        mkdir build/amlip_swig
+        cd build/amlip_swig
+        cmake ~/AML-IP/src/amlip/amlip_swig -DCMAKE_INSTALL_PREFIX=~/AML-IP/install -DCMAKE_PREFIX_PATH=~/AML-IP/install
+        cmake --build . --target install
+
+        # amlip_py
+        cd ~/AML-IP
+        mkdir install/amlip_py
+        pip3 install --editable ~/AML-IP/src/amlip/amlip_py/ --target install/amlip_py
 
 
 .. note::
