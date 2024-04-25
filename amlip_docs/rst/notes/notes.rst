@@ -12,6 +12,7 @@ Version v0.2.0
 
 This release adds new **features**:
 
+* Support Fast CDR v2.2.0.
 * Implement asynchronous request model in ``ModelManagerReceiver``.
 * Add ``fastdds.application.id`` property to participants and endpoints.
 * Add ``fastdds.application.metadata`` property to participants and endpoints.
