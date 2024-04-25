@@ -40,17 +40,16 @@ Furthermore, they are expected to promote distributed, collaborative learning.
 Overview
 ########
 
-.. warning::
-
-    This is an early access to a work in progress project.
-    Thus new features, nodes, capabilities and documentation will be added as progress advance.
-
 Following are the main scenarios that the current *AML-IP* supports:
 
-* :ref:`Status Scenario <user_manual_scenarios_status>`:
+* :ref:`Monitor Network State Scenario <user_manual_scenarios_status>`:
   Analyze the state of a network remotely.
 * :ref:`Workload Distribution Scenario <user_manual_scenarios_workload_distribution>`:
   Distribute the machine learning training phase to multiple nodes to parallelize heavy computation.
+* :ref:`Collaborative Learning Scenario <user_manual_scenarios_collaborative_learning>`:
+  Share models between nodes without having to share the private dataset with which the model was trained.
+* :ref:`Distributed Inference Scenario <user_manual_scenarios_distributed_inference>`:
+  Distribute large amounts of data to multiple nodes to perform inference in parallel.
 
 Check section :ref:`project_overview` to have a further explanation of the concepts and use cases of this project.
 
@@ -82,7 +81,8 @@ Structure of the documentation
 This documentation is organized into the sections below.
 
 * :ref:`Installation Manual <installation_manual_linux>`
-* :ref:`Project Overview <project_overview>`
+* :ref:`Getting Started <project_overview>`
+* :ref:`Demo Examples <demo_collaborative_learning>`
 * :ref:`User Manual <user_manual_scenarios>`
 * :ref:`Developer Manual <developer_manual_installation_sources_linux>`
 * :ref:`Release Notes <release_notes>`
