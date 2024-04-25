@@ -25,13 +25,17 @@ These are the packages of |amlip| and the dependencies between them:
         - Main C++ library with the implementation and API to create |amlip| Nodes.
         -
 
+    *   - |amlip_swig|
+        - Project to auto-generate a Python library from |amlip_cpp|.
+        - |amlip_cpp|
+
+    *   - |amlip_py|
+        - Main Python library with API to create AML-IP Nodes.
+        - |amlip_swig|
+
     *   - |amlip_docs|
         - Sphinx documentation project.
         -
-
-.. warning::
-
-    |amlip| does not support Python API for Windows due to `some issues <https://bugs.python.org/issue46276>`_.
 
 Dependencies
 ============
@@ -138,6 +142,21 @@ From an administrative shell with *PowerShell*, execute the following commands i
    cmake --build build\yamlcpp --target install    # If building in Debug mode, add --config Debug
 
 
+.. _windows_sources_swig:
+
+SWIG
+^^^^
+
+SWIG is a software development tool that connects programs written in C and C++ with a variety of high-level programming languages.
+In this project, it is used to wrap |amlip_cpp| C++ API to generate a Python library.
+Install SWIG_ using the package manager of the appropriate Linux distribution.
+For example, on Ubuntu use the command:
+
+.. code-block:: bash
+
+   choco install swig --allow-downgrade --version=4.0.2.04082020
+
+
 .. _windows_sources_colcon_install:
 
 Colcon
@@ -231,4 +250,5 @@ One of them uses CMake_ and the other colcon_, an auto-build framework.
 .. _OpenSSL: https://www.openssl.org/
 .. _Gtest: https://github.com/google/googletest
 .. _vcstool: https://pypi.org/project/vcstool/
+.. _SWIG: https://www.swig.org/
 .. _yaml-cpp: https://github.com/jbeder/yaml-cpp
