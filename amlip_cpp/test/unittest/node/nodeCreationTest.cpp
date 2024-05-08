@@ -29,6 +29,14 @@
 #include <amlip_cpp/node/workload_distribution/ComputingNode.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerSenderNode.hpp>
 #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
+#include <amlip_cpp/node/workload_distribution/AsyncMainNode.hpp>
+#include <amlip_cpp/node/workload_distribution/AsyncComputingNode.hpp>
+#include <amlip_cpp/node/EdgeNode.hpp>
+#include <amlip_cpp/node/InferenceNode.hpp>
+#include <amlip_cpp/node/AsyncEdgeNode.hpp>
+#include <amlip_cpp/node/AsyncInferenceNode.hpp>
+
+
 
 #include <dds/Participant.hpp>
 
