@@ -20,10 +20,6 @@ and the data received.
 In this last case, the Nodes are programming *Objects* that can be instantiated and customized regarding the
 action that must be performed.
 
-.. warning::
-
-    |amlip| is a work in progress, and these interactions and usage can change along the process.
-
 Nodes attributes
 ================
 
