@@ -25,7 +25,7 @@ In this package there are severat executables:
     - [Sync Main Node](#sync-edge-node)
     - [Sync Computing Node](#sync-inference-node)
 
-<img src="../../.figures/rosbot2r_inference_demo.png"/>
+<img src="../../.figures/demos/rosbot2r_inference_demo.png"/>
 
 ---
 

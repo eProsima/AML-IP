@@ -26,6 +26,10 @@ Since the *Sender* doesn't have a real *AML Engine*, it sends the model statisti
 Upon receiving the statistics, the *Receiver* sends a model request, also as a string since it doesn't have an *AML Engine*.
 Then, the *Sender* converts the received model request to uppercase and sends it back as a model reply.
 
+.. figure:: /rst/figures/demos/collaborative_demo.png
+    :align: center
+    :width: 80%
+
 Prerequisites
 =============
 

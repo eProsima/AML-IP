@@ -23,7 +23,7 @@ With these 2 nodes implemented, the user can deploy as many nodes of each kind a
 
 The demo that is presented here follows the schema of the figure below:
 
-.. figure:: /rst/figures/tensor_inference_demo.png
+.. figure:: /rst/figures/demos/tensor_inference_demo.png
 
 * `TensorFlow <https://www.tensorflow.org/>`_ is an end-to-end machine learning platform with pre-trained models.
 
@@ -318,7 +318,7 @@ Next steps
 
 Based on the information acquired, we have successfully generated the next image:
 
-.. figure:: /rst/figures/inferred_image.png
+.. figure:: /rst/figures/demos/inferred_image.png
 
 
 Run multiple nodes of each kind
