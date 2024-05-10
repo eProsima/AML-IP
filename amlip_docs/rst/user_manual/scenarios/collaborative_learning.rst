@@ -14,7 +14,7 @@ The Model Manager Sender Nodes publish :ref:`user_manual_scenarios_collaborative
 When a :ref:`user_manual_nodes_model_receiver` is interested in a model based on its :ref:`user_manual_scenarios_collaborative_learning_statistics`, it sends a :ref:`user_manual_scenarios_collaborative_learning_model_request` request to the Model Manager Sender Node that sent the :ref:`user_manual_scenarios_collaborative_learning_statistics`.
 The :ref:`user_manual_nodes_model_sender` will respond with a :ref:`user_manual_scenarios_collaborative_learning_model_reply`.
 
-.. figure:: /rst/figures/collaborative_learning_scenario.png
+.. figure:: /rst/figures/scenarios/collaborative_learning_scenario.png
     :align: center
     :width: 80%
 
