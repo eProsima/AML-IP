@@ -77,7 +77,7 @@ To build the demo, build the packages with Colcon:
 
 .. code-block:: bash
 
-    colcon build --packages-up-to amlip_demo_nodes
+    colcon build --packages-up-to amlip_tensorflow_inference_demo
 
 Once AML-IP packages are installed and built, import the libraries using the following command.
 

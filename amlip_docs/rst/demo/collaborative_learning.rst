@@ -46,7 +46,7 @@ If the demo package is not compiled, please refer to :ref:`developer_manual_inst
 
 .. code-block:: bash
 
-    colcon build --packages-up-to amlip_demo_nodes
+    colcon build --packages-up-to amlip_collaborative_learning_demo
 
 Once AML-IP packages are installed and built, import the libraries using the following command.
 

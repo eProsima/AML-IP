@@ -84,7 +84,7 @@ tar -xvf centernet_hourglass_512x512_kpts_1.tar.gz -C ./centernet_hourglass_512x
 In order to build the project and be able to operate with this demo, follow these instructions:
 
 ```sh
-colcon build --packages-up-to amlip_demo_nodes
+colcon build --packages-up-to amlip_tensorflow_inference_demo
 source install/setup.bash
 ```
 
