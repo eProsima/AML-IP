@@ -1,5 +1,5 @@
 # Nightly test workflow for AML-IP
-name: test
+name: nightly
 
 on:
   schedule:
