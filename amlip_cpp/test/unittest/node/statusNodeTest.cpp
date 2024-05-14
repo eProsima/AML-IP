@@ -108,13 +108,18 @@ TEST(StatusNodeTest, process_status_parent)
     // Create a waiter so the Parent Node is not destroyed before the status node has received first message
     eprosima::utils::event::IntWaitHandler waiter(0, true);
 
+    // Create a waiter to initialise parent_id before processing incoming data
+    eprosima::utils::event::BooleanWaitHandler waiter_id(false, true);
+
     // Execute Status node and store the data that arrives
     types::AmlipIdDataType parent_id;
     std::vector<types::StatusDataType> data_arrived;
     status_node.process_status_async(
-        [&data_arrived, &waiter, &parent_id](const types::StatusDataType& data)
+        [&data_arrived, &waiter_id, &waiter, &parent_id](const types::StatusDataType& data)
         {
             data_arrived.push_back(data);
+            // Wait for parent_id to be set
+            waiter_id.wait();
             // Only open when data comes from target. Skip data coming from this participant.
             if (data.id() == parent_id)
             {
@@ -125,7 +130,10 @@ TEST(StatusNodeTest, process_status_parent)
     {
         // Create Parent Node to be destroyed afterwards
         node::test::DummyNode dummy_node("TestParentNode", types::NodeKind::undetermined);
+
         parent_id = dummy_node.id();
+        // Open the waiter_id
+        waiter_id.open();
 
         // Wait so status reader has time to process the data
         waiter.wait_greater_equal_than(1);
