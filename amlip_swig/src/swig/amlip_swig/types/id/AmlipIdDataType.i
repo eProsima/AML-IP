@@ -26,6 +26,14 @@
 %ignore eprosima::amlip::types::AmlipIdDataType::id();
 %rename("%s") eprosima::amlip::types::AmlipIdDataType::id() const;
 
+// Declare the to string method
+%extend eprosima::amlip::types::AmlipIdDataType {
+    std::string __str__() const
+    {
+        return $self->to_string();
+    }
+}
+
 %{
 #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
 %}

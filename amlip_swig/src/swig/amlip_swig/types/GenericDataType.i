@@ -25,6 +25,14 @@
 %ignore eprosima::amlip::types::GenericDataType::data_size();
 %rename("%s") eprosima::amlip::types::GenericDataType::data_size() const;
 
+// Declare the to string method
+%extend eprosima::amlip::types::GenericDataType {
+    std::string __str__() const
+    {
+        return $self->to_string();
+    }
+}
+
 %{
 #include <amlip_cpp/types/GenericDataType.hpp>
 %}
