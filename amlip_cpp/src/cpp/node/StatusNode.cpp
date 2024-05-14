@@ -125,11 +125,16 @@ void StatusNode::stop_processing()
 {
     if (processing_)
     {
+        logInfo(AMLIPCPP_NODE_STATUS, "Stop processing Status Node: " << *this << ".");
         processing_ = false;
         status_reader_->stop(); // This must awake thread and it must finish
         process_thread_.join();
-
         change_status_(types::StateKind::stopped);
+    }
+    else
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Status node " << this << " is already stopped.");
     }
 }
 
