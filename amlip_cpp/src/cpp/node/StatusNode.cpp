@@ -154,13 +154,20 @@ void StatusNode::process_routine_(
             return;
         }
 
-        // Read data
-        types::StatusDataType status = status_reader_->read();
+        try
+        {
+            // Read data
+            types::StatusDataType status = status_reader_->read();
 
-        logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " read data :" << status << ".");
+            logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " read data :" << status << ".");
 
-        // Call callback
-        callback(status);
+            // Call callback
+            callback(status);
+        }
+        catch (const eprosima::utils::InconsistencyException& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 }
 
