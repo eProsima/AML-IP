@@ -15,6 +15,7 @@
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
 
+#include <cpp_utils/Log.hpp>
 #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 #include <cpp_utils/wait/IntWaitHandler.hpp>
 
@@ -102,6 +103,9 @@ TEST(StatusNodeTest, run_and_stop)
  */
 TEST(StatusNodeTest, process_status_parent)
 {
+    // Activate log
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+
     // Create Status Node
     node::StatusNode status_node("TestStatusNode");
 
@@ -173,6 +177,9 @@ TEST(StatusNodeTest, process_status_parent)
  */
 TEST(StatusNodeTest, process_status_state)
 {
+    // Activate log
+    eprosima::utils::Log::SetVerbosity(eprosima::utils::Log::Kind::Info);
+
     // Create Status Node
     node::StatusNode status_node("TestStatusNode");
     auto st_id = status_node.id();
