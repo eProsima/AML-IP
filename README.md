@@ -44,7 +44,7 @@ You can access the documentation online, which is hosted on [Read the Docs](http
 * [Introduction](https://aml-ip.readthedocs.io/en/latest/rst/formalia/titlepage.html)
 * [Getting Started](https://aml-ip.readthedocs.io/en/latest/rst/getting_started/project_overview.html)
 * [User Manual](https://aml-ip.readthedocs.io/en/latest/rst/user_manual/scenarios/scenarios.html)
-* [Demos](https://aml-ip.readthedocs.io/en/latest/rst/demo/workload_distribution.html)
+* [Demos](https://aml-ip.readthedocs.io/en/latest/rst/demo/collaborative_learning.html)
 * [Developer Manual](https://aml-ip.readthedocs.io/en/latest/rst/developer_manual/installation/sources/linux/linux.html)
 * [Release Notes](https://aml-ip.readthedocs.io/en/latest/rst/notes/notes.html)
 

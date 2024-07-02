@@ -22,13 +22,13 @@ In this demo we will use the simulation of `ROSbot 2R` - an autonomous mobile ro
 It is an affordable platform that can serve as a base for a variety of robotic applications, including inspection robots and custom service robots.
 The robot features a solid aluminum frame and is equipped with a Raspberry Pi 4 with 4GB of RAM, distance sensors, an RPLIDAR A2 laser scanner, and an RGB-D Orbbec Astra camera.
 
-.. figure:: /rst/figures/rosbot2r.png
+.. figure:: /rst/figures/demos/rosbot2r.png
     :align: center
     :width: 50%
 
 The demo that is presented here follows the scheme of the figure below:
 
-.. figure:: /rst/figures/rosbot2r_inference_demo.png
+.. figure:: /rst/figures/demos/rosbot2r_inference_demo.png
 
 .. note::
 
@@ -111,7 +111,7 @@ The Docker Compose launches the following containers:
 
 The following diagram illustrates the flow of the explained code:
 
-.. figure:: /rst/figures/rosbot2r_inference_details.png
+.. figure:: /rst/figures/demos/rosbot2r_inference_details.png
 
 Working with AML-IP
 ===================

@@ -26,6 +26,10 @@ Since the *Sender* doesn't have a real *AML Engine*, it sends the model statisti
 Upon receiving the statistics, the *Receiver* sends a model request, also as a string since it doesn't have an *AML Engine*.
 Then, the *Sender* converts the received model request to uppercase and sends it back as a model reply.
 
+.. figure:: /rst/figures/demos/collaborative_demo.png
+    :align: center
+    :width: 80%
+
 Prerequisites
 =============
 
@@ -42,7 +46,7 @@ If the demo package is not compiled, please refer to :ref:`developer_manual_inst
 
 .. code-block:: bash
 
-    colcon build --packages-up-to amlip_demo_nodes
+    colcon build --packages-up-to amlip_collaborative_learning_demo
 
 Once AML-IP packages are installed and built, import the libraries using the following command.
 

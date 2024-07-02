@@ -65,7 +65,7 @@ In order to introduce strings to be sent as jobs, add them as executable inputs.
 
 ```sh
 # To send 2 jobs
-python3 ./install/amlip_demo_nodes/bin/main_node.py FIRST_JOB "Second Job"
+python3 ./install/amlip_workload_distribution_demo/bin/main_node.py FIRST_JOB "Second Job"
 ```
 
 For further information regarding executable arguments, use `--help` argument.
@@ -79,7 +79,7 @@ Its implementation can be seen in [computing_node_async.py](computing_node_async
 
 ```sh
 # To answer jobs
-python3 ./install/amlip_demo_nodes/bin/computing_node.py
+python3 ./install/amlip_workload_distribution_demo/bin/computing_node_async.py
 ```
 
 For further information regarding executable arguments, use `--help` argument.
@@ -94,7 +94,7 @@ In order to build the following project and be able to operate with this demo No
 mkdir src
 wget https://raw.githubusercontent.com/eProsima/AML-IP/main/amlip.repos
 vcs import src < amlip.repos
-colcon build --packages-up-to amlip_demo_nodes
+colcon build --packages-up-to amlip_workload_distribution_demo
 source install/setup.bash
 ```
 
@@ -123,10 +123,10 @@ There are 2 ways to introduce strings to send jobs:
 
 ```sh
 # To send 2 jobs
-python3 ./install/amlip_demo_nodes/bin/main_node.py first_job "second job"
+python3 ./install/amlip_workload_distribution_demo/bin/main_node_sync.py first_job "second job"
 
 # To waits for keyboard input
-python3 ./install/amlip_demo_nodes/bin/main_node.py
+python3 ./install/amlip_workload_distribution_demo/bin/main_node_sync.py
 ```
 
 Its implementation can be seen in [main_node_sync.py](main_node_sync.py) file.
@@ -138,7 +138,7 @@ It receives an integer argument to set the number of tasks that this node must w
 
 ```sh
 # To answer 2 jobs
-./install/amlip_demo_nodes/bin/computing_node 2
+./install/amlip_workload_distribution_demo/bin/computing_node_sync 2
 ```
 
 Its implementation can be seen in [computing_node_sync.cpp](computing_node_sync.cpp) file.

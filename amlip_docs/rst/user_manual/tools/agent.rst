@@ -55,12 +55,11 @@ The Agent Tool supports several input arguments:
         - ``-d``
         - ``--debug``
         - Enables the |amlip| |br|
-          logs so the execution can be |br|
-          followed by internal |br|
+          logs so the execution can |br|
+          be followed by internal |br|
           debugging information. |br|
-          Sets ``Log Verbosity`` |br|
-          to ``info`` and |br|
-          ``Log Filter`` |br|
+          Sets ``Log Verbosity`` to |br|
+          ``info`` and ``Log Filter`` |br|
           to ``AMLIP``.
         -
 
@@ -118,7 +117,8 @@ The Agent Tool supports several input arguments:
     *   - Transport
         - ``-t``
         - ``--transport``
-        -  Use only TCPv4 or UDPv4 transport.
+        - Use only TCPv4 or UDPv4 |br|
+          transport.
         - ``TCPv4``
 
 .. _user_manual_tool_agent_help_argument:

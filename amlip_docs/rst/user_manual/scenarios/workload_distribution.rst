@@ -17,6 +17,9 @@ that are sent along with states of the model to :ref:`Computing Nodes <user_manu
 in order to perform this training in parallel,
 reducing the workload in the *Main Node* host, that may require to perform other actions at the same time.
 
+.. figure:: /rst/figures/scenarios/workload_distribution_scenario.png
+    :align: center
+    :width: 70%
 
 .. _user_manual_scenarios_workload_distribution_job:
 

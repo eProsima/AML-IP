@@ -115,5 +115,9 @@ In order to install this package use one of these 2 commands:
 
 .. code-block:: bash
 
-    # To only build demo package and its dependencies
-    colcon build --packages-up-to amlip_demo_nodes
+    # To only build demo packages and its dependencies
+    colcon build --packages-up-to \
+        amlip_collaborative_learning_demo \
+        amlip_tensorflow_inference_demo \
+        amlip_tensorflow_inference_rosbot2r_demo \
+        amlip_tensorflow_inference_rosbot2r_demo

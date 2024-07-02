@@ -13,9 +13,9 @@ It uses the :ref:`protocols_dds_multiservice` to efficiently publish and distrib
 
 The inference is performed in a :ref:`user_manual_nodes_inference` and sent to an :ref:`user_manual_nodes_edge`.
 
-.. figure:: /rst/figures/distributed_inference_scenario.png
+.. figure:: /rst/figures/scenarios/inference_scenario.png
     :align: center
-    :width: 75%
+    :width: 80%
 
 .. _user_manual_datatype_inference:
 
