@@ -10,7 +10,7 @@
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
         <a href="https://aml-ip.readthedocs.io/en/latest">Docs</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-        <a href="https://alma-ai.eu/index.php/news">News</a>
+        <a href="https://alma-ai.eu/showroom/news">News</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
         <a href="https://twitter.com/EProsima">Twitter</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
