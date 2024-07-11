@@ -25,6 +25,7 @@ import amlip_py.node.ServerNode  # noqa: F401
 import amlip_py.node.RepeaterNode  # noqa: F401
 import amlip_py.node.FiwareNode  # noqa: F401
 
+
 def test_computing_node():
     """Test creation of ComputingNode."""
     _ = amlip_py.node.ComputingNode.ComputingNode('test_node')

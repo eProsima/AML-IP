@@ -23,7 +23,6 @@ from py_utils.logging.log_utils import CustomLogger
 
 from amlip_py.node.AsyncEdgeNode import AsyncEdgeNode, InferenceListenerLambda
 from amlip_py.types.InferenceDataType import InferenceDataType
-from amlip_py.types.InferenceSolutionDataType import InferenceSolutionDataType
 
 
 headers_POST = {
@@ -45,7 +44,7 @@ class FiwareNode:
             self,
             name: str,
             ip: str,
-            logger = CustomLogger(logger_name='FiwareNode', log_level=logging.WARNING)):
+            logger=CustomLogger(logger_name='FiwareNode', log_level=logging.WARNING)):
         """
         Create a new Fiware Node with a given name.
 
@@ -63,7 +62,8 @@ class FiwareNode:
 
         self.name = name
 
-        self.edge = AsyncEdgeNode('edge_node'+name, listener=InferenceListenerLambda(self.inference_received))
+        self.edge = AsyncEdgeNode('edge_node'+name,
+                                  listener=InferenceListenerLambda(self.inference_received))
 
         self.app = Flask(__name__)
 
@@ -78,7 +78,9 @@ class FiwareNode:
 
         """
 
-        self.app.add_url_rule('/accumulate', view_func=self.accumulate, methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
+        self.app.add_url_rule('/accumulate',
+                              view_func=self.accumulate,
+                              methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
 
     def init_subscriptions(self, ip):
         """
@@ -101,7 +103,9 @@ class FiwareNode:
                     }
                 ],
                 'condition': {
-                    'attrs': ['data'], # make a notification trigger on changes to the 'data' attribute
+                    'attrs': [
+                        'data'  # make a notification trigger on changes to the 'data' attribute
+                    ],
                     'notifyOnMetadataChange': False
                 }
             },
@@ -109,11 +113,13 @@ class FiwareNode:
                 'http': {
                     'url': f'http://{ip}:1028/accumulate'
                 },
-                'attrs': [] # all the attributes in the entity
+                'attrs': []  # all the attributes in the entity
             }
         }
 
-        response = requests.post('http://localhost:1026/v2/subscriptions', headers=headers_POST, data=json.dumps(subscription_data))
+        response = requests.post('http://localhost:1026/v2/subscriptions',
+                                 headers=headers_POST,
+                                 data=json.dumps(subscription_data))
         response.raise_for_status()
 
     def inference_received(
@@ -136,8 +142,8 @@ class FiwareNode:
         """
 
         self.logger.info(f'Inference received from server: {server_id}\n'
-                    f' with id: {task_id}\n'
-                    f' inference: {inference.to_string()}')
+                         f' with id: {task_id}\n'
+                         f' inference: {inference.to_string()}')
 
         metadata = {
             'task_id': {
@@ -155,8 +161,8 @@ class FiwareNode:
     def patch_inference(
             self,
             inference,
-            id : str = 'ID_0',
-            metadata = {}) -> None:
+            id: str = 'ID_0',
+            metadata={}) -> None:
         """
         Patch inference data to the Fiware context broker.
 
@@ -181,15 +187,16 @@ class FiwareNode:
         }
 
         try:
-            response = requests.patch(f'http://localhost:1026/v2/entities/{id}/attrs', headers=headers_POST, data=json.dumps(data))
+            response = requests.patch(f'http://localhost:1026/v2/entities/{id}/attrs',
+                                      headers=headers_POST, data=json.dumps(data))
             response.raise_for_status()
-            self.logger.info(f'Inference data posted successfully')
+            self.logger.info('Inference data posted successfully')
         except requests.exceptions.RequestException as e:
             self.logger.warning(f'Failed to patch inference data: {e}')
 
     def get_inference(
             self,
-            id : str = 'ID_0') -> dict:
+            id: str = 'ID_0') -> dict:
         """
         Get inference data from the Fiware context broker.
 
@@ -202,9 +209,10 @@ class FiwareNode:
         """
 
         try:
-            response = requests.get('http://localhost:1026/v2/entities/'+id+'?type=inference', headers=headers_GET)
+            response = requests.get('http://localhost:1026/v2/entities/'+id+'?type=inference',
+                                    headers=headers_GET)
             response.raise_for_status()
-            self.logger.info(f'Inference data retrieved successfully')
+            self.logger.info('Inference data retrieved successfully')
         except requests.exceptions.HTTPError as err:
             self.logger.warning(f'HTTP error occurred: {err}')
             return {}
@@ -255,19 +263,24 @@ class FiwareNode:
 
         if raw_data:
             inference_data = InferenceDataType(raw_data['data'][0]['data']['value'])
-            task_id = self.edge.request_inference(inference_data)
+            self.edge.request_inference(inference_data)
 
             # TODO: add task_id to the entity metadata
-            # (not supported by the context broker yet? https://fiware-orion.readthedocs.io/en/2.4.0/user/metadata/index.html)
+            # (not supported by the context broker yet?
+            # https://fiware-orion.readthedocs.io/en/2.4.0/user/metadata/index.html)
 
+            # task_id = self.edge.request_inference(inference_data)
             # data = {
-            #     'task_id': {
-            #         'value': task_id,
-            #         'type': 'string'
+            #     'metadata': {
+            #         'task_id': {
+            #             'value': task_id,
+            #             'type': 'string'
+            #         }
             #     }
             # }
 
-            # response = requests.patch(f'http://localhost:1026/v2/entities/ID_0/attrs/data/metadata', headers=headers_POST, data=json.dumps(data))
+            # response = requests.patch(f'http://localhost:1026/v2/entities/{id}/attrs/data/',
+            #                           headers=headers_POST, data=json.dumps(data))
             # response.raise_for_status()
 
         self.logger.info(request_summary+s+data+s)
