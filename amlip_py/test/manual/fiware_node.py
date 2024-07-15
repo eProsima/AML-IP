@@ -33,6 +33,8 @@ def main():
     # Get IP
     hostname = socket.gethostname()
     ip = socket.gethostbyname(hostname)
+    # Set port
+    port = 1028
 
     # Create node
     logger.info('Starting Manual Test Fiware Node Py execution. Creating Node...')
@@ -41,12 +43,13 @@ def main():
         ip = '192.168.1.74'
         fiware_node = FiwareNode(name='PyTestFiwareNode',
                                  server_ip=ip,
+                                 server_port=port,
                                  entity_id='ID_test',
                                  logger=logger)
         logger.info(f'FiwareNode started at ip : {ip}')
 
         # start the Flask server
-        fiware_node.app.run(host=ip, port=1028)
+        fiware_node.app.run(host=ip, port=port)
 
     except requests.exceptions.RequestException as e:
         logger.error(f'Failed to initialize subscriptions: {e}')
