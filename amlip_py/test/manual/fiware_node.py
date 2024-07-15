@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import requests
+import socket
 
 import logging
 from py_utils.logging.log_utils import CustomLogger
@@ -29,12 +30,19 @@ logger = CustomLogger(logger_name='PyTestFiwareNode', log_level=logging.INFO)
 def main():
     """Execute main routine."""
 
+    # Get IP
+    hostname = socket.gethostname()
+    ip = socket.gethostbyname(hostname)
+
     # Create node
     logger.info('Starting Manual Test Fiware Node Py execution. Creating Node...')
 
     try:
-        ip = '192.168.1.51'
-        fiware_node = FiwareNode('PyTestFiwareNode', ip, logger)
+        ip = '192.168.1.74'
+        fiware_node = FiwareNode(name='PyTestFiwareNode',
+                                 server_ip=ip,
+                                 entity_id='ID_test',
+                                 logger=logger)
         logger.info(f'FiwareNode started at ip : {ip}')
 
         # start the Flask server

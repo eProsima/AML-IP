@@ -43,7 +43,13 @@ class FiwareNode:
     def __init__(
             self,
             name: str,
-            ip: str,
+            server_ip: str,
+            server_port: int = 1028,
+            context_broker_ip: str = 'localhost',
+            context_broker_port: int = 1026,
+            entity_id: str = 'ID_0',
+            entity_data: str = 'data',
+            entity_solution: str = 'inference',
             logger=CustomLogger(logger_name='FiwareNode', log_level=logging.WARNING)):
         """
         Create a new Fiware Node with a given name.
@@ -52,11 +58,39 @@ class FiwareNode:
         ----------
         name : str
             Name of the node.
-        ip : str
+        server_ip : str
             IP address of the server.
+        server_port : int
+            Port of the server.
+            Defaults to 1028.
+        context_broker_ip : str
+            IP address of the context broker.
+            Defaults to 'localhost'.
+        context_broker_port : int
+            Port of the context broker.
+            Defaults to 1026.
+        entity_id : str
+            ID of the context broker entity.
+            Defaults to 'ID_0'.
+        entity_data : str
+            Name of the entity data attribute.
+            Defaults to 'data'.
+        entity_solution : str
+            Name of the entity solution attribute.
+            Defaults to 'inference'.
+        logger : logging.Logger
+            Logger object.
+            Defaults to a new CustomLogger with log level WARNING.
 
         """
 
+        self.server_ip = server_ip
+        self.server_port = server_port
+        self.context_broker_ip = context_broker_ip
+        self.context_broker_port = context_broker_port
+        self.id = entity_id
+        self.entity_data = entity_data
+        self.entity_solution = entity_solution
         self.logger = logger
         self.logger.info(f'Creating FiwareNode with name: {name}')
 
@@ -68,7 +102,7 @@ class FiwareNode:
         self.app = Flask(__name__)
 
         self.setup_routes()
-        self.init_subscriptions(ip)
+        self.init_subscriptions()
 
     def setup_routes(self):
         """
@@ -82,14 +116,9 @@ class FiwareNode:
                               view_func=self.accumulate,
                               methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
 
-    def init_subscriptions(self, ip):
+    def init_subscriptions(self):
         """
-        Initialize subscriptions to notify on all changes to the entity with id 'ID_0'.
-
-        Parameters
-        ----------
-        ip : str
-            The IP address where notifications will be sent.
+        Initialize subscriptions to notify on all changes to the entity with self.id.
 
         """
 
@@ -98,28 +127,31 @@ class FiwareNode:
             'subject': {
                 'entities': [
                     {
-                        'id': 'ID_0',
+                        'id': self.id,
                         'type': 'string'
                     }
                 ],
                 'condition': {
                     'attrs': [
-                        'data'  # make a notification trigger on changes to the 'data' attribute
+                        # make a notification trigger on changes to the self.entity_data attribute
+                        self.entity_data
                     ],
                     'notifyOnMetadataChange': False
                 }
             },
             'notification': {
                 'http': {
-                    'url': f'http://{ip}:1028/accumulate'
+                    'url': f'http://{self.server_ip}:{self.server_port}/accumulate'
                 },
                 'attrs': []  # all the attributes in the entity
             }
         }
 
-        response = requests.post('http://localhost:1026/v2/subscriptions',
-                                 headers=headers_POST,
-                                 data=json.dumps(subscription_data))
+        response = requests.post(
+            f'http://{self.context_broker_ip}:{self.context_broker_port}/v2/subscriptions',
+            headers=headers_POST,
+            data=json.dumps(subscription_data))
+
         response.raise_for_status()
 
     def inference_received(
@@ -156,12 +188,11 @@ class FiwareNode:
             }
         }
 
-        self.patch_inference(inference.to_string(), 'ID_0', metadata=metadata)
+        self.patch_inference(inference.to_string(), metadata=metadata)
 
     def patch_inference(
             self,
             inference,
-            id: str = 'ID_0',
             metadata={}) -> None:
         """
         Patch inference data to the Fiware context broker.
@@ -170,8 +201,6 @@ class FiwareNode:
         ----------
         inference : InferenceSolutionDataType
             Inference of the data previously sent.
-        id : str
-            Id of the data which this inference answers.
         metadata : dict
             Metadata to be included with the inference data.
             Defaults to an empty dictionary.
@@ -179,7 +208,7 @@ class FiwareNode:
         """
 
         data = {
-            'inference': {
+            self.entity_solution: {
                 'value': inference,
                 'type': 'InferenceSolutionDataType',
                 'metadata': metadata
@@ -187,16 +216,17 @@ class FiwareNode:
         }
 
         try:
-            response = requests.patch(f'http://localhost:1026/v2/entities/{id}/attrs',
-                                      headers=headers_POST, data=json.dumps(data))
+            response = requests.patch(
+                f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
+                f'v2/entities/{self.id}/attrs',
+                headers=headers_POST, data=json.dumps(data))
+
             response.raise_for_status()
             self.logger.info('Inference data posted successfully')
         except requests.exceptions.RequestException as e:
             self.logger.warning(f'Failed to patch inference data: {e}')
 
-    def get_inference(
-            self,
-            id: str = 'ID_0') -> dict:
+    def get_inference(self) -> dict:
         """
         Get inference data from the Fiware context broker.
 
@@ -209,8 +239,11 @@ class FiwareNode:
         """
 
         try:
-            response = requests.get('http://localhost:1026/v2/entities/'+id+'?type=inference',
-                                    headers=headers_GET)
+            response = requests.get(
+                f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
+                f'v2/entities/{self.id}',
+                headers=headers_GET)
+
             response.raise_for_status()
             self.logger.info('Inference data retrieved successfully')
         except requests.exceptions.HTTPError as err:
@@ -224,7 +257,7 @@ class FiwareNode:
 
     def accumulate(self):
         """
-        Handle accumulate route to save request content.
+        Handle /accumulate route to save request content.
 
         """
 
@@ -262,7 +295,7 @@ class FiwareNode:
         data = json.dumps(raw_data, indent=4, sort_keys=True)
 
         if raw_data:
-            inference_data = InferenceDataType(raw_data['data'][0]['data']['value'])
+            inference_data = InferenceDataType(raw_data[self.entity_data][0]['data']['value'])
             self.edge.request_inference(inference_data)
 
             # TODO: add task_id to the entity metadata
@@ -279,8 +312,10 @@ class FiwareNode:
             #     }
             # }
 
-            # response = requests.patch(f'http://localhost:1026/v2/entities/{id}/attrs/data/',
-            #                           headers=headers_POST, data=json.dumps(data))
+            # response = requests.patch(
+            #     f'http://{context_broker_ip}:{context_broker_port}/v2/entities/{id}/attrs/data/',
+            #     headers=headers_POST, data=json.dumps(data))
+
             # response.raise_for_status()
 
         self.logger.info(request_summary+s+data+s)
