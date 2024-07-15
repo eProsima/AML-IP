@@ -1,4 +1,4 @@
-// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2024 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,34 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file NodeKind.hpp
- */
+////////////////////////////////////////////////////////
+// Binding for class FiwareNode
+////////////////////////////////////////////////////////
 
-#pragma once
+// Import parent class
+%import(module="amlip_swig") "amlip_cpp/node/ParentNode.hpp";
 
-#include <cpp_utils/macros/custom_enumeration.hpp>
+%{
+#include <amlip_cpp/node/FiwareNode.hpp>
+%}
 
-namespace eprosima {
-namespace amlip {
-namespace types {
-
-ENUMERATION_BUILDER(
-    NodeKind,
-    undetermined,
-    discovery,
-    agent,
-    main,
-    computing,
-    status,
-    meta,
-    edge,
-    inference,
-    model_receiver,
-    model_sender,
-    fiware
-    );
-
-} /* namespace types */
-} /* namespace amlip */
-} /* namespace eprosima */
+// Include the class interfaces
+%include <amlip_cpp/node/FiwareNode.hpp>
