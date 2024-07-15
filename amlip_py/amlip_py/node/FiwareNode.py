@@ -46,7 +46,7 @@ class FiwareNode(cpp_FiwareNode):
             self,
             name: str,
             server_ip: str,
-            server_port: int = 1028,
+            server_port: int,
             context_broker_ip: str = 'localhost',
             context_broker_port: int = 1026,
             entity_id: str = 'ID_0',
