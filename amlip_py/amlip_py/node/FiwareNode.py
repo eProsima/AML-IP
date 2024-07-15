@@ -24,6 +24,8 @@ from py_utils.logging.log_utils import CustomLogger
 from amlip_py.node.AsyncEdgeNode import AsyncEdgeNode, InferenceListenerLambda
 from amlip_py.types.InferenceDataType import InferenceDataType
 
+from amlip_swig import FiwareNode as cpp_FiwareNode
+
 
 headers_POST = {
     'Content-Type': 'application/json'
@@ -34,7 +36,7 @@ headers_GET = {
 }
 
 
-class FiwareNode:
+class FiwareNode(cpp_FiwareNode):
     """
     AML-IP Fiware Node.
 
@@ -50,6 +52,7 @@ class FiwareNode:
             entity_id: str = 'ID_0',
             entity_data: str = 'data',
             entity_solution: str = 'inference',
+            domain: int = None,
             logger=CustomLogger(logger_name='FiwareNode', log_level=logging.WARNING)):
         """
         Create a new Fiware Node with a given name.
@@ -83,6 +86,12 @@ class FiwareNode:
             Defaults to a new CustomLogger with log level WARNING.
 
         """
+        #####
+        # Parent class constructor
+        if domain is None:
+            super().__init__(name)
+        else:
+            super().__init__(name, domain)
 
         self.server_ip = server_ip
         self.server_port = server_port
