@@ -14,6 +14,8 @@
 
 # Set list of tests that can fail using ASAN
 set_test_label_file(${CMAKE_CURRENT_SOURCE_DIR}/XASAN.list "xasan")
+# Set list of tests that can fail using TSAN
+set_test_label_file(${CMAKE_CURRENT_SOURCE_DIR}/XTSAN.list "xtsan")
 
 # Set list of tests that can fail in windows
 if (WIN32)
