@@ -17,6 +17,7 @@
 from flask import Flask, request, Response
 import requests
 import json
+import time
 
 import logging
 from py_utils.logging.log_utils import CustomLogger
@@ -163,6 +164,53 @@ class FiwareNode(cpp_FiwareNode):
 
         response.raise_for_status()
 
+    def run(self):
+        """
+        Start the Flask server.
+
+        """
+
+        self.app.run(host=self.server_ip, port=self.server_port)
+
+    def post_data(
+            self,
+            data):
+        """
+        Post data to the Fiware context broker.
+
+        Parameters
+        ----------
+        data : dict
+            Data to be posted.
+
+        """
+
+        entity_data = {
+            "id": self.id,
+            "type": "string",
+            self.entity_data: {
+                "value": data,
+                "type": "InferenceDataType"
+            },
+            self.entity_solution: {
+                "value": "",
+                "type": "InferenceSolutionDataType"
+            }
+        }
+
+        try:
+            response = requests.post(
+                f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
+                f'v2/entities',
+                headers=headers_POST,
+                data=json.dumps(entity_data))
+
+            response.raise_for_status()
+            self.logger.info('Data posted successfully')
+
+        except requests.exceptions.RequestException as e:
+            self.logger.warning(f'Failed to post data: {e}')
+
     def inference_received(
             self,
             inference,
@@ -235,34 +283,59 @@ class FiwareNode(cpp_FiwareNode):
         except requests.exceptions.RequestException as e:
             self.logger.warning(f'Failed to patch inference data: {e}')
 
-    def get_inference(self) -> dict:
+    def get_inference(
+            self,
+            timeout=0) -> dict:
         """
         Get inference data from the Fiware context broker.
 
         Parameters
         ----------
-        id : str
-            The ID of the entity to retrieve.
-            Defaults to 'ID_0'.
+        timeout : int
+            Timeout in seconds for the request.
+            Defaults to 0 (no timeout).
+
+        Returns
+        -------
+        inference : dict
+            Inference data retrieved from the context broker.
 
         """
 
-        try:
-            response = requests.get(
-                f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
-                f'v2/entities/{self.id}',
-                headers=headers_GET)
+        start_time = time.time()
+        inference = {}
 
-            response.raise_for_status()
-            self.logger.info('Inference data retrieved successfully')
-        except requests.exceptions.HTTPError as err:
-            self.logger.warning(f'HTTP error occurred: {err}')
-            return {}
-        except requests.exceptions.RequestException as err:
-            self.logger.warning(f'Request exception occurred: {err}')
-            return {}
+        while True:
+            try:
+                response = requests.get(
+                    f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
+                    f'v2/entities/{self.id}?attrs={self.entity_solution}',
+                    headers=headers_GET)
 
-        return response.json()
+                response.raise_for_status()
+
+                inference = response.json()
+
+                if inference[self.entity_solution]['value']:
+                    self.logger.info('Inference data retrieved successfully')
+                    break
+                else:
+                    self.logger.info('Empty inference data, retrying...')
+
+            except requests.exceptions.HTTPError as err:
+                self.logger.warning(f'HTTP error occurred: {err}')
+                break  # Exit loop on HTTP error
+            except requests.exceptions.RequestException as err:
+                self.logger.warning(f'Request exception occurred: {err}')
+                break  # Exit loop on request exception
+
+            if timeout > 0 and (time.time() - start_time) > timeout:
+                self.logger.warning('Timeout reached while waiting for inference data')
+                break
+
+        time.sleep(1)  # Sleep for a second before retrying
+
+        return inference
 
     def accumulate(self):
         """
@@ -304,7 +377,7 @@ class FiwareNode(cpp_FiwareNode):
         data = json.dumps(raw_data, indent=4, sort_keys=True)
 
         if raw_data:
-            inference_data = InferenceDataType(raw_data[self.entity_data][0]['data']['value'])
+            inference_data = InferenceDataType(raw_data['data'][0][self.entity_data]['value'])
             self.edge.request_inference(inference_data)
 
             # TODO: add task_id to the entity metadata
