@@ -39,4 +39,4 @@ Steps
                             logger=CustomLogger(logger_name='FiwareNode', log_level=logging.WARNING))
 
             # Start the Flask server
-            node.app.run(host=server_ip, port=server_port)
+            fiware_node.run()
