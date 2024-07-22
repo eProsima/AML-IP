@@ -49,7 +49,7 @@ def main():
         logger.info(f'FiwareNode started at ip : {ip}')
 
         # start the Flask server
-        fiware_node.app.run(host=ip, port=port)
+        fiware_node.run()
 
     except requests.exceptions.RequestException as e:
         logger.error(f'Failed to initialize subscriptions: {e}')
