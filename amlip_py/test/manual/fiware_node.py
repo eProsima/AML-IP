@@ -40,7 +40,7 @@ def main():
     logger.info('Starting Manual Test Fiware Node Py execution. Creating Node...')
 
     try:
-        ip = '192.168.1.74'
+        ip = '192.168.1.131'
         fiware_node = FiwareNode(name='PyTestFiwareNode',
                                  server_ip=ip,
                                  server_port=port,

@@ -11,6 +11,6 @@ This release includes the following **CI improvements**:
 * Upgrade to Ubuntu Noble (24.04).
 * Remove Ubuntu Focal (20.04) from the CI.
 
-This release will add new **features**:
+This release will include a new **AML-IP node**:
 
-* Add FIWARE Context Broker integration.
+* Integrate FIWARE Context Broker: Add node that interacts with FIWARE Context Broker to handle inference data.

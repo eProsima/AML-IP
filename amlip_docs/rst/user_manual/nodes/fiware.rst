@@ -6,9 +6,8 @@
 Fiware Node
 ###########
 
-This kind of node performs interaction with a `FIWARE context broker <https://fiware-orion.readthedocs.io/en/master/>`__ for handling inference data.
-It provides mechanisms to read data from a context broker entity and request inference of this data from an :ref:`user_manual_nodes_inference`.
-It also post the received inference to the context broker entity.
+This kind of node interacts with the `FIWARE context broker <https://fiware-orion.readthedocs.io/en/master/>`__ in order to handle inference data.
+It provides mechanisms to read data from a context broker entity, request inference from an :ref:`user_manual_nodes_inference`, and send the inference to the context broker entity.
 To facilitate the inference requests, the Fiware Node includes an :ref:`user_manual_nodes_edge`.
 
 Steps

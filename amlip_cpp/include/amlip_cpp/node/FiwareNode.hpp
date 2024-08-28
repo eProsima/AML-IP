@@ -28,7 +28,10 @@ namespace amlip {
 namespace node {
 
 /**
- * @brief TODO
+ *
+ * @brief This is a specialization of AML-IP Node that interacts with FIWARE Context Broker and handles inference data.
+ *
+ * FIWARE Nodes are the ones in charge of reading data from a context broker entity data, requesting inference from an Inference Node and sending the inferred solution to the context broker entity.
  *
  */
 class FiwareNode : public ParentNode
@@ -38,7 +41,7 @@ public:
     /**
      * @brief Construct a new Fiware Node object.
      *
-     * @param name name of the Node (it is advisable to be unique, or at least representative).
+     * @param name name of the Node (it is advisable to use a unique, or at least a representative name).
      */
     AMLIP_CPP_DllAPI FiwareNode(
             const char* name,

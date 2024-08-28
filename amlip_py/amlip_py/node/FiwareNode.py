@@ -186,22 +186,21 @@ class FiwareNode(cpp_FiwareNode):
         """
 
         entity_data = {
-            "id": self.id,
-            "type": "string",
+            'id': self.id,
+            'type': 'string',
             self.entity_data: {
-                "value": data,
-                "type": "InferenceDataType"
+                'value': data,
+                'type': 'InferenceDataType'
             },
             self.entity_solution: {
-                "value": "",
-                "type": "InferenceSolutionDataType"
+                'value': '',
+                'type': 'InferenceSolutionDataType'
             }
         }
 
         try:
             response = requests.post(
-                f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
-                f'v2/entities',
+                f'http://{self.context_broker_ip}:{self.context_broker_port}/v2/entities',
                 headers=headers_POST,
                 data=json.dumps(entity_data))
 
