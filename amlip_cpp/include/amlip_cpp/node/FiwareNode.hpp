@@ -31,7 +31,7 @@ namespace node {
  *
  * @brief This is a specialization of AML-IP Node that interacts with FIWARE Context Broker and handles inference data.
  *
- * FIWARE Nodes are the ones in charge of reading data from a context broker entity data, requesting inference from an Inference Node and sending the inferred solution to the context broker entity.
+ * Fiware Nodes are the ones in charge of reading data from a context broker entity data, requesting inference from an Inference Node and sending the inferred solution to the context broker entity.
  *
  */
 class FiwareNode : public ParentNode

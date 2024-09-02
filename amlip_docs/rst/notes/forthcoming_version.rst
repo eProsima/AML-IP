@@ -13,4 +13,4 @@ This release includes the following **CI improvements**:
 
 This release will include a new **AML-IP node**:
 
-* Integrate FIWARE Context Broker: Add node that interacts with FIWARE Context Broker to handle inference data.
+* :ref:`Fiware <user_manual_nodes_fiware>`: node that interacts with FIWARE Context Broker to handle inference data.

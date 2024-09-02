@@ -208,7 +208,8 @@ class FiwareNode(cpp_FiwareNode):
             self.logger.info('Data posted successfully')
 
         except requests.exceptions.RequestException as e:
-            self.logger.warning(f'Failed to post data: {e}')
+            self.logger.warning(f'Failed to post data: {e} ')
+            raise e
 
     def inference_received(
             self,
@@ -281,6 +282,7 @@ class FiwareNode(cpp_FiwareNode):
             self.logger.info('Inference data posted successfully')
         except requests.exceptions.RequestException as e:
             self.logger.warning(f'Failed to patch inference data: {e}')
+            raise e
 
     def get_inference(
             self,
@@ -323,13 +325,17 @@ class FiwareNode(cpp_FiwareNode):
 
             except requests.exceptions.HTTPError as err:
                 self.logger.warning(f'HTTP error occurred: {err}')
+                inference = json.dumps({'Error': '{}'.format(err)})
                 break  # Exit loop on HTTP error
             except requests.exceptions.RequestException as err:
                 self.logger.warning(f'Request exception occurred: {err}')
+                inference = json.dumps({'Error': '{}'.format(err)})
                 break  # Exit loop on request exception
 
             if timeout > 0 and (time.time() - start_time) > timeout:
                 self.logger.warning('Timeout reached while waiting for inference data')
+                inference = json.dumps({'Error': 'Timeout reached' +
+                                        ' while waiting for inference data'})
                 break
 
         time.sleep(1)  # Sleep for a second before retrying
