@@ -17,10 +17,11 @@
 from flask import Flask, request, Response
 import requests
 import json
-import time
 
 import logging
 from py_utils.logging.log_utils import CustomLogger
+from py_utils.wait.BooleanWaitHandler import BooleanWaitHandler
+from py_utils.wait.WaitHandler import AwakeReason
 
 from amlip_py.node.AsyncEdgeNode import AsyncEdgeNode, InferenceListenerLambda
 from amlip_py.types.InferenceDataType import InferenceDataType
@@ -114,6 +115,8 @@ class FiwareNode(cpp_FiwareNode):
         self.setup_routes()
         self.init_subscriptions()
 
+        self.waiter_inference = BooleanWaitHandler(True, False)
+
     def setup_routes(self):
         """
         Handle requests to the /accumulate route.
@@ -184,6 +187,8 @@ class FiwareNode(cpp_FiwareNode):
             Data to be posted.
 
         """
+        # Close the waiter to post data to the Context Broker
+        self.waiter_inference.close()
 
         entity_data = {
             'id': self.id,
@@ -208,6 +213,8 @@ class FiwareNode(cpp_FiwareNode):
             self.logger.info('Data posted successfully')
 
         except requests.exceptions.RequestException as e:
+            # Open the waiter because the data was not posted successfully
+            self.waiter_inference.open()
             self.logger.warning(f'Failed to post data: {e} ')
             raise e
 
@@ -280,6 +287,9 @@ class FiwareNode(cpp_FiwareNode):
 
             response.raise_for_status()
             self.logger.info('Inference data posted successfully')
+            # Open the waiter after successfully posting the inference data to the Context Broker
+            self.waiter_inference.open()
+
         except requests.exceptions.RequestException as e:
             self.logger.warning(f'Failed to patch inference data: {e}')
             raise e
@@ -302,43 +312,32 @@ class FiwareNode(cpp_FiwareNode):
             Inference data retrieved from the context broker.
 
         """
-
-        start_time = time.time()
         inference = {}
 
-        while True:
-            try:
-                response = requests.get(
-                    f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
-                    f'v2/entities/{self.id}?attrs={self.entity_solution}',
-                    headers=headers_GET)
+        reason = self.waiter_inference.wait(timeout)
+        if reason == AwakeReason.timeout:
+            self.logger.warning('Timeout reached while waiting for inference data')
+            inference = json.dumps({'Error': 'Timeout reached' +
+                                    ' while waiting for inference data'})
+            return inference
+        elif reason == AwakeReason.condition_met:
+            pass
 
-                response.raise_for_status()
+        try:
+            response = requests.get(
+                f'http://{self.context_broker_ip}:{self.context_broker_port}/' +
+                f'v2/entities/{self.id}?attrs={self.entity_solution}',
+                headers=headers_GET)
+            response.raise_for_status()
+            self.logger.info('Inference data retrieved successfully')
+            inference = response.json()
 
-                inference = response.json()
-
-                if inference[self.entity_solution]['value']:
-                    self.logger.info('Inference data retrieved successfully')
-                    break
-                else:
-                    self.logger.info('Empty inference data, retrying...')
-
-            except requests.exceptions.HTTPError as err:
-                self.logger.warning(f'HTTP error occurred: {err}')
-                inference = json.dumps({'Error': '{}'.format(err)})
-                break  # Exit loop on HTTP error
-            except requests.exceptions.RequestException as err:
-                self.logger.warning(f'Request exception occurred: {err}')
-                inference = json.dumps({'Error': '{}'.format(err)})
-                break  # Exit loop on request exception
-
-            if timeout > 0 and (time.time() - start_time) > timeout:
-                self.logger.warning('Timeout reached while waiting for inference data')
-                inference = json.dumps({'Error': 'Timeout reached' +
-                                        ' while waiting for inference data'})
-                break
-
-        time.sleep(1)  # Sleep for a second before retrying
+        except requests.exceptions.HTTPError as err:
+            self.logger.warning(f'HTTP error occurred: {err}')
+            inference = json.dumps({'Error': '{}'.format(err)})
+        except requests.exceptions.RequestException as err:
+            self.logger.warning(f'Request exception occurred: {err}')
+            inference = json.dumps({'Error': '{}'.format(err)})
 
         return inference
 
@@ -388,22 +387,6 @@ class FiwareNode(cpp_FiwareNode):
             # TODO: add task_id to the entity metadata
             # (not supported by the context broker yet?
             # https://fiware-orion.readthedocs.io/en/2.4.0/user/metadata/index.html)
-
-            # task_id = self.edge.request_inference(inference_data)
-            # data = {
-            #     'metadata': {
-            #         'task_id': {
-            #             'value': task_id,
-            #             'type': 'string'
-            #         }
-            #     }
-            # }
-
-            # response = requests.patch(
-            #     f'http://{context_broker_ip}:{context_broker_port}/v2/entities/{id}/attrs/data/',
-            #     headers=headers_POST, data=json.dumps(data))
-
-            # response.raise_for_status()
 
         self.logger.info(request_summary+s+data+s)
 
