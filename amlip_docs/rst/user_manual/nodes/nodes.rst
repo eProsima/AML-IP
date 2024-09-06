@@ -77,10 +77,11 @@ Node Kinds
     :maxdepth: 1
 
     agent
-    status
-    main
     computing
     edge
+    fiware
     inference
+    main
     model_manager_receiver
     model_manager_sender
+    status

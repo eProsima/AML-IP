@@ -23,6 +23,7 @@ import amlip_py.node.ModelManagerSenderNode  # noqa: F401
 import amlip_py.node.ClientNode  # noqa: F401
 import amlip_py.node.ServerNode  # noqa: F401
 import amlip_py.node.RepeaterNode  # noqa: F401
+import amlip_py.node.FiwareNode  # noqa: F401
 
 
 def test_computing_node():

@@ -16,7 +16,7 @@ This release adds new **features**:
 * Implement asynchronous request model in ``ModelManagerReceiver``.
 * Add ``fastdds.application.id`` property to participants and endpoints.
 * Add ``fastdds.application.metadata`` property to participants and endpoints.
-* Add ``MainNode`` costructor with ``domain`` parameter in Python bindings.
+* Add ``MainNode`` constructor with ``domain`` parameter in Python bindings.
 * Add Python bindings for Agent Nodes.
 * Rename ``agent_tool`` package to ``amlip_agent``.
 

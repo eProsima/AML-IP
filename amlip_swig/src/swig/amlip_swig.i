@@ -114,3 +114,4 @@
 %include "amlip_swig/node/ClientNode.i"
 %include "amlip_swig/node/ServerNode.i"
 %include "amlip_swig/node/RepeaterNode.i"
+%include "amlip_swig/node/FiwareNode.i"
