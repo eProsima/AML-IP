@@ -296,7 +296,7 @@ class FiwareNode(cpp_FiwareNode):
 
     def get_inference(
             self,
-            timeout=0) -> dict:
+            timeout=None) -> dict:
         """
         Get inference data from the Fiware context broker.
 
@@ -304,7 +304,7 @@ class FiwareNode(cpp_FiwareNode):
         ----------
         timeout : int
             Timeout in seconds for the request.
-            Defaults to 0 (no timeout).
+            Defaults to None (no timeout).
 
         Returns
         -------
