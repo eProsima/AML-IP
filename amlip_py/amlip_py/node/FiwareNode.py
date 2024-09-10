@@ -381,7 +381,10 @@ class FiwareNode(cpp_FiwareNode):
         data = json.dumps(raw_data, indent=4, sort_keys=True)
 
         if raw_data:
-            inference_data = InferenceDataType(raw_data['data'][0][self.entity_data]['value'])
+            # Convert the data to a string
+            str_data = str(raw_data['data'][0][self.entity_data]['value'])
+            # Convert the string to an InferenceDataType object and request inference
+            inference_data = InferenceDataType(str_data)
             self.edge.request_inference(inference_data)
 
             # TODO: add task_id to the entity metadata
