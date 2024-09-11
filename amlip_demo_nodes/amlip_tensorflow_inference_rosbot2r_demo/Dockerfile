@@ -44,10 +44,10 @@ RUN mkdir src && \
     git clone -b v1.3.1 https://github.com/eProsima/foonathan_memory_vendor.git /AML-IP/src/foonathan_memory_vendor && \
     git clone -b 2.x https://github.com/eProsima/Fast-CDR.git /AML-IP/src/fastcdr && \
     git clone -b 2.x https://github.com/eProsima/Fast-DDS.git /AML-IP/src/fastdds && \
-    git clone -b main https://github.com/eProsima/dev-utils.git /AML-IP/src/dev-utils && \
-    git clone -b main https://github.com/eProsima/DDS-Pipe.git /AML-IP/src/ddspipe && \
-    git clone -b main https://github.com/eProsima/DDS-Router.git /AML-IP/src/ddsrouter && \
-    git clone -b feature/rosbot2r_inference https://github.com/eProsima/AML-IP.git /AML-IP/src/amlip && \
+    git clone -b 0.x https://github.com/eProsima/dev-utils.git /AML-IP/src/dev-utils && \
+    git clone -b 0.x https://github.com/eProsima/DDS-Pipe.git /AML-IP/src/ddspipe && \
+    git clone -b 2.x https://github.com/eProsima/DDS-Router.git /AML-IP/src/ddsrouter && \
+    git clone -b main https://github.com/eProsima/AML-IP.git /AML-IP/src/amlip && \
     colcon build --packages-up-to-regex amlip
 
 # Source built workspace
