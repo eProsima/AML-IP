@@ -31,7 +31,10 @@ setup(
     maintainer_email='javierparis@eprosima.com',
     description=description,
     license='Apache License, Version 2.0',
-    tests_require=['pytest'],
-    test_suite='test',
+    extras_require={
+        'test': [
+            'pytest',  # Add your testing dependencies here
+        ],
+    },
     entry_points={},
 )
