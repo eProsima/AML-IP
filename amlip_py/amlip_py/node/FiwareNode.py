@@ -177,7 +177,8 @@ class FiwareNode(cpp_FiwareNode):
 
     def post_data(
             self,
-            data):
+            data,
+            timeout=None):
         """
         Post data to the Fiware context broker.
 
@@ -207,7 +208,7 @@ class FiwareNode(cpp_FiwareNode):
             response = requests.post(
                 f'http://{self.context_broker_ip}:{self.context_broker_port}/v2/entities',
                 headers=headers_POST,
-                data=json.dumps(entity_data))
+                data=json.dumps(entity_data), timeout=timeout)
 
             response.raise_for_status()
             self.logger.info('Data posted successfully')
