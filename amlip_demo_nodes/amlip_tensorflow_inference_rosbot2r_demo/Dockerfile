@@ -47,7 +47,7 @@ RUN mkdir src && \
     git clone -b 0.x https://github.com/eProsima/dev-utils.git /AML-IP/src/dev-utils && \
     git clone -b 0.x https://github.com/eProsima/DDS-Pipe.git /AML-IP/src/ddspipe && \
     git clone -b 2.x https://github.com/eProsima/DDS-Router.git /AML-IP/src/ddsrouter && \
-    git clone -b main https://github.com/eProsima/AML-IP.git /AML-IP/src/amlip && \
+    git clone -b ${amlip_branch} https://github.com/eProsima/AML-IP.git /AML-IP/src/amlip && \
     colcon build --packages-up-to-regex amlip
 
 # Source built workspace
