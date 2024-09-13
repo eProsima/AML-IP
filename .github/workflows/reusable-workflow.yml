@@ -100,7 +100,7 @@ jobs:
 
       - name: Compile and run tests
         id: compile_and_test
-        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@main
+        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
         with:
           packages_names: ${{ env.code_packages_names }}
           cmake_args: -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.cmake_build_type }}
@@ -110,7 +110,7 @@ jobs:
           workspace_dependencies: ${{ github.workspace }}/install
 
       - name: Test Report
-        uses: eProsima/eProsima-CI/external/test-reporter@main
+        uses: eProsima/eProsima-CI/external/test-reporter@v0
         if: success() || failure()
         with:
           name: "Report: ${{ matrix.os }} | ${{ matrix.cmake_build_type }} "
@@ -143,14 +143,14 @@ jobs:
 
       - name: Compile and run tests
         id: compile_and_test
-        uses: eProsima/eProsima-CI/multiplatform/asan_build_test@main
+        uses: eProsima/eProsima-CI/multiplatform/asan_build_test@v0
         with:
           packages_names: ${{ env.cpp_packages_names }}
           workspace: ${{ github.workspace }}
           workspace_dependencies: ${{ github.workspace }}/install
 
       - name: Test Report
-        uses: eProsima/eProsima-CI/external/test-reporter@main
+        uses: eProsima/eProsima-CI/external/test-reporter@v0
         if: success() || failure()
         with:
           name: "Report: ASAN "
@@ -188,7 +188,7 @@ jobs:
           workspace_dependencies: './install'
 
       - name: Test Report
-        uses: eProsima/eProsima-CI/external/test-reporter@main
+        uses: eProsima/eProsima-CI/external/test-reporter@v0
         if: success() || failure()
         with:
           name: "Report: TSAN "
@@ -251,7 +251,7 @@ jobs:
           secret_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile and run tests
-        uses: eProsima/eProsima-CI/ubuntu/coverage_build_test_upload@main
+        uses: eProsima/eProsima-CI/ubuntu/coverage_build_test_upload@v0
         with:
           packages_names: ${{ env.code_packages_names }}
           codecov_token: ${{ secrets.CODECOV_TOKEN }}
@@ -290,7 +290,7 @@ jobs:
           workspace_dependencies: ${{ github.workspace }}/install
 
       - name: Test Report
-        uses: eProsima/eProsima-CI/external/test-reporter@main
+        uses: eProsima/eProsima-CI/external/test-reporter@v0
         if: success() || failure()
         with:
           name: "Report: Flaky "
@@ -308,7 +308,7 @@ jobs:
     steps:
 
       - name: Build and test documentation
-        uses: eProsima/eProsima-CI/ubuntu/sphinx_docs@main
+        uses: eProsima/eProsima-CI/ubuntu/sphinx_docs@v0
         with:
           checkout_path: "${{ github.workspace }}/src/amlip"
           path_to_requirements: "${{ github.workspace }}/src/amlip/amlip_docs/requirements.txt"

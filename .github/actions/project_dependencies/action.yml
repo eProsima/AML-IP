@@ -8,7 +8,7 @@ inputs:
       Branch, tag or commit of eProsima/DDS-Router repository.
       Check available branches in https://github.com/eProsima/DDS-Router.
     required: false
-    default: main
+    default: 2.x
 
   os:
     description: Specify runs-on machine to download specific artifact
