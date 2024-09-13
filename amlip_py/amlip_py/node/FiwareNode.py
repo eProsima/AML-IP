@@ -252,7 +252,7 @@ class FiwareNode(cpp_FiwareNode):
             }
         }
 
-        self.patch_inference(inference.to_string(), metadata=metadata)
+        self.patch_inference(json.loads(inference.to_string()), metadata=metadata)
 
     def patch_inference(
             self,
