@@ -8,7 +8,7 @@ Project Overview
 
 |eamlip| is a communications framework in charge of data exchange between :term:`AML` nodes
 through local or remote networks.
-It is designed to allow non-experts users to create and manage a cluster of AML nodes to exploit the distributed and concurrent learning capabilities of AML.
+It is designed to allow non-expert users to create and manage a cluster of AML nodes to exploit the distributed and concurrent learning capabilities of AML.
 Thus, AML-IP is a communication framework that abstracts the transport protocols from the user, creating a platform that communicates each node without requiring the user to be concerned about communication issues.
 It also allows the creation of complex distributed networks with one or multiple users working on the same problem.
 
