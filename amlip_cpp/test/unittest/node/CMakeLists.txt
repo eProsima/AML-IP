@@ -26,13 +26,19 @@ all_library_sources(${TEST_SOURCES})
 set(TEST_LIST
         create_client
         create_server
-        create_turn
+        create_repeater
         create_parent
         create_status
         create_main
         create_computing
         create_model_sender
         create_model_receiver
+        create_async_main
+        create_async_computing
+        create_edge
+        create_inference
+        create_async_edge
+        create_async_inference
     )
 
 set(TEST_EXTRA_LIBRARIES
