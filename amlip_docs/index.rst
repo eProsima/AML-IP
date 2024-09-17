@@ -36,6 +36,17 @@
 
    /rst/getting_started/project_overview
 
+.. _index_user_manual:
+
+.. toctree::
+   :caption: User Manual
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   Nodes </rst/user_manual/nodes/nodes>
+   Tools </rst/user_manual/tools/tools>
+   Scenarios </rst/user_manual/scenarios/scenarios>
 
 .. _index_demo:
 
@@ -49,20 +60,6 @@
    /rst/demo/tensor_inference
    /rst/demo/rosbot2r_inference
    /rst/demo/workload_distribution
-
-
-.. _index_user_manual:
-
-.. toctree::
-   :caption: User Manual
-   :maxdepth: 2
-   :numbered: 5
-   :hidden:
-
-   Scenarios </rst/user_manual/scenarios/scenarios>
-   Nodes </rst/user_manual/nodes/nodes>
-   Tools </rst/user_manual/tools/tools>
-
 
 .. _index_developer_manual:
 

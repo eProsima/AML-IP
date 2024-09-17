@@ -12,7 +12,7 @@ This node is able to send data serialized as :ref:`user_manual_datatype_inferenc
 Synchronous
 ***********
 
-This node kind does require **active** interaction with the user to perform its action.
+This node kind requires **active** interaction with the user to perform its action.
 Once the data is sent, the thread must wait for the inference to arrive before sending another data.
 Users can use method :code:`request_inference` to send new data.
 The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_inference` in charge of this data.
@@ -21,7 +21,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Edge Node creating an object of such class with a name.
+* Instantiate the Edge Node creating an object of this class with a name.
 * Create a new :code:`InferenceDataType` from an array of bytes.
 * Send a data synchronously and wait for the inference by calling :code:`request_inference`.
 
@@ -59,15 +59,15 @@ Asynchronous
 ************
 
 Users can use method :code:`request_inference` to send new data.
-The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the :ref:`user_manual_nodes_inference` in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
+Due to being asynchronous, multiple requests can be sent without waiting for the previous one to finish. The solution will be sent back to the user through the listener.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps
 -----
 
-* Instantiate the Asynchronous Edge Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Edge Node creating an object of this class with a name, a listener or callback and a domain.
 * Create a new :code:`InferenceDataType` from an array of bytes.
-* Send a data synchronously calling :code:`request_inference`.
+* Send a data asynchronously calling :code:`request_inference`.
 * Wait for the inference.
 
 .. tabs::
@@ -76,6 +76,9 @@ Steps
 
         .. code-block:: python
 
+            # Inference listener.
+            # with each Inference message that is received
+            # from node and must return the solution to the inference.
             def inference_received(
                     inference,
                     task_id,

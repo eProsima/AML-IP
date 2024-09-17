@@ -11,7 +11,7 @@ This tool is developed and maintained by `eProsima` which enables the connection
 DDS entities such as publishers and subscribers deployed in one geographic location and using a dedicated local network will be able to communicate with other DDS entities deployed in different geographic areas on their own dedicated local networks as if they were all on the same network.
 
 This node is in charge of communicating a local node or AML-IP cluster with the rest of the network in WANs.
-It centralizes the WAN discovery and communication, i.e. it is the bridge for all the nodes in their LANs with the rest of the AML-IP components.
+It serves as the central hub for WAN discovery and communication, acting as a bridge that connects all nodes within their respective LANs to the broader AML-IP network.
 
 .. figure:: /rst/figures/agent_nodes.png
     :align: center
@@ -32,7 +32,7 @@ Steps
 -----
 
 * Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
-* Instantiate the ``ClientNode`` creating an object of such class with a name, a connection address and a domain.
+* Instantiate the ``ClientNode`` creating an object of this class with a name, a connection address and a domain.
 * Wait until ``Ctrl+C``.
 
 .. tabs::
@@ -97,7 +97,7 @@ Steps
 -----
 
 * Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
-* Instantiate the ``ServerNode`` creating an object of such class with a name, a listening address and a domain.
+* Instantiate the ``ServerNode`` creating an object of this class with a name, a listening address and a domain.
 * Wait until ``Ctrl+C``.
 
 .. tabs::
@@ -114,7 +114,7 @@ Steps
                 eprosima::ddspipe::participants::types::TransportProtocol::udp);
 
             // Create Server Node
-            eprosima::amlip::node::agent::ServerNode Client_node(
+            eprosima::amlip::node::agent::ServerNode Server_node(
                 "CppServerNode_Manual",
                 { listening_address },
                 200);
@@ -152,7 +152,7 @@ Steps
 Repeater Node
 *************
 
-A Repeater Node can be used to repeat messages between networks, that is, the message will be forwarded using the same network interface. This is useful to communicate across LANs.
+A Repeater Node is utilized to forward messages between different networks, effectively repeating the message using the same network interface. This functionality is particularly useful for facilitating communication across multiple LANs.
 
 .. figure:: /rst/figures/agent_nodes_repeater.png
     :align: center
@@ -162,7 +162,7 @@ Steps
 -----
 
 * Create a new :code:`eprosima::ddspipe::participants::types::Address` object with the address port, external address port, :term:`IP` address and transport protocol.
-* Instantiate the ``RepeaterNode`` creating an object of such class with a name, a listening address and a domain.
+* Instantiate the ``RepeaterNode`` creating an object of this class with a name, a listening address and a domain.
 * Wait until ``Ctrl+C``.
 
 .. tabs::

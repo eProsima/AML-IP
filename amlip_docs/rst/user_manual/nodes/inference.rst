@@ -6,22 +6,21 @@
 Inference Node
 ##############
 
-This node waits for data serialized as :ref:`user_manual_datatype_inference`, and once received it calculate the inference whose output is the inference solution as :ref:`user_manual_datatype_inference_solution` and send the result back.
+This node processes data serialized as :ref:`user_manual_datatype_inference`. Upon receiving the data, it computes the inference and produces an output in the form of :ref:`user_manual_datatype_inference_solution`, which is then sent back to the requester.
 
 ***********
 Synchronous
 ***********
 
-This node kind does require **active** interaction with the user to perform its action.
-This means that calling `process_inference` will wait for receiving data, and will only finish when the result is sent back.
-User can use method :code:`request_inference` from :ref:`user_manual_nodes_edge` to send new data.
-The thread calling this method will wait until the whole process has finished and the *Inference* has arrived from the *Inference Node* in charge of this data.
+This node requires **active** user interaction to perform its tasks.
+When calling :code:`process_inference`, the method will block and wait for incoming data, only completing once the result is sent back. Users can utilize the :code:`request_inference` method from :ref:`user_manual_nodes_edge` to submit new data.
+The thread invoking this method will remain blocked until the entire process is completed and the *Inference* result is received from the responsible *Inference Node*.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps
 -----
 
-* Instantiate the Inference Node creating an object of such class with a name.
+* Instantiate the Inference Node creating an object of this class with a name.
 * Wait for the data by calling :code:`process_inference`.
 * Return the inference as an :code:`InferenceSolutionDataType`.
 
@@ -63,13 +62,13 @@ Asynchronous
 ************
 
 User can use method :code:`request_inference` from :ref:`user_manual_nodes_edge` to send new data.
-The thread calling this method must wait until the whole process has finished and the *Inference* has arrived from the *Inference Node* in charge of this data that will process it by the Listener or callback given, and return the Inference calculated in other thread.
+Due to being asynchronous, multiple requests can be sent without waiting for the previous one to finish. The solution will be sent back to the user through the listener.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps
 -----
 
-* Instantiate the Asynchronous Inference Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Inference Node creating an object of this class with a name, a listener or callback and a domain.
 * Wait for the data by calling :code:`run`.
 
 .. tabs::

@@ -69,7 +69,7 @@ The API, implementation and testing of this part of the code can be found mainly
 Python
 ------
 
-This is the programming language though to be used by a final user.
+This is the programming language thought to be used by a final user.
 |python| has been chosen as it is easier to work with state-of-the-art :term:`ML` projects.
 
 Nodes and classes that the user needs to instantiate in order to implement their own code are parsed from |cpp| by using |swig| tool, giving the user a |python| API.

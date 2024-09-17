@@ -82,7 +82,7 @@ Let's continue explaining the global variables.
   :language: python
   :lines: 24
 
-``waiter`` is a ``WaitHandler`` that waits on a boolean value.
+``waiter`` is a ``WaitHandler`` , which is an object that allows multiple threads wait, until another thread awakes them. In this case, due to being a ``BoolWaitHandler``, it waits on a boolean value.
 Whenever this value is ``True``, threads awake.
 Whenever it is ``False``, threads wait.
 
@@ -125,8 +125,7 @@ Model Manager Sender Node
 -------------------------
 
 This is the Python code for the :ref:`user_manual_nodes_model_sender` application.
-It does not use real *AML Models*, but strings.
-It does not have a real *AML Engine* but instead the calculation is an *upper-case* conversion of the string received.
+It does not use real *AML Models* nor does it have a real *AML Engine* Instead, strings are sent and the calculation is an *upper-case* conversion of the string received.
 It is implemented in |python| using :code:`amlip_py` API.
 
 This code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_collaborative_learning_demo/amlip_collaborative_learning_demo/model_sender_custom.py>`__.
@@ -145,7 +144,7 @@ Let's continue explaining the global variables.
   :language: python
   :lines: 23
 
-``waiter`` is a ``WaitHandler`` that waits on a boolean value.
+``waiter`` is a ``WaitHandler`` , which is an object that allows multiple threads wait, until another thread awakes them. In this case, due to being a ``BoolWaitHandler``, it waits on a boolean value.
 Whenever this value is ``True``, threads awake.
 Whenever it is ``False``, threads wait.
 

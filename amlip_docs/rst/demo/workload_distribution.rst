@@ -23,7 +23,7 @@ The nodes are implemented in both Python and C++, illustrating how to instantiat
 The purpose of this demo is to illustrate how a *Main Node* dispatches jobs to a *Computing Node* and how the *Computing Node* processes them.
 The *Main Node* waits until a *Computing Node* is available to handle the job, while the *Computing Node* awaits a job to solve.
 
-In this demo, the actual :term:`AML` Engine is not provided, and it is mocked.
+In this demo, the actual :term:`AML` Engine is simulated using a mock implementation.
 This *Mock* simulates a difficult calculation by converting a string to uppercase and randomly waiting between
 1 and 5 seconds in doing so.
 
@@ -75,8 +75,8 @@ Computing Node
 --------------
 
 This node simulates a :ref:`user_manual_nodes_computing`.
-It does not use real *AML Jobs*, but strings.
-It does not have a real *AML Engine* but instead the calculation is an *upper-case* conversion of the string received.
+It processes simple string tasks rather than real *AML Jobs*.
+Instead of using a real *AML Engine*, it performs a mock computation by converting the received string to uppercase.
 It is implemented in |cpp| using :code:`amlip_cpp` API.
 
 The code can be found `here <https://github.com/eProsima/AML-IP/blob/main/amlip_demo_nodes/amlip_workload_distribution_demo/computing_node_sync.cpp>`__.
