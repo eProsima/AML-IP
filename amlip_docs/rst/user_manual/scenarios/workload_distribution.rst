@@ -42,7 +42,7 @@ Job Solution Data Type
 ======================
 
 The **Solution** Data Type represents an *Atomization* or new model state.
-The **Solution** sent from a *Computing Node* to a *Main Node* is treated as a bytes array of arbitrary size.
+The **Solution** sent from a *Computing Node* to a *Main Node* is treated as a byte array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 From Python API, the only way to interact with it is by `str` type.
 

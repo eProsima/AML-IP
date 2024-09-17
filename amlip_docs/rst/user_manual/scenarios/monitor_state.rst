@@ -9,7 +9,7 @@ Monitor Network State Scenario
 ##############################
 
 This :term:`Scenario` performs the monitoring action: knowing, analyzing and debugging an |aml| network.
-Each of the |amlip| :term:`Nodes <Node>` :term:`Publish` their current |status| information and update it along their lifetimes.
+Each of the |amlip| :term:`nodes <Node>` :term:`publishes <Publish>` its current |status| information and updates it along its lifetime.
 This scenario supports :term:`subscription <Subscribe>` to this :term:`Topic` in order to receive such status information, that can be processed, stored, read, etc.
 
 .. figure:: /rst/figures/scenarios/status_scenario.png

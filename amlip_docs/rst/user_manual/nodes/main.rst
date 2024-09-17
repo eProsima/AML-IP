@@ -25,7 +25,7 @@ By destroying the node every internal entity is correctly destroyed.
 Steps
 -----
 
-* Instantiate the Main Node creating an object of such class with a name.
+* Instantiate the Main Node creating an object of this class with a name.
 * Create a new :code:`JobDataType` from an array of bytes.
 * Send a new *Job* synchronously and wait for the solution by calling :code:`request_job_solution`.
 
@@ -63,15 +63,15 @@ Asynchronous
 ************
 
 Users can use method :code:`request_job_solution` to send a new *Job*.
-The thread calling this method must wait until the whole process has finished and the *Solution* has arrived from the :ref:`user_manual_nodes_computing` in charge of this data that will process it by the Listener or callback given, and return the Solution calculated in other thread.
+Due to being asynchronous, multiple requests can be sent without waiting for the previous one to finish. The solution will be sent back to the user through the listener.
 By destroying the node every internal entity is correctly destroyed.
 
 Steps
 -----
 
-* Instantiate the Asynchronous Main Node creating an object of such class with a name, a listener or callback and a domain.
+* Instantiate the Asynchronous Main Node creating an object of this class with a name, a listener or callback and a domain.
 * Create a new :code:`JobDataType` from an array of bytes.
-* Send a new *Job* synchronously and wait for the solution by calling :code:`request_job_solution`.
+* Send a new *Job* asynchronously and wait for the solution by calling :code:`request_job_solution`.
 * Wait for the solution.
 
 .. tabs::

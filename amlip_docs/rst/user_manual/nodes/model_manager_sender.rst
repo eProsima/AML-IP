@@ -20,7 +20,7 @@ Steps
 
 * Create the Id of the node.
 * Create the statistics to be sent.
-* Instantiate the ModelManagerSender Node creating an object of such class with the Id and statistics previously created.
+* Instantiate the ModelManagerSender Node by creating an object of this class with the previously created Id and statistics.
 * Start the execution of the node.
 * Wait for a model request to arrive and be answered.
 * Stop the execution of the node.
@@ -32,6 +32,7 @@ Steps
 
         .. code-block:: cpp
 
+            // Include the required headers
             #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
             #include <amlip_cpp/types/id/AmlipIdDataType.hpp>

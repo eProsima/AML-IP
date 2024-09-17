@@ -19,7 +19,7 @@ Steps
 
 * Create the Id of the node.
 * Create the data to request.
-* Instantiate the ModelManagerReceiver Node creating an object of such class with the Id and data previously created.
+* Instantiate the ModelManagerReceiver Node creating an object of this class with the Id and data previously created.
 * Start the execution of the node.
 * Wait for statistics.
 * Request the model.
@@ -32,6 +32,8 @@ Steps
 
         .. code-block:: cpp
 
+            // Include the required headers
+
             #include <cpp_utils/wait/BooleanWaitHandler.hpp>
 
             #include <amlip_cpp/types/id/AmlipIdDataType.hpp>
@@ -41,6 +43,7 @@ Steps
 
             #include <amlip_cpp/node/collaborative_learning/ModelManagerReceiverNode.hpp>
 
+            //Listener that waits for statistics and modes to be received.
 
             class CustomModelListener : public eprosima::amlip::node::ModelListener
             {
@@ -124,6 +127,7 @@ Steps
             # Variable to wait for the statistics
             waiter = BooleanWaitHandler(True, False)
 
+            # Listener that waits for statistics and models to be received
             class CustomModelListener(ModelListener):
 
                 def statistics_received(
