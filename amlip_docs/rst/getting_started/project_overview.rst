@@ -8,7 +8,7 @@ Project Overview
 
 |eamlip| is a communications framework in charge of data exchange between :term:`AML` nodes
 through local or remote networks.
-It is designed to allow non-experts users to create and manage a cluster of AML nodes to exploit the distributed and concurrent learning capabilities of AML.
+It is designed to allow non-expert users to create and manage a cluster of AML nodes to exploit the distributed and concurrent learning capabilities of AML.
 Thus, AML-IP is a communication framework that abstracts the transport protocols from the user, creating a platform that communicates each node without requiring the user to be concerned about communication issues.
 It also allows the creation of complex distributed networks with one or multiple users working on the same problem.
 
@@ -69,7 +69,7 @@ The API, implementation and testing of this part of the code can be found mainly
 Python
 ------
 
-This is the programming language though to be used by a final user.
+This is the programming language thought to be used by a final user.
 |python| has been chosen as it is easier to work with state-of-the-art :term:`ML` projects.
 
 Nodes and classes that the user needs to instantiate in order to implement their own code are parsed from |cpp| by using |swig| tool, giving the user a |python| API.

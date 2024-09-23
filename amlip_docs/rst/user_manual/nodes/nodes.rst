@@ -42,7 +42,7 @@ Node State
 ----------
 
 The state of a node reflects its current operational status.
-Node states can be used to control the actions that the node performs to communicate with other nodes, or to indicate the status of the node to the user.
+Node states serve as indicators of the node's current activity and can be utilized to manage interactions with other nodes. They also provide users with insights into the node's operational status.
 
 Nodes modify their states using the method :code:`change_status_(const eprosima::amlip::types::StateKind& new_state)`.
 

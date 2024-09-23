@@ -38,7 +38,7 @@ Model Reply Data Type
 =====================
 
 The **Model Reply** Data Type represents a problem reply with the requested model.
-The *replies* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a bytes array of arbitrary size.
+The *replies* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a byte array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 
 .. note::
@@ -53,7 +53,7 @@ Model Statistics Data Type
 ==========================
 
 The **Statistics** Data Type represents the statistics of models, such as their number of parameters or the datasets they were trained on.
-The *messages* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a bytes array of arbitrary size.
+The *messages* sent from a *Model Manager Sender Node* to a *Model Manager Receiver Node* are treated as a byte array of arbitrary size.
 So far, the interaction with this class could be done from a :code:`void*`, a byte array or a string.
 
 .. note::
