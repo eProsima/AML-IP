@@ -123,7 +123,7 @@ TEST(StatusNodeTest, process_status_parent)
         {
             data_arrived.push_back(data);
             // Wait for parent_id to be set
-            waiter_id.wait();
+            //waiter_id.wait();
             // Only open when data comes from target. Skip data coming from this participant.
             if (data.id() == parent_id)
             {
@@ -137,7 +137,7 @@ TEST(StatusNodeTest, process_status_parent)
 
         parent_id = dummy_node.id();
         // Open the waiter_id
-        waiter_id.open();
+       // waiter_id.open();
 
         // Wait so status reader has time to process the data
         waiter.wait_greater_equal_than(1);
