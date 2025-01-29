@@ -8,25 +8,25 @@
 Status Node
 ###########
 
-This kind of node :term:`Subscribe` to |status| :term:`Topic`.
-Thus it receives every |status| data from all the other :term:`Nodes <Node>` in the network.
+This type of node :term:`subscribes <Subscribe>` to the |status| :term:`Topic`.
+Thus it receives every |status| data from all the other :term:`nodes <Node>` in the network.
 This node runs a *function* that will be executed with each message received.
-This is the main agent of :ref:`user_manual_scenarios_status`.
+This node is the primary component of the :ref:`user_manual_scenarios_status` scenario.
 
-Example of Usage
+Example Usage
 ================
 
-This node kind does require **few interaction** with the user once it is running.
-User must start and stop this node as desired using methods :code:`process_status_async` and :code:`stop_processing`.
+This type of node requires **minimal interaction** with the user once it is running.
+User can start and stop this node as desired using methods :code:`process_status_async` and :code:`stop_processing`.
 Also, user must yield a callback (function) that will be executed with every |status| message received.
-By destroying the node it stops if running, and every internal entity is correctly destroyed.
+When the node is destroyed, it automatically stops any ongoing processes, ensuring that all internal entities are properly cleaned up.
 
 Steps
 -----
 
-* Instantiate the Status Node creating an object of such class with a name.
-* Start processing status data of the network calling :code:`process_status_async`.
-* Stop processing data calling :code:`stop_processing`.
+* Instantiate the Status Node creating an object of this class with a name.
+* Start processing the status data of the network by calling :code:`process_status_async`.
+* Stop processing data by calling :code:`stop_processing`.
 
 .. tabs::
 

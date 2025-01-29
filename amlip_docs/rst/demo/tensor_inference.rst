@@ -14,9 +14,9 @@ TensorFlow Inference
 Background
 ==========
 
-Inference refers to the process of using a trained model to make predictions or draw conclusions based on input data.
-It involves applying the learned knowledge and statistical relationships encoded in the model to new, unseen data.
-The inference of an image involves passing the image through a trained AI model to obtain a classification based on the learned knowledge and patterns within the model.
+Inference is the process of using a trained model to make predictions or draw conclusions from new, unseen data.
+It involves applying the learned knowledge and statistical relationships encoded in the model to the input data.
+When inferring an image, the image is passed through a trained AI model to classify it based on the patterns and knowledge the model has learned.
 
 This demo shows how to implement 2 types of nodes, :ref:`user_manual_nodes_inference` and :ref:`user_manual_nodes_edge`, to perform TensorFlow inference on a given image.
 With these 2 nodes implemented, the user can deploy as many nodes of each kind as desired and check the behavior of a simulated |amlip| network running.
@@ -44,22 +44,16 @@ The demo requires the following tools to be installed in the system:
 
     sudo apt install -y  swig alsa-utils libopencv-dev
     pip3 install -U pyttsx3 opencv-python
-    curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3-latest-Linux-x86_64.sh
-    bash Miniconda3-latest-Linux-x86_64.sh
-    # For changes to take effect, close and re-open your current shell.
-    conda create --name tf python=3.9
-    conda install -c conda-forge cudatoolkit=11.8.0
-    mkdir -p $CONDA_PREFIX/etc/conda/activate.d
-    echo 'CUDNN_PATH=$(dirname $(python3 -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
-    echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
-    source $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+    python -m venv aml-ip-venv
+    source aml-ip-venv/bin/activate
 
 Ensure that you have TensorFlow and TensorFlow Hub installed in your Python environment before proceeding.
-You can install them using pip by executing the following commands:
+You can install them by executing the following commands:
 
 .. code-block:: bash
 
-    pip3 install tensorflow tensorflow-hub tensorflow-object-detection-api nvidia-cudnn-cu11==8.6.0.163 protobuf==3.20.*
+    python3 -m pip install tensorflow[and-cuda]
+    pip3 install tensorflow-hub tensorflow-object-detection-api protobuf==3.20
 
 Additionally, it is required to obtain the TensorFlow model from `TensorFlow Hub <https://tfhub.dev/>`_, follow the steps below:
 
@@ -106,7 +100,7 @@ The next block includes the Python header files that allow the use of the AML-IP
   :lines: 18-19
 
 Let's continue explaining the global variables.
-The ``waiter`` allows the node to wait for the inference.
+The ``waiter`` object is used to pause the node's execution until the inference result is received.
 ``DOMAIN_ID`` allows the execution to be isolated because only DomainParticipants with the same Domain Id would be able to communicate to each other.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/edge_node_async.py
@@ -127,9 +121,11 @@ We define the ``main`` function.
 
 First, we create an instance of ``AsyncEdgeNode``.
 The first thing the constructor gets is the given name.
-Then a listener, which is an ``InferenceListenerLambda`` object is created with the function ``inference_received`` declared above.
-This function is called each we receive an inference.
-And also we specified the domain equal to the DOMAIN_ID variable.
+Then a `listener <https://fast-dds.docs.eprosima.com/en/stable/fastdds/dds_layer/core/entity/entity.html#listener>`__,
+which is an ``InferenceListenerLambda`` object, is created for the function ``inference_received`` declared above.
+The listener acts as an asynchronous notification system that allows the entity to notify the application about the Status changes in the entity.
+This function is called each time an inference is received.
+Lastly, a ``DOMAIN_ID`` is specified, which allows the execution to be isolated.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/edge_node_async.py
   :language: python
@@ -142,7 +138,7 @@ It converts the size information and the image into bytes and combines the two t
   :language: python
   :lines: 51-65
 
-After that, the ``request_inference`` method is called to request the inference of the image.
+Next, the ``request_inference`` method is invoked to send the image for inference.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/edge_node_async.py
   :language: python
@@ -154,7 +150,7 @@ Finally, the program waits for the inference solution using ``waiter.wait``.
   :language: python
   :lines: 74
 
-Once the solution is received, the execution finish.
+Once the solution is received, the execution finishes.
 
 Inference Node
 --------------
@@ -172,14 +168,14 @@ The next block includes the Python header files that allow the use of the AML-IP
   :lines: 19-20
 
 Let's continue explaining the global variables.
-``DOMAIN_ID`` allows the execution to be isolated because only DomainParticipants with the same Domain Id would be able to communicate to each other.
-``tolerance`` sets a limit to ignore detections with a probability less than the tolerance.
+The ``DOMAIN_ID`` variable allows the execution to be isolated because only DomainParticipants with the same Domain Id would be able to communicate to each other.
+The ``tolerance`` variable sets a threshold to filter out detections with a probability lower than the specified tolerance value.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/inference_node_async.py
   :language: python
   :lines: 28-32
 
-It loads the model from TensorFlow based on the specified path.
+The model is loaded from TensorFlow using the specified path.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/inference_node_async.py
   :language: python
@@ -201,22 +197,22 @@ We define the ``main`` function.
 
 We create an instance of ``AsyncInferenceNode``.
 The first thing the constructor gets is the name ``AMLInferenceNode``.
-Then the listener which is an ``InferenceReplierLambda(process_inference)``.
-This means calling the ``process_inference`` function to perform the inference requests.
-And also we specified the domain equal to the DOMAIN_ID variable.
+Then a `listener <https://fast-dds.docs.eprosima.com/en/stable/fastdds/dds_layer/core/entity/entity.html#listener>`__,
+which is an ``InferenceReplierLambda`` object, is created for the function ``process_inference`` declared above.
+This means that the ``process_inference`` function will be called to handle the inference requests.
+Additionally, the domain is specified using the DOMAIN_ID variable.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/inference_node_async.py
   :language: python
   :lines: 84-87
 
-This starts the inference node.
-It will start listening for incoming inference requests and call the ``process_inference`` function to handle them.
+This initiates the Inference Node, which will listen for incoming inference requests and invoke the ``process_inference`` function to handle them.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/inference_node_async.py
   :language: python
   :lines: 91
 
-Finally, waits for a SIGINT signal ``Ctrl+C`` to stop the node and close it.
+Finally, the node waits for a SIGINT signal (``Ctrl+C``) to stop and close gracefully.
 
 .. literalinclude:: /../amlip_demo_nodes/amlip_tensorflow_inference_demo/amlip_tensorflow_inference_demo/inference_node_async.py
   :language: python
@@ -230,7 +226,7 @@ This demo explains the implemented nodes in `amlip_demo_nodes/amlip_tensorflow_i
 Run Edge Node
 -------------
 
-In the first terminal, run the Edge Node with the following command:
+In one terminal, run the Edge Node with the following command:
 
 .. code-block:: bash
 
@@ -265,7 +261,7 @@ The expected output is the following:
 Run Inference Node
 ------------------
 
-In the second terminal, run the following command to process the inference:
+In a second terminal, run the following command to process the inference:
 
 .. code-block:: bash
 
@@ -313,8 +309,8 @@ The execution expects an output similar to the one shown below:
             what():  SWIG director method error. In method 'process_inference': AttributeError: module 'tensorflow' has no attribute 'gfile'
         Aborted (core dumped)
 
-Next steps
-----------
+Results
+-------
 
 Based on the information acquired, we have successfully generated the next image:
 
@@ -351,7 +347,7 @@ Check following `issue <https://github.com/tensorflow/tensorflow/issues/31315>`_
 
 To update the code, please follow these `steps <https://stackoverflow.com/questions/55591437/attributeerror-module-tensorflow-has-no-attribute-gfile>`_:
 
-1. Locate the file `label_map_util.py`. (default path: ``.local/lib/python3.10/site-packages/object_detection/utils/label_map_util.py``)
+1. Locate the file `label_map_util.py`. (default path: ``.local/lib/python3.x/site-packages/object_detection/utils/label_map_util.py``)
 2. Navigate to line 132 within the file.
 3. Replace `tf.gfile.GFile` with `tf.io.gfile.GFile`.
 

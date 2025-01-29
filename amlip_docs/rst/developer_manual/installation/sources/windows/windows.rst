@@ -221,7 +221,7 @@ If using colcon_, use the following command to source them:
 
 .. code-block:: bash
 
-    source <eprosima-dependencies-installation-path>/install/setup.bash
+    source <eprosima-dependencies-installation-path>/install/setup.bat
 
 
 Installation methods
