@@ -1,8 +1,5 @@
-.. include:: ../exports/alias.include
-
-##############
 Version v0.2.0
-##############
+==============
 
 This release adds new **features**:
 
