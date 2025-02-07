@@ -1,30 +1,33 @@
-.. include:: ../exports/alias.include
-
-.. _release_notes:
-
-.. comment the include of forthcoming when new info is added
-
-.. .. include:: forthcoming_version.rst
-
-##############
-Version v0.3.0
-##############
+Version v0.2.0
+==============
 
 This release adds new **features**:
 
-This release adds new features:
+* Support Fast CDR v2.2.0.
+* Implement asynchronous request model in ``ModelManagerReceiver``.
+* Add ``fastdds.application.id`` property to participants and endpoints.
+* Add ``fastdds.application.metadata`` property to participants and endpoints.
+* Add ``MainNode`` constructor with ``domain`` parameter in Python bindings.
+* Add Python bindings for Agent Nodes.
+* Rename ``agent_tool`` package to ``amlip_agent``.
 
-* :ref:`Fiware <user_manual_nodes_fiware>`: node that interacts with FIWARE Context Broker to handle inference data.
-* Upgrade to Ubuntu Noble (24.04).
-* Remove Ubuntu Focal (20.04) from the CI.
+This includes the following **Bugfixes**:
+
+* Update ``AsyncComputingNode`` and ``AsyncInferenceNode`` to only stop if the current state is running and only run if the current state is stopped.
+* ASAN (Address Sanitizer) fixes.
+* Fix allowlist namespacing in ``AgentNode``.
+* Call change status in ``AsyncComputingNode``.
 
 This release includes the following **CI improvements**:
 
-* Support for multiple versions of Fast DDS.
+* Migrate CI actions to use eProsima-CI.
+* Include branch environment variables in CI configuration.
 
 This release add new **Documentation features**:
 
-* Add Fiware Node Documentation.
+* Add instructions to build the Docker image.
+* Add ``Agent Tool`` section.
+* Add ``Enabling Technologies`` and ``Internal Protocols`` sections.
 
 This release includes the following *Dependencies Update*:
 
@@ -41,12 +44,12 @@ This release includes the following *Dependencies Update*:
         - `v1.3.1 <https://github.com/eProsima/foonathan_memory_vendor/releases/tag/v1.3.1>`_
     *   - Fast CDR
         - `eProsima/Fast-CDR <https://github.com/eProsima/Fast-CDR>`_
+        - `v1.1.0 <https://github.com/eProsima/Fast-CDR/releases/tag/v1.1.0>`_
         - `v2.2.1 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.2.1>`_
-        - `v2.2.6 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.2.6>`_
     *   - Fast DDS
         - `eProsima/Fast-DDS <https://github.com/eProsima/Fast-DDS>`_
+        - `v2.11.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.11.0>`_
         - `v2.14.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.14.0>`_
-        - `v2.14.4 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.14.4>`_
     *   - Dev Utils
         - `eProsima/dev-utils <https://github.com/eProsima/dev-utils>`_
         - `v0.4.0 <https://github.com/eProsima/dev-utils/releases/tag/v0.4.0>`_
@@ -59,11 +62,3 @@ This release includes the following *Dependencies Update*:
         - `eProsima/DDS-Router <https://github.com/eProsima/DDS-Router.git>`_
         - `v2.0.0 <https://github.com/eProsima/DDS-Router/releases/tag/v2.0.0>`__
         - `v2.2.0 <https://github.com/eProsima/DDS-Router/releases/tag/v2.2.0>`__
-
-
-#################
-Previous Versions
-#################
-
-.. include:: previous_versions/v0.2.0.rst
-.. include:: previous_versions/v0.1.0.rst
