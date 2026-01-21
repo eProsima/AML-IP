@@ -129,10 +129,20 @@ public:
      */
     AMLIP_CPP_DllAPI void* data() const;
 
+    AMLIP_CPP_DllAPI void set_data(void* data)
+    {
+        data_ = data;
+    }
+
     /*!
      * @brief Returns value of attribute \c data_size_
      */
     AMLIP_CPP_DllAPI uint32_t data_size() const;
+
+    AMLIP_CPP_DllAPI void set_data_size(uint32_t size)
+    {
+        data_size_ = size;
+    }
 
     /*!
      * @brief Returns reference to attribute \c data_size_
