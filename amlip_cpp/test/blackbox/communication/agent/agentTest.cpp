@@ -129,9 +129,13 @@ TEST(agentTest, client_repeater_client)
     std::atomic<unsigned int> n_jobs_solved(0u);
 
     // Create Main in its own Thread
-    auto main_node_routine = [&n_jobs_solved]()
+    //__FLAG__
+    node::MainNode main_node("TestMainNode", 10);
+    //__FLAG__
+    //Added &main_node to the lambda capture list
+    auto main_node_routine = [&n_jobs_solved, &main_node]() 
             {
-                node::MainNode main_node("TestMainNode", 10);
+                //node::MainNode main_node("TestMainNode", 10);
                 for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
                 {
                     std::string job_str = std::string("TEST_SEND") + std::to_string(i);
@@ -144,9 +148,10 @@ TEST(agentTest, client_repeater_client)
     std::thread main_thread(main_node_routine);
 
     // Create Computing in its own Thread
-    auto computing_node_routine = []()
+    node::ComputingNode computing_node("TestComputingNode", 11);
+    auto computing_node_routine = [&computing_node]()
             {
-                node::ComputingNode computing_node("TestComputingNode", 11);
+                //node::ComputingNode computing_node("TestComputingNode", 11);
                 for (unsigned int i = 0; i < test::N_JOBS_TO_SEND; i++)
                 {
                     computing_node.process_job(test::process_routine);

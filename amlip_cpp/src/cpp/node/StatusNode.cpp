@@ -125,11 +125,16 @@ void StatusNode::stop_processing()
 {
     if (processing_)
     {
+        logInfo(AMLIPCPP_NODE_STATUS, "Stop processing Status Node: " << *this << ".");
         processing_ = false;
         status_reader_->stop(); // This must awake thread and it must finish
         process_thread_.join();
-
         change_status_(types::StateKind::stopped);
+    }
+    else
+    {
+        throw utils::InconsistencyException(
+                  STR_ENTRY << "Status node " << this << " is already stopped.");
     }
 }
 
@@ -149,13 +154,20 @@ void StatusNode::process_routine_(
             return;
         }
 
-        // Read data
-        types::StatusDataType status = status_reader_->read();
+        try
+        {
+            // Read data
+            types::StatusDataType status = status_reader_->read();
 
-        logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " read data :" << status << ".");
+            logDebug(AMLIPCPP_NODE_STATUS, "Status Node " << *this << " read data :" << status << ".");
 
-        // Call callback
-        callback(status);
+            // Call callback
+            callback(status);
+        }
+        catch (const eprosima::utils::InconsistencyException& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 }
 
